@@ -138,7 +138,7 @@ export default {
       },
       sendPassword () {
         console.log(this.email)
-        axios.post("http://localhost:8080/account/changepw", {
+        axios.post('http://127.0.0.1:8080/account/changepw', {
           email: this.email,
           password: this.password,
           // passwordConfirm: this.passwordConfirm

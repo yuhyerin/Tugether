@@ -79,6 +79,9 @@
         </div>
       </div>
     </div>
+
+    <!-- 두 버튼 같은 라인에 두고 회원가입이 오른쪽에 오도록 바꾸기 -->
+
     <!--홈으로 돌아가기 버튼-->
     <button class="btn-bottom register-btn" @click="moveLogin" style="margin-bottom: 52px; margin-left:0">BACK</button>
     <!--회원가입 동작 버튼-->
@@ -92,8 +95,6 @@ import axios from "axios";
 import PV from "password-validator";
 import * as EmailValidator from "email-validator";
 var valid = "";
-var localhost_url = "http://127.0.0.1:8080";
-var aws_url = "http://i3b303.p.ssafy.io";
 export default {
   data: () => {
     return {
@@ -169,7 +170,7 @@ export default {
     test() {
       this.email = this.email_id + "@" + this.domain;
       axios
-        .get(localhost_url + "/account/signup/" + this.email)
+        .get('/api/account/signup/' + this.email)
         .then((res) => {
           console.log(res.data);
           valid = res.data.message;
@@ -198,7 +199,7 @@ export default {
     },
     signup() {
       axios
-        .post(localhost_url + "/account/signup/", {
+        .post('http://127.0.0.1:8080/account/signup/', {
           email: this.email,
           password: this.password,
           nickname: this.nickname,

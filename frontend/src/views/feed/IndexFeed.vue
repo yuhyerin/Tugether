@@ -2,8 +2,7 @@
   <div class="feed newsfeed">
     <div class="wrapB">
       <h1>뉴스피드</h1>
-      <button @click="logout">로그아웃</button>
-
+      <button @click="moveMypage">마이페이지로 이동하기</button>
       <FeedItem />
       <FeedItem />
       <FeedItem />
@@ -23,16 +22,12 @@ export default {
   props: ["keyword"],
 
   components: { FeedItem },
- 
-  methods:{
-    logout(){
-      
-      this.$store.commit('logout');
-      localStorage.clear();
-      alert("로그아웃 되었습니다.");
-      this.$router.push("/")
-      
-    } 
+
+  methods : {
+    moveMypage() {
+      this.$router.push("/feed/mypage");
+    },
   }
+
 };
 </script>

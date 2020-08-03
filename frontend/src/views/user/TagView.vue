@@ -11,7 +11,7 @@ import TagList from '@/components/user/TagList'
 import store from '@/vuex/store'
 import { mapState, mapActions } from "vuex";
 
-const SERVER_URL = 'http://localhost:8080'
+// const SERVER_URL = 'http://i3b303.p.ssafy.io'
 
 export default {
   name: 'TagView',
@@ -132,7 +132,7 @@ export default {
       console.log(this.favTags)
       console.log("이거토큰맞지??? "+ this.$store.state.token)
      
-      axios.post(`${SERVER_URL}/tugether/favtag`, 
+      axios.post('http://127.0.0.1:8080/tugether/favtag', 
       {
         taglist: this.favTags,
       },

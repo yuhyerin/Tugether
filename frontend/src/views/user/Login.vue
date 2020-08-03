@@ -34,7 +34,6 @@
           v-bind:class="{error : error.password, complete:!error.password&&password.length!==0}"
           id="password"
           @keyup.enter="Login"
-
           placeholder="비밀번호를 입력하세요."
         />
         <label for="password">비밀번호</label>
@@ -124,10 +123,10 @@ import * as axios from 'axios';
 import { mapState, mapActions} from "vuex"
 import Menu from '../menu/Menu';
 
-const storage = window.localStorage;
-const ai = axios.create({
-    baseURL: "http://localhost:8080/account/"
-});
+const storage = window.sessionStorage;
+// const ai = axios.create({
+//     baseURL: "http://127.0.0.1:8080/account/"
+// });
 
 export default {
   name: 'Login',
@@ -212,6 +211,52 @@ export default {
           password
         };
 
+        storage.setItem("jwt-auth-token", "");
+        storage.setItem("login_user","");
+        
+
+        // ai.post("/signin",
+        //   {email: this.email,
+        //   password: this.password
+        //   })
+        //   .then(res=>{
+        //     console.log(res.data.status) // true 
+        //     if(res.data.status){
+        //         this.message = res.data.data.email+"로 로그인 되었습니다.";
+        //         this.nickname = res.data.data.nickname;
+        //         console.log(this.message);
+        //         console.log(this.nickname);
+        //         console.log("토큰: "+res.headers["jwt-auth-token"]);
+        //         this.setInfo(
+        //           "성공",
+        //           res.headers["jwt-auth-token"],
+        //           JSON.stringify(res.data.data)
+        //         );
+        //         storage.setItem("jwt-auth-token", res.headers["jwt-auth-token"]);
+        //         storage.setItem("login_user", res.data.data.email);
+        //         store.state.login_user_token =  res.headers["jwt-auth-token"];
+        //         store.state.login_user_nickname = res.data.data.nickname;
+        //         this.isSubmit = true;
+                
+        //         alert("로그인 성공! 환영합니다 :)");
+        //         this.$router.push("/feed/main");
+        //     }else{
+        //       this.setInfo("", "", "");
+        //       this.message = "로그인해주세요.";
+        //       alert("입력정보를 확인하세요.");
+        //     }
+        //   })
+        //   .catch(e=>{
+        //     this.isSubmit=true;
+        //     alert("이메일과 비밀번호를 확인해 주세요");
+        //     this.email = "";
+        //     this.password=""
+        //     this.setInfo("실패",
+        //                 "",
+        //                 JSON.stringify(e.response || e.message));
+        // });
+
+
         //요청 후에는 버튼 비활성화
         this.isSubmit = false;
 
@@ -225,8 +270,8 @@ export default {
     },
 
     getInfo(){ //저장된 토큰을 사용하여 회원정보를 가져온다.
-      ai.post(
-        "/info",
+      axios.post(
+        'http://127.0.0.1:8080/info',
         {
           email: this.email,
           password: this.password
@@ -255,15 +300,17 @@ export default {
     },
   
     init(){
-      if(localStorage.getItem("token")){
-        alert("이미 로그인 한 사용자 입니다:)");
-        this.$router.push("/feed/main");
+      if(storage.getItem("jwt-auth-token")){
+        this.message = storage.getItem("login_user")+" 로 로그인 되었습니다.";
+      }else{
+        storage.setItem("jwt-auth-token", "");
       }
     }
 
   },
   mounted(){
     this.init();
+    
   },
   
 

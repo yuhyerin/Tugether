@@ -36,7 +36,7 @@ export default {
   methods: {
     sendEmail () {
       console.log(this.email)
-      axios.get(`http://localhost:8080/account/findpw/`+ this.email)
+      axios.get('http://127.0.0.1:8080/account/findpw/'+ this.email)
         .then(res => {
           console.log(res.data.status)
           alert("이메일로 임시비밀번호가 발송되었습니다.")

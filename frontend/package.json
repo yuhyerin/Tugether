@@ -5,7 +5,9 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "test": "jest",
+    "test:unit": "jest --no-cache"
   },
   "dependencies": {
     "@babel/core": "^7.4.5",
@@ -15,6 +17,8 @@
     "core-js": "^3.4.3",
     "email-validator": "^2.0.4",
     "local-lib": "^0.1.0",
+
+    "vuetify": "^2.2.11",
     "node-modules": "^1.0.1",
     "node-sass": "^4.14.1",
     "password-validator": "^5.0.3",
@@ -24,8 +28,8 @@
     "vue-google-login": "^2.0.5",
     "vue-google-oauth2": "^1.5.5",
     "vue-router": "^3.3.4",
-    "vuetify": "^2.2.11",
     "vuex": "^3.5.1"
+
   },
   "devDependencies": {
     "@babel/preset-env": "^7.7.6",

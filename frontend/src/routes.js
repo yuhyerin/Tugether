@@ -8,6 +8,7 @@ import TagView from './views/user/TagView.vue'
 import PasswordFind from './views/user/PasswordFind.vue'
 
 import FeedMain from './views/feed/IndexFeed.vue'
+import Mypage from './views/feed/Mypage.vue'
 import Components from './views/Components.vue'
 import store from './vuex/store'
 
@@ -71,8 +72,13 @@ export default [
     {
         path : '/feed/main',
         name : 'FeedMain',
-        beforeEnter: onlyAuthUser,
+        // beforeEnter: onlyAuthUser,
         component : FeedMain
+    },
+    {
+        path : '/feed/mypage',
+        name : 'Mypage',
+        component : Mypage
     },
     {
         path : '/components',

@@ -30,11 +30,6 @@ export default new Vuex.Store({
             state.isLoginError = true;
         },
 
-        //로그아웃 
-        logout(state){
-            state.isLogin=false;
-        },
-
         // 토큰값 얻어오기 
         getToken(state){
             return state.token
@@ -47,36 +42,44 @@ export default new Vuex.Store({
         // signinObj : 로그인 시 입력한 { 이메일, 패스워드 }
         login({state, commit}, signinObj){ // 로그인 시도!
             
-            axios.post("http://localhost:8080/account/signin",
+            axios.post('http://127.0.0.1:8080/account/signin',
                 signinObj)
                 .then(res=>{
 
                     //임시 비밀번호로 로그인 했으면 => 비밀번호 변경페이지로 이동 
                     if (res.data.data.temp==1 && res.data.status) { 
-                        
-                        commit("loginSuccess")
-                        localStorage.setItem("token", res.headers["jwt-auth-token"]);
-                        console.log("로컬스토리지에 토큰 저장하였습니다.")
-                        state.email = res.data.data.email;
+                        state.message = res.data.data.email;
+
+                        state.email = state.message
+
                         state.nickname = res.data.data.nickname;
+                        console.log(state.email);
+                        console.log(state.nickname);
+                        console.log("토큰: "+res.headers["jwt-auth-token"]);
+
                         state.token =  res.headers["jwt-auth-token"];
+                        state.nickname = res.data.data.nickname;
                         alert("임시비밀번호 상태라 비밀번호 변경 페이지로 이동합니다.")
                         router.push("/passwordchange")
                         return
                     }
                     else if(res.data.status) { // 임시비밀번호 로그인 안했으면 
-                        
-                        commit("loginSuccess") //Actions에서는 mutations의 함수를 호출하여 state값을 바꾼다.
-                        localStorage.setItem("token", res.headers["jwt-auth-token"]);
-                        console.log("로컬스토리지에 토큰 저장하였습니다.")
-                        state.email = res.data.data.email;
-                        state.nickname = res.data.data.nickname;
+                        console.log(res.data.status)
+                        console.log("얘 임시비밀번호로 로그인한애야?? "+res.data.data.temp)
+                        console.log("임시비밀번호 로그인을 안했으면! ")
                         state.token =  res.headers["jwt-auth-token"];
+                        state.message = res.data.data.email;
+                        state.nickname = res.data.data.nickname;
+                        console.log(state.message);
+                        console.log(state.nickname);
+                        console.log("토큰: "+state.token);
+                   
+                        commit("loginSuccess") //Actions에서는 mutations의 함수를 호출하여 state값을 바꾼다.
                         alert("로그인 성공! 환영합니다 :)");
 
                         //관심태그를 설정한 회원인지 체크한다. 
                         axios.get(
-                            "http://localhost:8080/tugether/checkfavtag",
+                            'http://127.0.0.1:8080/tugether/checkfavtag',
                             {
                               headers:{
                                 "jwt-auth-token": res.headers["jwt-auth-token"]
@@ -85,12 +88,14 @@ export default new Vuex.Store({
                           )
                           .then(res=>{
 
+                            console.log(res.data.status) //undefined ...? 
+
                               if(res.data.status){ //관심태그 설정한 놈 
-                                console.log("관심태그를 설정한 회원입니다.")
+                                console.log("관심태그 설정했는지 체크하고 돌아왔습니다! (설정했음) ")
                                 router.push("/feed/main");
 
                               }else{ //안한놈 
-                                console.log("관심태그를 설정하지 않은 회원입니다.")
+                                console.log("관심태그 설정했는지 체크하고 돌아왔습니다! (설정안했음) ")
                                 router.push("/select");
                               }
                             
@@ -101,14 +106,15 @@ export default new Vuex.Store({
                           });
 
                     }else{
-                        alert("이메일과 비밀번호를 확인해 주세요");
+                        state.message = "로그인해주세요.";
+                        alert("입력정보를 확인하세요.");
                     }
                 })
                 .catch(e=>{
                     console.log(e)
-                    alert("이메일과 비밀번호를 확인해 주세요");
+                    alert("store.js: 이메일과 비밀번호를 확인해 주세요");
                     state.email = "";
-                    state.password= "";
+                    state.password=""
                     
                 });
 
