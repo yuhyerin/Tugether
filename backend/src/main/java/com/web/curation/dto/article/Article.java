@@ -1,6 +1,7 @@
 package com.web.curation.dto.article;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,22 +28,23 @@ public class Article {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)	// 얘가 auto_increment
 	private int article_id;
 	
-	@Column(name="email")
+//	@Column(name="email")
 	private String email;
 	
-	@Column(name="writer")
+//	@Column(name="writer")
 	private String writer;
 	
-	@Column(name="reg_time", insertable = false)
+	@Column(name="reg_time", insertable=false)
 	private Date reg_time;
 	
-	@Column(name="image")	// 얘는 이미지 저장된 위치
+//	@Column(name="image")	// 얘는 이미지 저장된 위치
 	private String image;
 	
-	@Column(name="content")
+	
+//	@Column(name="content")
 	private String content;
 	
-	@Column(name="link")
+//	@Column(name="link")
 	private String link;
 	
 	@Column(name="like_cnt")
@@ -51,3 +53,4 @@ public class Article {
 	@Column(name="scrap_cnt")
 	private int scrap_cnt;
 }
+
