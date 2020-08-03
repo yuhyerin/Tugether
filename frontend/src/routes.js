@@ -6,7 +6,7 @@ import Join from './views/user/Join.vue'
 import Menu from './views/menu/Menu.vue'
 import TagView from './views/user/TagView.vue'
 import PasswordFind from './views/user/PasswordFind.vue'
-
+import ArticleWrite from './views/user/Write.vue'
 import FeedMain from './views/feed/IndexFeed.vue'
 import Components from './views/Components.vue'
 import store from './vuex/store'
@@ -83,5 +83,10 @@ export default [
         path : '/menu',
         name: 'Menu',
         component: Menu
+    },
+    {
+        path : '/write',
+        name: 'ArticleWrite',
+        component: ArticleWrite
     },
 ]

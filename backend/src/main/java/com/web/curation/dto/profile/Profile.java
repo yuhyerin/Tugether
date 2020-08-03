@@ -13,14 +13,12 @@ import lombok.Data;
 @Entity(name="profile")
 @Table(name="profile")
 @Data
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @Builder
 public class Profile {
 
-	
-	public class FavTag {
 		
 		@Id
+		@Column(name = "email")
 		private String email;
 		
 		@Column(name = "nickname")
@@ -37,6 +35,6 @@ public class Profile {
 		
 		@Column(name = "article_cnt")
 		private int article_cnt;
-	}
-		
+
 }
+		

@@ -14,13 +14,12 @@ public class ArticleWriteServiceImpl implements ArticleWriteService{
 
 	@Autowired
 	ArticleWriteRepo articleRepo;
-	BasicResponse result = new BasicResponse();
 	
 	@Override
 	public ResponseEntity<Object> addArticle(Article article) {
 		
 		ResponseEntity<Object> response = null;
-		
+		BasicResponse result = new BasicResponse();
 		try {
 			String email = article.getEmail();
 			String writer = article.getWriter();
