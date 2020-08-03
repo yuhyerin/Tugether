@@ -55,13 +55,6 @@
       </div>
 
       <div class="sns-login">
-        <!-- <div class="text"> -->
-          <!-- <p>SNS 간편 로그인</p>
-          <div class="bar"></div> -->
-        <!-- </div> -->
-
-        <!-- <kakaoLogin :component="component" />
-        <GoogleLogin :component="component" /> -->
       </div>
       <div class="add-option">
         <hr>
@@ -116,8 +109,6 @@ import "../../components/css/user.scss";
 import "../../components/css/style.scss";
 import PV from "password-validator";
 import * as EmailValidator from "email-validator";
-// import KakaoLogin from "../../components/user/snsLogin/Kakao.vue";
-// import GoogleLogin from "../../components/user/snsLogin/Google.vue";
 import UserApi from "../../api/UserApi";
 import store from "../../vuex/store"
 import * as axios from 'axios';

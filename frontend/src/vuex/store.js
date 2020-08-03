@@ -85,6 +85,7 @@ export default new Vuex.Store({
                           )
                           .then(res=>{
 
+                                console.log(res.data.status);
                               if(res.data.status){ //관심태그 설정한 놈 
                                 console.log("관심태그를 설정한 회원입니다.")
                                 router.push("/feed/main");
