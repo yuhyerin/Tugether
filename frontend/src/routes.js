@@ -8,6 +8,9 @@ import TagView from './views/user/TagView.vue'
 import PasswordFind from './views/user/PasswordFind.vue'
 
 import FeedMain from './views/feed/IndexFeed.vue'
+import MainFeed from './views/feed/MainFeed.vue'
+import MainFeedCom from './views/feed/MainFeedCom.vue'
+
 import Components from './views/Components.vue'
 import store from './vuex/store'
 
@@ -16,7 +19,7 @@ const rejectAuthUser = (to, from, next)=>{
     if(store.state.isLogin === true){ // 이미 로그인 된 유저이므로 로그인페이지로는 막아야한다.
         
         alert('이미 로그인을 하였습니다.')
-        next("/feed/main") //돌릴 경로 입력 
+        next("/mainfeed") //돌릴 경로 입력 
 
     }else{ // 로그인 되지 않았으면 
         next() //원래 보내려고 했던곳으로 그냥 가라~
@@ -73,6 +76,16 @@ export default [
         name : 'FeedMain',
         beforeEnter: onlyAuthUser,
         component : FeedMain
+    },
+    {
+        path : '/mainfeed',
+        name : 'MainFeed',
+        component : MainFeed
+    },
+    {
+        path : '/main',
+        name : 'MainFeedCom',
+        component : MainFeedCom
     },
     {
         path : '/components',

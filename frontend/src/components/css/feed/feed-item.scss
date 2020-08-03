@@ -141,7 +141,7 @@
                 left: 0;
                 top:0;
                 &.full {
-                    display: none;
+                    display: inline-block;
                 }
                 &.empty {
                     display: inline-block;

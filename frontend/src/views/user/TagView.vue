@@ -70,7 +70,8 @@ export default {
       selectedTags: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       count: 0,
       favTags: [],
-      btnFunc: {backgroundColor: "gray"}
+      btnFunc: {backgroundColor: "gray"},
+      nickName: "",
     }
   },
   computed:{
@@ -144,7 +145,7 @@ export default {
       )
       .then((response) => {
         console.log("크하하 결과다!!!"+ response.data.status)
-        this.$router.push('/feed/main')
+        this.$router.push('/mainfeed')
 
       })
       .catch(error => {
