@@ -6,9 +6,12 @@ import Join from './views/user/Join.vue'
 import Menu from './views/menu/Menu.vue'
 import TagView from './views/user/TagView.vue'
 import PasswordFind from './views/user/PasswordFind.vue'
-
 import FeedMain from './views/feed/IndexFeed.vue'
-import Mypage from './views/feed/Mypage.vue'
+import Mypage from './views/mypage/Mypage.vue'
+import MypageSetting from './views/mypage/MypageSetting.vue'
+import MypagePasswordConfirm from './views/mypage/MypagePasswordConfirm.vue'
+import MypagePasswordChange from './views/mypage/MypagePasswordChange.vue'
+
 import Components from './views/Components.vue'
 import store from './vuex/store'
 
@@ -76,9 +79,24 @@ export default [
         component : FeedMain
     },
     {
-        path : '/feed/mypage',
+        path : '/mypage/mypage',
         name : 'Mypage',
         component : Mypage
+    },
+    {
+        path : '/mypage/mypagesetting',
+        name : 'MypageSetting',
+        component : MypageSetting
+    },
+    {
+        path : '/mypage/mypagepasswordconfirm',
+        name : 'MypagePasswordConfirm',
+        component : MypagePasswordConfirm
+    },
+    {
+        path : '/mypage/mypagepasswordchange',
+        name : 'MypagePasswordChange',
+        component : MypagePasswordChange
     },
     {
         path : '/components',

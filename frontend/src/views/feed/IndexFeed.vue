@@ -25,7 +25,7 @@ export default {
 
   methods : {
     moveMypage() {
-      this.$router.push("/feed/mypage");
+      this.$router.push("/mypage/mypage");
     },
   }
 

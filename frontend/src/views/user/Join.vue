@@ -45,7 +45,7 @@
         <input v-model="password" id="password" ref="password" :type="passwordType" placeholder="비밀번호를 입력하세요." />
       </div>
       <div class="error-text" v-if="error.password" style="color:red">{{error.password}}</div>
-
+      <!--비밀번호 확인-->
       <div class="input-with-label">
         <label for="password-confirm">비밀번호 확인</label>
         <input v-model="passwordConfirm" ref="passwordConfirm" :type="passwordConfirmType" id="password-confirm" placeholder="비밀번호를 다시 한 번 입력하세요." style="width: 100%;" />

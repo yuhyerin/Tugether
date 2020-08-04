@@ -5,7 +5,6 @@ import routes from './routes'
 import store from './vuex/store'
 import vuetify from './plugins/vuetify';
 
-
 Vue.config.productionTip = false
 
 Vue.use(VueRouter)
