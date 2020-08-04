@@ -50,7 +50,7 @@ public class ProfileController {
 			Map<String, Object> Userinfo = new HashMap<String, Object>();
 			Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
 			String email = Userinfo.get("email").toString();
-			Profile profile = profileSerivce.getProfile(email);
+			Profile profile = profileSerivce.getProfile(email); //이메일 보내서 프로필 가져오기
 			resultMap.put("profile", profile);
 			
 			return new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.OK);

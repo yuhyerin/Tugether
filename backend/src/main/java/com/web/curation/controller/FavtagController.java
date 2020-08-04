@@ -25,6 +25,7 @@ import com.web.curation.service.tag.FavtagService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
@@ -45,6 +46,7 @@ public class FavtagController {
 	private JwtService jwtService;
 	
 	// 사용자가 관심태그를 등록했는지 검사 
+	@ApiOperation(value = "사용자가 관심태그를 등록했는지 검사")
 	@GetMapping("/checkfavtag")
 	public ResponseEntity<Map<String,Object>> checkFavtag(HttpServletRequest request) {
 			
@@ -73,7 +75,8 @@ public class FavtagController {
 
 	}
 	
-	// 사용자가 고른 관심태그 리스트를 받아온다. 
+	// 사용자가 고른 관심태그 리스트를 받아온다.
+	@ApiOperation(value = "최초로그인 시 관심태그 등록")
 	@PostMapping("/favtag")
     public ResponseEntity<Map<String,Object>> addFavtag(@RequestBody Map<String, Object> map, HttpServletRequest request) {
     	
@@ -110,31 +113,5 @@ public class FavtagController {
 		return new ResponseEntity<Map<String,Object>>(resultMap, status);
 		
     }
-	
-	@GetMapping("/favtest")
-	public void addFavTest(HttpServletRequest request) {
-		
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		HttpStatus status = null;
-		ArrayList<Integer> favtaglist = new ArrayList<>();
-		// 테스트로 1, 3 추가 
-		favtaglist.add(3);
-		favtaglist.add(5);
-		
-//		resultMap.putAll(jwtService.getDecodeToken(request.getHeader("jwt-auth-token")));
-		System.out.println("로그인한 사용자의 토큰은??? "+ request.getHeader("jwt-auth-token"));
-		System.out.println("보낸 관심태그 리스트중에 가장앞에꺼는? "+ favtaglist.get(0));
-		try {
-    		
-			favtagService.addFavtag("hyerin77@naver.com", favtaglist);
-//    		resultMap.putAll(jwtService.getDecodeToken(request.getHeader("jwt-auth-token")));
-    		resultMap.put("status", true);
-    		status = HttpStatus.ACCEPTED;
-    	}catch(RuntimeException e) {
-    		System.out.println("정보조회 실패!!");
-    		resultMap.put("message", e.getMessage());
-    		status = HttpStatus.INTERNAL_SERVER_ERROR;
-    	}
-		
-	}
+
 }

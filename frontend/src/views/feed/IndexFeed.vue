@@ -3,6 +3,7 @@
     <div class="wrapB">
       <h1>뉴스피드</h1>
       <button @click="logout">로그아웃</button>
+      <button @click="writearticle">게시글 작성하러가기 </button>
 
       <FeedItem />
       <FeedItem />
@@ -32,7 +33,11 @@ export default {
       alert("로그아웃 되었습니다.");
       this.$router.push("/")
       
-    } 
+    },
+    
+    writearticle(){
+      this.$router.push("/write")
+    },
   }
 };
 </script>

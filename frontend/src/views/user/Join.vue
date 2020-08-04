@@ -93,7 +93,7 @@ import PV from "password-validator";
 import * as EmailValidator from "email-validator";
 var valid = "";
 var localhost_url = "http://127.0.0.1:8080";
-var aws_url = "http://i3b303.p.ssafy.io";
+var aws_url = "https://i3b303.p.ssafy.io";
 export default {
   data: () => {
     return {
