@@ -10,19 +10,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.web.curation.dto.BasicResponse;
-import com.web.curation.dto.article.Article;
 import com.web.curation.dto.article.FrontArticle;
 import com.web.curation.jwt.service.JwtService;
 import com.web.curation.service.feed.FeedService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
@@ -53,8 +54,8 @@ public class FeedController {
 	// article 테이블에서 uid = email인 List<article>로 다 가져가
 	@PostMapping("/mainfeed")
 	public ResponseEntity<Map<String,Object>> MainFeed(@RequestBody Map<String, Object> map, HttpServletRequest request) {
-		Map<String, Object> resultMap = new HashMap<String, Object>();	//리턴용
-		HttpStatus status = null;	//너도 리턴용
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		HttpStatus status = null;
 		String token = request.getHeader("jwt-auth-token");	//토큰 가져와서
 		Jws<Claims> claims = jwtService.getDecodeToken(token);	//복호화해서
 		Map<String, Object> Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
@@ -64,16 +65,37 @@ public class FeedController {
 //		1. 태그기반 / 팔로우기반 확인
 		boolean tag = (boolean)map.get("tag");
 
-//		1. 태그기반
-		if(tag) {
+		if(tag) {	// 1. 태그기반
 			list = feedService.findArticleListByTag(email);
-			
-//			2. 팔로우기반
-		} else {
+		} else {	// 2. 팔로우기반
 			list = feedService.findArticleListByFollow(email);
 		}
 		resultMap.put("list", list);
 		
 		return new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.OK);
 	}
+	
+	@GetMapping("/mainfeed/like")
+	@ApiOperation(value = "좋아요")
+	public ResponseEntity<Map<String,Object>> like(HttpServletRequest request) {
+
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		String token = request.getHeader("jwt-auth-token");	//토큰 가져와서
+		Jws<Claims> claims = jwtService.getDecodeToken(token);	//복호화해서
+		Map<String, Object> Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
+		String email = Userinfo.get("email").toString();
+
+		int article_id = Integer.parseInt(request.getHeader("article_id"));
+		boolean like = false;
+		if("true".equals(request.getHeader("like"))) {
+			like = true;
+		}
+		
+		int like_cnt=feedService.updateLike(article_id, email, like);
+		
+		resultMap.put("like_cnt", like_cnt);
+		return new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.OK);
+	}
+	
+	
 }

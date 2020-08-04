@@ -9,5 +9,7 @@ public interface FeedService {
 	
 	public List<FrontArticle> findArticleListByTag(String email);
 	public List<FrontArticle> findArticleListByFollow(String email);
+	
+	public int updateLike(int article_id, String email, boolean like);
 
 }
