@@ -1,0 +1,17 @@
+package com.web.curation.service.articlewrite;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import com.web.curation.dto.article.Article;
+
+@Service
+public class ArticleWriteServiceImpl implements ArticleWriteService{
+
+	@Override
+	public ResponseEntity<Object> addArticle(Article article) {
+		return null;
+	}
+
+	
+}

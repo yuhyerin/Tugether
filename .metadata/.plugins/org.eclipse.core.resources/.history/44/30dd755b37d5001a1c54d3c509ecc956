@@ -1,0 +1,5 @@
+package com.web.curation.service.profile;
+
+public interface ProfileService {
+
+}

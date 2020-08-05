@@ -1,0 +1,5 @@
+package com.web.curation.dto.profile;
+
+public class Profile {
+
+}

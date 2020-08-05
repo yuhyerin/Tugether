@@ -1,0 +1,8 @@
+package com.web.curation.service.profile;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class ProfileServiceImpl implements ProfileService{
+
+}

@@ -1,0 +1,29 @@
+server.port=8080
+
+spring.datasource.driverClassName=org.mariadb.jdbc.Driver
+spring.datasource.url=jdbc:mariadb://i3b303.p.ssafy.io:3306/tugether?autoReconnect=true&useUnicode=true&characterEncoding=utf8
+spring.datasource.username=root
+spring.datasource.password=ssafy
+
+spring.jpa.hibernate.naming-strategy = org.hibernate.cfg.EJB3NamingStrategy
+
+#gmail sender
+spring.mail.default-encoding=UTF-8
+
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=wjdgusgml997@gmail.com
+spring.mail.password=taelyqyiiyumbssa
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+
+
+logging.level.com.web.curation =trace
+jwt.expmin=20
+jwt.salt=MYSALT
+
+# upload image path
+window.article.upload.directory: C:/Users/multicampus/git/s03p13b303/backend/src/main/resources/static/img/article/
+window.profile.upload.directory: C:/Users/multicampus/git/s03p13b303/backend/src/main/resources/static/img/profile/
+ubuntu.article.upload.directory: /var/www/img/article/
+ubuntu.profile.upload.directory: /var/www/img/profile/

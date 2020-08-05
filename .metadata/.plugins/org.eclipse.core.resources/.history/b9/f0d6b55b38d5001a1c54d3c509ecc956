@@ -1,0 +1,15 @@
+package com.web.curation.service.profile;
+
+import org.springframework.stereotype.Service;
+
+import com.web.curation.dto.profile.Profile;
+
+@Service
+public class ProfileServiceImpl implements ProfileService{
+
+	@Override
+	public Profile getProfile(String email) {
+		return null;
+	}
+
+}

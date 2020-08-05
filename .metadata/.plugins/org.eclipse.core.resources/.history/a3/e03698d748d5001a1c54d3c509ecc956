@@ -1,0 +1,9 @@
+package com.web.curation.service.articlewrite;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class ArticleWriteServiceImpl implements ArticleWriteService{
+
+	
+}

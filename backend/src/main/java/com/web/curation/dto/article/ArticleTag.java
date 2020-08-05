@@ -12,6 +12,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Entity(name="articletag")
 @Table(name="articletag")
 @Data
