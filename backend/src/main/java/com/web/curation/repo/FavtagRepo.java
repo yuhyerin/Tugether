@@ -23,7 +23,4 @@ public interface FavtagRepo extends JpaRepository<FavTag, String>{ //JpaReposito
 	@Query(value="insert into favtag(email,tag_id) values(:email , :tag_id )", nativeQuery=true)
 	void insertFavtagList(String email, int tag_id);
 	
-	@Query(value="select tag_id from favtag f where f.email=:email", nativeQuery = true)
-	public List<Integer> findTagIdByEmail(String email);
-	
 }

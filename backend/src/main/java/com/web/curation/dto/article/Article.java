@@ -26,7 +26,7 @@ public class Article {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)	// 얘가 auto_increment
 	private int article_id;
-
+	
 	@Column(name="email")
 	private String email;
 	
@@ -51,4 +51,3 @@ public class Article {
 	@Column(name="scrap_cnt")
 	private int scrap_cnt;
 }
-

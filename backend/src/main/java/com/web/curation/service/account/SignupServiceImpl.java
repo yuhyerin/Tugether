@@ -22,13 +22,16 @@ public class SignupServiceImpl implements SignupService {
 		BasicResponse result = new BasicResponse();
 		result.status = true;
 		try {
-			String test = userRepo.findEmailByEmail(email);
+			User u = userRepo.findEmailByEmail(email);
+			System.out.println(u.toString());
+			String test = u.getEmail();
 			System.out.println(test);
 			result.data = "error";
 			if ("".equals(test) || test==null)
 				result.data = "success";
 		} catch (NullPointerException e) {
 			result.data = "success";
+			System.out.println("null 잡히는 곳");
 		}
 		ResponseEntity<Object> response = new ResponseEntity<>(result, HttpStatus.OK);
 		return response;

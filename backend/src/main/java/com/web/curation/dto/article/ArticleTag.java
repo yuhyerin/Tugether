@@ -12,9 +12,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
-@Entity(name="articletag")
-@Table(name="articletag")
+@Entity(name="articleTag")
+@Table(name="articleTag")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

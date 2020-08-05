@@ -3,10 +3,13 @@ package com.web.curation.controller;
 
 import java.util.HashMap;
 import java.util.Map;
-
+import java.util.Optional;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+
+import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +28,15 @@ import com.web.curation.dto.account.AuthenticationRequest;
 import com.web.curation.dto.account.AuthenticationResponse;
 import com.web.curation.dto.account.User;
 import com.web.curation.jwt.service.JwtService;
+import com.web.curation.dto.account.User;
+import com.web.curation.jwt.service.JwtService;
 import com.web.curation.service.account.FindService;
 import com.web.curation.service.account.LoginService;
+import com.web.curation.service.account.SignupService;
+
+
+import com.web.curation.dto.BasicResponse;
+import com.web.curation.dto.account.User;
 import com.web.curation.service.account.SignupService;
 
 import io.swagger.annotations.ApiOperation;
