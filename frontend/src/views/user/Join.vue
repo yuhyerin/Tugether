@@ -88,10 +88,10 @@
     <!--버튼-->
     <div id="signup_buttons">
       <!--홈으로 돌아가기 버튼-->
-      <button class="button" v-bind:style="mybtn1" @mouseover="over1" @mouseout="out1"
+      <button class="button" :style="mybtn1" @mouseover="over1" @mouseout="out1"
           @click="moveLogin" style="width: 200px; height: 45px; margin-right: 10px;">BACK</button>
       <!--변경한 내용 저장하기 버튼-->
-      <button class="button" v-bind:style="mybtn2" @mouseover="over2" @mouseout="out2"
+      <button class="button" :style="mybtn2" @mouseover="over2" @mouseout="out2"
           @click="checkHandler" style="width: 200px; height: 45px;">가입하기</button>
     </div>
 

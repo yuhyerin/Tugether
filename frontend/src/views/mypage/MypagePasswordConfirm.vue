@@ -24,6 +24,8 @@
 
 <script>
 import axios from "axios";
+import { base } from "@/components/common/BaseURL.vue"; // baseURL
+
 export default {
     data: () => {
         return {

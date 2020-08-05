@@ -44,6 +44,8 @@
 
 <script>
 import axios from "axios";
+import { base } from "@/components/common/BaseURL.vue"; // baseURL
+
 export default {
     data: () => {
         return {
@@ -69,7 +71,7 @@ export default {
         // 프로필 변경하기
         changeProfile() {
             axios // 어디로 보냄?
-                .post('http://127.0.0.1:8080',{
+                .post(base + '/',{
                     // 이메일 어떻게?
                     // 프로필 사진
                     nickname: this.nickname,

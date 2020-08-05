@@ -22,10 +22,10 @@
         <!--버튼-->
         <div id="mypage_buttons2">
             <!--프로필 편집 페이지로 돌아가는 버튼 (비밀번호 변경을 원할 경우 재확인 해야함)-->
-            <button class="button" v-bind:style="mybtn1" @mouseover="over1" @mouseout="out1"
+            <button class="button" :style="mybtn1" @mouseover="over1" @mouseout="out1"
                 @click="moveMypageSetting" style="width: 200px; height: 45px; margin-right: 10px;">BACK</button>
             <!--비밀번호 변경 완료 버튼-->
-            <button class="button" v-bind:style="mybtn2" @mouseover="over2" @mouseout="out2"
+            <button class="button" :style="mybtn2" @mouseover="over2" @mouseout="out2"
                 @click="changePW" style="width: 200px; height: 45px;">비밀번호 변경하기</button>
         </div>
 
@@ -35,6 +35,8 @@
 <script>
 import axios from "axios";
 import PV from "password-validator";
+import { base } from "@/components/common/BaseURL.vue"; // baseURL
+
 export default {
     data: () => {
         return {
