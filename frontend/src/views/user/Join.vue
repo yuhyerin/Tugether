@@ -94,6 +94,7 @@
 import axios from "axios";
 import PV from "password-validator";
 import * as EmailValidator from "email-validator";
+// import { api } from "@/components/common/BaseURL.vue";
 var valid = "";
 export default {
   data: () => {
@@ -170,7 +171,7 @@ export default {
     test() {
       this.email = this.email_id + "@" + this.domain;
       axios
-        .get('/api/account/signup/' + this.email)
+        .get('http://127.0.0.1:8080/account/signup/' + this.email)
         .then((res) => {
           console.log(res.data);
           valid = res.data.message;

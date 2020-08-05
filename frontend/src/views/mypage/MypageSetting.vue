@@ -10,7 +10,7 @@
                 <input v-model="nickname" id="nickname" placeholder=nickname type="text" />
             </div>
             <!--비밀번호-->
-            <div class="row">
+            <div class="row" style="padding-top: 0px; margin: 0px; border: 1px solid black; border-radius: 3px; height: 50px; width: 100%;  font-weight: 600; font-size: 0.857em;">
                 <div class="col-3" style="margin-left: -35px;">
                     <label for="password">비밀번호</label>
                 </div>
@@ -21,10 +21,10 @@
             <!--관심태그-->
             <div class="row" style="height: 200px; margin-top: 10px; padding: 5px 0 0 10px;">
                 <label for="favtags">관심태그</label>
-                <div class="col-3">
-                    <div v-for="tags in favtags" :key=tags>
+                <div class="col-3" style="font-size: 20px; margin-left: 48px;">
+                    <span v-for="tags in favtags" :key=tags>
                         {{ tags }}
-                    </div>
+                    </span>
                 </div>
             </div>       
 
@@ -61,6 +61,8 @@ export default {
     },
     created() {
         // 닉네임, 관심태그
+        this.nickname = "만두",
+        this.favtags = ['음악','먹방','게임'];
     },
     methods: {
         // 프로필 변경하기
@@ -109,16 +111,6 @@ export default {
         margin: 0 auto;
         padding-top: 50px;
         float: left;
-    }
-    .row{
-        padding-top: 0px;
-        margin: 0px;
-        border: 1px solid black;
-        border-radius: 3px;
-        height: 50px;
-        width: 100%;
-        font-weight: 600;
-        font-size: 0.857em;
     }
     .wrapB:before{
         content: '';

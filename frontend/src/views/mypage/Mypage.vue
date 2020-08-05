@@ -16,9 +16,9 @@
         </div>
         <div id="favtags" style="margin-top: 10px;">
             <strong>관심태그</strong>
-            <div v-for="tags in favtags" :key=tags>
+            <span v-for="tags in favtags" :key=tags>
                 {{ tags }}&nbsp;
-            </div>
+            </span>
         </div>
 
         <v-tabs style="centered: true;">
