@@ -1,47 +1,35 @@
 <template>
 <div class="container">
   <div id="mainfeed">
-
-    <!-- <div class="btn-group btn-group-toggle" data-toggle="buttons">
-      <label class="btn btn-danger active">
-        <input type="radio" name="options" id="option1" checked @click="getTagData"> 태그
-      </label>
-      <label class="btn btn-danger">
-        <input type="radio" name="options" id="option2" @click="getFollowData"> 팔로우
-      </label>
-    </div>
-    <br> -->
-  
-    <button @click="getTagData">태그</button> | 
-    <button @click="getFollowData">팔로우</button> 
+    <h1 style="text-align:center;">{{ this.feed }} 뉴스피드({{ $store.state.nickname }})</h1>
     <br>
-    <h1>{{ this.feed }} 뉴스피드({{ $store.state.nickname }})</h1>
+    <div style="text-align:center">
+      <button @click="getTagData"><p>태그</p></button> | 
+      <button @click="getFollowData"><p>팔로우</p></button>
+    </div> 
     <br>
-    <div v-for="article in articles" :key="article.id">
+    <div v-for="(article, index) in articles" :key="article.id" :articles="articles">
       <div class="feed-item">
         <div class="top">
-          <!-- <Like @selectedLikeBtn="selectedLikeBtn"/> -->
           <div class="profile-image" :style="{'background-image': 'url('+defaultProfile+')'}"></div>
           <div class="user-info">
             <div class="user-name">
               <button>{{ article.writer }}</button>
             </div>
-            <p>{{ timeForToday(article.reg_time) }}</p>
-            <p class="date"></p>
+            <p class="date">{{ timeForToday(article.reg_time) }}</p>
           </div>
           <div class="content">
             <p>{{ article.image }}</p>
             <p>{{ article.content }}</p>
             <span v-for="tag in article.tag_name" :key="tag.name">
-                # {{ tag }}
+              # {{ tag }}
             </span>
           </div>
         </div>
         <div class="feed-card">
           <div class="img" :style="{'background-image': 'url('+article.download_url+')'}"></div>
-          <!-- <div class="img" :src="article.download_url" alt=""></div> -->
           <div class="contentsWrap">
-            <h4 class="title">width: {{ article.width }}, height: {{ article.height }}</h4>
+            <!-- <h4 class="title">width: {{ article.width }}, height: {{ article.height }}</h4> -->
             <div class="wrap">
               <div class="url">
                 <a :href="article.link">{{article.link}}</a>
@@ -50,10 +38,10 @@
             </div>
           </div>
         </div>
-        <!---->
+
         <div class="btn-group wrap">
-          <div class="like likeScrap" @click="clickedLike(article.like, article.article_id)">
-            <svg
+          <div class="like likeScrap" @click="clickedLikeBtn(index)">
+            <svg v-show="article.like" 
               class="svg-inline--fa fa-heart fa-w-16 icon full"
               aria-hidden="true"
               data-prefix="fas"
@@ -68,8 +56,8 @@
                 d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"
               />
             </svg>
-            <!-- <i class="fas fa-heart icon full"></i> -->
-            <svg 
+              
+            <svg v-show="!article.like"
               class="svg-inline--fa fa-heart fa-w-16 icon empty"
               aria-hidden="true"
               data-prefix="far"
@@ -84,9 +72,8 @@
                 d="M458.4 64.3C400.6 15.7 311.3 23 256 79.3 200.7 23 111.4 15.6 53.6 64.3-21.6 127.6-10.6 230.8 43 285.5l175.4 178.7c10 10.2 23.4 15.9 37.6 15.9 14.3 0 27.6-5.6 37.6-15.8L469 285.6c53.5-54.7 64.7-157.9-10.6-221.3zm-23.6 187.5L259.4 430.5c-2.4 2.4-4.4 2.4-6.8 0L77.2 251.8c-36.5-37.2-43.9-107.6 7.3-150.7 38.9-32.7 98.9-27.8 136.5 10.5l35 35.7 35-35.7c37.8-38.5 97.8-43.2 136.5-10.6 51.1 43.1 43.5 113.9 7.3 150.8z"
               />
             </svg>
-            <!-- <i class="far fa-heart icon empty"></i> -->
-            <p>00님 외 {{ likeCnt }}명이 좋아합니다.</p>
-            <!-- 00(사용자 본인의 닉네임)님 외 00명이 좋아합니다. 노출-->
+            <p>00님 외 {{ article.like_cnt }}명이 좋아합니다.</p>
+            <!-- <p>{{ $store.state.nickname }}님 외 {{ article.like_cnt }}명이 좋아합니다.</p> -->
           </div>
           <div class="comment">
             <svg
@@ -108,12 +95,12 @@
             {{ cntComment }}
           </div>
           <!---->
-          <div class="share">
+          <div class="scrap" @click="clickedScrapBtn(index)">
             <svg
-              class="svg-inline--fa fa-bookmark-alt fa-w-14 icon"
+              class="svg-inline--fa fa-share-alt fa-w-14 icon"
               aria-hidden="true"
               data-prefix="far"
-              data-icon="bookmark-alt"
+              data-icon="share-alt"
               role="img"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 448 512"
@@ -124,6 +111,7 @@
                 d="M352 320c-22.608 0-43.387 7.819-59.79 20.895l-102.486-64.054a96.551 96.551 0 0 0 0-41.683l102.486-64.054C308.613 184.181 329.392 192 352 192c53.019 0 96-42.981 96-96S405.019 0 352 0s-96 42.981-96 96c0 7.158.79 14.13 2.276 20.841L155.79 180.895C139.387 167.819 118.608 160 96 160c-53.019 0-96 42.981-96 96s42.981 96 96 96c22.608 0 43.387-7.819 59.79-20.895l102.486 64.054A96.301 96.301 0 0 0 256 416c0 53.019 42.981 96 96 96s96-42.981 96-96-42.981-96-96-96z"
               />
             </svg>
+            <span>{{ article.scrap_cnt }}회</span>
           </div>
         </div>
       </div>
@@ -146,33 +134,40 @@ export default {
       defaultProfile,
       feed: '',
       token: "",
-      selectedLike: false,
-      likeCnt: '',
-      cntComment: 0,
       tag: true,
       reg_time: '',
+      clicked: false,
     }
   },
+
+
+  watch:{
+    clicked(){
+      console.log("clickclick")
+      axios.post('http://localhost:8080/tugether/mainfeed/', {
+        tag: this.tag,
+      },
+      {
+        headers:{
+          "jwt-auth-token": this.$store.state.token
+        }
+      })
+      .then(response => {
+        console.log(response.data.list)
+        this.articles = response.data.list;
+        this.clicked=false;
+      })
+      .catch(err =>{
+          console.log("망")
+      })
+      .finally(()=>{
+          this.clicked=false;
+      })
+    }
+  },
+
+
   methods: {
-    // 시간 체크
-    timeForToday(value) {
-      const today = new Date();
-      const timeValue = new Date(value);
-
-      const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
-
-      if (betweenTime < 1) return '방금 전';
-      if (betweenTime < 60) return `${betweenTime}분 전`;
-
-      const betweenTimeHour = Math.floor(betweenTime / 60);
-      if (betweenTimeHour < 24) return `${betweenTimeHour}시간 전`;
-
-      const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
-      if (betweenTimeDay < 365) return `${betweenTimeDay}일 전`;
-
-      return `${Math.floor(betweenTimeDay / 365)}년 전`;
-    },
-
     // 팔로우 기반의 글 목록 불러오기
     getFollowData() {
       this.feed = '팔로우';
@@ -186,8 +181,10 @@ export default {
           }
       })
       .then(response => {
-          console.log(response.data.list)
+        console.log('팔로우 기반 호출')
           this.articles = response.data.list;
+          console.log(this.articles)
+          this.clicked = true;
       })
       .catch(err =>{
           console.log("망")
@@ -208,42 +205,95 @@ export default {
       })
       .then(response => {
         console.log(response.data.list)
+        console.log('태그기반 호출')
         this.articles = response.data.list;
+        this.clicked = true; 
       })
       .catch(err =>{
           console.log("망")
       })
     },
 
+    // 시간 체크
+    timeForToday(value) {
+      const today = new Date();
+      const timeValue = new Date(value);
 
-    // selectedLikeBtn() {
-    //   this.selectedLike = !this.selectedLike
-    //   if (this.selectedLike) {
-    //     this.cntLike += 1
-    //   } else {
-    //     this.cntLike -= 1
-    //   }
-    //   console.log(this.selectedLike)
-    //   console.log(this.cntLike)
-    // },
-    clickedLike(like, article_id) {
-      
+      const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
+
+      if (betweenTime < 1) return '방금 전';
+      if (betweenTime < 60) return `${betweenTime}분 전`;
+
+      const betweenTimeHour = Math.floor(betweenTime / 60);
+      if (betweenTimeHour < 24) return `${betweenTimeHour}시간 전`;
+
+      const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+      if (betweenTimeDay < 365) return `${betweenTimeDay}일 전`;
+
+      return `${Math.floor(betweenTimeDay / 365)}년 전`;
+    },
+
+
+    clickedLikeBtn(index) { 
       axios.get('http://localhost:8080/tugether/mainfeed/like',{
         headers: { 
           "jwt-auth-token": this.$store.state.token,
-          "article_id" : article_id,
-          "like" : !like
-          }
+          "article_id": this.articles[index].article_id,
+        }
       })
       .then(response => {
-        this.likeCnt = response.data.like_cnt
-        console.log('가라')
+        this.articles[index] = response.data.article;
+        console.log(this.articles)
+        this.clicked = true;
+      })
+      .catch(err => {
+        console.log('실패함')
+      })
+    },
+
+
+    clickedScrapBtn(index) {
+      // 스크랩 여부 확인
+      axios.get('http://localhost:8080/tugether/mainfeed/scrap', {
+        headers: {
+          "jwt-auth-token": this.$store.state.token,
+          "article_id": this.articles[index].article_id,
+        }
+      })
+      .then(response => {
+        if (response.data.scrapcheck) {
+          alert('이미 스크랩함')
+        } 
+        else {
+          // confirm창 띄우기
+          var answer = confirm('스크랩 하시겠습니까?')
+            // if 확인이면 axios.post
+            if(answer==true){
+              axios.post('http://localhost:8080/tugether/mainfeed/scrap', {
+                "article_id": this.articles[index].article_id,
+              },
+              {
+                headers: {
+                  "jwt-auth-token": this.$store.state.token,
+                }
+              })
+              .then(response => {
+                this.articles[index] = response.data.article;
+                console.log(response.data)
+              })
+            }
+            // else면
+        }
+        this.clicked = true;
+      })
+      .catch(err => {
+        console.log('스크랩 실패')
       })
     },
   },
 
 
-  created() {
+  beforeCreate() {
     this.feed = '태그'
     this.tag = true
     axios.post('http://localhost:8080/tugether/mainfeed/', {
@@ -255,8 +305,9 @@ export default {
       }
     })
     .then(response => {
-      console.log(response.data.list)
+      console.log('태그기반 호출')
       this.articles = response.data.list;
+      console.log(this.articles)
     })
     .catch(err =>{
         console.log("망")
@@ -266,5 +317,4 @@ export default {
 </script>
 
 <style>
-
 </style>

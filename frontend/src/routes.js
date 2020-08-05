@@ -9,7 +9,7 @@ import PasswordFind from './views/user/PasswordFind.vue'
 import ArticleWrite from './views/user/Write.vue'
 import FeedMain from './views/feed/IndexFeed.vue'
 import MainFeed from './views/feed/MainFeed.vue'
-import MainFeedCom from './views/feed/MainFeedCom.vue'
+
 
 import Components from './views/Components.vue'
 import store from './vuex/store'
@@ -81,11 +81,6 @@ export default [
         path : '/mainfeed',
         name : 'MainFeed',
         component : MainFeed
-    },
-    {
-        path : '/main',
-        name : 'MainFeedCom',
-        component : MainFeedCom
     },
     {
         path : '/components',
