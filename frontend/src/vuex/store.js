@@ -37,7 +37,6 @@ export default new Vuex.Store({
         }
 
     }, 
-
     actions:{ //actions는 비즈니스 로직 
         // actions에서 mutations에정의된 함수를 호출하기 위해서는 commit을 사용한다.
         // signinObj : 로그인 시 입력한 { 이메일, 패스워드 }
@@ -46,7 +45,7 @@ export default new Vuex.Store({
             axios.post(base + '/account/signin',
                 signinObj)
                 .then(res=>{
-
+                    localStorage.setItem("token", res.headers["jwt-auth-token"])
                     //임시 비밀번호로 로그인 했으면 => 비밀번호 변경페이지로 이동 
                     if (res.data.data.temp==1 && res.data.status) { 
                         state.message = res.data.data.email;

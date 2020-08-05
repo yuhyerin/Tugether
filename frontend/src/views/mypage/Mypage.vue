@@ -65,7 +65,7 @@ export default {
         }
     },
     created() {
-        // console.log(localStorage.getItem("token"));
+        console.log(localStorage.getItem("token"));
 
         // 토큰 보내기
         // axios
@@ -82,14 +82,18 @@ export default {
         //     });
 
         // 프로필 띄우기
-        // axios
-        //     .get(base + '/tugether')
-        //     .then((res) => {
-        //         console.log(res.data);
-        //     })
-        //     .catch((err) => {
+        axios
+            .get(base + '/tugether/profile'), {
+                headers:{
+                    "jwt-auth-token": localStorage.getItem("token")
+                }
+            }
+            .then((res) => {
+                console.log(res.data);
+            })
+            .catch((err) => {
 
-        //     });
+            });
     },
     methods: {
         // 페이지 이동
