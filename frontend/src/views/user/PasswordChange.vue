@@ -19,21 +19,16 @@
       </div>
       <div class="input-with-label">
         <label for="password">신규 비밀번호</label>
-        <input type="password"
-          id="password"
-          v-model="password"
-          
-        />
-
+        <input :type="passwordType" id="password" v-model="password" />
+        <!--비밀번호 입력 시 아이콘을 누르면 입력타입을 변경해준다.(text, password)-->
+        <span class="icon" @click="showPW1"><i class="far fa-eye fa-lg"></i></span>
       </div>
 
       <div class="input-with-label">
         <label for="password">신규 비밀번호 확인</label>
-        <input type="password"
-          id="password-confirm"
-          v-model="passwordConfirm"
-          @keyup.enter="passwordCheck"
-        />
+        <input :type="passwordConfirmType" id="password-confirm" v-model="passwordConfirm" @keyup.enter="passwordCheck" />
+        <!--비밀번호 입력 시 아이콘을 누르면 입력타입을 변경해준다.(text, password)-->
+        <span class="icon" @click="showPW2"><i class="far fa-eye fa-lg"></i></span>
       </div>
 
       <button
@@ -104,8 +99,9 @@
 </template>
 
 <script>
-import axios from 'axios'
-import store from '@/vuex/store'
+import axios from 'axios';
+import store from '@/vuex/store';
+import { base } from "@/components/common/BaseURL.vue"; // baseURL
 
 export default {
     name: 'PasswordChange',
@@ -115,6 +111,8 @@ export default {
         passwordConfirm: "",
         bottomNav: 'recent',
         email: "",
+        passwordType: "password",
+        passwordConfirmType: "password"
       }
     },
     created(){
@@ -138,7 +136,7 @@ export default {
       },
       sendPassword () {
         console.log(this.email)
-        axios.post('http://127.0.0.1:8080/account/changepw', {
+        axios.post(base + '/account/changepw', {
           email: this.email,
           password: this.password,
           // passwordConfirm: this.passwordConfirm
@@ -156,6 +154,21 @@ export default {
       sendToMain () {
         // 관심태그 안한 사람이면 메인이 아니라 태그 선택으로 이동
         this.$router.push("/feed/main")
+      },
+      // 비밀번호 입력 시 아이콘을 누르면 입력타입 변경(text, password)
+      showPW1() {
+        if (this.passwordType === "password") {
+          this.passwordType = "text";
+        } else {
+          this.passwordType = "password";
+        }
+      },
+      showPW2() {
+        if (this.passwordConfirmType === "password") {
+          this.passwordConfirmType = "text";
+        } else {
+          this.passwordConfirmType = "password";
+        }
       }
     }
 }

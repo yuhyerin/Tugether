@@ -5,6 +5,7 @@ import Vuex from 'vuex'
 // import mutations from './mutations'
 import * as axios from 'axios';
 import router from '../main';
+import { base } from "@/components/common/BaseURL.vue"; // baseURL
 
 Vue.use(Vuex)
 
@@ -42,7 +43,7 @@ export default new Vuex.Store({
         // signinObj : 로그인 시 입력한 { 이메일, 패스워드 }
         login({state, commit}, signinObj){ // 로그인 시도!
             
-            axios.post('http://127.0.0.1:8080/account/signin',
+            axios.post(base + '/account/signin',
                 signinObj)
                 .then(res=>{
 
@@ -79,7 +80,7 @@ export default new Vuex.Store({
 
                         //관심태그를 설정한 회원인지 체크한다. 
                         axios.get(
-                            'http://127.0.0.1:8080/tugether/checkfavtag',
+                            base + '/tugether/checkfavtag',
                             {
                               headers:{
                                 "jwt-auth-token": res.headers["jwt-auth-token"]

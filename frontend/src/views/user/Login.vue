@@ -4,7 +4,7 @@
     <menu></menu>
     <div class="wrapC">
       <br>
-      <h1>
+      <h1 style="text-align: center;">
         즐거운 시간을 함께 나눠요, Tugether😊
       </h1>
 
@@ -24,20 +24,22 @@
           type="text"
         />
         <label for="email">이메일</label>
-        <div class="error-text" v-if="error.email">{{error.email}}</div>
+        <!-- <div class="error-text" v-if="error.email">{{error.email}}</div> -->
       </div>
 
       <div class="input-with-label" v-show="!isLogin">
         <input
           v-model="password"
-          type="password"
+          :type="passwordType"
           v-bind:class="{error : error.password, complete:!error.password&&password.length!==0}"
           id="password"
           @keyup.enter="Login"
           placeholder="비밀번호를 입력하세요."
         />
         <label for="password">비밀번호</label>
-        <div class="error-text" v-if="error.password">{{error.password}}</div>
+        <!--비밀번호 입력 시 아이콘을 누르면 입력타입을 변경해준다.(text, password)-->
+        <span class="icon" @click="showPW"><i class="far fa-eye fa-lg"></i></span>
+        <!-- <div class="error-text" v-if="error.password">{{error.password}}</div> -->
       </div>
       
         <button
@@ -122,11 +124,9 @@ import store from "../../vuex/store"
 import * as axios from 'axios';
 import { mapState, mapActions} from "vuex"
 import Menu from '../menu/Menu';
+import { base } from "@/components/common/BaseURL.vue"; // baseURL
 
 const storage = window.sessionStorage;
-// const ai = axios.create({
-//     baseURL: "http://127.0.0.1:8080/account/"
-// });
 
 export default {
   name: 'Login',
@@ -144,6 +144,7 @@ export default {
       message: "로그인해주세요.",
       email: "",
       password: "",
+      passwordType: "password",
       passwordSchema: new PV(),
       nickname:"",
       error: {
@@ -179,7 +180,6 @@ export default {
       this.checkForm();
     }
   },
-  
   methods: {
     ...mapActions(["login"]), // store.js의 Actions에 정의한 함수를 쓰기 위해서 선언해준다.
 
@@ -200,6 +200,15 @@ export default {
         if (v) isSubmit = false;
       });
       this.isSubmit = isSubmit;
+    },
+
+    // 비밀번호 입력 시 아이콘을 누르면 입력타입 변경(text, password)
+    showPW() {
+      if (this.passwordType === "password") {
+        this.passwordType = "text";
+      } else {
+        this.passwordType = "password";
+      }
     },
     
     onLogin() {
@@ -270,8 +279,8 @@ export default {
     },
 
     getInfo(){ //저장된 토큰을 사용하여 회원정보를 가져온다.
-      axios.post(
-        'http://127.0.0.1:8080/info',
+      axios
+      .post(base + '/info',
         {
           email: this.email,
           password: this.password
@@ -312,8 +321,6 @@ export default {
     this.init();
     
   },
-  
-
 };
 </script>
 

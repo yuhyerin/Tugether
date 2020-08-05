@@ -12,11 +12,11 @@
         <!--버튼-->
         <div id="mypage_buttons2">
             <!--프로필 편집 페이지로 돌아가기 버튼-->
-            <button class="button" v-bind:style="mybtn1" @mouseover="over1" @mouseout="out1"
+            <button class="button" :style="mybtn1" @mouseover="over1" @mouseout="out1"
                 @click="moveMypageSetting" style="width: 200px; height: 45px; margin-right: 10px;">BACK</button>
             <!--현재 비밀번호 입력 완료 버튼-->
             <!--비밀번호가 틀리면 alert창으로 안내해주고, 맞으면 비밀번호 변경페이지로 이동한다.-->
-            <button class="button" v-bind:style="mybtn2" @mouseover="over2" @mouseout="out2"
+            <button class="button" :style="mybtn2" @mouseover="over2" @mouseout="out2"
                 @click="checkPW" style="width: 200px; height: 45px;">확인</button>
         </div>
     </div>

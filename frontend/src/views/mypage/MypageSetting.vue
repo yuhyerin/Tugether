@@ -19,7 +19,8 @@
                 </div>
             </div>
             <!--관심태그-->
-            <div class="row" style="height: 200px; margin-top: 10px; padding: 5px 0 0 10px;">
+            <div class="row" style="border: 1px solid black; border-radius: 3px; height: 200px; margin-top: 10px; padding: 5px 0 0 10px;
+                margin-left: 1px; width: 100%; font-weight: 600; font-size: 0.857em;">
                 <label for="favtags">관심태그</label>
                 <div class="col-3" style="font-size: 20px; margin-left: 48px;">
                     <span v-for="tags in favtags" :key=tags>
@@ -31,10 +32,10 @@
             <!--버튼-->
             <div id="mypage_buttons">
                 <!--마이페이지로 돌아가기 버튼-->
-                <button class="button" v-bind:style="mybtn1" @mouseover="over1" @mouseout="out1"
+                <button class="button" :style="mybtn1" @mouseover="over1" @mouseout="out1"
                     @click="moveMypage" style="width: 200px; height: 45px; margin-right: 10px;">BACK</button>
                 <!--변경한 내용 저장하기 버튼-->
-                <button class="button" v-bind:style="mybtn2" @mouseover="over2" @mouseout="out2"
+                <button class="button" :style="mybtn2" @mouseover="over2" @mouseout="out2"
                     style="width: 200px; height: 45px;">변경하기</button>
             </div>
         </div>
