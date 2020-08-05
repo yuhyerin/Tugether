@@ -27,7 +27,6 @@ public class Scrap {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)	// 얘가 auto_increment
 	private int uid;
 	
-	@Column(name="email")
 	private String email;
 
 	@Column(name="article_id")

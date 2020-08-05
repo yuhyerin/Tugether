@@ -10,6 +10,9 @@ public interface FeedService {
 	public List<FrontArticle> findArticleListByTag(String email);
 	public List<FrontArticle> findArticleListByFollow(String email);
 	
-	public int updateLike(int article_id, String email, boolean like);
+	public FrontArticle updateLike(int article_id, String email);
+	
+	public boolean checkScrap(String email, int article_id);
+	public FrontArticle scrap(String email, int article_id);
 
 }

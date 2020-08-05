@@ -3,14 +3,16 @@
 package com.web.curation.dto.account;
 
 
-import lombok.*;
+import java.sql.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
-import java.sql.Date;
-import java.text.SimpleDateFormat;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity(name="user")
 @Table(name="user")
@@ -20,25 +22,18 @@ import java.text.SimpleDateFormat;
 @Data
 public class User {
     
-    @Id // @Column(name="EMAIL")
+    @Id
     private String email;
     
-//    @Column(nullable = false)// , name="PASSWORD")
     private String password;
 
-//    @Column(name="signup_date", insertable = false) //insertable = false, updatable = false) //, name="SIGNUP_DATE")
     private Date signup_date;
-    //   SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//    @Column(nullable = false) //, name="NICKNAME")
     private String nickname;
     
-//    @Column(nullable = false, updatable = false) //, name="GENDER")
     private char gender;
     
-//    @Column(name="BIRTH_YEAR")//nullable = false, updatable = false) //, name="BIRTH_YEAR")
     private int birth_year;
 
-//    @Column(name="TEMP")@Getter
     private boolean temp;
 
 	public boolean getTemp() {

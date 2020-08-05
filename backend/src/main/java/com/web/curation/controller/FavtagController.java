@@ -2,11 +2,9 @@ package com.web.curation.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.web.curation.dto.BasicResponse;
-import com.web.curation.dto.tag.FavTag;
 import com.web.curation.jwt.service.JwtService;
 import com.web.curation.service.tag.FavtagService;
 
@@ -82,7 +79,6 @@ public class FavtagController {
     	
 		ArrayList<Integer> taglist = (ArrayList)map.get("taglist");
 		System.out.println(taglist.toString());
-		
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		HttpStatus status = null;

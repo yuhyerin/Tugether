@@ -31,6 +31,7 @@ public class Comment {
 	
 	@Column(name="article_id")
 	private int article_id;
+	
 	@Column(name="parent_id")
 	private int parent_id;
 	

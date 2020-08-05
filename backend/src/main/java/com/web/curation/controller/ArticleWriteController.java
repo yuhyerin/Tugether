@@ -4,11 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,18 +14,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.web.curation.dto.BasicResponse;
 import com.web.curation.dto.article.Article;
 import com.web.curation.jwt.service.JwtService;
 import com.web.curation.service.articlewrite.ArticleWriteService;
-import com.web.curation.service.fileupload.FileUploadService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -55,8 +50,8 @@ public class ArticleWriteController {
 	@Autowired
 	private ArticleWriteService articleWriteService;
 	
-	@Autowired
-	private FileUploadService fileUploadService;
+//	@Autowired
+//	private FileUploadService fileUploadService;
 	
 	
 	@ApiOperation(value = "게시글 작성")
@@ -76,14 +71,16 @@ public class ArticleWriteController {
 		String email = Userinfo.get("email").toString(); //이메일 
 		String writer = Userinfo.get("nickname").toString(); //닉네임 
 		String articleimg = upload_FILE_PATH+email+mFile.getOriginalFilename();
-		Article article = new Article();
-		article.setEmail(email);
-		article.setWriter(writer);
-		article.setContent(contents);
-		article.setImage(articleimg);
-		article.setLink(link);
-		article.setLike_cnt(0);
-		article.setScrap_cnt(0);
+//		Article article = new Article();
+//		article.setEmail(email);
+//		article.setWriter(writer);
+//		article.setContent(contents);
+//		article.setImage(articleimg);
+//		article.setLink(link);
+//		article.setLike_cnt(0);
+//		article.setScrap_cnt(0);
+		
+		Article article = Article.builder().email(email).writer(writer).content(contents).image(articleimg).link(link).build();
 		
 		for(int i=0; i<taglist.size(); i++) {
 			System.out.println(taglist.get(i));

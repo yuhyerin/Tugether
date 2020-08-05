@@ -18,10 +18,8 @@ public class Profile {
 
 		
 		@Id
-		@Column(name = "email")
 		private String email;
 		
-		@Column(name = "nickname")
 		private String nickname;
 		
 		@Column(name = "profile_photo")

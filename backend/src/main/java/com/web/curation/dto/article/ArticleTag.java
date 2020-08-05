@@ -18,7 +18,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//@JsonInclude(JsonInclude.Include.NON_NULL)
 @Builder
 public class ArticleTag {
 	
@@ -31,9 +30,6 @@ public class ArticleTag {
 	
 	@Column(name="tag_id")
 	private int tag_id;
-	
-	
-	
 	
 
 }

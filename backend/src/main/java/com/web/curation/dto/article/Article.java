@@ -27,16 +27,12 @@ public class Article {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)	// 얘가 auto_increment
 	private int article_id;
 
-	@Column(name="email")
 	private String email;
-	
-	@Column(name="writer")
 	private String writer;
-	
+
 	@Column(name="reg_time", insertable = false)
 	private Date reg_time;
 	
-	@Column(name="image")	// 얘는 이미지 저장된 위치
 	private String image;
 	
 	@Column(name="content")
