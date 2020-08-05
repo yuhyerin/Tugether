@@ -40,6 +40,7 @@ import { base } from "@/components/common/BaseURL.vue"; // baseURL
 export default {
     data: () => {
         return {
+            email: "",
             password: "",
             passwordConfirm: "",
             passwordSchema: new PV(),
@@ -70,14 +71,30 @@ export default {
         .letters();
     },
     watch: {
-        passwordConfirm: function (v) {
-        this.checkForm();
-        },
         password: function (v) {
         this.checkForm();
         },
+        passwordConfirm: function (v) {
+        this.checkForm();
+        }
     },
     methods: {
+        // 비밀번호 변경하기
+        changePW() {
+            // axios
+            //     .post(base + '/tugether', {
+            //         email: this.email,
+            //         password: this.password
+            //     })
+            //     .then(({data}) => {
+
+            //     })
+            //     .catch((err) => {
+
+            //     });
+            alert("비밀번호 변경이 완료되었습니다.");
+            this.moveMypage(); // 마이페이지로 이동
+        },
         checkForm() {
             if (this.password.length >= 0 && !this.passwordSchema.validate(this.password)) {
                 this.error.password = "영문,숫자 포함 8자리 이상이어야 합니다.";
@@ -126,28 +143,12 @@ export default {
             } else {
                 this.passwordConfirmType = "password";
             }
-        },
-        // 비밀번호 변경하기
-        changePW() {
-            axios // 어디로 보냄?
-                .post('http://127.0.0.1:8080', {
-                    // 이메일 어떻게?
-                    password: this.password,
-                })
-                .then((res) => {
-
-                })
-                .catch((err) => {
-
-                });
-            alert("비밀번호 변경이 완료되었습니다.");
-            this.moveMypage();
-        },
+        }
     }
 }
 </script>
 
-<style>
+<style scoped>
     .wrapC:before{
         content: '';
         display: inline-block;

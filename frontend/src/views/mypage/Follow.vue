@@ -1,5 +1,7 @@
 <template>
     <div class="wrapB" style="text-align: center;">
+        <br><br>
+        <strong @click="moveMypage" style="cursor: pointer;">마이페이지로 이동</strong>
         <!--tab test-->
         <div class="tabs" style="margin-top: 30px;">
             <TabItem
@@ -34,7 +36,10 @@ export default {
         }        
     },
     methods: {
-
+        // 페이지 이동
+        moveMypage() {
+            this.$router.push("/mypage/Mypage");
+        }
     },
     computed: {
         current() {

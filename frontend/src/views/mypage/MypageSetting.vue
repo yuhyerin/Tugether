@@ -2,8 +2,10 @@
     <div class="feed mypage">
         <div class="wrapB" style="text-align: center;">
             <h1 style="margin-top: 20px;">프로필 편집</h1>
-            <img src="../../assets/images/profile_default.png" style="size: 100px; margin-bottom: 10px;">
-            <strong style="margin-left: 10px; color: blue;">프로필 사진 변경하기</strong>
+            <div id="image_setting" style="margin-top: -10px;">
+                <img src="../../assets/images/profile_default.png" style="size: 100px; margin-bottom: 10px;">
+                <strong style="margin-left: 10px; color: blue;">프로필 사진 변경하기</strong>
+            </div>
             <!--닉네임-->
             <div class="input-with-label">
                 <label for="nickname">닉네임</label>
@@ -44,45 +46,55 @@
 
 <script>
 import axios from "axios";
+import store from '@/vuex/store';
+import { mapState, mapActions } from "vuex";
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
 
 export default {
     data: () => {
         return {
-            // 프로필 사진
+            profile_photo: "",
             nickname: "",
-            password: "",
-            passwordType: "password",
+            favtags: [],
             mybtn1: {
                 backgroundColor: "black"
             },
             mybtn2: {
                 backgroundColor: "black"
-            },
-            favtags: [],
+            }
         }
     },
     created() {
-        // 닉네임, 관심태그
         this.nickname = "만두",
         this.favtags = ['음악','먹방','게임'];
+
+        // 프로필 사진, 닉네임, 관심태그
+        axios
+            .get(base + '/')
+            .then({})
+            .catch({});
+    },
+    computed: {
+
     },
     methods: {
         // 프로필 변경하기
         changeProfile() {
-            axios // 어디로 보냄?
-                .post(base + '/',{
-                    // 이메일 어떻게?
-                    // 프로필 사진
-                    nickname: this.nickname,
-                    // 관심태그
-                })
-                .then((res) => {
+            // axios
+            //     .post(base + '/tugether/profile',{
+            //         headers:{
+            //             "jwt-auth-token": this.$store.state.token
+            //         },
+            //         profile_photo: this.profile_photo,
+            //         nickname: this.nickname,
+            //         favtags: this.favtags
+            //     })
+            //     .then(({data}) => {
 
-                })
-                .catch((err) => {
+            //     })
+            //     .catch((err) => {
 
-                });
+            //     });
         },
         // 버튼에 마우스 갖다대면 빨갛게 변하도록
         over1() {
@@ -108,7 +120,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     #mypage_buttons{
         width: 100%;
         margin: 0 auto;

@@ -126,7 +126,6 @@ export default {
         passwordConfirm: false,
         nickName: false,
       },
-      isSubmit: false, //요청 후에는 버튼 비활성화 (this.isSubmit = false;)
       passwordType: "password",
       passwordConfirmType: "password",
       mybtn1: {

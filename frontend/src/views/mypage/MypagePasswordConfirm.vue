@@ -24,11 +24,14 @@
 
 <script>
 import axios from "axios";
+import store from '@/vuex/store';
+import { mapState, mapActions } from "vuex";
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
 
 export default {
     data: () => {
         return {
+            email: "",
             password: "",
             passwordType: "password",
             mybtn1: {
@@ -39,13 +42,17 @@ export default {
             }
         }
     },
+    computed: {
+        ...mapState(["token"]), //store 공동 저장소에 있는 token 사용하기 위해 선언
+        ...mapActions(["getToken"])
+    },
     methods: {
         // 현재 비밀번호가 맞는지 확인
         checkPW() {
             // 비밀번호를 백엔드로 보내서 확인 or 비밀번호를 프론트에서 받아서 확인
 
-            // 맞다면 페이지 이동
-            this.moveMypagePWchange();
+            // 비밀번호가 맞다면
+            this.moveMypagePWchange(); // 페이지 이동
         },
         // 버튼에 마우스 갖다대면 빨갛게 변하도록
         over1() {
@@ -95,6 +102,9 @@ export default {
         padding-top: 50px;
         float: left;
     }
+</style>
+
+<style scoped>
     .wrapC:before{
         content: '';
         display: inline-block;
