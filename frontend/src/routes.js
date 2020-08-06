@@ -6,7 +6,8 @@ import Join from './views/user/Join.vue'
 import Menu from './views/menu/Menu.vue'
 import TagView from './views/user/TagView.vue'
 import PasswordFind from './views/user/PasswordFind.vue'
-import FeedMain from './views/feed/IndexFeed.vue'
+// import FeedMain from './views/feed/IndexFeed.vue'
+import MainFeed from '@/views/feed/MainFeed.vue'
 import Mypage from '@/views/mypage/Mypage.vue'
 import MypageSetting from '@/views/mypage/MypageSetting.vue'
 import MypagePasswordConfirm from '@/views/mypage/MypagePasswordConfirm.vue'
@@ -69,11 +70,16 @@ export default [
         name : 'TagView',
         component : TagView
     },
+    // {
+    //     path : '/feed/main',
+    //     name : 'FeedMain',
+    //     // beforeEnter: onlyAuthUser,
+    //     component : FeedMain
+    // },
     {
-        path : '/feed/main',
-        name : 'FeedMain',
-        // beforeEnter: onlyAuthUser,
-        component : FeedMain
+        path : '/mainfeed',
+        name : 'MainFeed',
+        component : MainFeed
     },
     {
         path : '/mypage/mypage',

@@ -1,9 +1,9 @@
 <template>
   <div class="feed mypage">
       <div class="wrapB" style="text-align: center;">
-        <!-- <h1>마이페이지</h1> -->
+        <!-- <button @click="moveMain">메인피드로 이동하기</button> -->
         <div id="profile" style="margin-top: 20px;">
-            <img src="../../assets/images/profile_default.png" style="size: 100px;"><br>
+            <img :src=profile_photo><br>
             <strong style="font-size: 20px;">{{ nickname }}</strong><br>
             게시글 <strong style="color: red;">{{ article_cnt }}</strong>
             팔로잉 <strong @click="moveFollow" style="color: red; cursor: pointer;">{{ following_cnt }}</strong>
@@ -45,18 +45,18 @@ import axios from "axios";
 import store from '@/vuex/store';
 import { mapState, mapActions } from "vuex";
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
-import TabItem from '@/components/common/TabItem.vue'
+import TabItem from '@/components/common/TabItem.vue';
 
 export default {
     components: { TabItem },
     data: () => {
         return {
             profile_photo: "",
-            nickname: "만두",
-            following_cnt: "123",
-            follower_cnt: "321",
-            article_cnt: "10",
-            favtags: ['음악', '먹방', '게임'],
+            nickname: "",
+            following_cnt: "",
+            follower_cnt: "",
+            article_cnt: "",
+            favtags: [],
             currentId: 1,
             list: [
                 { id: 1, label: '게시글', content: '콘텐츠1' },
@@ -65,34 +65,24 @@ export default {
         }
     },
     created() {
-        console.log(localStorage.getItem("token"));
-
-        // 토큰 보내기
-        // axios
-        //     .post(base + '/tugether', {
-        //         headers:{
-        //             "jwt-auth-token": localStorage.getItem("token")
-        //         }
-        //     })
-        //     .then(({data}) => {
-
-        //     })
-        //     .catch((err) => {
-
-        //     });
-
         // 프로필 띄우기
         axios
-            .get(base + '/tugether/profile'), {
+            .get(base + '/tugether/profile', {
                 headers:{
-                    "jwt-auth-token": localStorage.getItem("token")
+                    "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
                 }
-            }
+            })
             .then((res) => {
                 console.log(res.data);
+                this.profile_photo = 'https://i3b303.p.ssafy.io/profileimages/' + res.data.profile.profile_photo;
+                this.nickname = res.data.profile.nickname;
+                this.article_cnt = res.data.profile.article_cnt;
+                this.following_cnt = res.data.profile.following_cnt;
+                this.follower_cnt = res.data.profile.follower_cnt;
+                this.favtags = res.data.favtaglist; // 관심태그 목록
             })
             .catch((err) => {
-
+                console.log("created axios get error")
             });
     },
     methods: {
@@ -102,8 +92,6 @@ export default {
         },
         moveWrite() {
             // 글쓰기 페이지로 이동
-            // console.log(this.$store.state.token);
-            console.log(localStorage.getItem("token"));
         },
         moveFollow() {
             this.$router.push("/mypage/follow");

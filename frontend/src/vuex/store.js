@@ -92,7 +92,7 @@ export default new Vuex.Store({
 
                               if(res.data.status){ //관심태그 설정한 놈 
                                 console.log("관심태그 설정했는지 체크하고 돌아왔습니다! (설정했음) ")
-                                router.push("/feed/main");
+                                router.push("/mainfeed");
 
                               }else{ //안한놈 
                                 console.log("관심태그 설정했는지 체크하고 돌아왔습니다! (설정안했음) ")

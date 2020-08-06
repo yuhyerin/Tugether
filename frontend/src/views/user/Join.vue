@@ -234,7 +234,7 @@ export default {
     moveLogin() {
       this.$router.push("/");
     },
-    // 사용자가 입력하지 않은 칸이 있을 경우 포커스 이동
+    // 사용자가 입력하지 않은 칸이 있을 경우 포커스 이동 & 모든 유효성 검사를 통과했을 때(적합, 인증 등)만 회원가입 가능
     checkHandler() {
       let err = true;
       let msg = "";
