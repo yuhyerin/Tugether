@@ -1,6 +1,5 @@
 package com.web.curation.service.feed;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
@@ -14,7 +13,6 @@ import com.web.curation.dto.article.Likey;
 import com.web.curation.dto.article.Scrap;
 import com.web.curation.repo.ArticleRepo;
 import com.web.curation.repo.ArticleTagRepo;
-import com.web.curation.repo.CommentRepo;
 import com.web.curation.repo.FavtagRepo;
 import com.web.curation.repo.FollowingRepo;
 import com.web.curation.repo.LikeyRepo;
@@ -37,25 +35,20 @@ public class FeedServiceImpl implements FeedService {
 	@Autowired
 	private LikeyRepo likeRepo;
 	@Autowired
-	private CommentRepo commentRepo;
-	@Autowired
 	private ScrapRepo scrapRepo;
-
-	SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
 
 	// 1. 태그기반 피드
 	@Override
 	public List<FrontArticle> findArticleListByTag(String email) {
-//		System.out.println("FEEDSERVICE 입장");
 		List<FrontArticle> result = new ArrayList<>();
 		List<Article> articles = new ArrayList<>();
+		// favtag에서 이메일로 저장된 tagid 가져와
+		List<Integer> tagIDs = favtagRepo.findTagIdByEmail(email);
 
-		List<Integer> tags = favtagRepo.findTagIdByEmail(email);
-		
-		for (int i = 0; i < tags.size(); i++) {
-			for(int j=i+1;j<tags.size();j++) {
-				if(tags.get(i)==tags.get(j)) {
-					tags.remove(j);
+		for (int i = 0; i < tagIDs.size(); i++) {
+			for (int j = i + 1; j < tagIDs.size(); j++) {
+				if (tagIDs.get(i) == tagIDs.get(j)) {
+					tagIDs.remove(j);
 					j--;
 				}
 			}
@@ -63,47 +56,27 @@ public class FeedServiceImpl implements FeedService {
 
 		// ArticleTag테이블에서 tag_id로 article_id들 리스트로 받아와
 		TreeSet<Integer> articleIdList = new TreeSet<>();
-		for (int l = 0; l < tags.size(); l++) {
-			List<Integer> temp = articletagRepo.findArticleIdByTagId(tags.get(l));
+		for (int l = 0; l < tagIDs.size(); l++) {
+			List<Integer> temp = articletagRepo.findArticleIdByTagId(tagIDs.get(l));
 			for (int m = 0; m < temp.size(); m++)
 				articleIdList.add(temp.get(m));
 		}
-		
+
 		int length = articleIdList.size();
 		for (int i = 0; i < length; i++) {
 			// Article테이블에서 article_id로 article리스트 다 데려와
-			List<Article> a = articleRepo.findArticleByArticleId(articleIdList.pollLast());
+			List<Article> a = articleRepo.findArticleByArticleIdandEmail(articleIdList.pollLast(), email);
 			for (int j = 0; j < a.size(); j++)
 				articles.add(a.get(j));
 		}
 
 		// ArticleTag테이블에서 article_id로 List<tag_id> 가져와 => Tag테이블에서 tag_id로 tag_name 가져와
 		for (int i = 0; i < articles.size(); i++) {
-			Article now = articles.get(i);
-			
-			List<Integer> taglist = articletagRepo.findTagIdByArticleId(now.getArticle_id());
-			
-			String[] temp = new String[taglist.size()];
-			for (int j = 0; j < taglist.size(); j++) {
-				temp[j] = tagRepo.findTagNameByTagId(taglist.get(j));
-			}
-
-			int article_id=now.getArticle_id();
-			
-			boolean like = false;
-			// like 테이블에 article_id & email이 같은 게 있는지
-			if(likeRepo.findLike(article_id, email).isPresent())
-				like = true;
-			// comment_cnt
-			int comment_cnt = commentRepo.findCommentByArticleId(article_id).size();
-
-			FrontArticle ar = new FrontArticle(article_id, now.getWriter(),
-					format.format(now.getReg_time()), now.getImage(), now.getContent(), now.getLink(),
-					now.getLike_cnt(), like, comment_cnt, now.getScrap_cnt(), temp);
+			FrontArticle ar = makeFront(email, articles.get(i).getArticle_id());
 			result.add(ar);
 		}
-		
-		System.out.println("result : "+result.toString());
+
+		System.out.println("result : " + result.toString());
 		return result;
 	}
 
@@ -118,52 +91,36 @@ public class FeedServiceImpl implements FeedService {
 		// article 테이블에서 uid = email인 List<article>로 다 가져가
 		for (int l = 0; l < toUser.size(); l++) {
 			List<Article> list = articleRepo.findArticleByEmail(toUser.get(l));
+
 			for (int m = 0; m < list.size(); m++) {
 				// ArticleTag테이블에서 article_id로 List<tag_id> 가져와 => Tag테이블에서 tag_id로 tag_name 가져와
-				Article now = list.get(m);
-					List<Integer> taglist = articletagRepo.findTagIdByArticleId(now.getArticle_id());
-					String[] temp = new String[taglist.size()];
-					for (int j = 0; j < taglist.size(); j++) {
-						temp[j] = tagRepo.findTagNameByTagId(taglist.get(j));
-					}
-					int article_id=now.getArticle_id();
-					boolean like = false;
-					// like 테이블에 article_id & email이 같은 게 있는지
-					if(likeRepo.findLike(article_id, email).isPresent())
-						like = true;
-					// comment_cnt 찾아야해
-					int comment_cnt = commentRepo.findCommentByArticleId(article_id).size();
-					FrontArticle ar = new FrontArticle(article_id, now.getWriter(),
-							format.format(now.getReg_time()), now.getImage(), now.getContent(), now.getLink(),
-							now.getLike_cnt(), like, comment_cnt, now.getScrap_cnt(), temp);
-					result.add(ar);
-				}
-//			}
+				FrontArticle a = makeFront(email, list.get(m).getArticle_id());
+				result.add(a);
+			}
+			
 		}
-
+		System.out.println("result : "+result.toString());
 		return result;
 	}
 
 	@Override
 	public FrontArticle updateLike(int article_id, String email) {
 		// 1. likey테이블에서 좋아요 여부 확인
-		if(likeRepo.findLike(article_id, email).isPresent()) {	//좋아요 한 적 있음
+		if (likeRepo.findLike(article_id, email).isPresent()) { // 좋아요 한 적 있음
 			likeRepo.deleteLikey(email, article_id);
-			System.out.println("지움");
-		}else {	//좋아요 한 적 없음
+		} else { // 좋아요 한 적 없음
 			likeRepo.save(Likey.builder().article_id(article_id).email(email).build());
 			System.out.println(likeRepo.findLike(article_id, email));
-			System.out.println("추가함");
 		}
-		
-		int like_cnt = likeRepo.findLikeByArticleId(article_id).size();	//게시글의 좋아요 갯수
+
+		int like_cnt = likeRepo.findLikeByArticleId(article_id).size(); // 게시글의 좋아요 갯수
 		Article temp = articleRepo.findArticleByArticleId(article_id).get(0);
 		temp.setLike_cnt(like_cnt);
-		articleRepo.save(temp);	// article테이블 업데이트
-		
+		articleRepo.save(temp); // article테이블 업데이트
+
 		return makeFront(email, article_id);
 	}
-	
+
 	@Override
 	public boolean checkScrap(String email, int article_id) {
 		return scrapRepo.findScrap(email, article_id).isPresent();
@@ -171,32 +128,33 @@ public class FeedServiceImpl implements FeedService {
 
 	@Override
 	public FrontArticle scrap(String email, int article_id) {
-		
+
 		Article a = articleRepo.findArticleByArticleId(article_id).get(0);
-		
-		if(!scrapRepo.findScrap(email, article_id).isPresent()) {
+
+		if (!scrapRepo.findScrap(email, article_id).isPresent()) {
 			scrapRepo.save(Scrap.builder().article_id(article_id).email(email).build());
-			int scrap_cnt = a.getScrap_cnt()+1;
+			int scrap_cnt = a.getScrap_cnt() + 1;
 			a.setScrap_cnt(scrap_cnt);
 			articleRepo.save(a);
 		}
 		return makeFront(email, article_id);
 	}
-	
+
+	@Override // email = like 체크 / article_id = 태그리스트
 	public FrontArticle makeFront(String email, int article_id) {
-		
-		int comment_cnt = commentRepo.findCommentByArticleId(article_id).size();
+
 		Article now = articleRepo.findArticleByArticleId(article_id).get(0);
-		List<Integer> taglist = articletagRepo.findTagIdByArticleId(now.getArticle_id());	//아티클태그케이블에서 태그 가져와야 프론트에 줄 수 있음
-		String[] temp = new String[taglist.size()];	//태그 리스트를 태그 배열로 만들거임
+		List<Integer> taglist = articletagRepo.findTagIdByArticleId(now.getArticle_id()); // 아티클태그케이블에서 태그 가져와야 프론트에 줄 수
+																							// 있음
+		String[] temp = new String[taglist.size()]; // 태그 리스트를 태그 배열로 만들거임
 		for (int j = 0; j < taglist.size(); j++) {
-			temp[j] = tagRepo.findTagNameByTagId(taglist.get(j));	//태그테이블에서 태그아이디로 태그네임 찾아서 배열 저장
+			temp[j] = tagRepo.findTagNameByTagId(taglist.get(j)); // 태그테이블에서 태그아이디로 태그네임 찾아서 배열 저장
 		}
-		
+
 		boolean like = likeRepo.findLike(article_id, email).isPresent();
-		FrontArticle ar = new FrontArticle(article_id, now.getWriter(),
-				format.format(now.getReg_time()), now.getImage(), now.getContent(), now.getLink(),
-				now.getLike_cnt(), like, comment_cnt, now.getScrap_cnt(), temp);
+		FrontArticle ar = new FrontArticle(article_id, now.getWriter(), now.getReg_time(), now.getImage(),
+				now.getContent(), now.getLink(), now.getLike_cnt(), like, now.getComment_cnt(), now.getScrap_cnt(),
+				temp);
 		return ar;
 	}
 

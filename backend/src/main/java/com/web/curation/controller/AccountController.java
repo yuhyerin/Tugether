@@ -29,6 +29,8 @@ import com.web.curation.service.account.FindService;
 import com.web.curation.service.account.LoginService;
 import com.web.curation.service.account.SignupService;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -72,7 +74,6 @@ public class AccountController {
     @PostMapping("/signup")
     @ApiOperation(value = "가입하기")
     public Object signup(@Valid @RequestBody User request) {
-
         return signupService.save(request);
     }
     
@@ -124,18 +125,6 @@ public class AccountController {
     	return new ResponseEntity<Map<String,Object>>(resultMap, status);
     }
 
-    @PostMapping("/changepw")
-    @ApiOperation(value = "비밀번호 변경")
-    public Object changePW(@RequestBody AuthenticationRequest user) throws MessagingException {
-    	System.out.println(user.toString());
-    	User u = findService.changePasswordByEmail(user.getEmail());
-    	System.out.println(u.toString());
-    	u.setPassword(user.getPassword());
-    	u.setTemp(false);
-    	return findService.changePW(u);
-    }
-    
-    
     @GetMapping("/findpw/{email}")
     @ApiOperation(value = "비밀번호 찾기")
     public Object sendMail(@PathVariable String email) throws MessagingException {

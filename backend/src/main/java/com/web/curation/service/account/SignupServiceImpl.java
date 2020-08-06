@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.web.curation.dto.BasicResponse;
 import com.web.curation.dto.account.User;
+import com.web.curation.dto.profile.Profile;
+import com.web.curation.repo.ProfileRepo;
 import com.web.curation.repo.UserRepo;
 
 @Service
@@ -14,6 +16,9 @@ public class SignupServiceImpl implements SignupService {
 
 	@Autowired
 	private UserRepo userRepo;
+	
+	@Autowired
+	private ProfileRepo profileRepo;
 	
 
 	@Override
@@ -60,10 +65,12 @@ public class SignupServiceImpl implements SignupService {
 		BasicResponse result = new BasicResponse();
 
 		try {
-    		User u = userRepo.save(user);
+    		userRepo.save(user);
+    		Profile p = Profile.builder().email(user.getEmail())
+    				.nickname(user.getNickname()).build();
+    		profileRepo.save(p);
     		result.status = true;
         	result.data = "success";
-        	System.out.println(result.toString());
         	response = new ResponseEntity<>(result, HttpStatus.OK);
     	}catch(IllegalArgumentException e) {
     		response = new ResponseEntity<>(null, HttpStatus.NOT_FOUND);

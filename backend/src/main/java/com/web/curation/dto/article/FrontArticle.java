@@ -1,5 +1,7 @@
 package com.web.curation.dto.article;
 
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +15,7 @@ public class FrontArticle {
 
 	private int article_id;
 	private String writer;
-	private String reg_time;
+	private LocalDateTime reg_time;
 	private String image;
 	private String content;
 	private String link;

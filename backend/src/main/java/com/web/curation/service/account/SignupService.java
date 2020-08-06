@@ -1,7 +1,6 @@
 package com.web.curation.service.account;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 
 import com.web.curation.dto.account.User;
 

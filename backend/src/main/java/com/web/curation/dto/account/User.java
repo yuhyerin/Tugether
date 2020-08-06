@@ -3,8 +3,9 @@
 package com.web.curation.dto.account;
 
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -26,8 +27,10 @@ public class User {
     private String email;
     
     private String password;
-
-    private Date signup_date;
+    
+    @Column(name="signup_date", insertable=false)
+    private LocalDateTime signup_date;
+    
     private String nickname;
     
     private char gender;

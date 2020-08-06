@@ -1,5 +1,7 @@
 package com.web.curation.service.account;
 
+import java.util.Map;
+
 import javax.mail.MessagingException;
 
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,7 @@ public interface FindService {
 	public ResponseEntity<Object> findUserByEmail(String email) throws MessagingException ;
 	public void sendMail(String email) throws MessagingException;
 	public User changePasswordByEmail(String email);
-	public ResponseEntity<Object> changePW(User u);
+	public boolean checkPW(String email, String password);
+	public ResponseEntity<Map<String,Object>> changePW(User u);
 
 }

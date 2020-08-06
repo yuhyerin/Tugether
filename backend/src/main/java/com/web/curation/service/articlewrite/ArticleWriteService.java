@@ -1,9 +1,6 @@
 package com.web.curation.service.articlewrite;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.http.ResponseEntity;
 
 import com.web.curation.dto.article.Article;
 

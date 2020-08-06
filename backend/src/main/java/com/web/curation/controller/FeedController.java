@@ -113,13 +113,11 @@ public class FeedController {
 	public ResponseEntity<Map<String,Object>> scrap(@RequestBody Map<String, Object> map, HttpServletRequest request) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		String token = request.getHeader("jwt-auth-token");	//토큰 가져와서
-		System.out.println("token : "+token);
 		Jws<Claims> claims = jwtService.getDecodeToken(token);	//복호화해서
 		Map<String, Object> Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
 		String email = Userinfo.get("email").toString();	//email 가져올거임
 		
 		int article_id = (int)map.get("article_id");
-		System.out.println("article_id : "+article_id);
 //		feedService.scrap(email, article_id);
 		FrontArticle a = feedService.scrap(email, article_id);
  		resultMap.put("article", a);
