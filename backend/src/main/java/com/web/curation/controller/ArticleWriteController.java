@@ -75,7 +75,9 @@ public class ArticleWriteController {
 		Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
 		String email = Userinfo.get("email").toString(); //이메일 
 		String writer = Userinfo.get("nickname").toString(); //닉네임 
-		String articleimg = upload_FILE_PATH+email+mFile.getOriginalFilename();
+		
+		// 사진이름 = 작성자이메일 + 파일명 
+		String articleimg = email+mFile.getOriginalFilename();
 		Article article = new Article();
 		article.setEmail(email);
 		article.setWriter(writer);
@@ -89,6 +91,7 @@ public class ArticleWriteController {
 			System.out.println(taglist.get(i));
 		}
 		
+		// DB에 저장할때 이미지는 이메일+파일명 만 !!!
 		int article_id = articleWriteService.addArticle(article);
 		
 		System.out.println("DB에 글을 insert 했습니다.");
@@ -101,8 +104,10 @@ public class ArticleWriteController {
 		
 		// 이미지 파일 업로드 
 		try {
-			mFile.transferTo(new File(upload_FILE_PATH+mFile.getOriginalFilename()));
+			// 파일업로드 할때 => 경로 + (작성자 이메일 + 파일명) 
+			mFile.transferTo(new File(upload_FILE_PATH+articleimg));
 			status = HttpStatus.OK;
+			System.out.println("파일을 업로드 했습니다.");
 			
 		}catch(IllegalStateException | IOException e) {
 			status = HttpStatus.INTERNAL_SERVER_ERROR;

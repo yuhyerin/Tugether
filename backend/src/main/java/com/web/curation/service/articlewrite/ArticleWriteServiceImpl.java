@@ -13,10 +13,14 @@ import com.web.curation.dto.article.Article;
 import com.web.curation.dto.tag.Tag;
 import com.web.curation.repo.ArticleWriteRepo;
 import com.web.curation.repo.ArticleWriteTagRepo;
+import com.web.curation.repo.ProfileRepo;
 
 @Service
 public class ArticleWriteServiceImpl implements ArticleWriteService{
 
+	@Autowired
+	ProfileRepo profileRepo;
+	
 	@Autowired
 	ArticleWriteRepo articleRepo;
 	
@@ -35,6 +39,8 @@ public class ArticleWriteServiceImpl implements ArticleWriteService{
 			String link = article.getLink();
 			articleRepo.insertArticle(email, writer, image, content, link);
 			System.out.println("디비에 글을 넣었습니다.");
+			profileRepo.countMyArticle(email); // 내 게시글 갯수 하나 추가
+			System.out.println("내 게시글 갯수 하나 추가했습니다.");
 			
 			article_id = articleRepo.findArticleByImage(image);
 			

@@ -1,5 +1,6 @@
 package com.web.curation.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ import com.web.curation.dto.BasicResponse;
 import com.web.curation.dto.profile.Profile;
 import com.web.curation.jwt.service.JwtService;
 import com.web.curation.service.profile.ProfileService;
+import com.web.curation.service.tag.FavtagService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -38,6 +40,9 @@ public class ProfileController {
 	private ProfileService profileSerivce;
 	
 	@Autowired
+	private FavtagService favtagService;
+	
+	@Autowired
 	private JwtService jwtService;
 	
 	@GetMapping("/profile")
@@ -50,10 +55,16 @@ public class ProfileController {
 			Map<String, Object> Userinfo = new HashMap<String, Object>();
 			Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
 			String email = Userinfo.get("email").toString();
-			Profile profile = profileSerivce.getProfile(email); //이메일 보내서 프로필 가져오기
+			
+			 //이메일 보내서 프로필 가져오기
+			Profile profile = profileSerivce.getProfile(email);
 			resultMap.put("profile", profile);
 			System.out.println("프로필 전달 합니다!!!");
 			
+			 //이메일 보내서 관심태그 가져오기
+			 ArrayList<String> favtaglist = favtagService.getFavtagList(email);
+			 resultMap.put("favtaglist", favtaglist);
+
 			return new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.OK);
 	
 	}

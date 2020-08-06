@@ -75,7 +75,7 @@ public class FavtagController {
 
 	}
 	
-	// 사용자가 고른 관심태그 리스트를 받아온다.
+	// 사용자가 고른 관심태그를 등록한다.
 	@ApiOperation(value = "최초로그인 시 관심태그 등록")
 	@PostMapping("/favtag")
     public ResponseEntity<Map<String,Object>> addFavtag(@RequestBody Map<String, Object> map, HttpServletRequest request) {

@@ -58,7 +58,6 @@ export default new Vuex.Store({
                         state.nickname = res.data.data.nickname;
                         console.log(state.email);
                         console.log(state.nickname);
-                        console.log("토큰: "+res.headers["jwt-auth-token"]);
 
                         state.token =  res.headers["jwt-auth-token"];
                         state.nickname = res.data.data.nickname;

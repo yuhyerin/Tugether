@@ -1,16 +1,13 @@
 <template>
   <div class="feed mypage">
       <div class="wrapB" style="text-align: center;">
-        <!-- <h1>마이페이지</h1> -->
+        <!-- <button @click="moveMain">메인피드로 이동하기</button> -->
         <div id="profile" style="margin-top: 20px;">
-            <img src="../../assets/images/profile_default.png" style="size: 100px;"><br>
-            <img src ="/tugetherimg/profile/default.png">
-            <v-img name="profilephoto" :src="this.profile_photo"></v-img>
-            
-            <strong style="font-size: 20px;">{{ this.nickname }}</strong><br>
-            게시글 <strong style="color: red;">{{ this.article_cnt }}</strong>
-            팔로잉 <strong @click="moveFollow" style="color: red; cursor: pointer;">{{ this.following_cnt }}</strong>
-            팔로워 <strong @click="moveFollow" style="color: red; cursor: pointer;">{{ this.follower_cnt }}</strong>
+            <img :src=profile_photo><br>
+            <strong style="font-size: 20px;">{{ nickname }}</strong><br>
+            게시글 <strong style="color: red;">{{ article_cnt }}</strong>
+            팔로잉 <strong @click="moveFollow" style="color: red; cursor: pointer;">{{ following_cnt }}</strong>
+            팔로워 <strong @click="moveFollow" style="color: red; cursor: pointer;">{{ follower_cnt }}</strong>
         </div>
         <div id="buttons">
             <!-- 나의 프로필 편집 버튼 위치에 다른 사람은 팔로우 버튼이 보인다. (아마도?) -->
@@ -48,7 +45,7 @@ import axios from "axios";
 import store from '@/vuex/store';
 import { mapState, mapActions } from "vuex";
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
-import TabItem from '@/components/common/TabItem.vue'
+import TabItem from '@/components/common/TabItem.vue';
 
 export default {
     components: { TabItem },
@@ -59,7 +56,7 @@ export default {
             following_cnt: "",
             follower_cnt: "",
             article_cnt: "",
-            favtags: ['음악', '먹방', '게임'],
+            favtags: [],
             currentId: 1,
             list: [
                 { id: 1, label: '게시글', content: '콘텐츠1' },
@@ -68,29 +65,25 @@ export default {
         }
     },
     created() {
-
-        // 토큰 보내기
+        // 프로필 띄우기
         axios
             .get(base + '/tugether/profile', {
                 headers:{
-                    "jwt-auth-token": localStorage.getItem("token")
+                    "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
                 }
             })
             .then((res) => {
-                    
-                    console.log(res.data);
-                    console.log(res.data.profile.profile_photo);
-                    
-                    this.profile_photo = res.data.profile.profile_photo;
-                    this.nickname = res.data.profile.nickname;
-                    this.following_cnt = res.data.profile.following_cnt;
-                    this.follower_cnt = res.data.profile.follower_cnt;
-
+                console.log(res.data);
+                this.profile_photo = 'https://i3b303.p.ssafy.io/profileimages/' + res.data.profile.profile_photo;
+                this.nickname = res.data.profile.nickname;
+                this.article_cnt = res.data.profile.article_cnt;
+                this.following_cnt = res.data.profile.following_cnt;
+                this.follower_cnt = res.data.profile.follower_cnt;
+                this.favtags = res.data.favtaglist; // 관심태그 목록
             })
             .catch((err) => {
-
+                console.log("created axios get error")
             });
-
     },
     methods: {
         // 페이지 이동
@@ -98,9 +91,7 @@ export default {
             this.$router.push("/mypage/mypagesetting");
         },
         moveWrite() {
-            // 글쓰기 페이지로 이동
-            // console.log(this.$store.state.token);
-            console.log(localStorage.getItem("token"));
+            this.$router.push('/write')
         },
         moveFollow() {
             this.$router.push("/mypage/follow");

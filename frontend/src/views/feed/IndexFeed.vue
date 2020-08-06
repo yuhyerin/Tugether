@@ -17,6 +17,7 @@
 
 <script>
 import { mapState } from "vuex";
+import { base } from "@/components/common/BaseURL.vue"; // baseURL
 import "../../components/css/feed/feed-item.scss";
 import "../../components/css/feed/newsfeed.scss";
 import FeedItem from "../../components/feed/FeedItem.vue";

@@ -1,32 +1,39 @@
 <template>
     <div class="wrapC" style="height: 800px">
-        <h2>이미지</h2>
-        <div class="row">
-          <div class="col">
-            <input type="file" ref="articleimg" name="articleimg" v-on:change='onFileSelected()' style="width: 100%">
+        <h3>이미지</h3>
+          <div style="height: 230px; border: 1px solid lightgray;">
+            <img :src="imageUrl" style="width: 100%; max-height: 230px;">
           </div>
-          <div class="col">
-            <v-img v-if="imageUrl" :src="imageUrl" style="height: 35f0px; width: 350px;"></v-img>
+          <div style="width: 100%; height: 15px;">
+            <input type="file" ref="articleimg" name="articleimg" v-on:change='onFileSelected()' style="width: 100%; border: 0px; padding-left: 0px;">
           </div>
-        </div>
-        <hr>
+        <br>
 
-        <h2>본문</h2>
-        <p><textarea cols="60" rows="5" style="border:1px solid black; width: 100%;" placeholder="입력" v-model="myText"></textarea></p>
-        <hr>
-
+        <h3>본문</h3>
+        <textarea cols="60" rows="4" style="border:1px solid lightgray; width: 100%;" placeholder=" 입력" v-model="myText"></textarea>
+        <span> {{ myText.length }} / 300</span>
+        <!-- <TextareaComponent
+          inputValue="contents"
+          placeholder="입력"
+          maxlength="300"
+          v-model="myText"
+        ></TextareaComponent> -->
+        <br>
+        <br>
+        <h3>관심태그</h3>
         <WriteInput @add-tag="onAddTag" />
         <!-- <WriteList @delete="onRemove" @checked="onChecked" :todoList="todoList"/> -->
         <WriteList @delete="onRemove" :tagList="tagList"/>
-        <hr>
-        
-        <h2>링크</h2>
+        <br>
+
+        <h3>링크</h3>
         <p><img src="@/assets/images/paperclip.png" style="height: 30px; width: 30px;">영상을 공유하고 싶다면 링크를 달아주세요</p>
-        <input type="text" style="width: 100%; margin-bottom: 2px;" v-model="urlLink"/>
+        <input type="text" style="width: 100%; margin-bottom: 2px; height: 40px;" v-model="urlLink"/>
         
         <button
           v-on:click="onUpload"
           class="btn btn--back btn--login"
+          style="height: 40px; padding-top: 0px;"
         >업로드</button>
 
     </div>
@@ -35,10 +42,21 @@
 <script>
 import axios from 'axios'
 import store from '@/vuex/store'
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from "vuex"
 import WriteList from '@/components/user/WriteList'
 import WriteInput from '@/components/user/WriteInput'
 import { bus } from '@/event-bus'
+import { base } from "@/components/common/BaseURL.vue"; // baseURL
+// import TextareaComponent from "@/components/common/Textarea"
+
+// import vueFilePond from 'vue-filepond';
+
+// filepond
+// import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.esm.js';
+// import FilePondPluginImagePreview from 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.esm.js';
+// import 'filepond/dist/filepond.min.css';
+// import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
+// const FilePond = vueFilePond( FilePondPluginFileValidateType, FilePondPluginImagePreview );
 
 const localhost_url = "http://localhost:8080/tugether/articlewrite"
 
@@ -47,6 +65,7 @@ export default {
   components: {
     WriteList,
     WriteInput,
+    // TextareaComponent,
     // FilePond
   },
   data: function() {
@@ -55,9 +74,20 @@ export default {
       selectedFile: null,
       myText: "",
       urlLink: "",
-      tagList: [],
-      tagNameList: [],
+      // tagList: [],
+      // selectedTags: [0, 0, 0, 0, 0, 0, 0, 0],
+      // count: 0,
+      // favTags: [],
+      // btnFunc: {backgroundColor: "gray"},
+      tagList: [
 
+      ],
+
+    }
+  },
+  watch: {
+    myText: function() {
+      this.checkForm();
     }
   },
   computed:{
@@ -65,20 +95,27 @@ export default {
     ...mapActions(["getToken"]),
   },
   methods: {
-
+    checkForm () {
+      if (this.myText.length > 300) {
+        alert("300자 이하로 기재해주세요.")
+      }
+    },
+    // handleFilePondInit: function() {
+    //   console.log('FilePond has initialized');
+    //   this.selectedFile = this.$refs.articleimg.getFiles();
+    // },
     onRemove (tag, index) {
       this.tagList.splice(index, 1)
-      this.tagNameList.splice(index, 1)
-      console.log(this.tagNameList)
     },
-
+    // onChecked(todo) {
+    //   todo.isCompleted = !todo.isCompleted
+    // },
     onAddTag(tag) {
       this.tagList = [...this.tagList, tag]
-      this.tagNameList = [...this.tagNameList, tag.content]
-      console.log("태그 Object 리스트   ")
       console.log(this.tagList)
-      console.log("태그 String 리스트   ")
-      console.log(this.tagNameList)
+      // bus.$emit("sendToComment", tag)
+      // this.$router.push('/comment')
+      // console.log(this.tagList)
     },
     onFileSelected(){
       this.selectedFile = this.$refs.articleimg.files[0];
@@ -87,9 +124,9 @@ export default {
     onUpload(){
       const formdata = new FormData();
       formdata.append('articleimg', this.selectedFile); //여기서 명시한 키값은 서버에서 사용하기때문에 바꾸면 안됩니당...
-      formdata.append('contents',this.myText);
+      formdata.append('contents', this.myText);
       formdata.append('link',this.urlLink);
-      formdata.append('taglist', this.tagNameList);
+      formdata.append('taglist', this.tagList);
       console.log(this.tagList)
 
       // FormData 객체는 그 자체를 로깅하면 빈 객체만을 리턴한다.
@@ -97,7 +134,7 @@ export default {
       for(let key of formdata.entries()){
         console.log(`${key}`)
       }
-       axios.post(`${localhost_url}`,
+       axios.post(base + '/tugether/articlewrite',
        formdata,
         {
             headers:{
@@ -108,11 +145,13 @@ export default {
         )
        .then(res=>{
          console.log(res);
-         this.$router.push('/imgtest')
+         alert("게시글이 작성되었습니다! :)")
+         this.$router.push('/mypage/mypage')
        })
        .catch(err=>{
          console.log(err);
        });
+       
     },
 }
 }
