@@ -35,6 +35,8 @@
 <script>
 import axios from "axios";
 import PV from "password-validator";
+import store from '@/vuex/store';
+import { mapState, mapActions } from "vuex";
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
 
 export default {
@@ -78,12 +80,18 @@ export default {
         this.checkForm();
         }
     },
+    computed: {
+        ...mapState(["token"]), //store 공동 저장소에 있는 token 사용하기 위해 선언
+        ...mapActions(["getToken"])
+    },
     methods: {
         // 비밀번호 변경하기
         changePW() {
             axios
-                .post(base + '/tugether/', {
-                    password: this.password,
+                .post(base + '/tugether/changepw', {
+                    password: this.password
+                },
+                {
                     headers:{
                         "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
                     }
@@ -95,9 +103,8 @@ export default {
                     this.moveMypage(); // 마이페이지로 이동
                 })
                 .catch((err) => {
-
+                    console.log("changePW function error")
                 });
-            alert("테스트 성공!");
         },
         // 비밀번호 유효성 검사 (생성 규칙, 일치 여부 확인)
         checkForm() {
@@ -126,7 +133,7 @@ export default {
             } else if (!this.error.password && !this.error.passwordConfirm) {
                 this.changePW();
             } else {
-                alert("비밀번호를 확인해주세요.");
+                alert("비밀번호가 올바르지 않습니다.");
             }
         },
         // 버튼에 마우스 갖다대면 빨갛게 변하도록

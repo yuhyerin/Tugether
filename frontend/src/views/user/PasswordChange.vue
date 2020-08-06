@@ -136,20 +136,24 @@ export default {
       },
       sendPassword () {
         console.log(this.email)
-        axios.post(base + '/account/changepw', {
-          email: this.email,
-          password: this.password,
-          // passwordConfirm: this.passwordConfirm
-          })
-          .then(res => {
-            console.log(res.data.status)
-            alert("비밀번호가 변경되었습니다.")
-            // 관심 태그 선택안한 사람이면 메인이 아니라 태그 선택으로 이동
-            this.$router.push("/")
-          })
-          .catch(err => {
-            alert("비밀번호를 다시 설정해주세요.")
-          })
+        axios
+                .post(base + '/tugether/changepw', {
+                    password: this.password
+                },
+                {
+                    headers:{
+                      "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
+                    }
+                })
+                .then(({data}) => {
+                  console.log(data.data);
+
+                    alert("비밀번호 변경이 완료되었습니다.");
+                    this.sendToMain(); // 메인으로 이동
+                })
+                .catch((err) => {
+                  alert("비밀번호를 다시 설정해주세요.")
+                });
       },
       sendToMain () {
         // 관심태그 안한 사람이면 메인이 아니라 태그 선택으로 이동
