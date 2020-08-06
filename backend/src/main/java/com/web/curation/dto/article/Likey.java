@@ -12,29 +12,23 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
-
-@Entity(name="articletag")
-@Table(name="articletag")
+@Entity(name="likey")
+@Table(name="likey")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 //@JsonInclude(JsonInclude.Include.NON_NULL)
 @Builder
-public class ArticleTag {
+public class Likey {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)	// 얘가 auto_increment
 	private int uid;
 	
+	@Column(name="email")
+	private String email;
+	
 	@Column(name="article_id")
 	private int article_id;
-	
-	@Column(name="tag_id")
-	private int tag_id;
-	
-	
-	
-	
 
 }

@@ -8,6 +8,13 @@ import TagView from './views/user/TagView.vue'
 import PasswordFind from './views/user/PasswordFind.vue'
 import ArticleWrite from './views/user/Write.vue'
 import FeedMain from './views/feed/IndexFeed.vue'
+import Mypage from '@/views/mypage/Mypage.vue'
+import MypageSetting from '@/views/mypage/MypageSetting.vue'
+import MypagePasswordConfirm from '@/views/mypage/MypagePasswordConfirm.vue'
+import MypagePasswordChange from '@/views/mypage/MypagePasswordChange.vue'
+import Userpage from '@/views/mypage/Userpage.vue'
+import Follow from '@/views/mypage/Follow.vue'
+
 import Components from './views/Components.vue'
 import store from './vuex/store'
 
@@ -36,7 +43,6 @@ const onlyAuthUser = (to,from,next)=>{
 }
 
 export default [
-
     {
         path : '/',
         name : 'Login',
@@ -50,20 +56,16 @@ export default [
         component : Join
     },
     {
-
         path : '/passwordfind',
         name : 'PasswordFind',
         component : PasswordFind
     },
     {
-
         path : '/passwordchange',
         name : 'PasswordChange',
         component : PasswordChange
     },
     {
-
-
         path : '/select',
         name : 'TagView',
         component : TagView
@@ -71,8 +73,38 @@ export default [
     {
         path : '/feed/main',
         name : 'FeedMain',
-        beforeEnter: onlyAuthUser,
+        // beforeEnter: onlyAuthUser,
         component : FeedMain
+    },
+    {
+        path : '/mypage/mypage',
+        name : 'Mypage',
+        component : Mypage
+    },
+    {
+        path : '/mypage/mypagesetting',
+        name : 'MypageSetting',
+        component : MypageSetting
+    },
+    {
+        path : '/mypage/mypagepasswordconfirm',
+        name : 'MypagePasswordConfirm',
+        component : MypagePasswordConfirm
+    },
+    {
+        path : '/mypage/mypagepasswordchange',
+        name : 'MypagePasswordChange',
+        component : MypagePasswordChange
+    },
+    {
+        path : '/mypage/userpage',
+        name : 'Userpage',
+        component : Userpage
+    },
+    {
+        path : '/mypage/follow',
+        name : 'Follow',
+        component : Follow      
     },
     {
         path : '/components',

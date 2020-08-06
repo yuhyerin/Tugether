@@ -6,12 +6,11 @@
 </template>
 
 <script>
-import axios from 'axios'
-import TagList from '@/components/user/TagList'
-import store from '@/vuex/store'
+import axios from 'axios';
+import TagList from '@/components/user/TagList';
+import store from '@/vuex/store';
 import { mapState, mapActions } from "vuex";
-
-const SERVER_URL = 'http://localhost:8080'
+import { base } from "@/components/common/BaseURL.vue"; // baseURL
 
 export default {
   name: 'TagView',
@@ -132,7 +131,7 @@ export default {
       console.log(this.favTags)
       console.log("이거토큰맞지??? "+ this.$store.state.token)
      
-      axios.post(`${SERVER_URL}/tugether/favtag`, 
+      axios.post(base + '/tugether/favtag', 
       {
         taglist: this.favTags,
       },

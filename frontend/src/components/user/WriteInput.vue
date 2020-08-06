@@ -1,7 +1,8 @@
 <template>
   <div>
-    <input type="text" v-model="content" @keypress.enter="addTodo">
-    <button @click="addTodo">관심태그 등록</button>
+    <h2>관심태그</h2>
+    <input type="text" v-model="content" @keypress.enter="addTag">
+    <button @click="addTag" style="margin-left: 10px; padding: 0px 10px 0px 10px; height: 50px; background: black; color: white; border: 0px solid skyblue;">추가</button>
   </div>
 </template>
 
@@ -14,14 +15,14 @@ export default {
     }
   },
   methods: {
-    addTodo() {
+    addTag() {
       if (this.content.trim()) {
-        const todo = {
+        const tag = {
           id: Date.now(),
           content: this.content,
         //   isCompleted: false,
         }
-        this.$emit('add-todo', todo)
+        this.$emit('add-tag', tag)
         this.content = ''
       }
     },

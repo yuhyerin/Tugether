@@ -22,7 +22,8 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from 'axios';
+import { base } from "@/components/common/BaseURL.vue"; // baseURL
 
 export default {
   name: 'PasswordFind',
@@ -36,7 +37,7 @@ export default {
   methods: {
     sendEmail () {
       console.log(this.email)
-      axios.get(`http://localhost:8080/account/findpw/`+ this.email)
+      axios.get(base + '/account/findpw/'+ this.email)
         .then(res => {
           console.log(res.data.status)
           alert("이메일로 임시비밀번호가 발송되었습니다.")

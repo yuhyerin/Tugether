@@ -7,12 +7,16 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity(name="profile")
 @Table(name="profile")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Profile {
 

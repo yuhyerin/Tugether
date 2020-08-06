@@ -52,6 +52,7 @@ public class ProfileController {
 			String email = Userinfo.get("email").toString();
 			Profile profile = profileSerivce.getProfile(email); //이메일 보내서 프로필 가져오기
 			resultMap.put("profile", profile);
+			System.out.println("프로필 전달 합니다!!!");
 			
 			return new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.OK);
 	
