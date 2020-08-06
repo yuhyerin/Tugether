@@ -5,7 +5,8 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.web.curation.dto.article.Comment;
+import com.web.curation.dto.comment.Comment;
+
 
 public interface CommentRepo extends JpaRepository<Comment, String>{
 	

@@ -29,7 +29,7 @@
                 </v-card>
             </v-tab-item> -->
         </v-tabs>
-
+        <BottomNav/>
       </div>
   </div>
 </template>
@@ -37,8 +37,12 @@
 <script>
 import axios from "axios";
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
+import BottomNav from "@/components/common/BottomNav";
 
 export default {
+    components:{
+        BottomNav,
+    },
     data: () => {
         return {
             nickname: "",
@@ -57,7 +61,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     .button{
         background: black;
         color: white;

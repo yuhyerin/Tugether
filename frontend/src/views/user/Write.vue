@@ -12,12 +12,7 @@
         <h3>본문</h3>
         <textarea cols="60" rows="4" style="border:1px solid lightgray; width: 100%;" placeholder=" 입력" v-model="myText"></textarea>
         <span> {{ myText.length }} / 300</span>
-        <!-- <TextareaComponent
-          inputValue="contents"
-          placeholder="입력"
-          maxlength="300"
-          v-model="myText"
-        ></TextareaComponent> -->
+
         <br>
         <br>
         <h3>관심태그</h3>
@@ -35,7 +30,7 @@
           class="btn btn--back btn--login"
           style="height: 40px; padding-top: 0px;"
         >업로드</button>
-
+        <BottomNav/>
     </div>
 </template>
 
@@ -47,16 +42,7 @@ import WriteList from '@/components/user/WriteList'
 import WriteInput from '@/components/user/WriteInput'
 import { bus } from '@/event-bus'
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
-// import TextareaComponent from "@/components/common/Textarea"
-
-// import vueFilePond from 'vue-filepond';
-
-// filepond
-// import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.esm.js';
-// import FilePondPluginImagePreview from 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.esm.js';
-// import 'filepond/dist/filepond.min.css';
-// import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
-// const FilePond = vueFilePond( FilePondPluginFileValidateType, FilePondPluginImagePreview );
+import BottomNav from "@/components/common/BottomNav"
 
 const localhost_url = "http://localhost:8080/tugether/articlewrite"
 
@@ -65,6 +51,7 @@ export default {
   components: {
     WriteList,
     WriteInput,
+    BottomNav,
     // TextareaComponent,
     // FilePond
   },
@@ -74,14 +61,8 @@ export default {
       selectedFile: null,
       myText: "",
       urlLink: "",
-      // tagList: [],
-      // selectedTags: [0, 0, 0, 0, 0, 0, 0, 0],
-      // count: 0,
-      // favTags: [],
-      // btnFunc: {backgroundColor: "gray"},
-      tagList: [
-
-      ],
+      tagList: [],
+      tagNameList: [],
 
     }
   },
@@ -100,22 +81,16 @@ export default {
         alert("300자 이하로 기재해주세요.")
       }
     },
-    // handleFilePondInit: function() {
-    //   console.log('FilePond has initialized');
-    //   this.selectedFile = this.$refs.articleimg.getFiles();
-    // },
+
     onRemove (tag, index) {
       this.tagList.splice(index, 1)
     },
-    // onChecked(todo) {
-    //   todo.isCompleted = !todo.isCompleted
-    // },
+
     onAddTag(tag) {
       this.tagList = [...this.tagList, tag]
+      this.tagNameList = [...this.tagNameList, tag.content]
       console.log(this.tagList)
-      // bus.$emit("sendToComment", tag)
-      // this.$router.push('/comment')
-      // console.log(this.tagList)
+
     },
     onFileSelected(){
       this.selectedFile = this.$refs.articleimg.files[0];
@@ -126,7 +101,7 @@ export default {
       formdata.append('articleimg', this.selectedFile); //여기서 명시한 키값은 서버에서 사용하기때문에 바꾸면 안됩니당...
       formdata.append('contents', this.myText);
       formdata.append('link',this.urlLink);
-      formdata.append('taglist', this.tagList);
+      formdata.append('taglist', this.tagNameList);
       console.log(this.tagList)
 
       // FormData 객체는 그 자체를 로깅하면 빈 객체만을 리턴한다.

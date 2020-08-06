@@ -1,6 +1,6 @@
 package com.web.curation.dto.article;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,7 +19,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//@JsonInclude(JsonInclude.Include.NON_NULL)
 @Builder
 public class Article {
 	
@@ -34,7 +33,7 @@ public class Article {
 	private String writer;
 	
 	@Column(name="reg_time", insertable = false)
-	private Date reg_time;
+	private LocalDateTime  reg_time;
 	
 	@Column(name="image")	// 얘는 이미지 저장된 위치
 	private String image;
@@ -50,5 +49,8 @@ public class Article {
 	
 	@Column(name="scrap_cnt")
 	private int scrap_cnt;
+	
+	@Column(name="comment_cnt")
+	private int comment_cnt;
 }
 

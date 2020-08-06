@@ -16,5 +16,6 @@ public interface LikeyRepo extends JpaRepository<Likey, String> {
 	@Query(value="select * from likey l where l.article_id=:article_id", nativeQuery = true)
 	public List<Likey> findLikeByArticleId(int article_id);
 	
-	
+	@Query(value="delete from likey where email=:email and article_id=:article_id", nativeQuery = true)
+	public void deleteLikey(String email, int article_id);
 }

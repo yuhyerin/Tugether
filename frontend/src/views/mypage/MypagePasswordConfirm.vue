@@ -19,6 +19,7 @@
             <button class="button" :style="mybtn2" @mouseover="over2" @mouseout="out2"
                 @click="checkPW" style="width: 200px; height: 45px;">확인</button>
         </div>
+        <BottomNav/>
     </div>
 </template>
 
@@ -27,8 +28,12 @@ import axios from "axios";
 import store from '@/vuex/store';
 import { mapState, mapActions } from "vuex";
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
+import BottomNav from "@/components/common/BottomNav"
 
 export default {
+    components:{
+        BottomNav,
+    },
     data: () => {
         return {
             email: "",
@@ -49,10 +54,22 @@ export default {
     methods: {
         // 현재 비밀번호가 맞는지 확인
         checkPW() {
-            // 비밀번호를 백엔드로 보내서 확인 or 비밀번호를 프론트에서 받아서 확인
+            axios
+                .get(base + '/tugether/changepw', {
+                    headers:{
+                        "jwt-auth-token": localStorage.getItem("token"), // 토큰 보내기
+                        "password": this.password
+                    }
+                })
+                .then(({data}) => {
+                    console.log(data.data);
 
-            // 비밀번호가 맞다면
-            this.moveMypagePWchange(); // 페이지 이동
+                    alert("비밀번호가 확인되었습니다.");
+                    this.moveMypagePWchange(); // 비밀번호 변경 페이지로 이동
+                })
+                .catch((err) => {
+                    console.log("checkPW function error")
+                });
         },
         // 버튼에 마우스 갖다대면 빨갛게 변하도록
         over1() {
@@ -86,7 +103,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     .icon{
         position: absolute;
         top: 50%;

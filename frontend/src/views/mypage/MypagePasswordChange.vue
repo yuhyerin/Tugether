@@ -4,7 +4,7 @@
         <!--비밀번호-->
         <div class="input-with-label">
             <label for="password">신규 비밀번호</label>
-            <input v-model="password" id="password" :type="passwordType" placeholder="비밀번호를 입력하세요." />
+            <input v-model="password" id="password" ref="password" :type="passwordType" placeholder="비밀번호를 입력하세요." />
             <!--비밀번호 입력 시 아이콘을 누르면 입력타입을 변경해준다.(text, password)-->
             <span class="icon" @click="showPW1"><i class="far fa-eye fa-lg"></i></span>
         </div>
@@ -26,18 +26,24 @@
                 @click="moveMypageSetting" style="width: 200px; height: 45px; margin-right: 10px;">BACK</button>
             <!--비밀번호 변경 완료 버튼-->
             <button class="button" :style="mybtn2" @mouseover="over2" @mouseout="out2"
-                @click="changePW" style="width: 200px; height: 45px;">비밀번호 변경하기</button>
+                @click="checkHandler" style="width: 200px; height: 45px;">비밀번호 변경하기</button>
         </div>
-
+        <BottomNav/>
     </div>
 </template>
 
 <script>
 import axios from "axios";
 import PV from "password-validator";
+import store from '@/vuex/store';
+import { mapState, mapActions } from "vuex";
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
+import BottomNav from "@/components/common/BottomNav"
 
 export default {
+    components:{
+        BottomNav,
+    },
     data: () => {
         return {
             email: "",
@@ -78,23 +84,33 @@ export default {
         this.checkForm();
         }
     },
+    computed: {
+        ...mapState(["token"]), //store 공동 저장소에 있는 token 사용하기 위해 선언
+        ...mapActions(["getToken"])
+    },
     methods: {
         // 비밀번호 변경하기
         changePW() {
-            // axios
-            //     .post(base + '/tugether', {
-            //         email: this.email,
-            //         password: this.password
-            //     })
-            //     .then(({data}) => {
+            axios
+                .post(base + '/tugether/changepw', {
+                    password: this.password
+                },
+                {
+                    headers:{
+                        "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
+                    }
+                })
+                .then(({data}) => {
+                    console.log(data.data);
 
-            //     })
-            //     .catch((err) => {
-
-            //     });
-            alert("비밀번호 변경이 완료되었습니다.");
-            this.moveMypage(); // 마이페이지로 이동
+                    alert("비밀번호 변경이 완료되었습니다.");
+                    this.moveMypage(); // 마이페이지로 이동
+                })
+                .catch((err) => {
+                    console.log("changePW function error")
+                });
         },
+        // 비밀번호 유효성 검사 (생성 규칙, 일치 여부 확인)
         checkForm() {
             if (this.password.length >= 0 && !this.passwordSchema.validate(this.password)) {
                 this.error.password = "영문,숫자 포함 8자리 이상이어야 합니다.";
@@ -107,6 +123,21 @@ export default {
             }
             else {
                 this.error.passwordConfirm = false;
+            }
+        },
+        // 사용자가 입력하지 않은 칸이 있을 경우 포커스 이동 & 모든 유효성 검사를 통과했을 때(적합, 인증 등)만 비밀번호 변경 가능
+        checkHandler() {
+            let err = true;
+            let msg = "";
+            !this.password && ((msg = "비밀번호를 입력해주세요!"),(err = false),this.$refs.password.focus());
+            err && !this.passwordConfirm && ((msg = "비밀번호 확인을 입력해주세요!"),(err = false),this.$refs.passwordConfirm.focus());
+
+            if (!err) {
+                alert(msg);
+            } else if (!this.error.password && !this.error.passwordConfirm) {
+                this.changePW();
+            } else {
+                alert("비밀번호가 올바르지 않습니다.");
             }
         },
         // 버튼에 마우스 갖다대면 빨갛게 변하도록

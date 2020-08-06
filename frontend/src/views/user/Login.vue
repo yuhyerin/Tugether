@@ -67,34 +67,8 @@
 
         </div>
       </div>
-  <v-bottom-navigation
-    v-model="bottomNav"
-    dark
-    shift
-  >
-    <v-btn>
-      <span>Video</span>
-      <v-icon>mdi-television-play</v-icon>
-    </v-btn>
-
-    <v-btn>
-      <span>Music</span>
-      <v-icon>mdi-music-note</v-icon>
-    </v-btn>
-
-    <v-btn>
-      <span>Book</span>
-      <v-icon>mdi-book</v-icon>
-    </v-btn>
-
-    <v-btn>
-      <span>Image</span>
-      <v-icon>mdi-image</v-icon>
-    </v-btn>
-  </v-bottom-navigation>
-
     </div>
-
+    <BottomNav/>
   </div>
 </template>
 
@@ -114,16 +88,15 @@ import UserApi from "../../api/UserApi";
 import store from "../../vuex/store"
 import * as axios from 'axios';
 import { mapState, mapActions} from "vuex"
-import Menu from '../menu/Menu';
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
+import BottomNav from "@/components/common/BottomNav";
 
 const storage = window.sessionStorage;
 
 export default {
   name: 'Login',
   component:{
-
-    'menu': Menu
+    BottomNav,
   },
 
   data: () => {

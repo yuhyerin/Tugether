@@ -15,6 +15,7 @@
                 {{ current.content }}
                 </section>
             <!-- </transition> -->
+            <BottomNav/>
         </div>
     </div>
 </template>
@@ -23,9 +24,13 @@
 import axios from "axios";
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
 import TabItem from '@/components/common/TabItem.vue'
+import BottomNav from "@/components/common/BottomNav"
 
 export default {
-    components: { TabItem },
+    components: { 
+        TabItem,
+        BottomNav,
+     },
     data: () => {
         return {
             currentId: 1,

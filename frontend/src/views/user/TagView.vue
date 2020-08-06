@@ -6,9 +6,9 @@
 </template>
 
 <script>
-import axios from 'axios';
-import TagList from '@/components/user/TagList';
-import store from '@/vuex/store';
+import axios from 'axios'
+import TagList from '@/components/user/TagList'
+import store from '@/vuex/store'
 import { mapState, mapActions } from "vuex";
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
 
@@ -69,7 +69,8 @@ export default {
       selectedTags: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       count: 0,
       favTags: [],
-      btnFunc: {backgroundColor: "gray"}
+      btnFunc: {backgroundColor: "gray"},
+      nickName: "",
     }
   },
   computed:{
@@ -131,7 +132,7 @@ export default {
       console.log(this.favTags)
       console.log("이거토큰맞지??? "+ this.$store.state.token)
      
-      axios.post(base + '/tugether/favtag', 
+      axios.post(base+ "/tugether/favtag", 
       {
         taglist: this.favTags,
       },
@@ -143,7 +144,7 @@ export default {
       )
       .then((response) => {
         console.log("크하하 결과다!!!"+ response.data.status)
-        this.$router.push('/feed/main')
+        this.$router.push('/mainfeed')
 
       })
       .catch(error => {

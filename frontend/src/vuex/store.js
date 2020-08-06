@@ -37,7 +37,6 @@ export default new Vuex.Store({
         }
 
     }, 
-
     actions:{ //actions는 비즈니스 로직 
         // actions에서 mutations에정의된 함수를 호출하기 위해서는 commit을 사용한다.
         // signinObj : 로그인 시 입력한 { 이메일, 패스워드 }
@@ -46,8 +45,6 @@ export default new Vuex.Store({
             axios.post(base + '/account/signin',
                 signinObj)
                 .then(res=>{
-
-                    // 로컬스토리지에 토큰 저장.
                     localStorage.setItem("token", res.headers["jwt-auth-token"])
                     //임시 비밀번호로 로그인 했으면 => 비밀번호 변경페이지로 이동 
                     if (res.data.data.temp==1 && res.data.status) { 
@@ -58,6 +55,7 @@ export default new Vuex.Store({
                         state.nickname = res.data.data.nickname;
                         console.log(state.email);
                         console.log(state.nickname);
+                        console.log("토큰: "+res.headers["jwt-auth-token"]);
 
                         state.token =  res.headers["jwt-auth-token"];
                         state.nickname = res.data.data.nickname;
@@ -90,12 +88,11 @@ export default new Vuex.Store({
                           )
                           .then(res=>{
 
-
                             console.log(res.data.status) //undefined ...? 
 
                               if(res.data.status){ //관심태그 설정한 놈 
                                 console.log("관심태그 설정했는지 체크하고 돌아왔습니다! (설정했음) ")
-                                router.push("/feed/main");
+                                router.push("/mainfeed");
 
                               }else{ //안한놈 
                                 console.log("관심태그 설정했는지 체크하고 돌아왔습니다! (설정안했음) ")

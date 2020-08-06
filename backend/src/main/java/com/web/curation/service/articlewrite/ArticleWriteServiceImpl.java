@@ -39,9 +39,10 @@ public class ArticleWriteServiceImpl implements ArticleWriteService{
 			String link = article.getLink();
 			articleRepo.insertArticle(email, writer, image, content, link);
 			System.out.println("디비에 글을 넣었습니다.");
-			profileRepo.countMyArticle(email); // 내 게시글 갯수 하나 추가
+			int article_cnt = articleRepo.countMyArticle(email);
+			profileRepo.countMyArticle(email, article_cnt+1); // 내 게시글 갯수 하나 추가
 			System.out.println("내 게시글 갯수 하나 추가했습니다.");
-			
+			// 내 게시글 찾아오기
 			article_id = articleRepo.findArticleByImage(image);
 			
 		}catch(IllegalArgumentException e) {

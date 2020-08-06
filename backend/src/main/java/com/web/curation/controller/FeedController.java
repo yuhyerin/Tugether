@@ -55,7 +55,6 @@ public class FeedController {
 	@PostMapping("/mainfeed")
 	public ResponseEntity<Map<String,Object>> MainFeed(@RequestBody Map<String, Object> map, HttpServletRequest request) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		HttpStatus status = null;
 		String token = request.getHeader("jwt-auth-token");	//토큰 가져와서
 		Jws<Claims> claims = jwtService.getDecodeToken(token);	//복호화해서
 		Map<String, Object> Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
@@ -86,14 +85,43 @@ public class FeedController {
 		String email = Userinfo.get("email").toString();
 
 		int article_id = Integer.parseInt(request.getHeader("article_id"));
-		boolean like = false;
-		if("true".equals(request.getHeader("like"))) {
-			like = true;
-		}
+		// 좋아요 업데이트
+		FrontArticle a = feedService.updateLike(article_id, email);
+		resultMap.put("article",a);
+		System.out.println("return : "+a.toString());
+		return new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.OK);
+	}
+	
+	@GetMapping("/mainfeed/scrap")
+	@ApiOperation(value = "스크랩여부")
+	public ResponseEntity<Map<String,Object>> scrapCheck(HttpServletRequest request) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		String token = request.getHeader("jwt-auth-token");	//토큰 가져와서
+		Jws<Claims> claims = jwtService.getDecodeToken(token);	//복호화해서
+		Map<String, Object> Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
+		String email = Userinfo.get("email").toString();
+		int article_id = Integer.parseInt(request.getHeader("article_id"));
 		
-		int like_cnt=feedService.updateLike(article_id, email, like);
+		boolean flag = feedService.checkScrap(email, article_id);
+		resultMap.put("scrapcheck", flag);
+		System.out.println("return : "+flag);
+		return new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.OK);
+	}
+	
+	@PostMapping("/mainfeed/scrap")
+	@ApiOperation(value = "스크랩하기")
+	public ResponseEntity<Map<String,Object>> scrap(@RequestBody Map<String, Object> map, HttpServletRequest request) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		String token = request.getHeader("jwt-auth-token");	//토큰 가져와서
+		Jws<Claims> claims = jwtService.getDecodeToken(token);	//복호화해서
+		Map<String, Object> Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
+		String email = Userinfo.get("email").toString();	//email 가져올거임
 		
-		resultMap.put("like_cnt", like_cnt);
+		int article_id = (int)map.get("article_id");
+//		feedService.scrap(email, article_id);
+		FrontArticle a = feedService.scrap(email, article_id);
+ 		resultMap.put("article", a);
+ 		System.out.println("result : "+a.toString());
 		return new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.OK);
 	}
 	

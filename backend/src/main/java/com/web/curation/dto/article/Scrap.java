@@ -33,8 +33,5 @@ public class Scrap {
 	@Column(name="article_id")
 	private int article_id;
 	
-	@Column(name="scrap_time", insertable = false)
-	private Date scrap_time;
-	
 	
 }

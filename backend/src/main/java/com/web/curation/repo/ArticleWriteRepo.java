@@ -21,5 +21,8 @@ public interface ArticleWriteRepo extends JpaRepository<Article, String>{
 	@Query(value="insert into articletag(article_id, tag_id) values(:article_id , :tag_id )", nativeQuery=true)
 	void insertArticleTag(int article_id, int tag_id);
 	
+	@Query(value="select count(*) from article a where a.email=:email ", nativeQuery = true)
+	public int countMyArticle(String email);
+	
 	
 }
