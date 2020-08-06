@@ -1,5 +1,7 @@
 package com.web.curation.service.account;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.StringTokenizer;
 
@@ -115,26 +117,32 @@ public class FindServiceImpl implements FindService {
 	}
 
 	@Override
-	public ResponseEntity<Object> changePW(User u) {
-		ResponseEntity<Object> response = null;
-		BasicResponse result = new BasicResponse();
-		try {
-			userRepo.save(u);
-			result.status = true;
-			result.data = "success";
-			result.object = u;
-//			System.out.println(result.toString());
-			response = new ResponseEntity<>(result, HttpStatus.OK);
-		} catch (IllegalArgumentException e) {
-			response = new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-		}
-		return response;
-	}
+	   public ResponseEntity<Map<String,Object>> changePW(User u) {
+	      Map<String, Object> resultMap = new HashMap<String, Object>();
+	      HttpStatus status = null;
+	      try {
+	         userRepo.save(u);
+	         resultMap.put("status",true);
+	         resultMap.put("data","success");
+	         resultMap.put("object",u);
+	         status = HttpStatus.ACCEPTED;
+	      } catch (IllegalArgumentException e) {
+	         status = HttpStatus.INTERNAL_SERVER_ERROR;
+	      }
+	      return new ResponseEntity<Map<String,Object>>(resultMap, status);
+	   }
 
 	@Override
 	public User changePasswordByEmail(String email) {
 		return userRepo.findUserByEmail(email);
 	}
+	
+	@Override
+	   public boolean checkPW(String email, String password) {
+	      User u = userRepo.findUserByEmail(email);
+	      
+	      return u.getPassword().equals(password);
+	   }
 
 	
 
