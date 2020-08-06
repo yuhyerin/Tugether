@@ -1,16 +1,16 @@
 <template>
 <div class="container">
   <div id="mainfeed">
-    <h1 style="text-align:center;">{{ this.feed }} 뉴스피드({{ $store.state.nickname }})</h1>
+    <h1 style="text-align:center; font-weight:bold; font-size:2.5em; font-family: Arial, Helvetica">뉴스피드({{ this.feed }})</h1>
     <br>
-    <div style="text-align:center">
-      <button @click="getTagData"><p>태그</p></button> | 
-      <button @click="getFollowData"><p>팔로우</p></button>
+    <div class="change-tab" style="text-align:center font-family: Arial, Helvetica">
+      <button @click="getTagData" :style="tagTab"><h3>태그</h3></button> | 
+      <button @click="getFollowData" :style="followTab"><h3>팔로우</h3></button>
     </div> 
     <br>
-    <div v-for="(article, index) in articles" :key="article.id" :articles="articles">
+    <div class="wrapC" v-for="(article, index) in articles" :key="article.id" :articles="articles">
       <div class="feed-item">
-        <div class="top">
+        <div class="top"> <!-- 프로필이미지, 작성자, 시간(며칠전..), 태그 -->
           <div class="profile-image" :style="{'background-image': 'url('+defaultProfile+')'}"></div>
           <div class="user-info">
             <div class="user-name">
@@ -19,27 +19,27 @@
             <p class="date">{{ timeForToday(article.reg_time) }}</p>
           </div>
           <div class="content">
-            <p>{{ article.image }}</p>
-            <p>{{ article.content }}</p>
             <span v-for="tag in article.tag_name" :key="tag.name">
-              # {{ tag }}
+              #{{ tag }}
             </span>
           </div>
         </div>
-        <div class="feed-card">
-          <div class="img" :style="{'background-image': 'url('+article.download_url+')'}"></div>
+        <div class="feed-card"> <!-- 이미지, 내용, 유튜브 url, 작성날짜 -->
+          <img :src= "`https://i3b303.p.ssafy.io/articleimages/${article.image}`" alt="image">
           <div class="contentsWrap">
-            <!-- <h4 class="title">width: {{ article.width }}, height: {{ article.height }}</h4> -->
+            <h4 class="title">{{ article.content }}</h4>
             <div class="wrap">
               <div class="url">
-                <a :href="article.link">{{article.link}}</a>
+                <a :href="article.link" v-if="article.link" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:25px; height:25px;"></a>
+                <!-- <a :href="article.link" v-if="article.link" target="_blank"><unicon name="youtube" fill="red" ></unicon></a>
+                <a :href="article.link" v-if="article.link" target="_blank"><unicon name="youtube" fill="gray"></unicon></a> -->
               </div>
-              <p class="date">{{article.reg_time}}</p>
+              <p class="date">{{article.reg_time.slice(0, 10)}}</p>
             </div>
           </div>
         </div>
 
-        <div class="btn-group wrap">
+        <div class="btn-group wrap"> <!-- 좋아요, 댓글,  -->
           <div class="like likeScrap" @click="clickedLikeBtn(index)">
             <svg v-show="article.like" 
               class="svg-inline--fa fa-heart fa-w-16 icon full"
@@ -68,11 +68,11 @@
               data-fa-i2svg
             >
               <path
-                fill="red"
+                fill="gray"
                 d="M458.4 64.3C400.6 15.7 311.3 23 256 79.3 200.7 23 111.4 15.6 53.6 64.3-21.6 127.6-10.6 230.8 43 285.5l175.4 178.7c10 10.2 23.4 15.9 37.6 15.9 14.3 0 27.6-5.6 37.6-15.8L469 285.6c53.5-54.7 64.7-157.9-10.6-221.3zm-23.6 187.5L259.4 430.5c-2.4 2.4-4.4 2.4-6.8 0L77.2 251.8c-36.5-37.2-43.9-107.6 7.3-150.7 38.9-32.7 98.9-27.8 136.5 10.5l35 35.7 35-35.7c37.8-38.5 97.8-43.2 136.5-10.6 51.1 43.1 43.5 113.9 7.3 150.8z"
               />
             </svg>
-            <p>00님 외 {{ article.like_cnt }}명이 좋아합니다.</p>
+            <span class="like-cnt" v-if="article.like_cnt !== 0">{{ article.like_cnt }}명이 좋아합니다.</span>
             <!-- <p>{{ $store.state.nickname }}님 외 {{ article.like_cnt }}명이 좋아합니다.</p> -->
           </div>
           <div class="comment">
@@ -95,6 +95,11 @@
             {{ cntComment }}
           </div>
           <!---->
+          <!-- <div class="link">
+            <a :href="article.link" v-if="article.link !== 0"><unicon name="youtube" fill="red"></unicon></a>
+            <a :href="article.link" v-if="article.scrap_cnt == 0"><unicon name="youtube" fill="gray"></unicon></a>
+          </div> -->
+            <!-- <a :href="article.link"><i class="fab fa-youtube-square"></i></a> -->
           <div class="scrap" @click="clickedScrapBtn(index)">
             <svg
               class="svg-inline--fa fa-share-alt fa-w-14 icon"
@@ -111,7 +116,7 @@
                 d="M352 320c-22.608 0-43.387 7.819-59.79 20.895l-102.486-64.054a96.551 96.551 0 0 0 0-41.683l102.486-64.054C308.613 184.181 329.392 192 352 192c53.019 0 96-42.981 96-96S405.019 0 352 0s-96 42.981-96 96c0 7.158.79 14.13 2.276 20.841L155.79 180.895C139.387 167.819 118.608 160 96 160c-53.019 0-96 42.981-96 96s42.981 96 96 96c22.608 0 43.387-7.819 59.79-20.895l102.486 64.054A96.301 96.301 0 0 0 256 416c0 53.019 42.981 96 96 96s96-42.981 96-96-42.981-96-96-96z"
               />
             </svg>
-            <span>{{ article.scrap_cnt }}회</span>
+            <span class="scrap-cnt" v-if="article.scrap_cnt !== 0">{{ article.scrap_cnt }}회</span>
           </div>
         </div>
       </div>
@@ -124,19 +129,28 @@
 <script>
 import axios from 'axios'
 import defaultProfile from "../../assets/images/profile_default.png";
+import { mapState } from "vuex";
+import "../../components/css/feed/feed-item.scss";
+import "../../components/css/feed/newsfeed.scss";
+import FeedItem from "../../components/feed/FeedItem.vue";
+import store from "../../vuex/store"
+import { base } from "@/components/common/BaseURL.vue"; // baseURL
 
-const SERVER_URL = 'http://i3b303.p.ssafy.io'
+
+const SERVER_URL = 'https://i3b303.p.ssafy.io'
 export default {
   name: 'MainFeed',
   data() {
     return {
       articles: [],
       defaultProfile,
-      feed: '',
+      feed: '태그',
       token: "",
       tag: true,
       reg_time: '',
       clicked: false,
+      tagTab: { color: 'red' },
+      followTab: { color: 'black' },
     }
   },
 
@@ -144,7 +158,7 @@ export default {
   watch:{
     clicked(){
       console.log("clickclick")
-      axios.post('http://localhost:8080/tugether/mainfeed/', {
+      axios.post(base + '/tugether/mainfeed/', {
         tag: this.tag,
       },
       {
@@ -168,11 +182,12 @@ export default {
 
 
   methods: {
-    // 팔로우 기반의 글 목록 불러오기
     getFollowData() {
       this.feed = '팔로우';
+      this.followTab.color = 'red'
+      this.tagTab.color = 'black'
       this.tag = false
-      axios.post('http://localhost:8080/tugether/mainfeed/', {
+      axios.post(base + '/tugether/mainfeed/', {
         tag: this.tag,
       },
       {
@@ -195,7 +210,9 @@ export default {
     getTagData() {
       this.feed = '태그';
       this.tag = true
-      axios.post('http://localhost:8080/tugether/mainfeed/', {
+      this.followTab.color = 'black'
+      this.tagTab.color = 'red'
+      axios.post(base + '/tugether/mainfeed/', {
         tag: this.tag
       },
       {
@@ -235,7 +252,9 @@ export default {
 
 
     clickedLikeBtn(index) { 
-      axios.get('http://localhost:8080/tugether/mainfeed/like',{
+
+      this.clicked = true;
+      axios.get(base + '/tugether/mainfeed/like',{
         headers: { 
           "jwt-auth-token": this.$store.state.token,
           "article_id": this.articles[index].article_id,
@@ -244,7 +263,7 @@ export default {
       .then(response => {
         this.articles[index] = response.data.article;
         console.log(this.articles)
-        this.clicked = true;
+        // this.clicked = true;
       })
       .catch(err => {
         console.log('실패함')
@@ -254,7 +273,7 @@ export default {
 
     clickedScrapBtn(index) {
       // 스크랩 여부 확인
-      axios.get('http://localhost:8080/tugether/mainfeed/scrap', {
+      axios.get(base + '/tugether/mainfeed/scrap', {
         headers: {
           "jwt-auth-token": this.$store.state.token,
           "article_id": this.articles[index].article_id,
@@ -269,7 +288,7 @@ export default {
           var answer = confirm('스크랩 하시겠습니까?')
             // if 확인이면 axios.post
             if(answer==true){
-              axios.post('http://localhost:8080/tugether/mainfeed/scrap', {
+              axios.post(base + '/tugether/mainfeed/scrap', {
                 "article_id": this.articles[index].article_id,
               },
               {
@@ -294,9 +313,8 @@ export default {
 
 
   beforeCreate() {
-    this.feed = '태그'
     this.tag = true
-    axios.post('http://localhost:8080/tugether/mainfeed/', {
+    axios.post(base + '/tugether/mainfeed/', {
       tag: this.tag,
     },
     {
@@ -316,5 +334,28 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.btn-group span {
+  font-weight: lighter;
+}
+/* .link > a {
+  text-decoration: none;
+  color: red;
+  
+} */
+.link {
+  width: 15px;
+  height: 15px;
+}
+
+.feed-card > img {
+  max-height: 225px;
+  width: 100%;
+}
+
+.title {
+  text-overflow: ellipsis;
+}
+
+
 </style>
