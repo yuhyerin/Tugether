@@ -38,7 +38,7 @@
         />
         <label for="password">비밀번호</label>
         <!--비밀번호 입력 시 아이콘을 누르면 입력타입을 변경해준다.(text, password)-->
-        <span class="icon" @click="showPW"><i class="far fa-eye fa-lg"></i></span>
+        <span class="eye_icon" @click="showPW"><i class="far fa-eye fa-lg"></i></span>
         <!-- <div class="error-text" v-if="error.password">{{error.password}}</div> -->
       </div>
       

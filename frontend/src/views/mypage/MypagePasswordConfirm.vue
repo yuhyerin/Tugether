@@ -6,7 +6,7 @@
             <label for="password">비밀번호</label>
             <input v-model="password" id="password" :type="passwordType" placeholder="비밀번호를 입력하세요." />
             <!--비밀번호 입력 시 아이콘을 누르면 입력타입을 변경해준다.(text, password)-->
-            <span class="icon" @click="showPW"><i class="far fa-eye fa-lg"></i></span>
+            <span class="eye_icon" @click="showPW"><i class="far fa-eye fa-lg"></i></span>
         </div>
 
         <!--버튼-->
@@ -63,9 +63,13 @@ export default {
                 })
                 .then(({data}) => {
                     console.log(data.data);
-
-                    alert("비밀번호가 확인되었습니다.");
-                    this.moveMypagePWchange(); // 비밀번호 변경 페이지로 이동
+                    if(data.data === "success"){
+                        alert("비밀번호가 확인되었습니다.");
+                        this.moveMypagePWchange(); // 비밀번호 변경 페이지로 이동
+                    }else{
+                        alert("비밀번호를 다시 확인해주세요. ");
+                    }
+                    
                 })
                 .catch((err) => {
                     console.log("checkPW function error")
@@ -103,8 +107,8 @@ export default {
 }
 </script>
 
-<style scoped>
-    .icon{
+<style>
+    .eye_icon{
         position: absolute;
         top: 50%;
         margin-left: -40px;
@@ -127,5 +131,11 @@ export default {
         display: inline-block;
         height: 100%;
         vertical-align: middle;
+    }
+    .button{
+        background: black;
+        color: white;
+        width: 25%;
+        height: 35px;
     }
 </style>

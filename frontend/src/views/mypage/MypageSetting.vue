@@ -218,4 +218,10 @@ export default {
         clip: rect(0, 0, 0, 0);
         border: 0;
     }
+    .button{
+        background: black;
+        color: white;
+        width: 25%;
+        height: 35px;
+    }
 </style>
