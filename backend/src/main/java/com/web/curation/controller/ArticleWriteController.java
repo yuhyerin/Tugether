@@ -45,8 +45,8 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/tugether")
 public class ArticleWriteController {
 	
-//	@Value("${window.article.upload.directory}")
-	@Value("${ubuntu.article.upload.directory}")
+//	@Value("${ubuntu.article.upload.directory}")
+	@Value("${window.article.upload.directory}")
 	String upload_FILE_PATH;
 	
 	@Autowired

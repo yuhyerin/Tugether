@@ -34,6 +34,10 @@ export default new Vuex.Store({
         // 토큰값 얻어오기 
         getToken(state){
             return state.token
+        },
+
+        logout(state){
+            state.isLogin = false;
         }
 
     }, 

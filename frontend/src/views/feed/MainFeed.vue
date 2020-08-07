@@ -191,10 +191,11 @@ export default {
     logout(){
       this.$store.commit('logout');
       localStorage.clear();
-      alert("로그아웃 되었습니다 >_<");
+      alert("로그아웃 되었습니다 bye bye :)");
       this.$router.push("/");
 
     },
+    
     getFollowData() {
       this.feed = '팔로우';
       this.followTab.color = 'red'
