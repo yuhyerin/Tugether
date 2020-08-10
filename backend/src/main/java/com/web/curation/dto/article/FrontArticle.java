@@ -17,6 +17,7 @@ public class FrontArticle {
 	private String writer;
 	private LocalDateTime reg_time;
 	private String image;
+	private String profile_photo;
 	private String content;
 	private String link;
 	private int like_cnt;	// 게시글의 좋아요 수

@@ -8,8 +8,11 @@ import org.springframework.stereotype.Service;
 
 import com.web.curation.dto.comment.Comment;
 import com.web.curation.dto.comment.FrontComment;
+import com.web.curation.dto.notice.Notice;
+import com.web.curation.repo.ArticleRepo;
 import com.web.curation.repo.CommentRepo;
-import com.web.curation.repo.UserRepo;
+import com.web.curation.repo.NoticeRepo;
+import com.web.curation.repo.ProfileRepo;
 
 @Service
 public class CommentServiceImpl implements CommentService{
@@ -17,7 +20,11 @@ public class CommentServiceImpl implements CommentService{
 	@Autowired
 	private CommentRepo commentRepo;
 	@Autowired
-	private UserRepo userRepo;
+	private ProfileRepo profileRepo;
+	@Autowired
+	private NoticeRepo noticeRepo;
+	@Autowired
+	private ArticleRepo articleRepo;
 	
 	@Override
 	public List<FrontComment> findComments(int article_id) {
@@ -31,14 +38,33 @@ public class CommentServiceImpl implements CommentService{
 	
 	
 	public FrontComment makeFront(Comment c) {
-		String nickname = userRepo.findUserByEmail(c.getEmail()).getNickname();
-		FrontComment fc = FrontComment.builder().comment_id(c.getComment_id())
-				.email(c.getEmail()).nickname(nickname)
-				.article_id(c.getArticle_id())
-				.content(c.getContent())
+//		Profile pro = profileRepo.findProfileByEmail(c.getEmail());
+		String nickname = profileRepo.findNicknameByEmail(c.getEmail());
+		String profile_photo = profileRepo.findProfilePhotoByEmail(c.getEmail());
+		FrontComment fc = FrontComment.builder()
+				.comment_id(c.getComment_id())
+				.email(c.getEmail())	//댓글 작성자 
+				.nickname(nickname)		//댓글 작성자 닉넴
+				.profile_photo(profile_photo)	//댓글 작성자 프로필사진
+				.article_id(c.getArticle_id())	//게시글아이디
+				.content(c.getContent())	//댓글내용
 				.reg_time(c.getReg_time()).build();
 				
 		return fc;
+	}
+
+
+
+	@Override
+	public void saveComment(Comment c) {
+		commentRepo.save(c);
+		String notice_to = articleRepo.findArticleByArticleId(c.getArticle_id()).get(0).getEmail();
+		Comment temp = commentRepo.findCommentByEmailAndArticleId(c.getEmail(), c.getArticle_id()).get(0);
+		Notice n = Notice.builder()
+				.article_id(c.getArticle_id()).comment_id(temp.getComment_id())
+				.notice_from(c.getEmail()).notice_id(1).notice_to(notice_to)
+				.build();
+		noticeRepo.save(n);
 	}
 	
 }

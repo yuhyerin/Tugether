@@ -18,6 +18,7 @@ import com.web.curation.repo.FavtagRepo;
 import com.web.curation.repo.FollowingRepo;
 import com.web.curation.repo.LikeyRepo;
 import com.web.curation.repo.NoticeRepo;
+import com.web.curation.repo.ProfileRepo;
 import com.web.curation.repo.ScrapRepo;
 import com.web.curation.repo.TagRepo;
 
@@ -40,6 +41,8 @@ public class FeedServiceImpl implements FeedService {
 	private ScrapRepo scrapRepo;
 	@Autowired 
 	private NoticeRepo noticeRepo;
+	@Autowired
+	private ProfileRepo profileRepo;
 
 	// 1. 태그기반 피드
 	@Override
@@ -166,9 +169,26 @@ public class FeedServiceImpl implements FeedService {
 		}
 
 		boolean like = likeRepo.findLike(article_id, email).isPresent();
-		FrontArticle ar = new FrontArticle(article_id, now.getWriter(), now.getReg_time(), now.getImage(),
-				now.getContent(), now.getLink(), now.getLike_cnt(), like, now.getComment_cnt(), now.getScrap_cnt(),
-				temp);
+		String profile_photo = profileRepo.findProfilePhotoByEmail(email);
+		FrontArticle ar = FrontArticle.builder()
+				.article_id(article_id)
+				.writer(now.getWriter())
+				.reg_time(now.getReg_time())
+				.image(now.getImage())
+				.profile_photo(profile_photo)
+				.content(now.getContent())
+				.link(now.getLink())
+				.like_cnt(now.getLike_cnt())
+				.like(like)
+				.comment_cnt(now.getComment_cnt())
+				.scrap_cnt(now.getScrap_cnt())
+				.tag_name(temp)
+				.build();
+				
+//		FrontArticle ar = new FrontArticle(
+//				article_id, now.getWriter(), now.getReg_time(), now.getImage(),
+//				now.getContent(), now.getLink(), now.getLike_cnt(), like, now.getComment_cnt(), now.getScrap_cnt(),
+//				temp);
 		return ar;
 	}
 

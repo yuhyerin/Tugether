@@ -50,7 +50,9 @@ public class NoticeController {
 		Map<String, Object> Userinfo = new HashMap<String, Object>();
 		Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
 		String email = Userinfo.get("email").toString();
+//		System.out.println("controller에 들어온 이메일 : "+email);
 		List<FrontNotice> notices = noticeService.findNotice(email);
+		
 		resultMap.put("notices", notices);
 		System.out.println("result : "+notices.toString());
 		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
