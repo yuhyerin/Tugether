@@ -63,11 +63,6 @@ export default {
                 })
                 .then(({data}) => {
                     console.log(data.data);
-<<<<<<< HEAD
-
-                    alert("비밀번호가 확인되었습니다.");
-                    this.moveMypagePWchange(); // 비밀번호 변경 페이지로 이동
-=======
                     if(data.data === "success"){
                         alert("비밀번호가 확인되었습니다.");
                         this.moveMypagePWchange(); // 비밀번호 변경 페이지로 이동
@@ -75,7 +70,6 @@ export default {
                         alert("비밀번호를 다시 확인해주세요. ");
                     }
                     
->>>>>>> 5d4ef8aa06f87bfed1b1e134a7525628802f239e
                 })
                 .catch((err) => {
                     console.log("checkPW function error")

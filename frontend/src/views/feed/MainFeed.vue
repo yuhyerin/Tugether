@@ -2,19 +2,12 @@
 <div class="container">
   <div id="mainfeed">
     <h1>뉴스피드({{ this.feed }})</h1>
-<<<<<<< HEAD
-    <button @click="moveMypage">마이페이지로 이동하기</button>
-=======
     <!-- <button @click="moveMypage">마이페이지로 이동하기</button> -->
->>>>>>> 5d4ef8aa06f87bfed1b1e134a7525628802f239e
     <br>
     <div class="change-tab" style="text-align:center; font-family: Arial, Helvetica">
       <button @click="getTagData" :style="tagTab"><h3>태그</h3></button> | 
       <button @click="getFollowData" :style="followTab"><h3>팔로우</h3></button>
-<<<<<<< HEAD
-=======
       <a @click="logout"> <img src="@/assets/images/logout.png" height="50px" width="50px" style="float:right"/> </a>
->>>>>>> 5d4ef8aa06f87bfed1b1e134a7525628802f239e
     </div> 
     <br>
     <div class="wrapC" v-for="(article, index) in articles" :key="article.id" :articles="articles">
@@ -48,11 +41,7 @@
           </div>
         </div>
 
-<<<<<<< HEAD
-        <div class="btn-group wrap"> <!-- 좋아요, 댓글,  -->
-=======
         <div class="btn-group wrap"> <!-- 좋아요, 댓글,  스크랩-->
->>>>>>> 5d4ef8aa06f87bfed1b1e134a7525628802f239e
           <div class="like likeScrap" @click="clickedLikeBtn(index)">
             <svg v-show="article.like" 
               class="svg-inline--fa fa-heart fa-w-16 icon full"
@@ -85,11 +74,7 @@
                 d="M458.4 64.3C400.6 15.7 311.3 23 256 79.3 200.7 23 111.4 15.6 53.6 64.3-21.6 127.6-10.6 230.8 43 285.5l175.4 178.7c10 10.2 23.4 15.9 37.6 15.9 14.3 0 27.6-5.6 37.6-15.8L469 285.6c53.5-54.7 64.7-157.9-10.6-221.3zm-23.6 187.5L259.4 430.5c-2.4 2.4-4.4 2.4-6.8 0L77.2 251.8c-36.5-37.2-43.9-107.6 7.3-150.7 38.9-32.7 98.9-27.8 136.5 10.5l35 35.7 35-35.7c37.8-38.5 97.8-43.2 136.5-10.6 51.1 43.1 43.5 113.9 7.3 150.8z"
               />
             </svg>
-<<<<<<< HEAD
-            <span class="like-cnt" v-if="article.like_cnt !== 0">{{ article.like_cnt }}명이 좋아합니다.</span>
-=======
             <span class="like-cnt" v-if="article.like_cnt">{{ article.like_cnt }}명이 좋아합니다.</span>
->>>>>>> 5d4ef8aa06f87bfed1b1e134a7525628802f239e
             <!-- <p>{{ $store.state.nickname }}님 외 {{ article.like_cnt }}명이 좋아합니다.</p> -->
           </div>
           <div class="comment">
@@ -112,21 +97,12 @@
             {{ cntComment }}
           </div>
           <!---->
-<<<<<<< HEAD
-          <!-- <div class="link">
-            <a :href="article.link" v-if="article.link !== 0"><unicon name="youtube" fill="red"></unicon></a>
-            <a :href="article.link" v-if="article.scrap_cnt == 0"><unicon name="youtube" fill="gray"></unicon></a>
-          </div> -->
-            <!-- <a :href="article.link"><i class="fab fa-youtube-square"></i></a> -->
-          <div class="scrap" @click="clickedScrapBtn(index)">
-=======
              <!-- <a :href="article.link" v-if="article.link !== 0"><unicon name="youtube" fill="red"></unicon></a>
             <a :href="article.link" v-if="article.scrap_cnt == 0"><unicon name="youtube" fill="gray"></unicon></a> -->
 
           <div class="scrap" @click="clickedScrapBtn(index)">
             <!-- <i class="far fa-bookmark" v-show="!article.scrap"></i>
             <i class="fas fa-bookmark" v-show="article.scrap"></i> -->
->>>>>>> 5d4ef8aa06f87bfed1b1e134a7525628802f239e
             <svg
               class="svg-inline--fa fa-share-alt fa-w-14 icon"
               aria-hidden="true"
@@ -142,19 +118,12 @@
                 d="M352 320c-22.608 0-43.387 7.819-59.79 20.895l-102.486-64.054a96.551 96.551 0 0 0 0-41.683l102.486-64.054C308.613 184.181 329.392 192 352 192c53.019 0 96-42.981 96-96S405.019 0 352 0s-96 42.981-96 96c0 7.158.79 14.13 2.276 20.841L155.79 180.895C139.387 167.819 118.608 160 96 160c-53.019 0-96 42.981-96 96s42.981 96 96 96c22.608 0 43.387-7.819 59.79-20.895l102.486 64.054A96.301 96.301 0 0 0 256 416c0 53.019 42.981 96 96 96s96-42.981 96-96-42.981-96-96-96z"
               />
             </svg>
-<<<<<<< HEAD
-            <span class="scrap-cnt" v-if="article.scrap_cnt !== 0">{{ article.scrap_cnt }}회</span>
-=======
             <span class="scrap-cnt" v-if="article.scrap_cnt">{{ article.scrap_cnt }}회</span>
->>>>>>> 5d4ef8aa06f87bfed1b1e134a7525628802f239e
           </div>
         </div>
       </div>
     </div>
-<<<<<<< HEAD
-=======
     <BottomNav/>
->>>>>>> 5d4ef8aa06f87bfed1b1e134a7525628802f239e
   </div>
 </div>    
 </template>
@@ -169,21 +138,14 @@ import "../../components/css/feed/newsfeed.scss";
 import FeedItem from "../../components/feed/FeedItem.vue";
 import store from "../../vuex/store"
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
-<<<<<<< HEAD
-
-=======
 import BottomNav from "@/components/common/BottomNav"
->>>>>>> 5d4ef8aa06f87bfed1b1e134a7525628802f239e
 
 const SERVER_URL = 'https://i3b303.p.ssafy.io'
 export default {
   name: 'MainFeed',
-<<<<<<< HEAD
-=======
   components:{
     BottomNav,
   },
->>>>>>> 5d4ef8aa06f87bfed1b1e134a7525628802f239e
   data() {
     return {
       articles: [],
@@ -207,11 +169,7 @@ export default {
       },
       {
         headers:{
-<<<<<<< HEAD
-          "jwt-auth-token": this.$store.state.token
-=======
           "jwt-auth-token": localStorage.getItem("token")
->>>>>>> 5d4ef8aa06f87bfed1b1e134a7525628802f239e
         }
       })
       .then(response => {
@@ -230,8 +188,6 @@ export default {
 
 
   methods: {
-<<<<<<< HEAD
-=======
     logout(){
       this.$store.commit('logout');
       localStorage.clear();
@@ -240,7 +196,6 @@ export default {
 
     },
     
->>>>>>> 5d4ef8aa06f87bfed1b1e134a7525628802f239e
     getFollowData() {
       this.feed = '팔로우';
       this.followTab.color = 'red'
@@ -251,11 +206,7 @@ export default {
       },
       {
         headers:{
-<<<<<<< HEAD
-          "jwt-auth-token": this.$store.state.token
-=======
           "jwt-auth-token": localStorage.getItem("token")
->>>>>>> 5d4ef8aa06f87bfed1b1e134a7525628802f239e
           }
       })
       .then(response => {
@@ -280,11 +231,7 @@ export default {
       },
       {
         headers:{ 
-<<<<<<< HEAD
-          "jwt-auth-token": this.$store.state.token
-=======
           "jwt-auth-token": localStorage.getItem("token")
->>>>>>> 5d4ef8aa06f87bfed1b1e134a7525628802f239e
         }
       })
       .then(response => {
@@ -323,11 +270,7 @@ export default {
       this.clicked = true;
       axios.get(base + '/tugether/mainfeed/like',{
         headers: { 
-<<<<<<< HEAD
-          "jwt-auth-token": this.$store.state.token,
-=======
           "jwt-auth-token": localStorage.getItem("token"),
->>>>>>> 5d4ef8aa06f87bfed1b1e134a7525628802f239e
           "article_id": this.articles[index].article_id,
         }
       })
@@ -346,11 +289,7 @@ export default {
       // 스크랩 여부 확인
       axios.get(base + '/tugether/mainfeed/scrap', {
         headers: {
-<<<<<<< HEAD
-          "jwt-auth-token": this.$store.state.token,
-=======
           "jwt-auth-token": localStorage.getItem("token"),
->>>>>>> 5d4ef8aa06f87bfed1b1e134a7525628802f239e
           "article_id": this.articles[index].article_id,
         }
       })
@@ -368,11 +307,7 @@ export default {
               },
               {
                 headers: {
-<<<<<<< HEAD
-                  "jwt-auth-token": this.$store.state.token,
-=======
                   "jwt-auth-token": localStorage.getItem("token"),
->>>>>>> 5d4ef8aa06f87bfed1b1e134a7525628802f239e
                 }
               })
               .then(response => {
@@ -388,11 +323,7 @@ export default {
         console.log('스크랩 실패')
       })
     },
-<<<<<<< HEAD
-
-=======
     
->>>>>>> 5d4ef8aa06f87bfed1b1e134a7525628802f239e
     moveMypage() {
       this.$router.push("/mypage/mypage");
     }
@@ -406,11 +337,7 @@ export default {
     },
     {
       headers:{
-<<<<<<< HEAD
-        "jwt-auth-token": this.$store.state.token
-=======
         "jwt-auth-token": localStorage.getItem("token")
->>>>>>> 5d4ef8aa06f87bfed1b1e134a7525628802f239e
       }
     })
     .then(response => {
@@ -454,10 +381,6 @@ export default {
   font-size:2.5em; 
   font-family: Arial, Helvetica
 }
-<<<<<<< HEAD
-</style>
-=======
 </style>
 <!--https://junistory.blogspot.com/2017/06/css-ellipsis.html 글자 수 제한-->
 <!-- https://xetown.com/tips/1110772 -->
->>>>>>> 5d4ef8aa06f87bfed1b1e134a7525628802f239e

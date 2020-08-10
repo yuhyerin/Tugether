@@ -149,12 +149,8 @@ export default {
                   console.log(data.data);
 
                     alert("비밀번호 변경이 완료되었습니다.");
-<<<<<<< HEAD
-                    this.sendToMain(); // 메인으로 이동
-=======
                     localStorage.clear();
                     this.$router.push("/"); // 로그인창으로 이동 
->>>>>>> 5d4ef8aa06f87bfed1b1e134a7525628802f239e
                 })
                 .catch((err) => {
                   alert("비밀번호를 다시 설정해주세요.")

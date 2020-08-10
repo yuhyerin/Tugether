@@ -5,13 +5,8 @@ import Login from './views/user/Login.vue'
 import Join from './views/user/Join.vue'
 import TagView from './views/user/TagView.vue'
 import PasswordFind from './views/user/PasswordFind.vue'
-<<<<<<< HEAD
-// import FeedMain from './views/feed/IndexFeed.vue'
-import MainFeed from '@/views/feed/MainFeed.vue'
-=======
 import ArticleWrite from './views/user/Write.vue'
 import MainFeed from './views/feed/MainFeed.vue'
->>>>>>> 5d4ef8aa06f87bfed1b1e134a7525628802f239e
 import Mypage from '@/views/mypage/Mypage.vue'
 import MypageSetting from '@/views/mypage/MypageSetting.vue'
 import MypagePasswordConfirm from '@/views/mypage/MypagePasswordConfirm.vue'
@@ -76,19 +71,10 @@ export default [
         beforeEnter: onlyAuthUser,
         component : TagView
     },
-    // {
-    //     path : '/feed/main',
-    //     name : 'FeedMain',
-    //     // beforeEnter: onlyAuthUser,
-    //     component : FeedMain
-    // },
     {
         path : '/mainfeed',
         name : 'MainFeed',
-<<<<<<< HEAD
-=======
         beforeEnter: onlyAuthUser,
->>>>>>> 5d4ef8aa06f87bfed1b1e134a7525628802f239e
         component : MainFeed
     },
     {

@@ -15,24 +15,16 @@
     "core-js": "^3.4.3",
     "email-validator": "^2.0.4",
     "local-lib": "^0.1.0",
-<<<<<<< HEAD
-    "node-modules": "^1.0.1",
-=======
->>>>>>> 5d4ef8aa06f87bfed1b1e134a7525628802f239e
     "node-sass": "^4.14.1",
     "password-validator": "^5.0.3",
-    "sass-loader": "^9.0.2",
+    "sass-loader": "^9.0.3",
     "vue": "^2.6.11",
     "vue-cookies": "^1.7.3",
     "vue-google-login": "^2.0.5",
     "vue-google-oauth2": "^1.5.5",
-    "vue-router": "^3.3.4",
-<<<<<<< HEAD
-    "vuetify": "^2.3.7",
-=======
+    "vue-router": "^3.4.2",
     "vue-unicons": "^2.3.0",
     "vuetify": "^2.2.11",
->>>>>>> 5d4ef8aa06f87bfed1b1e134a7525628802f239e
     "vuex": "^3.5.1"
   },
   "devDependencies": {
