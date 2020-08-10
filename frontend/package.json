@@ -15,7 +15,6 @@
     "core-js": "^3.4.3",
     "email-validator": "^2.0.4",
     "local-lib": "^0.1.0",
-    "node-modules": "^1.0.1",
     "node-sass": "^4.14.1",
     "password-validator": "^5.0.3",
     "sass-loader": "^9.0.2",
@@ -24,6 +23,7 @@
     "vue-google-login": "^2.0.5",
     "vue-google-oauth2": "^1.5.5",
     "vue-router": "^3.3.4",
+    "vue-unicons": "^2.3.0",
     "vuetify": "^2.2.11",
     "vuex": "^3.5.1"
   },
@@ -51,7 +51,8 @@
     "vue-jest": "^3.0.5",
     "vue-template-compiler": "^2.6.10",
     "vue-test-utils": "^1.0.0-beta.11",
-    "vuetify-loader": "^1.3.0"
+    "vuetify-loader": "^1.3.0",
+    "webpack-bundle-analyzer": "^3.8.0"
   },
   "eslintConfig": {
     "root": true,

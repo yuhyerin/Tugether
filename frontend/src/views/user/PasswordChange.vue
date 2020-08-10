@@ -19,21 +19,16 @@
       </div>
       <div class="input-with-label">
         <label for="password">신규 비밀번호</label>
-        <input type="password"
-          id="password"
-          v-model="password"
-          
-        />
-
+        <input :type="passwordType" id="password" v-model="password" />
+        <!--비밀번호 입력 시 아이콘을 누르면 입력타입을 변경해준다.(text, password)-->
+        <span class="eye_icon" @click="showPW1"><i class="far fa-eye fa-lg"></i></span>
       </div>
 
       <div class="input-with-label">
         <label for="password">신규 비밀번호 확인</label>
-        <input type="password"
-          id="password-confirm"
-          v-model="passwordConfirm"
-          @keyup.enter="passwordCheck"
-        />
+        <input :type="passwordConfirmType" id="password-confirm" v-model="passwordConfirm" @keyup.enter="passwordCheck" />
+        <!--비밀번호 입력 시 아이콘을 누르면 입력타입을 변경해준다.(text, password)-->
+        <span class="eye_icon" @click="showPW2"><i class="far fa-eye fa-lg"></i></span>
       </div>
 
       <button
@@ -104,8 +99,9 @@
 </template>
 
 <script>
-import axios from 'axios'
-import store from '@/vuex/store'
+import axios from 'axios';
+import store from '@/vuex/store';
+import { base } from "@/components/common/BaseURL.vue"; // baseURL
 
 export default {
     name: 'PasswordChange',
@@ -115,6 +111,8 @@ export default {
         passwordConfirm: "",
         bottomNav: 'recent',
         email: "",
+        passwordType: "password",
+        passwordConfirmType: "password"
       }
     },
     created(){
@@ -138,24 +136,44 @@ export default {
       },
       sendPassword () {
         console.log(this.email)
-        axios.post("http://localhost:8080/account/changepw", {
-          email: this.email,
-          password: this.password,
-          // passwordConfirm: this.passwordConfirm
-          })
-          .then(res => {
-            console.log(res.data.status)
-            alert("비밀번호가 변경되었습니다.")
-            // 관심 태그 선택안한 사람이면 메인이 아니라 태그 선택으로 이동
-            this.$router.push("/")
-          })
-          .catch(err => {
-            alert("비밀번호를 다시 설정해주세요.")
-          })
+        axios
+                .post(base + '/tugether/changepw', {
+                    password: this.password
+                },
+                {
+                    headers:{
+                      "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
+                    }
+                })
+                .then(({data}) => {
+                  console.log(data.data);
+
+                    alert("비밀번호 변경이 완료되었습니다.");
+                    localStorage.clear();
+                    this.$router.push("/"); // 로그인창으로 이동 
+                })
+                .catch((err) => {
+                  alert("비밀번호를 다시 설정해주세요.")
+                });
       },
       sendToMain () {
         // 관심태그 안한 사람이면 메인이 아니라 태그 선택으로 이동
-        this.$router.push("/feed/main")
+        this.$router.push("/mainfeed")
+      },
+      // 비밀번호 입력 시 아이콘을 누르면 입력타입 변경(text, password)
+      showPW1() {
+        if (this.passwordType === "password") {
+          this.passwordType = "text";
+        } else {
+          this.passwordType = "password";
+        }
+      },
+      showPW2() {
+        if (this.passwordConfirmType === "password") {
+          this.passwordConfirmType = "text";
+        } else {
+          this.passwordConfirmType = "password";
+        }
       }
     }
 }

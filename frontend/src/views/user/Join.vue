@@ -23,12 +23,13 @@
         </div>
       </div>
 
-      <div class="error-text" v-if="error.email" style="color: red; margin-top: 10px; margin-bottom: 10px;">{{error.email}}</div>
+      <div class="error-text" v-if="error.email"
+        style="color: red; margin-top: 10px; margin-bottom: 0px;">{{error.email}}</div>
 
       <!-- 이메일 중복 체크, 유효성 검사-->
       <div>
         <button class="buttonDuplicate" @click="test"
-          style="margin-top: 0px; border-radius: 3px; width: 130px; height: 45px;">이메일 중복 체크</button>
+          style="margin-top: 10px; border-radius: 3px; width: 130px; height: 45px;">이메일 중복 체크</button>
       </div>
       <div class="input-with-label" style="margin-top: 10px; width: 400px;">
         <label for="password">인증번호</label>
@@ -43,12 +44,16 @@
       <div class="input-with-label">
         <label for="password">비밀번호</label>
         <input v-model="password" id="password" ref="password" :type="passwordType" placeholder="비밀번호를 입력하세요." />
+        <!--비밀번호 입력 시 아이콘을 누르면 입력타입을 변경해준다.(text, password)-->
+        <span class="eye_icon" @click="showPW1"><i class="far fa-eye fa-lg"></i></span>
       </div>
       <div class="error-text" v-if="error.password" style="color:red">{{error.password}}</div>
-
+      <!--비밀번호 확인-->
       <div class="input-with-label">
         <label for="password-confirm">비밀번호 확인</label>
         <input v-model="passwordConfirm" ref="passwordConfirm" :type="passwordConfirmType" id="password-confirm" placeholder="비밀번호를 다시 한 번 입력하세요." style="width: 100%;" />
+        <!--비밀번호 입력 시 아이콘을 누르면 입력타입을 변경해준다.(text, password)-->
+        <span class="eye_icon" @click="showPW2"><i class="far fa-eye fa-lg"></i></span>
       </div>
       <div class="error-text" v-if="error.passwordConfirm" style="color:red">{{error.passwordConfirm}}</div>
 
@@ -79,11 +84,17 @@
         </div>
       </div>
     </div>
-    <!--홈으로 돌아가기 버튼-->
-    <button class="btn-bottom register-btn" @click="moveLogin" style="margin-bottom: 52px; margin-left:0">BACK</button>
-    <!--회원가입 동작 버튼-->
-    <button class="btn-bottom register-btn" @click="checkHandler" style="margin-left:0; margin-top:10px !important;">가입하기</button>
-    <br/>
+
+    <!--버튼-->
+    <div id="signup_buttons">
+      <!--홈으로 돌아가기 버튼-->
+      <button class="button" :style="mybtn1" @mouseover="over1" @mouseout="out1"
+          @click="moveLogin" style="width: 200px; height: 45px; margin-right: 10px;">BACK</button>
+      <!--변경한 내용 저장하기 버튼-->
+      <button class="button" :style="mybtn2" @mouseover="over2" @mouseout="out2"
+          @click="checkHandler" style="width: 200px; height: 45px;">가입하기</button>
+    </div>
+
   </div>
 </template>
 
@@ -91,9 +102,11 @@
 import axios from "axios";
 import PV from "password-validator";
 import * as EmailValidator from "email-validator";
+import { base } from "@/components/common/BaseURL.vue"; // baseURL
+
 var valid = "";
 var localhost_url = "http://127.0.0.1:8080";
-var aws_url = "http://i3b303.p.ssafy.io";
+var aws_url = "https://i3b303.p.ssafy.io";
 export default {
   data: () => {
     return {
@@ -115,14 +128,14 @@ export default {
         passwordConfirm: false,
         nickName: false,
       },
-      isSubmit: false, //요청 후에는 버튼 비활성화 (this.isSubmit = false;)
       passwordType: "password",
       passwordConfirmType: "password",
-      checkPasswordRules: [
-        (v) =>
-          this.password === this.passwordConfirm ||
-          "비밀번호가 일치하지 않습니다.",
-      ],
+      mybtn1: {
+        backgroundColor: "black"
+      },
+      mybtn2: {
+        backgroundColor: "black"
+      }
     };
   },
   created() {
@@ -152,6 +165,7 @@ export default {
     },
   },
   methods: {
+    // 비밀번호 유효성 검사 (생성 규칙, 일치 여부 확인)
     checkForm() {
       if (this.password.length >= 0 && !this.passwordSchema.validate(this.password)) {
         this.error.password = "영문,숫자 포함 8자리 이상이어야 합니다.";
@@ -166,10 +180,11 @@ export default {
         this.error.passwordConfirm = false;
       }
     },
+    // 이메일 유효성 검사
     test() {
       this.email = this.email_id + "@" + this.domain;
       axios
-        .get(localhost_url + "/account/signup/" + this.email)
+        .get(base + '/account/signup/' + this.email)
         .then((res) => {
           console.log(res.data);
           valid = res.data.message;
@@ -186,6 +201,7 @@ export default {
           this.error.email = "사용할 수 없는 이메일입니다.";
         });
     },
+    // 이메일로 발송한 인증번호 유효성 검사
     checkValid() {
       if (this.valid_Num == valid) { // 이메일로 발송한 인증번호와 사용자가 입력한 인증번호가 일치할 때
         console.log(valid);
@@ -196,9 +212,10 @@ export default {
         this.error.email = "인증번호가 일치하지 않습니다.";
       }
     },
+    // 회원가입
     signup() {
       axios
-        .post(localhost_url + "/account/signup/", {
+        .post(base + '/account/signup/', {
           email: this.email,
           password: this.password,
           nickname: this.nickname,
@@ -215,9 +232,11 @@ export default {
           this.moveLogin();
         });
     },
+    // 페이지 이동
     moveLogin() {
       this.$router.push("/");
     },
+    // 사용자가 입력하지 않은 칸이 있을 경우 포커스 이동 & 모든 유효성 검사를 통과했을 때(적합, 인증 등)만 회원가입 가능
     checkHandler() {
       let err = true;
       let msg = "";
@@ -235,11 +254,39 @@ export default {
       }
       else alert("인증절차를 완료해주세요.");
     },
+    // 버튼에 마우스 갖다대면 빨갛게 변하도록
+    over1() {
+      this.mybtn1.backgroundColor = "red";
+    },
+    out1() {
+      this.mybtn1.backgroundColor = "black";
+    },
+    over2() {
+      this.mybtn2.backgroundColor = "red";
+    },
+    out2() {
+      this.mybtn2.backgroundColor = "black";
+    },
+    // 비밀번호 입력 시 아이콘을 누르면 입력타입 변경(text, password)
+    showPW1() {
+      if (this.passwordType === "password") {
+        this.passwordType = "text";
+      } else {
+        this.passwordType = "password";
+      }
+    },
+    showPW2() {
+      if (this.passwordConfirmType === "password") {
+        this.passwordConfirmType = "text";
+      } else {
+        this.passwordConfirmType = "password";
+      }
+    },
   },
 };
 </script>
 
-<style>
+<style scoped>
 .register-btn {
   width: 100% !important;
   transform: translate(50%, 0%) !important;
@@ -286,4 +333,17 @@ input[type="radio"] {
 input[type="radio"] {
   -webkit-appearance: radio;
 }
+#signup_buttons{
+  width: 100%;
+  margin: 0 auto;
+  padding-top: 30px;
+  margin-left: 60px;
+  float: left;
+}
+.button{
+        background: black;
+        color: white;
+        width: 25%;
+        height: 35px;
+    }
 </style>

@@ -3,20 +3,26 @@ import PasswordChange from './views/user/PasswordChange.vue'
 
 import Login from './views/user/Login.vue'
 import Join from './views/user/Join.vue'
-import Menu from './views/menu/Menu.vue'
 import TagView from './views/user/TagView.vue'
 import PasswordFind from './views/user/PasswordFind.vue'
+import ArticleWrite from './views/user/Write.vue'
+import MainFeed from './views/feed/MainFeed.vue'
+import Mypage from '@/views/mypage/Mypage.vue'
+import MypageSetting from '@/views/mypage/MypageSetting.vue'
+import MypagePasswordConfirm from '@/views/mypage/MypagePasswordConfirm.vue'
+import MypagePasswordChange from '@/views/mypage/MypagePasswordChange.vue'
+import Userpage from '@/views/mypage/Userpage.vue'
+import Follow from '@/views/mypage/Follow.vue'
 
-import FeedMain from './views/feed/IndexFeed.vue'
 import Components from './views/Components.vue'
 import store from './vuex/store'
 
 // 라우터가드1) 인증받은 유저는 reject 하겠다! 
 const rejectAuthUser = (to, from, next)=>{
-    if(store.state.isLogin === true){ // 이미 로그인 된 유저이므로 로그인페이지로는 막아야한다.
+    if( localStorage.getItem("token") !=null ){ // 이미 로그인 된 유저이므로 로그인페이지로는 막아야한다.
         
         alert('이미 로그인을 하였습니다.')
-        next("/feed/main") //돌릴 경로 입력 
+        next("/mainfeed") //돌릴 경로 입력 
 
     }else{ // 로그인 되지 않았으면 
         next() //원래 보내려고 했던곳으로 그냥 가라~
@@ -25,7 +31,7 @@ const rejectAuthUser = (to, from, next)=>{
 
 // 라우터가드2) 오직 인증받은 유저만 들어갈 수 있게 하겠다!
 const onlyAuthUser = (to,from,next)=>{
-    if(store.state.isLogin === true){ // 이미 로그인 된 유저이므로 로그인페이지로는 막아야한다.
+    if(localStorage.getItem("token")){ // 이미 로그인 된 유저이므로 가던길 가게 해준다.
         
         next() //원래 보내려고 했던곳으로 그냥 가라~
 
@@ -36,7 +42,6 @@ const onlyAuthUser = (to,from,next)=>{
 }
 
 export default [
-
     {
         path : '/',
         name : 'Login',
@@ -50,29 +55,63 @@ export default [
         component : Join
     },
     {
-
         path : '/passwordfind',
         name : 'PasswordFind',
+        beforeEnter: rejectAuthUser,
         component : PasswordFind
     },
     {
-
         path : '/passwordchange',
         name : 'PasswordChange',
         component : PasswordChange
     },
     {
-
-
         path : '/select',
         name : 'TagView',
+        beforeEnter: onlyAuthUser,
         component : TagView
     },
     {
-        path : '/feed/main',
-        name : 'FeedMain',
+        path : '/mainfeed',
+        name : 'MainFeed',
         beforeEnter: onlyAuthUser,
-        component : FeedMain
+        component : MainFeed
+    },
+    {
+        path : '/mypage/mypage',
+        name : 'Mypage',
+        beforeEnter: onlyAuthUser,
+        component : Mypage
+    },
+    {
+        path : '/mypage/mypagesetting',
+        name : 'MypageSetting',
+        beforeEnter: onlyAuthUser,
+        component : MypageSetting
+    },
+    {
+        path : '/mypage/mypagepasswordconfirm',
+        name : 'MypagePasswordConfirm',
+        beforeEnter: onlyAuthUser,
+        component : MypagePasswordConfirm
+    },
+    {
+        path : '/mypage/mypagepasswordchange',
+        name : 'MypagePasswordChange',
+        beforeEnter: onlyAuthUser,
+        component : MypagePasswordChange
+    },
+    {
+        path : '/mypage/userpage',
+        name : 'Userpage',
+        beforeEnter: onlyAuthUser,
+        component : Userpage
+    },
+    {
+        path : '/mypage/follow',
+        name : 'Follow',
+        beforeEnter: onlyAuthUser,
+        component : Follow      
     },
     {
         path : '/components',
@@ -80,8 +119,9 @@ export default [
         component : Components
     },
     {
-        path : '/menu',
-        name: 'Menu',
-        component: Menu
+        path : '/write',
+        name: 'ArticleWrite',
+        beforeEnter: onlyAuthUser,
+        component: ArticleWrite
     },
 ]
