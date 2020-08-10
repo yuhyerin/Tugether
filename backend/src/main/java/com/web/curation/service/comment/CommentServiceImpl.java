@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.web.curation.dto.comment.Comment;
 import com.web.curation.dto.comment.FrontComment;
 import com.web.curation.repo.CommentRepo;
+import com.web.curation.repo.ProfileRepo;
 import com.web.curation.repo.UserRepo;
 
 @Service
@@ -18,6 +19,8 @@ public class CommentServiceImpl implements CommentService{
 	private CommentRepo commentRepo;
 	@Autowired
 	private UserRepo userRepo;
+	@Autowired
+	private ProfileRepo profileRepo;
 	
 	@Override
 	public List<FrontComment> findComments(int article_id) {
@@ -27,18 +30,20 @@ public class CommentServiceImpl implements CommentService{
 			result.add(makeFront(list.get(l)));
 		return result;
 	}
+
 	
-	
-	
-	public FrontComment makeFront(Comment c) {
-		String nickname = userRepo.findUserByEmail(c.getEmail()).getNickname();
-		FrontComment fc = FrontComment.builder().comment_id(c.getComment_id())
-				.email(c.getEmail()).nickname(nickname)
-				.article_id(c.getArticle_id())
-				.content(c.getContent())
-				.reg_time(c.getReg_time()).build();
-				
-		return fc;
-	}
+	@Override
+	   public FrontComment makeFront(Comment c) {
+	      String nickname = userRepo.findUserByEmail(c.getEmail()).getNickname();
+	      String profile_photo = profileRepo.findProfilePhoto(c.getEmail());
+	      FrontComment fc = FrontComment.builder().comment_id(c.getComment_id())
+	            .profile_photo(profile_photo)
+	            .email(c.getEmail()).nickname(nickname)
+	            .article_id(c.getArticle_id())
+	            .content(c.getContent())
+	            .reg_time(c.getReg_time()).build();
+	            
+	      return fc;
+	   }
 	
 }
