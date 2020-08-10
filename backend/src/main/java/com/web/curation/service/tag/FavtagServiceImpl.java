@@ -31,6 +31,7 @@ public class FavtagServiceImpl implements FavtagService{
 			try {
 				for(int i=0; i<favtaglist.size();i++) {
 					favtagRepo.insertFavtagList(uid, favtaglist.get(i));
+					tagRepo.countFavCnt(favtaglist.get(i).intValue()); // 관심태그로 등록되었다고 카운팅!
 				}
 	    		
 	    		result.status = true;

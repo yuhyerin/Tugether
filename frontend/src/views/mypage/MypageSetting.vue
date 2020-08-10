@@ -76,7 +76,7 @@ export default {
         return {
             profile_photo: "",
             nickname: "",
-            favtags: ['음악','먹방','게임','메이플스토리','드럼','IT'],
+            favtags: [],
             mybtn1: {
                 backgroundColor: "black"
             },
@@ -103,7 +103,9 @@ export default {
                 console.log(res.data);
                 this.profile_photo = 'https://i3b303.p.ssafy.io/profileimages/' + res.data.profile.profile_photo;
                 this.nickname = res.data.profile.nickname;
-                // this.favtags = res.data.profile.favtags; // 관심태그 목록
+                this.favtags = res.data.favtaglist; // 관심태그 목록
+                console.log("관심태그 리스트!!");
+                console.log(res.data.profile.favtaglist);
             })
             .catch((err) => {
                 console.log("created axios get error")
