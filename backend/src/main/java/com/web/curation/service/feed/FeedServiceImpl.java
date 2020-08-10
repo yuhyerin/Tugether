@@ -16,6 +16,7 @@ import com.web.curation.repo.ArticleTagRepo;
 import com.web.curation.repo.FavtagRepo;
 import com.web.curation.repo.FollowingRepo;
 import com.web.curation.repo.LikeyRepo;
+import com.web.curation.repo.ProfileRepo;
 import com.web.curation.repo.ScrapRepo;
 import com.web.curation.repo.TagRepo;
 
@@ -36,6 +37,8 @@ public class FeedServiceImpl implements FeedService {
 	private LikeyRepo likeRepo;
 	@Autowired
 	private ScrapRepo scrapRepo;
+	@Autowired
+	private ProfileRepo profileRepo;
 
 	// 1. 태그기반 피드
 	@Override
@@ -141,21 +144,24 @@ public class FeedServiceImpl implements FeedService {
 	}
 
 	@Override // email = like 체크 / article_id = 태그리스트
-	public FrontArticle makeFront(String email, int article_id) {
+	   public FrontArticle makeFront(String email, int article_id) {
 
-		Article now = articleRepo.findArticleByArticleId(article_id).get(0);
-		List<Integer> taglist = articletagRepo.findTagIdByArticleId(now.getArticle_id()); // 아티클태그케이블에서 태그 가져와야 프론트에 줄 수
-																							// 있음
-		String[] temp = new String[taglist.size()]; // 태그 리스트를 태그 배열로 만들거임
-		for (int j = 0; j < taglist.size(); j++) {
-			temp[j] = tagRepo.findTagNameByTagId(taglist.get(j)); // 태그테이블에서 태그아이디로 태그네임 찾아서 배열 저장
-		}
+	      Article now = articleRepo.findArticleByArticleId(article_id).get(0);
+	      List<Integer> taglist = articletagRepo.findTagIdByArticleId(now.getArticle_id()); // 아티클태그케이블에서 태그 가져와야 프론트에 줄 수
+	                                                                     // 있음
+	      String[] temp = new String[taglist.size()]; // 태그 리스트를 태그 배열로 만들거임
+	      for (int j = 0; j < taglist.size(); j++) {
+	         temp[j] = tagRepo.findTagNameByTagId(taglist.get(j)); // 태그테이블에서 태그아이디로 태그네임 찾아서 배열 저장
+	      }
 
-		boolean like = likeRepo.findLike(article_id, email).isPresent();
-		FrontArticle ar = new FrontArticle(article_id, now.getWriter(), now.getReg_time(), now.getImage(),
-				now.getContent(), now.getLink(), now.getLike_cnt(), like, now.getComment_cnt(), now.getScrap_cnt(),
-				temp);
-		return ar;
-	}
+	      // 1. 그 이메일로 프로필테이블에서 프로필포토 가져와야해
+	      String profile_photo = profileRepo.findProfilePhoto(now.getEmail());
+	      
+	      boolean like = likeRepo.findLike(article_id, email).isPresent();
+	      FrontArticle ar = new FrontArticle(article_id, profile_photo, now.getWriter(), now.getReg_time(), now.getImage(),
+	            now.getContent(), now.getLink(), now.getLike_cnt(), like, now.getComment_cnt(), now.getScrap_cnt(),
+	            temp);
+	      return ar;
+	   }
 
 }
