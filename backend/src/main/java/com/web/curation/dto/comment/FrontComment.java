@@ -14,11 +14,10 @@ import lombok.NoArgsConstructor;
 public class FrontComment {
 	
 	private int comment_id;
-	   private String profile_photo;
-	   private String email;
-	   private String nickname;
-	   private int article_id;
-	   private String content;
-	   private LocalDateTime reg_time;
+	private String email;
+	private String nickname;
+	private int article_id;
+	private String content;
+	private LocalDateTime reg_time;
 
 }

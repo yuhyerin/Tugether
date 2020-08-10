@@ -73,8 +73,8 @@ public class MyPageController {
 	
 	@GetMapping("/changepw")
 	@ApiOperation(value="비밀번호확인")
-	public ResponseEntity<Map<String,Object>> checkPW(HttpServletRequest request) {
-		
+	public ResponseEntity<Map<String, Object>> checkPW(HttpServletRequest request) {
+
 		String token = request.getHeader("jwt-auth-token");
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		Jws<Claims> claims = jwtService.getDecodeToken(token);
@@ -84,12 +84,12 @@ public class MyPageController {
 		String password = request.getHeader("password");
 		boolean flag = findService.checkPW(email, password);
 		resultMap.put("status", true);
-		
-		resultMap.put("data", flag ? "success" : "fail");
-		
-		return new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.OK);
 
-}
+		resultMap.put("data", flag ? "success" : "fail");
+
+		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+
+	}
 	
 	@PostMapping("/changepw")
     @ApiOperation(value = "비밀번호 변경")

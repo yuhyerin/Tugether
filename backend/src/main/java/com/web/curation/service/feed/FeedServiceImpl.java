@@ -11,11 +11,13 @@ import com.web.curation.dto.article.Article;
 import com.web.curation.dto.article.FrontArticle;
 import com.web.curation.dto.article.Likey;
 import com.web.curation.dto.article.Scrap;
+import com.web.curation.dto.notice.Notice;
 import com.web.curation.repo.ArticleRepo;
 import com.web.curation.repo.ArticleTagRepo;
 import com.web.curation.repo.FavtagRepo;
 import com.web.curation.repo.FollowingRepo;
 import com.web.curation.repo.LikeyRepo;
+import com.web.curation.repo.NoticeRepo;
 import com.web.curation.repo.ScrapRepo;
 import com.web.curation.repo.TagRepo;
 
@@ -36,6 +38,8 @@ public class FeedServiceImpl implements FeedService {
 	private LikeyRepo likeRepo;
 	@Autowired
 	private ScrapRepo scrapRepo;
+	@Autowired 
+	private NoticeRepo noticeRepo;
 
 	// 1. 태그기반 피드
 	@Override
@@ -103,14 +107,24 @@ public class FeedServiceImpl implements FeedService {
 		return result;
 	}
 
-	@Override
+	@Override	//좋아요 클릭 시
 	public FrontArticle updateLike(int article_id, String email) {
+		Article a = articleRepo.findArticleByArticleId(article_id).get(0);
+		
 		// 1. likey테이블에서 좋아요 여부 확인
 		if (likeRepo.findLike(article_id, email).isPresent()) { // 좋아요 한 적 있음
 			likeRepo.deleteLikey(email, article_id);
+			noticeRepo.deleteNotice(email, article_id);
+			
 		} else { // 좋아요 한 적 없음
 			likeRepo.save(Likey.builder().article_id(article_id).email(email).build());
-			System.out.println(likeRepo.findLike(article_id, email));
+			Notice n = Notice.builder()
+					.notice_to(a.getEmail())
+					.notice_type(2)
+					.notice_from(email)
+					.article_id(article_id)
+					.build();
+			noticeRepo.save(n);
 		}
 
 		int like_cnt = likeRepo.findLikeByArticleId(article_id).size(); // 게시글의 좋아요 갯수
