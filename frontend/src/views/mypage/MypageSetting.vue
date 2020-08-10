@@ -52,6 +52,7 @@
                 <button class="button" :style="mybtn2" @mouseover="over2" @mouseout="out2"
                     style="width: 200px; height: 45px;">변경하기</button>
             </div>
+            <BottomNav/>
         </div>
     </div>
 </template>
@@ -63,11 +64,20 @@ import { mapState, mapActions } from "vuex";
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
 import WriteList from '@/components/user/WriteList';
 import WriteInput from '@/components/user/WriteInput';
+<<<<<<< HEAD
+=======
+import BottomNav from "@/components/common/BottomNav";
+>>>>>>> 5d4ef8aa06f87bfed1b1e134a7525628802f239e
 
 export default {
     components: {
         WriteList,
+<<<<<<< HEAD
         WriteInput
+=======
+        WriteInput,
+        BottomNav
+>>>>>>> 5d4ef8aa06f87bfed1b1e134a7525628802f239e
     },
     data: () => {
         return {
@@ -215,4 +225,13 @@ export default {
         clip: rect(0, 0, 0, 0);
         border: 0;
     }
+<<<<<<< HEAD
+=======
+    .button{
+        background: black;
+        color: white;
+        width: 25%;
+        height: 35px;
+    }
+>>>>>>> 5d4ef8aa06f87bfed1b1e134a7525628802f239e
 </style>

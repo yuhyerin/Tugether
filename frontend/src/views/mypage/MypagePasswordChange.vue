@@ -6,7 +6,7 @@
             <label for="password">신규 비밀번호</label>
             <input v-model="password" id="password" ref="password" :type="passwordType" placeholder="비밀번호를 입력하세요." />
             <!--비밀번호 입력 시 아이콘을 누르면 입력타입을 변경해준다.(text, password)-->
-            <span class="icon" @click="showPW1"><i class="far fa-eye fa-lg"></i></span>
+            <span class="eye_icon" @click="showPW1"><i class="far fa-eye fa-lg"></i></span>
         </div>
         <div class="error-text" v-if="error.password" style="color:red">{{error.password}}</div>
         <!--비밀번호 확인-->
@@ -15,7 +15,7 @@
             <input v-model="passwordConfirm" ref="passwordConfirm" :type="passwordConfirmType" id="password-confirm"
                 placeholder="비밀번호를 다시 한 번 입력하세요." style="width: 100%;" />
             <!--비밀번호 입력 시 아이콘을 누르면 입력타입을 변경해준다.(text, password)-->
-            <span class="icon" @click="showPW2"><i class="far fa-eye fa-lg"></i></span>
+            <span class="eye_icon" @click="showPW2"><i class="far fa-eye fa-lg"></i></span>
         </div>
         <div class="error-text" v-if="error.passwordConfirm" style="color:red">{{error.passwordConfirm}}</div>
 
@@ -28,7 +28,7 @@
             <button class="button" :style="mybtn2" @mouseover="over2" @mouseout="out2"
                 @click="checkHandler" style="width: 200px; height: 45px;">비밀번호 변경하기</button>
         </div>
-
+        <BottomNav/>
     </div>
 </template>
 
@@ -38,8 +38,12 @@ import PV from "password-validator";
 import store from '@/vuex/store';
 import { mapState, mapActions } from "vuex";
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
+import BottomNav from "@/components/common/BottomNav"
 
 export default {
+    components:{
+        BottomNav,
+    },
     data: () => {
         return {
             email: "",
@@ -181,5 +185,11 @@ export default {
         display: inline-block;
         height: 100%;
         vertical-align: middle;
+    }
+    .button{
+        background: black;
+        color: white;
+        width: 25%;
+        height: 35px;
     }
 </style>

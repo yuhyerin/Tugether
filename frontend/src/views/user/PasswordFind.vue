@@ -1,5 +1,7 @@
 <template>
   <div class="wrapC">
+    <h1 style="text-align: center; padding-top: 240px;">🍒비밀번호 찾기🍒</h1>
+    <br>
     <div class="input-with-label">
       <label for="email">이메일</label>
       <input
@@ -8,10 +10,17 @@
         id="email"
         type="text"
       />
+
       <button
         class="btn btn--back btn--login"
         @click="sendEmail"
-      >전송</button>
+        style="margin-top: 2px;"
+      >비밀번호 찾기</button>
+      <button
+        class="btn btn--back btn--login"
+        @click="sendToLogin"
+        style="margin-top: 2px;"
+      >BACK</button>
       <!-- <button
         class="btn btn--back btn--login"
         style="display: none;"
@@ -35,6 +44,12 @@ export default {
     }
   },
   methods: {
+    sendToMain() {
+      this.$router.push('/feed/indexfeed')
+    },
+    sendToLogin() {
+      this.$router.push('/')
+    },
     sendEmail () {
       console.log(this.email)
       axios.get(base + '/account/findpw/'+ this.email)
@@ -52,7 +67,7 @@ export default {
 </script>
 
 <style scoped>
-.input-with-label {
+/* .input-with-label {
   margin-top: 250px;
-}
+} */
 </style>

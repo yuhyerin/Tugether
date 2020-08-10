@@ -21,14 +21,14 @@
         <label for="password">신규 비밀번호</label>
         <input :type="passwordType" id="password" v-model="password" />
         <!--비밀번호 입력 시 아이콘을 누르면 입력타입을 변경해준다.(text, password)-->
-        <span class="icon" @click="showPW1"><i class="far fa-eye fa-lg"></i></span>
+        <span class="eye_icon" @click="showPW1"><i class="far fa-eye fa-lg"></i></span>
       </div>
 
       <div class="input-with-label">
         <label for="password">신규 비밀번호 확인</label>
         <input :type="passwordConfirmType" id="password-confirm" v-model="passwordConfirm" @keyup.enter="passwordCheck" />
         <!--비밀번호 입력 시 아이콘을 누르면 입력타입을 변경해준다.(text, password)-->
-        <span class="icon" @click="showPW2"><i class="far fa-eye fa-lg"></i></span>
+        <span class="eye_icon" @click="showPW2"><i class="far fa-eye fa-lg"></i></span>
       </div>
 
       <button
@@ -149,7 +149,12 @@ export default {
                   console.log(data.data);
 
                     alert("비밀번호 변경이 완료되었습니다.");
+<<<<<<< HEAD
                     this.sendToMain(); // 메인으로 이동
+=======
+                    localStorage.clear();
+                    this.$router.push("/"); // 로그인창으로 이동 
+>>>>>>> 5d4ef8aa06f87bfed1b1e134a7525628802f239e
                 })
                 .catch((err) => {
                   alert("비밀번호를 다시 설정해주세요.")
@@ -157,7 +162,7 @@ export default {
       },
       sendToMain () {
         // 관심태그 안한 사람이면 메인이 아니라 태그 선택으로 이동
-        this.$router.push("/feed/main")
+        this.$router.push("/mainfeed")
       },
       // 비밀번호 입력 시 아이콘을 누르면 입력타입 변경(text, password)
       showPW1() {

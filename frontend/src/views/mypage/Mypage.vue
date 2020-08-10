@@ -1,7 +1,11 @@
 <template>
   <div class="feed mypage">
       <div class="wrapB" style="text-align: center;">
+<<<<<<< HEAD
         <button @click="moveMain">메인피드로 이동하기</button><br>
+=======
+        <!-- <button @click="moveMain">메인피드로 이동하기</button><br> -->
+>>>>>>> 5d4ef8aa06f87bfed1b1e134a7525628802f239e
         <strong style="font-size: 30px;">마이페이지</strong>
         <!--프로필 영역-->
         <div id="profile" style="margin-top: 20px;">
@@ -152,7 +156,11 @@
             </transition>
         </div>
         <!--tab test-->
+<<<<<<< HEAD
 
+=======
+        <BottomNav/>
+>>>>>>> 5d4ef8aa06f87bfed1b1e134a7525628802f239e
       </div>
   </div>
 </template>
@@ -163,9 +171,16 @@ import store from '@/vuex/store';
 import { mapState, mapActions } from "vuex";
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
 import TabItem from '@/components/common/TabItem.vue';
+<<<<<<< HEAD
+=======
+import BottomNav from "@/components/common/BottomNav"
+>>>>>>> 5d4ef8aa06f87bfed1b1e134a7525628802f239e
 
 export default {
-    components: { TabItem },
+    components: { 
+      TabItem,
+      BottomNav,
+     },
     data: () => {
         return {
             profile_photo: "",
@@ -228,7 +243,11 @@ export default {
             this.$router.push("/mypage/mypagesetting");
         },
         moveWrite() {
+<<<<<<< HEAD
             // 글쓰기 페이지로 이동
+=======
+            this.$router.push("/write");
+>>>>>>> 5d4ef8aa06f87bfed1b1e134a7525628802f239e
         },
         moveFollow() {
             this.$router.push("/mypage/follow");

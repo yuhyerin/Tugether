@@ -6,7 +6,7 @@
             <label for="password">비밀번호</label>
             <input v-model="password" id="password" :type="passwordType" placeholder="비밀번호를 입력하세요." />
             <!--비밀번호 입력 시 아이콘을 누르면 입력타입을 변경해준다.(text, password)-->
-            <span class="icon" @click="showPW"><i class="far fa-eye fa-lg"></i></span>
+            <span class="eye_icon" @click="showPW"><i class="far fa-eye fa-lg"></i></span>
         </div>
 
         <!--버튼-->
@@ -19,6 +19,7 @@
             <button class="button" :style="mybtn2" @mouseover="over2" @mouseout="out2"
                 @click="checkPW" style="width: 200px; height: 45px;">확인</button>
         </div>
+        <BottomNav/>
     </div>
 </template>
 
@@ -27,8 +28,12 @@ import axios from "axios";
 import store from '@/vuex/store';
 import { mapState, mapActions } from "vuex";
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
+import BottomNav from "@/components/common/BottomNav"
 
 export default {
+    components:{
+        BottomNav,
+    },
     data: () => {
         return {
             email: "",
@@ -58,9 +63,19 @@ export default {
                 })
                 .then(({data}) => {
                     console.log(data.data);
+<<<<<<< HEAD
 
                     alert("비밀번호가 확인되었습니다.");
                     this.moveMypagePWchange(); // 비밀번호 변경 페이지로 이동
+=======
+                    if(data.data === "success"){
+                        alert("비밀번호가 확인되었습니다.");
+                        this.moveMypagePWchange(); // 비밀번호 변경 페이지로 이동
+                    }else{
+                        alert("비밀번호를 다시 확인해주세요. ");
+                    }
+                    
+>>>>>>> 5d4ef8aa06f87bfed1b1e134a7525628802f239e
                 })
                 .catch((err) => {
                     console.log("checkPW function error")
@@ -99,7 +114,7 @@ export default {
 </script>
 
 <style>
-    .icon{
+    .eye_icon{
         position: absolute;
         top: 50%;
         margin-left: -40px;
@@ -122,5 +137,11 @@ export default {
         display: inline-block;
         height: 100%;
         vertical-align: middle;
+    }
+    .button{
+        background: black;
+        color: white;
+        width: 25%;
+        height: 35px;
     }
 </style>

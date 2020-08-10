@@ -38,7 +38,7 @@
         />
         <label for="password">비밀번호</label>
         <!--비밀번호 입력 시 아이콘을 누르면 입력타입을 변경해준다.(text, password)-->
-        <span class="icon" @click="showPW"><i class="far fa-eye fa-lg"></i></span>
+        <span class="eye_icon" @click="showPW"><i class="far fa-eye fa-lg"></i></span>
         <!-- <div class="error-text" v-if="error.password">{{error.password}}</div> -->
       </div>
       
@@ -56,13 +56,6 @@
       </div>
 
       <div class="sns-login">
-        <!-- <div class="text"> -->
-          <!-- <p>SNS 간편 로그인</p>
-          <div class="bar"></div> -->
-        <!-- </div> -->
-
-        <!-- <kakaoLogin :component="component" />
-        <GoogleLogin :component="component" /> -->
       </div>
       <div class="add-option">
         <hr>
@@ -74,34 +67,8 @@
 
         </div>
       </div>
-  <v-bottom-navigation
-    v-model="bottomNav"
-    dark
-    shift
-  >
-    <v-btn>
-      <span>Video</span>
-      <v-icon>mdi-television-play</v-icon>
-    </v-btn>
-
-    <v-btn>
-      <span>Music</span>
-      <v-icon>mdi-music-note</v-icon>
-    </v-btn>
-
-    <v-btn>
-      <span>Book</span>
-      <v-icon>mdi-book</v-icon>
-    </v-btn>
-
-    <v-btn>
-      <span>Image</span>
-      <v-icon>mdi-image</v-icon>
-    </v-btn>
-  </v-bottom-navigation>
-
     </div>
-
+    <BottomNav/>
   </div>
 </template>
 
@@ -117,22 +84,19 @@ import "../../components/css/user.scss";
 import "../../components/css/style.scss";
 import PV from "password-validator";
 import * as EmailValidator from "email-validator";
-// import KakaoLogin from "../../components/user/snsLogin/Kakao.vue";
-// import GoogleLogin from "../../components/user/snsLogin/Google.vue";
 import UserApi from "../../api/UserApi";
 import store from "../../vuex/store"
 import * as axios from 'axios';
 import { mapState, mapActions} from "vuex"
-import Menu from '../menu/Menu';
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
+import BottomNav from "@/components/common/BottomNav";
 
 const storage = window.sessionStorage;
 
 export default {
   name: 'Login',
   component:{
-
-    'menu': Menu
+    BottomNav,
   },
 
   data: () => {

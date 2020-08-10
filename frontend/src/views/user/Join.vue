@@ -45,7 +45,7 @@
         <label for="password">비밀번호</label>
         <input v-model="password" id="password" ref="password" :type="passwordType" placeholder="비밀번호를 입력하세요." />
         <!--비밀번호 입력 시 아이콘을 누르면 입력타입을 변경해준다.(text, password)-->
-        <span class="icon" @click="showPW1"><i class="far fa-eye fa-lg"></i></span>
+        <span class="eye_icon" @click="showPW1"><i class="far fa-eye fa-lg"></i></span>
       </div>
       <div class="error-text" v-if="error.password" style="color:red">{{error.password}}</div>
       <!--비밀번호 확인-->
@@ -53,7 +53,7 @@
         <label for="password-confirm">비밀번호 확인</label>
         <input v-model="passwordConfirm" ref="passwordConfirm" :type="passwordConfirmType" id="password-confirm" placeholder="비밀번호를 다시 한 번 입력하세요." style="width: 100%;" />
         <!--비밀번호 입력 시 아이콘을 누르면 입력타입을 변경해준다.(text, password)-->
-        <span class="icon" @click="showPW2"><i class="far fa-eye fa-lg"></i></span>
+        <span class="eye_icon" @click="showPW2"><i class="far fa-eye fa-lg"></i></span>
       </div>
       <div class="error-text" v-if="error.passwordConfirm" style="color:red">{{error.passwordConfirm}}</div>
 
@@ -105,6 +105,8 @@ import * as EmailValidator from "email-validator";
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
 
 var valid = "";
+var localhost_url = "http://127.0.0.1:8080";
+var aws_url = "https://i3b303.p.ssafy.io";
 export default {
   data: () => {
     return {
@@ -284,7 +286,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .register-btn {
   width: 100% !important;
   transform: translate(50%, 0%) !important;
@@ -338,4 +340,10 @@ input[type="radio"] {
   margin-left: 60px;
   float: left;
 }
+.button{
+        background: black;
+        color: white;
+        width: 25%;
+        height: 35px;
+    }
 </style>
