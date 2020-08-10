@@ -13,6 +13,7 @@ import MypagePasswordConfirm from '@/views/mypage/MypagePasswordConfirm.vue'
 import MypagePasswordChange from '@/views/mypage/MypagePasswordChange.vue'
 import Userpage from '@/views/mypage/Userpage.vue'
 import Follow from '@/views/mypage/Follow.vue'
+import Notice from '@/views/notice/Notice.vue'
 
 import Components from './views/Components.vue'
 import store from './vuex/store'
@@ -112,6 +113,12 @@ export default [
         name : 'Follow',
         beforeEnter: onlyAuthUser,
         component : Follow      
+    },
+    {
+        path : '/notice',
+        name : 'Notice',
+        beforeEnter: onlyAuthUser,
+        component : Notice      
     },
     {
         path : '/components',
