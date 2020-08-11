@@ -6,6 +6,7 @@
     <div class="change-tab" style="text-align:center; font-family: Arial, Helvetica">
       <button @click="getTagData" :style="tagTab"><h3>태그</h3></button> | 
       <button @click="getFollowData" :style="followTab"><h3>팔로우</h3></button><br>
+      <!--로그아웃-->
       <a @click="logout"> <img src="@/assets/images/logout.png" height="50px" width="50px" style="float:right"/> </a>
     </div> 
     <br>
@@ -15,7 +16,8 @@
           <div class="profile-image" :style="{'background-image': 'url('+defaultProfile+')'}"></div>
           <div class="user-info">
             <div class="user-name">
-              <button @click="moveUserpage">{{ article.writer }}</button>
+              <!--다른 유저의 페이지로 이동-->
+              <button @click="moveUserpage(article.email)">{{ article.writer }}</button>
             </div>
             <p class="date">{{ timeForToday(article.reg_time) }}</p>
           </div>
@@ -323,8 +325,16 @@ export default {
       })
     },
     
-    moveUserpage() {
-      this.$router.push("/mypage/userpage");
+    // 다른 유저의 페이지로 이동
+    moveUserpage(user_email) {
+      // this.$router.push("/mypage/userpage");
+      this.$router.push({
+        name: 'Userpage',
+        params: {
+          user_email: this.articles.email
+        },
+        path: "/mypage/userpage"
+      })
     }
 
   },

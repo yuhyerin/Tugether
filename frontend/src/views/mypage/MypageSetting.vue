@@ -5,18 +5,19 @@
 
             <!--프로필 사진-->
             <div class="filebox" id="photo">
-                <v-avatar size="150px" style="margin-bottom: 15px;"><img :src=profile_photo></v-avatar>
-                <!-- <strong style="color: red; margin-left: 20px">프로필 사진 변경하기</strong> -->
-                <label for="profile_img" style="color: red; margin-left: 20px; font-weight: bold;">프로필 사진 변경하기</label>
-                <input type="file" id="profile_img" ref="profile_photo" @change="onFileSelected">
+                <v-avatar size="150px" style="margin-bottom: 15px;"><img :src=imageUrl></v-avatar>
+                <label for="profile_photo" style="color: red; margin-left: 20px; font-weight: bold;">프로필 사진 변경하기</label>
+                <input type="file" id="profile_photo" ref="profile_photo" name="profile_photo" @change="onFileSelected">
             </div>
             <!--사진 첨부 시 안내 메세지 출력-->
-            <strong>{{ test }}</strong>
+            <strong>{{ upload_ok }}</strong>
+
             <!--닉네임-->
             <div class="input-with-label">
                 <label for="nickname" style="margin-top: -3px;">닉네임</label>
                 <input v-model="nickname" id="nickname" placeholder=nickname type="text" />
             </div>
+
             <!--비밀번호-->
             <div class="row" style="padding-top: 0px; margin: 0px; border: 1px solid black; border-radius: 3px; height: 50px; width: 100%;  font-weight: 600; font-size: 0.857em;">
                 <div class="col-3" style="margin-left: -10px;">
@@ -27,17 +28,8 @@
                     style="width: 180px; margin: -5px 0px 0px 30px; background-color: red; font-size: 13px;">비밀번호 변경</button>
                 </div>
             </div>
-            <!--기존에 저장된 관심태그 보기-->
-            <!-- <div class="row" style="border: 1px solid black; border-radius: 3px; min-height: 40px; margin-top: 10px;
-                padding: 5px 0 0 10px; margin-left: 1px; width: 100%; font-weight: 600; font-size: 0.857em;">
-                <label for="favtags" style="margin-top: 5px;">관심태그</label>
-                <div style="font-size: 15px; margin-left: 65px; text-align: left; margin-top: 3px;">
-                    <span v-for="(tags, idx) in tagList" :key=idx>
-                        #{{ tags }}
-                    </span>
-                </div>
-            </div> -->
             <v-divider></v-divider>
+
             <!--관심태그 추가 및 삭제-->
             <div style="text-align: left; margin-top: 5px;">
                 <h3>관심태그</h3>
@@ -91,7 +83,7 @@ export default {
             },
             tagList: [],
             tagNameList: [],
-            test: ""
+            upload_ok: ""
         }
     },
     created() {
@@ -104,6 +96,7 @@ export default {
             })
             .then((res) => {
                 console.log(res.data);
+                this.imageUrl = 'https://i3b303.p.ssafy.io/profileimages/' + res.data.profile.profile_photo;
                 this.profile_photo = 'https://i3b303.p.ssafy.io/profileimages/' + res.data.profile.profile_photo;
                 this.nickname = res.data.profile.nickname;
                 this.favtags = res.data.favtaglist;
@@ -115,6 +108,7 @@ export default {
                     // this.tagList[i] = fav;
                     this.onAddTag(fav);
                 }
+
             })
             .catch((err) => {
                 console.log("created axios get error")
@@ -129,7 +123,7 @@ export default {
         onFileSelected(){
             this.selectedFile = this.$refs.profile_photo.files[0];
             this.imageUrl = URL.createObjectURL(this.selectedFile);
-            this.test = "사진이 첨부되었습니다😊";
+            this.upload_ok = "사진이 첨부되었습니다😊";
         },
         // 프로필 변경하기
         changeProfile() {
@@ -143,7 +137,7 @@ export default {
             for(let key of formdata.entries()){
                 console.log(`${key}`)
             }
-            axios.post(base + '/tugether/profile',
+            axios.post(base + '/tugether/profilechange',
             formdata,
                 {
                     headers:{
@@ -184,6 +178,7 @@ export default {
         // 관심태그 추가 및 삭제 기능
         onRemove (tag, index) {
             this.tagList.splice(index, 1);
+            this.tagNameList.splice(index, 1);
         },
         onAddTag(tag) {
             this.tagList = [...this.tagList, tag];
