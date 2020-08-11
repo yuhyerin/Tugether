@@ -15,7 +15,7 @@
           <div class="profile-image" :style="{'background-image': 'url('+defaultProfile+')'}"></div>
           <div class="user-info">
             <div class="user-name">
-              <button>{{ article.writer }}</button>
+              <button @click="moveUserpage">{{ article.writer }}</button>
             </div>
             <p class="date">{{ timeForToday(article.reg_time) }}</p>
           </div>
@@ -122,6 +122,7 @@
         </div>
       </div>
     </div>
+    <!--네비게이션 바-->
     <BottomNav/>
   </div>
 </div>    
@@ -137,7 +138,7 @@ import "../../components/css/feed/newsfeed.scss";
 import FeedItem from "../../components/feed/FeedItem.vue";
 import store from "../../vuex/store"
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
-import BottomNav from "@/components/common/BottomNav"
+import BottomNav from "@/components/common/BottomNav";
 
 export default {
   name: 'MainFeed',
@@ -322,9 +323,10 @@ export default {
       })
     },
     
-    moveMypage() {
-      this.$router.push("/mypage/mypage");
+    moveUserpage() {
+      this.$router.push("/mypage/userpage");
     }
+
   },
 
 
