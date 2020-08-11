@@ -18,6 +18,7 @@ public interface ProfileService {
 	// 관심태그 수정하기
 	public void updateFavtag(String email, ArrayList<Integer> favtaglist);
 
+
 	
 
 }

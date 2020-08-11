@@ -1,8 +1,7 @@
 <template>
   <div class="feed mypage">
       <div class="wrapB" style="text-align: center;">
-        <!-- <button @click="moveMain">메인피드로 이동하기</button><br> -->
-        <strong style="font-size: 30px;">마이페이지</strong>
+        <!-- <strong style="font-size: 30px;">마이페이지</strong> -->
         <!--프로필 영역-->
         <div id="profile" style="margin-top: 20px;">
             <!--프로필 사진-->
@@ -14,17 +13,16 @@
             팔로워 <strong @click="moveFollow" style="color: red; cursor: pointer;">{{ follower_cnt }}</strong>
         </div>
         <div id="buttons">
-            <!-- 나의 프로필 편집 버튼 위치에 다른 사람은 팔로우 버튼이 보인다. (아마도?) -->
             <button class="button" @click="moveSetting">프로필 편집</button>&nbsp;
             <button class="button" @click="moveWrite">글 작성</button>
         </div>
+        <!--저장된 관심태그 목록 보여주기-->
         <div id="favtags" style="margin-top: 10px;">
             <strong>관심태그 </strong>
             <span id="tags_test" v-for="tags in favtags" :key=tags>
                 #{{ tags }}&nbsp;
             </span>
         </div>
-
 
 <!--시작-->
 <h3 style="margin-top: 30px;">내 게시글 보기</h3>
@@ -136,7 +134,6 @@
 
 <!--끝-->
 
-
         <!--tab test-->
         <div class="tabs" style="margin-top: 50px;">
             <TabItem
@@ -152,6 +149,8 @@
             </transition>
         </div>
         <!--tab test-->
+
+        <!--네비게이션 바-->
         <BottomNav/>
       </div>
   </div>
@@ -163,12 +162,12 @@ import store from '@/vuex/store';
 import { mapState, mapActions } from "vuex";
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
 import TabItem from '@/components/common/TabItem.vue';
-import BottomNav from "@/components/common/BottomNav"
+import BottomNav from "@/components/common/BottomNav";
 
 export default {
     components: { 
       TabItem,
-      BottomNav,
+      BottomNav
      },
     data: () => {
         return {

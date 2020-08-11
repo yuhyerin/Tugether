@@ -44,8 +44,6 @@ import { bus } from '@/event-bus'
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
 import BottomNav from "@/components/common/BottomNav"
 
-const localhost_url = "http://localhost:8080/tugether/articlewrite"
-
 export default {
   name: 'Write',
   components: {

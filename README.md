@@ -35,6 +35,7 @@ git branch #로 확인해보면 feature/login 브랜치로 바뀐것을 알 수 
 git flow feature publish login
 ```
 
+### :star: 수정! 머지 함부로하지마세용!!! 주의!!! 커밋이력 최근껄로 덮어씌어짐... 날라갈 수 있음 
 > 예시) 로그인 기능 프론트,백엔드 각자의 브랜치에서 개발한 코드를 백엔드 개발자가 자신의 브랜치로 합쳐서 테스트 하고 develop으로 올리기
  - feature/login_frontend ,  feature/login_backend
 

@@ -48,6 +48,7 @@ public class ProfileServiceImpl implements ProfileService{
 			favtagRepo.insertFavtagList(email, favtaglist.get(i).intValue());
 		}
 		System.out.println("관심태그에 등록했습니다.");
+
 		
 	}
 

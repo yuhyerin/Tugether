@@ -34,6 +34,7 @@ public class FavtagServiceImpl implements FavtagService{
 					System.out.println("관심태그 등록한개 함! ");
 					tagRepo.updateFav_cnt(favtaglist.get(i)); // 관심태그로 등록되었다고 카운팅!
 					System.out.println("카운팅 함!");
+
 				}
 	    		
 	    		result.status = true;

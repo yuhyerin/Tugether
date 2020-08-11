@@ -26,6 +26,7 @@ public interface TagRepo extends JpaRepository<Tag, String>{
 	@Transactional
 	@Query(value="update tag t set t.fav_cnt = t.fav_cnt + 1 where t.tag_id = :tag_id",nativeQuery = true)
 	public void updateFav_cnt(@Param("tag_id")int tag_id);
+
 	
 
 }

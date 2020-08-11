@@ -1,15 +1,17 @@
 <template>
     <div class="feed mypage">
-        <div class="wrapB" style="text-align: center;">
-            <strong style="font-size: 30px; margin-top: 30px;">프로필 편집</strong>
+        <div class="wrapB" style="text-align: center; padding-top: 20px;">
+            <strong style="font-size: 30px; margin-bottom: 10px;">프로필 편집</strong>
 
             <!--프로필 사진-->
             <div class="filebox" id="photo">
                 <v-avatar size="150px" style="margin-bottom: 15px;"><img :src=profile_photo></v-avatar>
                 <!-- <strong style="color: red; margin-left: 20px">프로필 사진 변경하기</strong> -->
-                <label for="image_setting" style="color: red; margin-left: 20px; font-weight: bold;">프로필 사진 변경하기</label>
-                <input type="file" id="image_setting">
+                <label for="profile_img" style="color: red; margin-left: 20px; font-weight: bold;">프로필 사진 변경하기</label>
+                <input type="file" id="profile_img" ref="profile_photo" @change="onFileSelected">
             </div>
+            <!--사진 첨부 시 안내 메세지 출력-->
+            <strong>{{ test }}</strong>
             <!--닉네임-->
             <div class="input-with-label">
                 <label for="nickname" style="margin-top: -3px;">닉네임</label>
@@ -17,27 +19,27 @@
             </div>
             <!--비밀번호-->
             <div class="row" style="padding-top: 0px; margin: 0px; border: 1px solid black; border-radius: 3px; height: 50px; width: 100%;  font-weight: 600; font-size: 0.857em;">
-                <div class="col-3" style="margin-left: -35px;">
+                <div class="col-3" style="margin-left: -10px;">
                     <label for="password" style="margin-top: 3px;">비밀번호</label>
                 </div>
                 <div class="col-2">
                    <button class="button" @click="moveConfirmPW"
-                    style="width: 180px; margin-top: -5px; background-color: red;">비밀번호 변경</button>
+                    style="width: 180px; margin: -5px 0px 0px 30px; background-color: red; font-size: 13px;">비밀번호 변경</button>
                 </div>
             </div>
-            <!--관심태그-->
-            <div class="row" style="border: 1px solid black; border-radius: 3px; min-height: 40px; margin-top: 10px;
+            <!--기존에 저장된 관심태그 보기-->
+            <!-- <div class="row" style="border: 1px solid black; border-radius: 3px; min-height: 40px; margin-top: 10px;
                 padding: 5px 0 0 10px; margin-left: 1px; width: 100%; font-weight: 600; font-size: 0.857em;">
                 <label for="favtags" style="margin-top: 5px;">관심태그</label>
-                <div style="font-size: 20px; margin-left: 60px; text-align: left;">
-                    <span v-for="tags in favtags" :key=tags>
+                <div style="font-size: 15px; margin-left: 65px; text-align: left; margin-top: 3px;">
+                    <span v-for="(tags, idx) in tagList" :key=idx>
                         #{{ tags }}
                     </span>
                 </div>
-            </div>
+            </div> -->
             <v-divider></v-divider>
+            <!--관심태그 추가 및 삭제-->
             <div style="text-align: left; margin-top: 5px;">
-                <!--관심태그 추가 및 삭제-->
                 <h3>관심태그</h3>
                 <WriteInput @add-tag="onAddTag" />
                 <WriteList @delete="onRemove" :tagList="tagList" />
@@ -47,11 +49,13 @@
             <div id="mypage_buttons">
                 <!--마이페이지로 돌아가기 버튼-->
                 <button class="button" :style="mybtn1" @mouseover="over1" @mouseout="out1"
-                    @click="moveMypage" style="width: 200px; height: 45px; margin-right: 10px;">BACK</button>
+                    @click="moveMypage" style="width: 48%; height: 45px; margin-right: 10px; float: left;">BACK</button>
                 <!--변경한 내용 저장하기 버튼-->
                 <button class="button" :style="mybtn2" @mouseover="over2" @mouseout="out2"
-                    style="width: 200px; height: 45px;">변경하기</button>
+                    @click="changeProfile" style="width: 48%; height: 45px; float: right;">변경하기</button>
             </div>
+
+            <!--네비게이션 바-->
             <BottomNav/>
         </div>
     </div>
@@ -74,6 +78,8 @@ export default {
     },
     data: () => {
         return {
+            imageUrl: null,
+            selectedFile: null,
             profile_photo: "",
             nickname: "",
             favtags: [],
@@ -83,12 +89,9 @@ export default {
             mybtn2: {
                 backgroundColor: "black"
             },
-            tagList: [
-                // {
-                // id: 1,
-                // content: '당신의 관심태그를 추가해주세요.',
-                // }
-            ]
+            tagList: [],
+            tagNameList: [],
+            test: ""
         }
     },
     created() {
@@ -103,9 +106,17 @@ export default {
                 console.log(res.data);
                 this.profile_photo = 'https://i3b303.p.ssafy.io/profileimages/' + res.data.profile.profile_photo;
                 this.nickname = res.data.profile.nickname;
-                this.favtags = res.data.favtaglist; // 관심태그 목록
-                console.log("관심태그 리스트!!");
-                console.log(res.data.profile.favtaglist);
+
+                this.favtags = res.data.favtaglist;
+
+                for(var i=0; i<this.favtags.length; i++) {
+                    var fav = new Object();
+                    fav['id'] = Date.now();
+                    fav['content'] = this.favtags[i]; // this.favtags[i] => content
+                    // this.tagList[i] = fav;
+                    this.onAddTag(fav);
+                }
+
             })
             .catch((err) => {
                 console.log("created axios get error")
@@ -116,31 +127,41 @@ export default {
         ...mapActions(["getToken"])
     },
     methods: {
+        // 사진 업로드
+        onFileSelected(){
+            this.selectedFile = this.$refs.profile_photo.files[0];
+            this.imageUrl = URL.createObjectURL(this.selectedFile);
+            this.test = "사진이 첨부되었습니다😊";
+        },
         // 프로필 변경하기
         changeProfile() {
-            axios
-                .post(base + '/tugether/profile', {
-                    headers:{
-                        "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
-                    },
-                    // profile_photo: this.profile_photo, // 사진 업로드는 onUpload() 메소드 참조
-                    nickname: this.nickname,
-                    favtags: this.favtags
-                })
-                .then(({data}) => {
-                    console.log(data.data);
-
-                    alert("프로필 변경이 완료되었습니다.");
-                    this.moveMypage(); // 마이페이지로 이동
-                })
-                .catch((err) => {
-
-                });
-        },
-        // 사진 업로드
-        onUpload() {
             const formdata = new FormData();
-            formdata.append('articleimg', this.selectedFile);
+            formdata.append('profile_photo', this.selectedFile);
+            formdata.append('nickname', this.nickname);
+            formdata.append('taglist', this.tagNameList);
+
+            // FormData 객체는 그 자체를 로깅하면 빈 객체만을 리턴한다.
+            // FormData를 로깅하려면 FormData.entries()를 이용해서, key-value쌍을 뽑아야 한다.
+            for(let key of formdata.entries()){
+                console.log(`${key}`)
+            }
+            axios.post(base + '/tugether/profile',
+            formdata,
+                {
+                    headers:{
+                        "jwt-auth-token": localStorage.getItem("token"),
+                        "Content-Type" : 'multipart/form-data; charset=utf-8'
+                    }
+                },
+                )
+            .then((res) => {
+                console.log(res);
+                alert("프로필 변경이 완료되었습니다.");
+                this.moveMypage(); // 마이페이지로 이동
+            })
+            .catch((err) => {
+                console.log("change profile function error")
+            });
         },
         // 버튼에 마우스 갖다대면 빨갛게 변하도록
         over1() {
@@ -168,6 +189,7 @@ export default {
         },
         onAddTag(tag) {
             this.tagList = [...this.tagList, tag];
+            this.tagNameList = [...this.tagNameList, tag.content];
             console.log(this.tagList)
         }
     },
@@ -178,8 +200,8 @@ export default {
     #mypage_buttons{
         width: 100%;
         margin: 0 auto;
-        padding-top: 50px;
-        float: left;
+        padding-top: 30px;
+        display: inline-block;
     }
     .wrapB:before{
         content: '';
@@ -201,7 +223,6 @@ export default {
         -webkit-transition: background-color 0.2s;
         transition: background-color 0.2s;
     }
-
     .filebox label:hover {
         background-color: white;
     }

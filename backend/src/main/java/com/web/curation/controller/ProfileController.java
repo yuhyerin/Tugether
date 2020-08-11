@@ -103,6 +103,7 @@ public class ProfileController {
 			Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
 			String email = Userinfo.get("email").toString();
 			// DB에 프로필사진 저장할 때 이미지는 이메일+파일명 만 !!!
+
 			String profile_photo = email+mFile.getOriginalFilename();
 			
 			// 이메일로 해당 유저 프로필 수정하기 
@@ -112,8 +113,7 @@ public class ProfileController {
 			// 이전 관심태그 지우기
 			profileSerivce.resetFavtag(email);
 			System.out.println("이전 관심태그 목록을 지웠습니다. ");
-			
-			
+					
 			//이메일로 해당 유저 관심태그 수정하기
 			ArrayList<Integer> new_favtaglist  = new ArrayList<Integer>();
 			
@@ -134,6 +134,7 @@ public class ProfileController {
 			}
 			profileSerivce.updateFavtag(email, new_favtaglist);
 			System.out.println("프로필 컨트롤러 - 관심태그 수정 완료했습니다.");
+
 			// 프로필사진 업로드
 			try {
 				// 파일업로드 할때 => 경로 + (작성자 이메일 + 파일명) 
@@ -145,7 +146,7 @@ public class ProfileController {
 				status = HttpStatus.INTERNAL_SERVER_ERROR;
 				e.printStackTrace();
 			}
-			 
+
 			return new ResponseEntity<Map<String,Object>>(resultMap, status);
 	
 	}
