@@ -10,5 +10,8 @@ public interface MyPageService {
 	List<Article> findArticles(String email); 
 	//2. 스크랩한 게시글 가져오기
 	List<Article> findScraps(String email);
+	
+	//3. 팔로우 확인
+	boolean findFollow(String userEmail, String email);
 
 }

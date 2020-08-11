@@ -66,7 +66,6 @@ public class ProfileController {
 			 resultMap.put("favtaglist", favtaglist);
 
 			return new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.OK);
-	
 	}
 
 }
