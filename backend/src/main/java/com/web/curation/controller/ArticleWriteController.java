@@ -45,8 +45,8 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/tugether")
 public class ArticleWriteController {
 	
-//	@Value("${ubuntu.article.upload.directory}")
-	@Value("${window.article.upload.directory}")
+//	@Value("${window.article.upload.directory}")
+	@Value("${ubuntu.article.upload.directory}")
 	String upload_FILE_PATH;
 	
 	@Autowired
@@ -61,8 +61,7 @@ public class ArticleWriteController {
 	
 	@ApiOperation(value = "게시글 작성")
 	@PostMapping("/articlewrite")
-    public ResponseEntity<Map<String,Object>> addArticle( 
-    		@RequestParam("articleimg") MultipartFile mFile, 
+    public ResponseEntity<Map<String,Object>> addArticle( @RequestParam("articleimg") MultipartFile mFile, 
     		@RequestParam("contents") String contents,
     		@RequestParam("link") String link,
     		@RequestParam("taglist") ArrayList<String> taglist,

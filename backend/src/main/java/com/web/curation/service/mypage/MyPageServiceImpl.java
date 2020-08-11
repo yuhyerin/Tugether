@@ -8,11 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.web.curation.dto.article.Article;
 import com.web.curation.repo.ArticleRepo;
-import com.web.curation.repo.ArticleTagRepo;
-import com.web.curation.repo.CommentRepo;
-import com.web.curation.repo.LikeyRepo;
+import com.web.curation.repo.FollowingRepo;
 import com.web.curation.repo.ScrapRepo;
-import com.web.curation.repo.TagRepo;
 
 @Service
 public class MyPageServiceImpl implements MyPageService {
@@ -21,6 +18,8 @@ public class MyPageServiceImpl implements MyPageService {
 	private ArticleRepo articleRepo;
 	@Autowired
 	private ScrapRepo scrapRepo;
+	@Autowired
+	private FollowingRepo followingRepo;
 	
 	@Override
 	public List<Article> findArticles(String email) {
@@ -34,6 +33,12 @@ public class MyPageServiceImpl implements MyPageService {
 		for(int l=0;l<articleIDs.size();l++)
 			articles.add(articleRepo.findArticleByArticleId(articleIDs.get(l)).get(0)); 
 		return articles;
+	}
+
+	@Override
+	public boolean findFollow(String userEmail, String email) {
+		List<String> list = followingRepo.findToUserByFromUser(email);
+		return list.contains(userEmail);
 	}
 	
 	
