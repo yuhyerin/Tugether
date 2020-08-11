@@ -35,7 +35,7 @@
                 <!-- <a :href="article.link" v-if="article.link" target="_blank"><unicon name="youtube" fill="red" ></unicon></a>
                 <a :href="article.link" v-if="article.link" target="_blank"><unicon name="youtube" fill="gray"></unicon></a> -->
               </div>
-              <p class="date">{{article.reg_time.slice(0, 10)}}</p>
+              <p class="date">{{ article.reg_time.slice(0, 10) }}</p>
             </div>
           </div>
         </div>
@@ -76,7 +76,9 @@
             <span class="like-cnt" v-if="article.like_cnt">{{ article.like_cnt }}명이 좋아합니다.</span>
             <!-- <p>{{ $store.state.nickname }}님 외 {{ article.like_cnt }}명이 좋아합니다.</p> -->
           </div>
-          <div class="comment">
+          <!-- <div class="comment"> -->
+            
+            <div class="comment" @click="clickedCommentBtn(article, index)">
             <svg
               class="svg-inline--fa fa-comment-alt fa-w-16 icon"
               aria-hidden="true"
@@ -265,7 +267,6 @@ export default {
 
 
     clickedLikeBtn(index) { 
-
       this.clicked = true;
       axios.get(base + '/tugether/mainfeed/like',{
         headers: { 
@@ -283,6 +284,15 @@ export default {
       })
     },
 
+    clickedCommentBtn(articles, index) {
+      this.$router.push({
+        name: 'Comment',
+        params: {
+          // article: this.articles[index],
+          article_id: this.articles[index].article_id
+        }
+      })
+    },
 
     clickedScrapBtn(index) {
       // 스크랩 여부 확인

@@ -24,5 +24,8 @@ public interface ArticleWriteRepo extends JpaRepository<Article, String>{
 	@Query(value="select count(*) from article a where a.email=:email ", nativeQuery = true)
 	public int countMyArticle(String email);
 	
+	@Query(value="select * from article where article_id=:article_id", nativeQuery=true)
+	Article getArticle(int article_id);
+	
 	
 }

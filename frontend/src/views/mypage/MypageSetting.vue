@@ -83,7 +83,7 @@ export default {
             selectedFile: null,
             profile_photo: "",
             nickname: "",
-            favtags: [],
+            favtags: ['음악','먹방','게임','메이플스토리','드럼','IT'],
             mybtn1: {
                 backgroundColor: "black"
             },
@@ -108,7 +108,6 @@ export default {
                 this.imageUrl = 'https://i3b303.p.ssafy.io/profileimages/' + res.data.profile.profile_photo;
                 this.profile_photo = 'https://i3b303.p.ssafy.io/profileimages/' + res.data.profile.profile_photo;
                 this.nickname = res.data.profile.nickname;
-
                 this.favtags = res.data.favtaglist;
 
                 for(var i=0; i<this.favtags.length; i++) {
@@ -118,6 +117,7 @@ export default {
                     // this.tagList[i] = fav;
                     this.onAddTag(fav);
                 }
+
 
             })
             .catch((err) => {

@@ -105,7 +105,7 @@ public class ProfileController {
 			// DB에 프로필사진 저장할 때 이미지는 이메일+파일명 만 !!!
 			System.out.println("여긴 옴~!!!~!~");
 			System.out.println(mFile.getOriginalFilename());
-			String profile_photo = email+mFile.getOriginalFilename();
+			String profile_photo = mFile.getOriginalFilename();
 			System.out.println("사진이름?? "+profile_photo);
 			// 이메일로 해당 유저 프로필 수정하기 
 			profileSerivce.updateProfile(email, nickname, profile_photo);

@@ -8,8 +8,8 @@ module.exports = {
     },
   },
   
+
   "transpileDependencies": [
     "vuetify"
-  ],
-  
+  ]
 }
