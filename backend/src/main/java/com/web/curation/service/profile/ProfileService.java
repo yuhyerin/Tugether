@@ -16,7 +16,7 @@ public interface ProfileService {
 	public void resetFavtag(String email);
 	
 	// 관심태그 수정하기
-	public void updateFavtag(String email, ArrayList<String> favtaglist);
+	public void updateFavtag(String email, ArrayList<Integer> favtaglist);
 
 	
 

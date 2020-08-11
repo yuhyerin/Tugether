@@ -102,7 +102,7 @@ public class ProfileController {
 			Map<String, Object> Userinfo = new HashMap<String, Object>();
 			Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
 			String email = Userinfo.get("email").toString();
-			// DB에 프로필사진 저장할때 이미지는 이메일+파일명 만 !!!
+			// DB에 프로필사진 저장할 때 이미지는 이메일+파일명 만 !!!
 			String profile_photo = email+mFile.getOriginalFilename();
 			
 			// 이메일로 해당 유저 프로필 수정하기 
@@ -113,22 +113,27 @@ public class ProfileController {
 			profileSerivce.resetFavtag(email);
 			System.out.println("이전 관심태그 목록을 지웠습니다. ");
 			
+			
 			//이메일로 해당 유저 관심태그 수정하기
-			ArrayList<String> new_favtaglist  = new ArrayList<String>();
+			ArrayList<Integer> new_favtaglist  = new ArrayList<Integer>();
+			
 			for(int i=0; i<favtaglist.size(); i++) {
-				
-				int tag_id = tagService.getTagByTagName(favtaglist.get(i));
-				if(true) { // 해당 태그가 등록되어 있으면 
-					new_favtaglist.add(favtaglist.get(i));
-				}else {
-					// 태그 테이블에 등록하고 
+				int tag_id;
+				try {
+					tag_id = tagService.getTagByTagName(favtaglist.get(i));
+					
+				}catch(NullPointerException e) {
+					// 해당태그명이 테이블에 없다면, 태그 테이블에 등록하고 
 					tagService.addTag(favtaglist.get(i));
-					// 관심태그에 등록하기 
-					new_favtaglist.add(favtaglist.get(i));
+					tag_id = tagService.getTagByTagName(favtaglist.get(i));
+					
 				}
+				// 관심태그에 등록하기 
+				new_favtaglist.add(tag_id);
+				
 			}
 			profileSerivce.updateFavtag(email, new_favtaglist);
-			
+			System.out.println("프로필 컨트롤러 - 관심태그 수정 완료했습니다.");
 			// 프로필사진 업로드
 			try {
 				// 파일업로드 할때 => 경로 + (작성자 이메일 + 파일명) 
@@ -141,7 +146,6 @@ public class ProfileController {
 				e.printStackTrace();
 			}
 			 
-
 			return new ResponseEntity<Map<String,Object>>(resultMap, status);
 	
 	}
