@@ -5,10 +5,11 @@
 
             <!--프로필 사진-->
             <div class="filebox" id="photo">
-                <v-avatar size="150px" style="margin-bottom: 15px;"><img :src=profile_photo></v-avatar>
+                <v-avatar size="150px" style="margin-bottom: 15px;">
+                    <img :src=imageUrl></v-avatar>
                 <!-- <strong style="color: red; margin-left: 20px">프로필 사진 변경하기</strong> -->
-                <label for="profile_img" style="color: red; margin-left: 20px; font-weight: bold;">프로필 사진 변경하기</label>
-                <input type="file" id="profile_img" ref="profile_photo" @change="onFileSelected">
+                <label for="profile_photo" style="color: red; margin-left: 20px; font-weight: bold;">프로필 사진 변경하기</label>
+                <input type="file" id="profile_photo" ref="profile_photo" name="profile_photo" v-on:change="onFileSelected">
             </div>
             <!--사진 첨부 시 안내 메세지 출력-->
             <strong>{{ test }}</strong>
@@ -104,6 +105,7 @@ export default {
             })
             .then((res) => {
                 console.log(res.data);
+                this.imageUrl = 'https://i3b303.p.ssafy.io/profileimages/' + res.data.profile.profile_photo;
                 this.profile_photo = 'https://i3b303.p.ssafy.io/profileimages/' + res.data.profile.profile_photo;
                 this.nickname = res.data.profile.nickname;
 
@@ -145,7 +147,7 @@ export default {
             for(let key of formdata.entries()){
                 console.log(`${key}`)
             }
-            axios.post(base + '/tugether/profile',
+            axios.post(base + '/tugether/profilechange',
             formdata,
                 {
                     headers:{
@@ -186,6 +188,7 @@ export default {
         // 관심태그 추가 및 삭제 기능
         onRemove (tag, index) {
             this.tagList.splice(index, 1);
+            this.tagNameList.splice(index, 1);
         },
         onAddTag(tag) {
             this.tagList = [...this.tagList, tag];

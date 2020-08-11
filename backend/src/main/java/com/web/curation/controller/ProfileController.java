@@ -90,7 +90,7 @@ public class ProfileController {
 	@PostMapping("/profilechange")
 	@ApiOperation(value = "회원의 프로필 수정하기 ")
 	public ResponseEntity<Map<String,Object>> updateProfile(
-			@RequestParam("profileimg") MultipartFile mFile,
+			@RequestParam("profile_photo") MultipartFile mFile,
 			@RequestParam("nickname") String nickname,
     		@RequestParam("taglist") ArrayList<String> favtaglist,
 			HttpServletRequest request) {
@@ -103,9 +103,10 @@ public class ProfileController {
 			Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
 			String email = Userinfo.get("email").toString();
 			// DB에 프로필사진 저장할 때 이미지는 이메일+파일명 만 !!!
-
+			System.out.println("여긴 옴~!!!~!~");
+			System.out.println(mFile.getOriginalFilename());
 			String profile_photo = email+mFile.getOriginalFilename();
-			
+			System.out.println("사진이름?? "+profile_photo);
 			// 이메일로 해당 유저 프로필 수정하기 
 			profileSerivce.updateProfile(email, nickname, profile_photo);
 			System.out.println("프로필 수정이 완료되었습니다!");
