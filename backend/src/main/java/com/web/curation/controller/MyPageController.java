@@ -110,7 +110,7 @@ public class MyPageController {
     	return findService.changePW(u);
     }
 
-	@GetMapping("/mypage")
+	@GetMapping("/userpage")
 	@ApiOperation(value="타유저페이지")
 	public ResponseEntity<Map<String,Object>> UserPage(@RequestParam String userEmail, HttpServletRequest request){
 		System.out.println("UserPage Controller 입장");
@@ -120,7 +120,7 @@ public class MyPageController {
 		Map<String, Object> Userinfo = 
 				(Map<String, Object>) claims.getBody().get("AuthenticationResponse");
 		String email = Userinfo.get("email").toString();
-		
+		// 1. 게시글 가져오기
 		List<Article> articles=myPageService.findArticles(userEmail); 
 		System.out.println("articles : "+articles.toString());
 		resultMap.put("articles", articles);
@@ -128,6 +128,7 @@ public class MyPageController {
 		List<Article> scraps = myPageService.findScraps(userEmail);
 		System.out.println("scraps : "+scraps.toString());
 		resultMap.put("scraps", scraps);
+		//3. 프로필 가져오기
 		Profile profile = profileService.getProfile(userEmail);
 		System.out.println("profile : "+profile.toString());
 		resultMap.put("profile", profile);
