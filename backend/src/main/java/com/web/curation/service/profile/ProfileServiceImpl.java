@@ -42,9 +42,13 @@ public class ProfileServiceImpl implements ProfileService{
 	
 	// 관심태그 변경
 	@Override
-	public void updateFavtag(String email, ArrayList<String> favtaglist) {
+	public void updateFavtag(String email, ArrayList<Integer> favtaglist) {
 		
-		
+		for(int i=0; i<favtaglist.size();i++) {
+			favtagRepo.insertFavtagList(email, favtaglist.get(i).intValue());
+		}
+		System.out.println("관심태그에 등록했습니다.");
+
 		
 	}
 

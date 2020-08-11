@@ -18,7 +18,7 @@ public interface ProfileRepo extends JpaRepository<Profile, String>{
 	@Query(value="update profile set article_cnt = :article_cnt where email= :email ",nativeQuery=true)
 	void countMyArticle(String email, int article_cnt);
 
-	@Query(value="update profile set nickname= :nickname and profile_photo= :profile_photo where email= :email",nativeQuery=true)
+	@Query(value="update profile set nickname= :nickname , profile_photo= :profile_photo where email= :email",nativeQuery=true)
 	void updateProfile(String email, String nickname, String profile_photo);
 
 	@Query(value = "select profile_photo from profile p where p.email=:email", nativeQuery=true)
