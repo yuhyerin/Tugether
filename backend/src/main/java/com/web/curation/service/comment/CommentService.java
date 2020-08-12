@@ -9,4 +9,5 @@ public interface CommentService {
 	
 	List<FrontComment> findComments(int article_id);
 	void saveComment(Comment c);
+	public FrontComment makeFront(Comment c);
 }

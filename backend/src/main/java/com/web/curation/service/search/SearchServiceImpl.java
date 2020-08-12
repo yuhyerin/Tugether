@@ -33,14 +33,14 @@ public class SearchServiceImpl implements SearchService {
 
 	@Override	//키워드 포함한 태그이름 찾기
 	public List<String> findTagNamesByTag(String keyword) {
-		List<String> tagNames = tagRepo.findTagNameByTagName(keyword);
+		List<String> tagNames = tagRepo.findTagNameByTagNameContains(keyword);
 		return tagNames;
 	}
 
 	@Override
 	public List<FrontArticle> findByTagName(String email, String keyword) {
 		//1. 키워드를 포함한 태그이름으로 태그아이디 가져오기
-		List<Integer> tagIDs = tagRepo.findTagIdByTagName(keyword);
+		List<Integer> tagIDs = tagRepo.findTagIdByTagNameContains(keyword);
 		//2. 태그아이디를 가지고 있는 아티클아이디 가져오기 -> treeset 써서 중복 제거 또는 list.contains 써서 중복 제거
 		List<Integer> articleIDs = new ArrayList<>();
 		for(int i=0;i<tagIDs.size();i++) {
