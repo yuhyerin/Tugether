@@ -18,8 +18,5 @@ public interface CommentRepo extends JpaRepository<Comment, String>{
 	
 	@Query(value="select article_id from comment c where c.comment_id=:comment_id", nativeQuery = true)
 	int findArticleIdByCommentId(int comment_id);
-	
-	@Query(value="delete from comment c where c.comment_id=:comment_id", nativeQuery = true)
-	void deleteComment(int comment_id);
 
 }

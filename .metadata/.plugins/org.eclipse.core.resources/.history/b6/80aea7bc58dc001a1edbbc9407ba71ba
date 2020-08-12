@@ -79,6 +79,8 @@ public class CommentServiceImpl implements CommentService{
 		int comment_cnt = commentRepo.findCommentByArticleId(article_id).size();
 		a.setComment_cnt(comment_cnt);
 		articleRepo.save(a);
+		
+		return article_id;
 	}
 	
 }

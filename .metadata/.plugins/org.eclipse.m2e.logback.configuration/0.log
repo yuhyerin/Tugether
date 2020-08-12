@@ -220,3 +220,92 @@
 2020-08-12 12:37:51,496 [Worker-17: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 14 resources
 2020-08-12 12:37:51,502 [Worker-17: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
 2020-08-12 12:37:51,503 [Worker-17: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\SSAFY\git\s03p13b303\backend\src\test\resources
+2020-08-12 13:39:15,351 [Worker-40: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-08-12 13:39:15,357 [Worker-40: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2020-08-12 13:39:15,360 [Worker-40: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 14 resources
+2020-08-12 13:39:15,366 [Worker-40: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-08-12 13:39:15,366 [Worker-40: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\SSAFY\git\s03p13b303\backend\src\test\resources
+2020-08-12 13:43:26,303 [Worker-41: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-08-12 13:43:26,308 [Worker-41: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2020-08-12 13:43:26,313 [Worker-41: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 14 resources
+2020-08-12 13:43:26,318 [Worker-41: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-08-12 13:43:26,318 [Worker-41: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\SSAFY\git\s03p13b303\backend\src\test\resources
+2020-08-12 13:43:27,500 [Worker-38: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-08-12 13:43:27,503 [Worker-38: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2020-08-12 13:43:27,507 [Worker-38: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 14 resources
+2020-08-12 13:43:27,511 [Worker-38: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-08-12 13:43:27,511 [Worker-38: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\SSAFY\git\s03p13b303\backend\src\test\resources
+2020-08-12 13:44:50,988 [Worker-43: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-08-12 13:44:50,990 [Worker-43: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2020-08-12 13:44:50,992 [Worker-43: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 14 resources
+2020-08-12 13:44:50,995 [Worker-43: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-08-12 13:44:50,996 [Worker-43: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\SSAFY\git\s03p13b303\backend\src\test\resources
+2020-08-12 13:44:56,698 [Worker-34: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-08-12 13:44:56,701 [Worker-34: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2020-08-12 13:44:56,706 [Worker-34: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 14 resources
+2020-08-12 13:44:56,710 [Worker-34: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-08-12 13:44:56,710 [Worker-34: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\SSAFY\git\s03p13b303\backend\src\test\resources
+2020-08-12 13:44:59,523 [Worker-38: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-08-12 13:44:59,525 [Worker-38: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2020-08-12 13:44:59,528 [Worker-38: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 14 resources
+2020-08-12 13:44:59,531 [Worker-38: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-08-12 13:44:59,531 [Worker-38: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\SSAFY\git\s03p13b303\backend\src\test\resources
+2020-08-12 13:47:25,694 [Worker-42: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-08-12 13:47:25,697 [Worker-42: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2020-08-12 13:47:25,701 [Worker-42: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 14 resources
+2020-08-12 13:47:25,704 [Worker-42: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-08-12 13:47:25,704 [Worker-42: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\SSAFY\git\s03p13b303\backend\src\test\resources
+2020-08-12 13:47:51,466 [Worker-44: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-08-12 13:47:51,468 [Worker-44: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2020-08-12 13:47:51,471 [Worker-44: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 14 resources
+2020-08-12 13:47:51,474 [Worker-44: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-08-12 13:47:51,475 [Worker-44: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\SSAFY\git\s03p13b303\backend\src\test\resources
+2020-08-12 13:49:29,621 [Worker-34: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-08-12 13:49:29,623 [Worker-34: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2020-08-12 13:49:29,625 [Worker-34: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 14 resources
+2020-08-12 13:49:29,628 [Worker-34: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-08-12 13:49:29,628 [Worker-34: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\SSAFY\git\s03p13b303\backend\src\test\resources
+2020-08-12 13:49:48,193 [Worker-34: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-08-12 13:49:48,195 [Worker-34: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2020-08-12 13:49:48,197 [Worker-34: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 14 resources
+2020-08-12 13:49:48,200 [Worker-34: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-08-12 13:49:48,201 [Worker-34: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\SSAFY\git\s03p13b303\backend\src\test\resources
+2020-08-12 13:50:18,169 [Worker-44: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-08-12 13:50:18,171 [Worker-44: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2020-08-12 13:50:18,174 [Worker-44: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 14 resources
+2020-08-12 13:50:18,177 [Worker-44: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-08-12 13:50:18,177 [Worker-44: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\SSAFY\git\s03p13b303\backend\src\test\resources
+2020-08-12 13:50:31,642 [Worker-43: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-08-12 13:50:31,644 [Worker-43: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2020-08-12 13:50:31,647 [Worker-43: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 14 resources
+2020-08-12 13:50:31,650 [Worker-43: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-08-12 13:50:31,650 [Worker-43: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\SSAFY\git\s03p13b303\backend\src\test\resources
+2020-08-12 13:51:00,888 [Worker-43: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-08-12 13:51:00,891 [Worker-43: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2020-08-12 13:51:00,894 [Worker-43: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 14 resources
+2020-08-12 13:51:00,898 [Worker-43: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-08-12 13:51:00,898 [Worker-43: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\SSAFY\git\s03p13b303\backend\src\test\resources
+2020-08-12 13:59:58,176 [Worker-47: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-08-12 13:59:58,178 [Worker-47: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2020-08-12 13:59:58,181 [Worker-47: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 14 resources
+2020-08-12 13:59:58,183 [Worker-47: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-08-12 13:59:58,183 [Worker-47: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\SSAFY\git\s03p13b303\backend\src\test\resources
+2020-08-12 14:00:08,788 [Worker-46: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-08-12 14:00:08,790 [Worker-46: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2020-08-12 14:00:08,793 [Worker-46: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 14 resources
+2020-08-12 14:00:08,796 [Worker-46: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-08-12 14:00:08,796 [Worker-46: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\SSAFY\git\s03p13b303\backend\src\test\resources
+2020-08-12 14:00:23,123 [Worker-52: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-08-12 14:00:23,125 [Worker-52: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2020-08-12 14:00:23,127 [Worker-52: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 14 resources
+2020-08-12 14:00:23,132 [Worker-52: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-08-12 14:00:23,132 [Worker-52: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\SSAFY\git\s03p13b303\backend\src\test\resources
+2020-08-12 14:00:27,009 [Worker-49: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-08-12 14:00:27,011 [Worker-49: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2020-08-12 14:00:27,013 [Worker-49: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 14 resources
+2020-08-12 14:00:27,016 [Worker-49: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-08-12 14:00:27,016 [Worker-49: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\SSAFY\git\s03p13b303\backend\src\test\resources
+2020-08-12 14:00:49,521 [Worker-46: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-08-12 14:00:49,523 [Worker-46: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2020-08-12 14:00:49,526 [Worker-46: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 14 resources
+2020-08-12 14:00:49,529 [Worker-46: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.

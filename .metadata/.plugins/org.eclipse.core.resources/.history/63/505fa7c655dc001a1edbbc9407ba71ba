@@ -47,11 +47,11 @@ public class CommentController {
    @GetMapping("/mainfeed/comment")
    @ApiOperation(value = "댓글페이지")
    public ResponseEntity<Map<String,Object>> commentPage(HttpServletRequest request) {
-//      System.out.println("GET : Controller 입장");
+      System.out.println("GET : Controller 입장");
       Map<String, Object> resultMap = new HashMap<String, Object>();
-//      String token = request.getHeader("jwt-auth-token");   //토큰 가져와서
-//      Jws<Claims> claims = jwtService.getDecodeToken(token);   //복호화해서
-//      Map<String, Object> Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
+      String token = request.getHeader("jwt-auth-token");   //토큰 가져와서
+      Jws<Claims> claims = jwtService.getDecodeToken(token);   //복호화해서
+      Map<String, Object> Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
 //      String email = Userinfo.get("email").toString();
       int article_id = Integer.parseInt(request.getHeader("article_id"));
       
@@ -76,22 +76,14 @@ public class CommentController {
       Map<String, Object> Userinfo = new HashMap<String, Object>();
       Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
       String email = Userinfo.get("email").toString();
-//      System.out.println("email : "+email);
+      System.out.println("email : "+email);
       Comment c = Comment.builder().article_id(article_id).content(content).email(email).build();
       System.out.println(c.toString());
        commentService.saveComment(c);
        resultMap.put("status", true);
        resultMap.put("data", "success");
        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.ACCEPTED);
+
     }
    
-   @GetMapping("/mainfeed/deleteComment")
-   @ApiOperation(value="댓글삭제")
-   public ResponseEntity<Map<String,Object>> deleteComment(HttpServletRequest request) {
-	   Map<String, Object> resultMap = new HashMap<String, Object>();
-	   // comment_id 삭제 -> article_tb에서 article_id comment_cnt-1
-	   
-	   commentService.deleteComment(Integer.parseInt(request.getHeader("comment_id")));
-	   return new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.OK);
-   }
 }

@@ -71,7 +71,7 @@ public class CommentServiceImpl implements CommentService{
 
 
 	@Override
-	public void deleteComment(int comment_id) {
+	public int deleteComment(int comment_id) {
 		//1. comment_id 삭제 -> article_tb에서 article_id comment_cnt-1 -> article_id로 comment찾기
 		int article_id = commentRepo.findArticleIdByCommentId(comment_id);
 		commentRepo.deleteComment(comment_id);
@@ -79,6 +79,8 @@ public class CommentServiceImpl implements CommentService{
 		int comment_cnt = commentRepo.findCommentByArticleId(article_id).size();
 		a.setComment_cnt(comment_cnt);
 		articleRepo.save(a);
+		
+		return article_id;
 	}
 	
 }

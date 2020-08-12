@@ -85,13 +85,15 @@ public class CommentController {
        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.ACCEPTED);
     }
    
-   @GetMapping("/mainfeed/deleteComment")
+   @GetMapping("/mainfeed/deletecomment")
    @ApiOperation(value="댓글삭제")
-   public ResponseEntity<Map<String,Object>> deleteComment(HttpServletRequest request) {
+   public ResponseEntity<Map<String,Object>> commentPage(HttpServletRequest request) {
 	   Map<String, Object> resultMap = new HashMap<String, Object>();
-	   // comment_id 삭제 -> article_tb에서 article_id comment_cnt-1
+	   //1. comment_id 삭제 -> article_tb에서 article_id comment_cnt-1 -> article_id로 comment찾기
 	   
-	   commentService.deleteComment(Integer.parseInt(request.getHeader("comment_id")));
+	   int article_id = commentService.deleteComment(Integer.parseInt(request.getHeader("comment_id")));
+	   List<FrontComment> comments = commentService.findComments(article_id);
+	   resultMap.put("comments", comments);
 	   return new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.OK);
    }
 }
