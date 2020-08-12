@@ -7,7 +7,7 @@
 :green_heart: Team Name - 만두 :tongue:
 팀원들끼리 똘똘 뭉치자는 의미에서 만두로 정했습니다 😚
 
-:blue_heart:Team Member & Role 👪
+:blue_heart: Team Member & Role 👪
 팀장 😚	유혜린
 
 팀원 😏	권민지, 정현희, 고소영, 최규식	😏
@@ -31,7 +31,7 @@ Tech Leader - 유혜린
 
 
 
-:purple_heart:개발규칙💻
+:purple_heart: 개발규칙💻
 
 ### Git 전략 :star:
 
