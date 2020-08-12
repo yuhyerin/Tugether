@@ -1,5 +1,7 @@
 package com.web.curation.service.tag;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,17 +19,29 @@ public class TagServiceImpl implements TagService{
 	private TagRepo tagRepo;
 	
 
-	// 태그 테이블에 해당태그명의 태그아이디 조회 
+	// 태그 업데이트
 	@Override
-	public int getTagByTagName(String tag_name) {
+	public ArrayList<Integer> updateFavtag(ArrayList<String> favtaglist) {
 		
-		return tagRepo.findTagIdByTagName(tag_name);
-	}
-
-	// 태그 테이블에 넣기. 
-	@Override
-	public void addTag(String tagname) {
-		
+		ArrayList<Integer> favtagIdlist  = new ArrayList<Integer>();
+		for(int i=0; i<favtaglist.size(); i++) {
+			
+			if(tagRepo.findTagIdByTagName(favtaglist.get(i)).isPresent()) { //존재한다면, 
+				
+				int tag_id = tagRepo.findTagIdByTagName(favtaglist.get(i)).get();
+				favtagIdlist.add(tag_id);
+				
+			}else { //존재하지 않으면, 
+				// 해당태그명이 테이블에 없다면, 태그 테이블에 등록하고 
+				System.out.println("TagServiceImpl - 해당태그는 태그테이블에 존재하지 않아요.");
+				tagRepo.addTag(favtaglist.get(i),1);
+				int tag_id = tagRepo.findTagIdByTagName(favtaglist.get(i)).get();
+				
+			}
+			
+			
+		}
+		return favtagIdlist;
 		
 	}
 

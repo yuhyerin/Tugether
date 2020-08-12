@@ -14,4 +14,5 @@ public interface ArticleWriteService {
 
 		// ArticleTag 테이블에 insert
 		public void addArticleTag(int article_id, ArrayList<String> taglist);
+
 }

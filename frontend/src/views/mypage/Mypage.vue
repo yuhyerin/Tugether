@@ -282,10 +282,16 @@ export default {
             reg_time: ''
         }
     },
+    watch: {
+      myText: function() {
+        this.checkForm();
+      }
+    },
     created() {
         // 프로필 띄우기
         axios
-            .get(base + '/tugether/profile', {
+            .get(base + '/tugether/profile', 
+            {
                 headers:{
                     "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
                 }
@@ -322,6 +328,54 @@ export default {
             });
     },
     methods: {
+      // 게시글 수정
+        clickedEditBtn(index) {
+          //  axios
+          //   .get(base + '?????',
+          //     this.articles[index].article_id,
+          //     {
+          //       headers:{
+          //           "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
+          //       }
+          //   })
+          //   .then((res) => {
+          //       console.log(res.data);
+          console.log(this.articles[index].article_id)
+          this.$router.push({
+            name: "Update",
+            params: {
+              article_id: this.articles[index].article_id
+                    // article_id: res.data.article.article_id,
+                    // selectedFile: res.data.article.image,
+                    // myText: res.data.article.content,
+                    // urlLink: res.data.article.link,
+                    // 서버에 tagList는 안들어가고 tagNameList만 들어가는데 이를 어떻게 할지...
+
+                    // tagNameList: res.data.tag.tag_name,
+                  }
+                })
+            // })
+            // .catch((err) => {
+            //     console.log("created axios get PROFILE error")
+            // });
+        },
+      // 게시글 삭제
+        clickedDeleteBtn(index) {
+           axios
+            .post(base + '?????',
+              this.articles[index].article_id,
+              {
+                headers:{
+                    "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
+                }
+            })
+            .then((res) => {
+                console.log("삭제 성공");
+            })
+            .catch((err) => {
+                console.log("삭제 실패")
+            });
+        },
         // 페이지 이동
         moveSetting() {
             this.$router.push("/mypage/mypagesetting");

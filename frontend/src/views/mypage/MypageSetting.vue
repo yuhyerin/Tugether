@@ -74,7 +74,7 @@ export default {
             selectedFile: null,
             profile_photo: "",
             nickname: "",
-            favtags: [],
+            favtags: ['음악','먹방','게임','메이플스토리','드럼','IT'],
             mybtn1: {
                 backgroundColor: "black"
             },
@@ -108,7 +108,6 @@ export default {
                     // this.tagList[i] = fav;
                     this.onAddTag(fav);
                 }
-
             })
             .catch((err) => {
                 console.log("created axios get error")
