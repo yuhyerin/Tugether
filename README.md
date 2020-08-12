@@ -1,14 +1,50 @@
-# Project  - SNS 튜게더
+## Project  - 튜게더 (Tugether = YouTube + Together )
 
 :heart: Project Name - Tugether :blush: ( YouTube + Together의 합성어 )
 
-:yellow_heart: Team Name - 만두 :tongue:
+:yellow_heart: Project Subject - 유튜브 영상 큐레이션 및 태그기반 유튜브 영상 공유 SNS :envelope:
 
-:green_heart: Project Subject - 유튜버 팬들이 자신이 구독하는 유튜버의 영상클립이나 이미지를 공유하며 이용자들 간 소통하는 웹 큐레이션 SNS :envelope:
+:green_heart: Team Name - 만두 :tongue:
+팀원들끼리 똘똘 뭉치자는 의미에서 만두로 정했습니다 😚
+
+:blue_heart:Team Member & Role 👪
+팀장 😚	유혜린
+
+팀원 😏	권민지, 정현희, 고소영, 최규식	😏
+
+역할
+
+기획 - 고소영
+
+프론트 개발 - 권민지, 고소영, 최규식
+
+백엔드 개발 - 유혜린, 정현희
+
+QA - 정현희
+
+Tech Leader - 유혜린
+
+:heartpulse: 서비스 소개
+:hand: 	기존에 존재하지 않았던 유튜브 구독자들을 위한 커뮤니티 SNS 서비스 입니다!
+:hand:	 관심태그를 설정하여 공통의 관심분야를 가진 사람들끼리 유튜브 영상을 공유하고 추천받을 수 있습니다!
+:hand: 	SNS의 팔로우기능을 활용하여 비슷한 취향의 방송을 보는 사람들과 소통할 수 있습니다!
 
 
+
+:purple_heart:개발규칙💻
 
 ### Git 전략 :star:
+
+Git-flow에는 5가지 종류의 브랜치가 존재합니다. 
+항상 유지되는 메인 브랜치들(master, develop)과 일정 기간 동안만 유지되는 보조 브랜치들(feature, release, hotfix)이 있습니다.
+
+master : 제품으로 출시될 수 있는 브랜치
+develop : 다음 출시 버전을 개발하는 브랜치
+feature : 기능을 개발하는 브랜치
+release : 이번 출시 버전을 준비하는 브랜치
+hotfix : 출시 버전에서 발생한 버그를 수정 하는 브랜치
+
+
 
 > git flow를 활용하여 master브랜치에서 직접 작업하는 것을 막고, develop브랜치에서 모든 작업을 수행하도록 한다.
 
@@ -29,52 +65,6 @@ git branch #로 확인해보면 feature/login 브랜치로 바뀐것을 알 수 
 
 
 
-> login 기능 개발을 공동으로 진행한다면, publish 해준다.
-
-```shell
-git flow feature publish login
-```
-
-### :star: 수정! 머지 함부로하지마세용!!! 주의!!! 커밋이력 최근껄로 덮어씌어짐... 날라갈 수 있음 
-> 예시) 로그인 기능 프론트,백엔드 각자의 브랜치에서 개발한 코드를 백엔드 개발자가 자신의 브랜치로 합쳐서 테스트 하고 develop으로 올리기
- - feature/login_frontend ,  feature/login_backend
-
-```shell
-# 현재 위치 : feature/login_backend (로그인 기능 백엔드 개발자)
-# pull 대신 track 명령으로 바뀌었습니다. 
-# 현재 login_backend 브랜치에 login_frontend 개발한것을 가지고 온다.
-# 이때 자동으로 login_frontend로 checkout 되게 됩니다.
-git flow feature track feature/login_frontend  
-
-# 그래서 feature/login_backend 로 이동한다.
-git checkout feature/login_backend
-
-# login_frontend 를 login_backend로 합친다.
-git merge feature/login_frontend
-
-# login_backend를 원격지로 올린다.
-git push origin feature/login_backend
-
-# develop 브랜치로 이동한다.
-git checkout develop
-
-# develop을 원격지로 올리기전에 fetch로 변경사항을 받아온다.
-git fetch
-
-# 원격지에 변경사항이 있다면 받아온다.
-git pull origin develop
-
-# 완성한 login기능코드 (login_backend)를 develop에 합친다.
-git merge feature/login_backend
-
-# 원격develop에 완성한 코드를 올린다.
-git push origin develop
-
-# 완료한 기능의 브랜치를 수동으로 삭제한다.
-git branch -d feature/login_backend
-git branch -d feature/login_frontendd
-
-# 로그인 기능 끝.
-
+> 같은기능을 구현하는 프론트, 백엔드 개발자간 코드를 머지한 후  develop에 push 한다.
 
 
