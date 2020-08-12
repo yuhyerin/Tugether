@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -136,6 +137,27 @@ public class ArticleUpdateController {
 		// 등록한 태그 리스트를 넘겨주면 받아서 => ArticleTag에 추가 하기 !!!
 		articleWriteService.addArticleTag(articleid, taglist);
 		System.out.println("새로운 게시글 태그리스트를 등록 했습니다.");
+		status = HttpStatus.OK;
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+
+	}
+	
+	@ApiOperation(value = "게시글 삭제하기")
+	@PostMapping("/articledelete")
+	public ResponseEntity<Map<String, Object>> deleteArticle(
+			@RequestBody Map<String, String> map,
+			HttpServletRequest request) {
+
+		String token = request.getHeader("jwt-auth-token");
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		HttpStatus status = null;
+		Jws<Claims> claims = jwtService.getDecodeToken(token);
+		Map<String, Object> Userinfo = new HashMap<String, Object>();
+		Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
+		String email = Userinfo.get("email").toString(); // 이메일
+		int articleid = Integer.parseInt(map.get("article_id"));
+		// 게시글 삭제
+		articleUpdateService.deleteArticle(email, articleid);
 		status = HttpStatus.OK;
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 

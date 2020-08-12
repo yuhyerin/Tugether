@@ -20,4 +20,7 @@ public interface ArticleUpdateService {
 
 	// Article 수정 - 이미지O
 	public void updateArticlewithImage(Article article);
+
+	// 게시글 삭제
+	void deleteArticle(String email, int article_id);
 }
