@@ -91,11 +91,7 @@ public class ProfileController {
 	@PostMapping("/profilechange")
 	@ApiOperation(value = "회원의 프로필 수정하기 ")
 	public ResponseEntity<Map<String,Object>> updateProfile(
-<<<<<<< HEAD
-			@RequestParam("profile_photo") MultipartFile mFile,
-=======
 			@RequestParam(name="profile_photo", required = false) MultipartFile mFile,
->>>>>>> 9e3c10da12ddc8bae955035bfadc90b134c0d77f
 			@RequestParam("nickname") String nickname,
     		@RequestParam("taglist") ArrayList<String> favtaglist,
 			HttpServletRequest request) {
@@ -108,48 +104,6 @@ public class ProfileController {
 			Map<String, Object> Userinfo = new HashMap<String, Object>();
 			Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
 			String email = Userinfo.get("email").toString();
-<<<<<<< HEAD
-			// DB에 프로필사진 저장할 때 이미지는 이메일+파일명 만 !!!
-			System.out.println("여긴 옴~!!!~!~");
-			System.out.println(mFile.getOriginalFilename());
-			String profile_photo = email+mFile.getOriginalFilename();
-			System.out.println("사진이름?? "+profile_photo);
-			// 이메일로 해당 유저 프로필 수정하기 
-			profileSerivce.updateProfile(email, nickname, profile_photo);
-			System.out.println("프로필 수정이 완료되었습니다!");
-			
-			// 이전 관심태그 지우기
-			profileSerivce.resetFavtag(email);
-			System.out.println("이전 관심태그 목록을 지웠습니다. ");
-					
-			//이메일로 해당 유저 관심태그 수정하기
-			ArrayList<Integer> new_favtaglist  = new ArrayList<Integer>();
-			
-			for(int i=0; i<favtaglist.size(); i++) {
-				int tag_id;
-				try {
-					tag_id = tagService.getTagByTagName(favtaglist.get(i));
-					
-				}catch(NullPointerException e) {
-					// 해당태그명이 테이블에 없다면, 태그 테이블에 등록하고 
-					tagService.addTag(favtaglist.get(i));
-					tag_id = tagService.getTagByTagName(favtaglist.get(i));
-					
-				}
-				// 관심태그에 등록하기 
-				new_favtaglist.add(tag_id);
-				
-			}
-			profileSerivce.updateFavtag(email, new_favtaglist);
-			System.out.println("프로필 컨트롤러 - 관심태그 수정 완료했습니다.");
-
-			// 프로필사진 업로드
-			try {
-				// 파일업로드 할때 => 경로 + (작성자 이메일 + 파일명) 
-				mFile.transferTo(new File(upload_FILE_PATH+email+profile_photo));
-				status = HttpStatus.OK;
-				System.out.println("파일을 업로드 했습니다.");
-=======
 			
 			Profile profile = new Profile();
 			profile.setEmail(email);
@@ -180,11 +134,8 @@ public class ProfileController {
 					System.out.println("프로필사진을 업로드하지 못했습니다.");
 					e.printStackTrace();
 				}
->>>>>>> 9e3c10da12ddc8bae955035bfadc90b134c0d77f
 				
 			}
-<<<<<<< HEAD
-=======
 
 			// 이전 관심태그 지우기
 			profileSerivce.resetFavtag(email);
@@ -195,8 +146,7 @@ public class ProfileController {
 			profileSerivce.updateFavtag(email, favtagIdlist);
 			System.out.println("프로필 컨트롤러 - 관심태그 수정 완료했습니다.");
 			status = HttpStatus.OK;
-			
->>>>>>> 9e3c10da12ddc8bae955035bfadc90b134c0d77f
+
 
 			return new ResponseEntity<Map<String,Object>>(resultMap, status);
 	

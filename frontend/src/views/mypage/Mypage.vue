@@ -348,15 +348,16 @@ export default {
         },
         // 게시글 삭제
         clickedDeleteBtn(index) {
+          alert(this.articles[index].article_id)
            axios
             .post(base + '/tugether/articledelete',
-              console.log(localStorage.getItem("token")),
-              { "article_id" : this.articles[index].article_id},
+              { "article_id" : this.articles[index].article_id },
               {
-                headers:{
-                    "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
-                }
-            })
+                  headers:{
+                    "jwt-auth-token": localStorage.getItem("token"),
+                  }
+              },
+            )
             .then((res) => {
                 alert("게시글이 삭제 되었습니다.");
                 console.log("삭제 성공")
