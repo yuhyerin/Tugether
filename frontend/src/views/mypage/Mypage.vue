@@ -350,6 +350,7 @@ export default {
         clickedDeleteBtn(index) {
            axios
             .post(base + '/tugether/articledelete',
+              console.log(localStorage.getItem("token")),
               { "article_id" : this.articles[index].article_id},
               {
                 headers:{
