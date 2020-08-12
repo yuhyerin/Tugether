@@ -5,7 +5,40 @@
   <link rel="self" href="https://spring.io/blog.atom" />
   <id>http://spring.io/blog.atom</id>
   <icon>https://spring.io/favicon.ico</icon>
-  <updated>2020-08-11T09:07:37Z</updated>
+  <updated>2020-08-12T04:59:52Z</updated>
+  <entry>
+    <title>This Week in Spring - August 11, 2020</title>
+    <link rel="alternate" href="https://spring.io/blog/2020/08/12/this-week-in-spring-august-11-2020" />
+    <category term="engineering" label="Engineering" />
+    <author>
+      <name>Josh Long</name>
+    </author>
+    <id>tag:spring.io,2020-08-12:4162</id>
+    <updated>2020-08-12T04:59:52Z</updated>
+    <content type="html">&lt;p&gt;Hi, Spring fans! &lt;/p&gt;
+&lt;p&gt;How&amp;rsquo;s things? I am super happy to talk to you! How&amp;rsquo;s things? Me, I&amp;rsquo;m alright. Just published a new edition of the &lt;em&gt;Reactive Spring&lt;/em&gt; book &lt;a href="http://ReactiveSpring.io"&gt;with a whopping 70+ page on RSocket&lt;/a&gt;. And speaking of RSocket, I just finished recording a talk that&amp;rsquo;ll go live next week on the Spring YouTube channel very soon! I hope you enjoy it. And, of course, I am doing a 2-day long training for YOW! conference starting Thursday (PST)/Friday (in Australia). &lt;a href="https://www.eventbrite.com.au/e/yow-workshop-2020-cloud-native-java-aug-14-18-2020-tickets-114222161560"&gt;It&amp;rsquo;s never too late to register for that!&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;And, of course, we&amp;rsquo;re ramping up &lt;a href="http://SpringOne.io"&gt;to SpringOne 2020&lt;/a&gt;, our all-free, all-virtual tentpole conference Springxtravaganza! DO. NOT. MISS. THIS.&lt;/p&gt;
+&lt;p&gt;Alright, tons to get to so let&amp;rsquo;s! &lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/08/07/a-bootiful-podcast-jfrog-s-baruch-sadogursky-on-continuous-delivery-devops-java-artifact-management-and-more"&gt;A Bootiful Podcast: JFrog&amp;rsquo;s Baruch Sadogursky on continuous delivery, DevOps, Java artifact management and more&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://azure.microsoft.com/en-us/blog/announcing-preview-of-java-message-service-2-over-amqp-on-azure-service-bus/"&gt;Announcing preview of Java Message Service 2.0 over AMQP on Azure Service Bus | Azure Blog and Updates | Microsoft Azure&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/08/10/case-study-build-and-run-a-streaming-application-using-an-http-source-and-a-jdbc-sink"&gt;Case Study: Build and Run a Streaming Application Using an HTTP Source and a JDBC Sink&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://yusuke.blog/2020/08/05/2747"&gt;Delivering compressed SVG format(SVGZ) using Spring Boot | yusuke.blog&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://twitter.com/VMwareTanzu/status/1292985082249084930"&gt;Did you hear? Tanzu Application Service 2.0 is now GA!&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://twitter.com/SpringData/status/1291440704766521345"&gt;Introduction into Spring Data Elasticsearch - wrote a small app using Spring Data Elasticsearch, spent yesterday evening to write up my impression from the perspective of a heavy Elasticsearch user.&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://twitter.com/javinpaul/status/1293072333955936257?s=12"&gt;I¡¯m honored to have books to which I contributed included not once, not twice, but three times in this list of interesting Java ecosystem books.&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://inside.java/2020/08/07/loomperformance/"&gt;On the Performance of User-Mode Threads and Coroutines&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://blogs.vmware.com/vmworld/2020/08/registered-for-vmworld-2020-check-out-these-sessions-from-the-education-services-team.html"&gt;Registered for VMworld 2020? Check out these Sessions from the Education Services Team&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://www.youtube.com/watch?v=3iugql6zc7u&amp;feature=share"&gt;Solace has a nice presentation up on YouTube: developing event-driven micro services using Spring Cloud Stream&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://www.infoq.com/presentations/spring-framework-5-2/?itm_campaign=rightbar_v2&amp;itm_source=infoq&amp;itm_medium=presentations_link&amp;itm_content=link_text"&gt;Spring Framework 5.2: Core Container Revisited&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/08/11/spring-framework-5-3-0-m2-available-now"&gt;Spring Framework 5.3.0-M2 available now&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/08/10/spring-web-services-samples-have-been-updated"&gt;Spring Web Services Samples have been updated!&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/08/05/this-week-in-spring-august-4th-2020"&gt;This Week in Spring - August 4th, 2020&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://twitter.com/VMwareTanzu/status/1293021151271297025"&gt;Which conference are you most excited by in the next few weeks?&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://twitter.com/SpringData/status/1291304595227119617"&gt;the latest installment of the (German language) &amp;ldquo;Java Magazin&amp;rdquo; looks to have a whole thing about Spring and Spring Boot! Check it out.&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
   <entry>
     <title>Spring Framework 5.3.0-M2 available now</title>
     <link rel="alternate" href="https://spring.io/blog/2020/08/11/spring-framework-5-3-0-m2-available-now" />
@@ -2123,47 +2156,6 @@ They will be named as &lt;code&gt;feed-source-kafka&lt;/code&gt; and &lt;code&gt
 &lt;p&gt;This release includes &lt;a href="https://github.com/spring-projects/spring-boot/releases/tag/v2.1.16.RELEASE"&gt;21 bug fixes, enhancements, documentation improvements, and dependency upgrades&lt;/a&gt;. Thanks to all those who have contributed with issue reports and pull requests.&lt;/p&gt;&lt;h3&gt;&lt;a href="#how-can-you-help" class="anchor" name="how-can-you-help"&gt;&lt;/a&gt;How can you help?&lt;/h3&gt;
 &lt;p&gt;If you&amp;rsquo;re interested in helping out, check out the &lt;a href="https://github.com/spring-projects/spring-boot/labels/status%3A%20ideal-for-contribution"&gt;&amp;ldquo;ideal for contribution&amp;rdquo; tag&lt;/a&gt; in the issue repository. If you have general questions, please ask on &lt;a href="http://stackoverflow.com"&gt;stackoverflow.com&lt;/a&gt; using the &lt;a href="http://stackoverflow.com/tags/spring-boot"&gt;&lt;code&gt;spring-boot&lt;/code&gt; tag&lt;/a&gt; or chat with the community on &lt;a href="https://gitter.im/spring-projects/spring-boot"&gt;Gitter&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://spring.io/projects/spring-boot/"&gt;Project Page&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-boot"&gt;GitHub&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-boot/issues"&gt;Issues&lt;/a&gt; | &lt;a href="http://docs.spring.io/spring-boot/docs/2.1.16.RELEASE/reference/html"&gt;Documentation&lt;/a&gt; | &lt;a href="http://stackoverflow.com/questions/tagged/spring-boot"&gt;Stack Overflow&lt;/a&gt; | &lt;a href="https://gitter.im/spring-projects/spring-boot"&gt;Gitter&lt;/a&gt;&lt;/p&gt;
-&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
-  </entry>
-  <entry>
-    <title>Spring Integration 4.3.23, 5.1.12, 5.2.8 &amp; 5.3.2 available; CVE-2020-5413</title>
-    <link rel="alternate" href="https://spring.io/blog/2020/07/22/spring-integration-4-3-23-5-1-12-5-2-8-5-3-2-available-cve-2020-5413" />
-    <category term="releases" label="Releases" />
-    <author>
-      <name>Artem Bilan</name>
-    </author>
-    <id>tag:spring.io,2020-07-22:4137</id>
-    <updated>2020-07-22T20:39:00Z</updated>
-    <content type="html">&lt;div class="paragraph"&gt;
-&lt;p&gt;Dear Spring community,&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;On behalf of the team and everyone who contributed, it is my pleasure to announce a number of maintenance releases for Spring Integration. Mostly these versions contain bug fixes and dependency upgrades.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="sect1"&gt;
-&lt;h2 id="cve-2020-5413"&gt;&lt;a class="anchor" href="#cve-2020-5413"&gt;&lt;/a&gt;CVE-2020-5413&lt;/h2&gt;
-&lt;div class="sectionbody"&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;The Spring Integration framework provides Kryo &lt;code&gt;Codec&lt;/code&gt; implementations as an alternative for Java (de)serialization. When &lt;code&gt;Kryo&lt;/code&gt; is configured with default options, all unregistered classes are resolved on demand. This leads to the "deserialization gadgets" exploit when the incoming data contains malicious code for execution during deserialization.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;In order to protect against this type of attack, &lt;code&gt;Kryo&lt;/code&gt; can be configured to require a set of trusted classes for (de)serialization. Spring Integration calls &lt;code&gt;kryo.setRegistrationRequired(true);&lt;/code&gt; (trust no one) by default  and pre-configures out-of-the-box &lt;code&gt;Message&amp;lt;?&amp;gt;&lt;/code&gt; implementations as trusted classes. All other types have to be registered with &lt;code&gt;Kryo&lt;/code&gt; using any available &lt;code&gt;KryoRegistrar&lt;/code&gt; strategy injected into a &lt;code&gt;PojoCodec&lt;/code&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;Credit: ChengGao, ZeZhiLin, Alibaba Cloud Intelligence Security Team &lt;a href="https://www.aliyun.com/" class="bare"&gt;https://www.aliyun.com/&lt;/a&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;All the mentioned Spring Integration versions include the fix for this CVE; everybody who&amp;#8217;s using Kryo support in Spring Integration is encouraged to upgrade respectively.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;Cheers,&amp;#160;&lt;br&gt;
-Artem&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;&lt;a href="http://projects.spring.io/spring-integration/"&gt;Project Page&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-integration/issues"&gt;GitHub Issues&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-integration/blob/master/CONTRIBUTING.adoc"&gt;Contributing&lt;/a&gt; | &lt;a href="http://stackoverflow.com/questions/tagged/spring-integration"&gt;Help&lt;/a&gt; | &lt;a href="https://gitter.im/spring-projects/spring-integration"&gt;Chat&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
 &lt;!-- rendered by Sagan Renderer Service --&gt;</content>
   </entry>
 </feed>
