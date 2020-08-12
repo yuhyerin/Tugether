@@ -26,4 +26,7 @@ public interface FavtagRepo extends JpaRepository<FavTag, String>{ //JpaReposito
 	@Query(value="select tag_id from favtag f where f.email=:email", nativeQuery = true)
 	public List<Integer> findTagIdByEmail(String email);
 	
+	@Query(value="delete from favtag f where f.email=:email")
+	void deleteFavtag(String email);
+	
 }
