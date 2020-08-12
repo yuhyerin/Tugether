@@ -37,6 +37,11 @@
                           <div class="user-name">
                             <strong>{{ article.writer }}</strong> <!--마이페이지니까 본인이 작성한 글 닉네임 눌러도 아무 일 없는걸로..-->
                           </div>
+                          <!--글 수정, 삭제 기능-->
+                          <div style="display: inline-block; margin-left: 140px;">
+                              <span class="article_function" @click="clickedEditBtn(index)" style="margin-right: 5px;">수정</span>
+                              <span class="article_function" @click="clickedDeleteBtn(index)">삭제</span>
+                          </div>
                           <p class="date">{{ timeForToday(article.reg_time) }}</p>
                         </div>
                         <div class="content">
@@ -129,13 +134,6 @@
                             />
                           </svg>
                           <span class="scrap-cnt" v-if="article.scrap_cnt !== 0">{{ article.scrap_cnt }}회</span>
-                        </div>
-                        <!--글 수정, 삭제 기능-->
-                        <div class="editFeed" @click="clickedEditBtn(index)">
-                          <span class="deleteFeed">수정</span>
-                        </div>
-                        <div class="deleteFeed" @click="clickedDeleteBtn(index)">
-                          <span class="deleteFeed">삭제</span>
                         </div>
                       </div>
                     </div>
@@ -347,7 +345,7 @@ export default {
             }
           })
         },
-      // 게시글 삭제
+        // 게시글 삭제
         clickedDeleteBtn(index) {
            axios
             .post(base + '/tugether/articledelete',
@@ -432,5 +430,10 @@ export default {
     }
     .title {
       text-overflow: ellipsis;
+    }
+    .article_function{
+      font-size: 95%;
+      color: navy;
+      cursor: pointer;
     }
 </style>
