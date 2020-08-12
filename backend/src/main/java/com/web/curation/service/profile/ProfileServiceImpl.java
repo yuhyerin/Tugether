@@ -28,10 +28,22 @@ public class ProfileServiceImpl implements ProfileService{
 		return profileRepo.findProfileByEmail(email);
 	}
 
+	// 프로필 변경 - 이미지 변경했을 때 
+	@Override
+	public void updateProfilewithImage(Profile profile) {
+		String email = profile.getEmail();
+		String nickname = profile.getNickname();
+		String profile_photo = email+ profile.getProfile_photo();
+		profileRepo.updateProfilewithImage(email, nickname, profile_photo);
+	}
+	
 	// 프로필 변경 
 	@Override
-	public void updateProfile(String email, String nickname, String profile_photo) {
-		profileRepo.updateProfile(email, nickname, profile_photo);
+	public void updateProfile(Profile profile) {
+		
+		String email = profile.getEmail();
+		String nickname = profile.getNickname();
+		profileRepo.updateProfile(email, nickname);
 	}
 
 	// 이전 관심태그 지우기

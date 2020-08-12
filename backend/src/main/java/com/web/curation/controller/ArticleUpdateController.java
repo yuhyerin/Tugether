@@ -49,9 +49,6 @@ public class ArticleUpdateController {
 	@Value("${window.article.upload.directory}")
 	String upload_FILE_PATH;
 
-	@Value("${ubuntu.article.upload.directory}")
-	String download_FILE_PATH;
-
 	@Autowired
 	private JwtService jwtService;
 
@@ -78,18 +75,6 @@ public class ArticleUpdateController {
 		resultMap.put("article", article);
 		ArrayList<String> favtaglist = articleUpdateService.getArticleTag(article_id);
 		resultMap.put("favtaglist", favtaglist);
-		// 이미지파일 원격에서 불러오기
-		// 원격파일 다운로드 URL
-//		String fileUrl = "https://i3b303.p.ssafy.io/articleimages/" + article.getImage();
-//		URI url = URI.create(fileUrl);
-//		// 원격 파일 다운로드
-//		RestTemplate rt = new RestTemplate();
-//		ResponseEntity<byte[]> res = rt.getForEntity(url, byte[].class);
-//		byte[] buffer = res.getBody();
-
-		// 파일 생성
-//		resultMap.put("imagefile", imagefile);
-
 		System.out.println("게시글 정보 준비 완료!!");
 
 		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);

@@ -1,12 +1,11 @@
 package com.web.curation.service.tag;
 
-import com.web.curation.dto.tag.Tag;
+import java.util.ArrayList;
+
 
 public interface TagService {
 
-	// 태그테이블에서 태그명으로 조회하기 
-	int getTagByTagName(String string);
-	
-	void addTag(String tagname);
+	// 태그 업데이트
+	ArrayList<Integer> updateFavtag(ArrayList<String> favtaglist);
 
 }

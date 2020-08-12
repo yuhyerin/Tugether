@@ -55,7 +55,7 @@ public class ArticleUpdateServiceImpl implements ArticleUpdateService {
 		return tagNameList;
 	}
 
-	// 게시글 수정
+	// 게시글 수정 - 이미지 변경했을 때
 	@Override
 	public void updateArticlewithImage(Article article) {
 

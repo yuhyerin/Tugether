@@ -105,6 +105,7 @@ export default {
             })
             .then((res) => {
                 console.log(res.data);
+                this.selectedFile = res.data.profile.profile_photo;
                 this.imageUrl = 'https://i3b303.p.ssafy.io/profileimages/' + res.data.profile.profile_photo;
                 this.profile_photo = 'https://i3b303.p.ssafy.io/profileimages/' + res.data.profile.profile_photo;
                 this.nickname = res.data.profile.nickname;
