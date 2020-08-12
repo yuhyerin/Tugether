@@ -185,10 +185,6 @@ public class FeedServiceImpl implements FeedService {
 				.tag_name(temp)
 				.build();
 				
-//		FrontArticle ar = new FrontArticle(
-//				article_id, now.getWriter(), now.getReg_time(), now.getImage(),
-//				now.getContent(), now.getLink(), now.getLike_cnt(), like, now.getComment_cnt(), now.getScrap_cnt(),
-//				temp);
 		return ar;
 	}
 

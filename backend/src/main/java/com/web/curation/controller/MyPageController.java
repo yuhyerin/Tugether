@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.web.curation.dto.BasicResponse;
 import com.web.curation.dto.account.User;
 import com.web.curation.dto.article.Article;
+import com.web.curation.dto.article.FrontArticle;
 import com.web.curation.dto.profile.Profile;
 import com.web.curation.jwt.service.JwtService;
 import com.web.curation.service.account.FindService;
@@ -63,10 +64,10 @@ public class MyPageController {
 			Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
 			String email = Userinfo.get("email").toString();
 			//1. 내 게시글 가져오기
-			List<Article> articles = myPageService.findArticles(email); 
+			List<FrontArticle> articles = myPageService.findArticles(email); 
 			System.out.println("articles : "+articles.toString());
 			//2. 스크랩한 게시글 가져오기
-			List<Article> scraps = myPageService.findScraps(email);
+			List<FrontArticle> scraps = myPageService.findScraps(email);
 			System.out.println("scraps : "+scraps.toString());
 			
 			resultMap.put("articles", articles);
@@ -89,9 +90,7 @@ public class MyPageController {
 		String password = request.getHeader("password");
 		boolean flag = findService.checkPW(email, password);
 		resultMap.put("status", true);
-
 		resultMap.put("data", flag ? "success" : "fail");
-
 		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 
 	}
@@ -121,19 +120,19 @@ public class MyPageController {
 				(Map<String, Object>) claims.getBody().get("AuthenticationResponse");
 		String email = Userinfo.get("email").toString();
 		// 1. 게시글 가져오기
-		List<Article> articles=myPageService.findArticles(userEmail); 
-		System.out.println("articles : "+articles.toString());
+		List<FrontArticle> articles=myPageService.findArticles(userEmail); 
+//		System.out.println("articles : "+articles.toString());
 		resultMap.put("articles", articles);
 		//2. 스크랩한 게시글 가져오기
-		List<Article> scraps = myPageService.findScraps(userEmail);
-		System.out.println("scraps : "+scraps.toString());
+		List<FrontArticle> scraps = myPageService.findScraps(userEmail);
+//		System.out.println("scraps : "+scraps.toString());
 		resultMap.put("scraps", scraps);
 		//3. 프로필 가져오기
 		Profile profile = profileService.getProfile(userEmail);
-		System.out.println("profile : "+profile.toString());
+//		System.out.println("profile : "+profile.toString());
 		resultMap.put("profile", profile);
 		boolean follow = myPageService.findFollow(userEmail, email);
-		System.out.println("follow : "+follow);
+//		System.out.println("follow : "+follow);
 		resultMap.put("follow", follow);
 		return new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.OK);
 	}

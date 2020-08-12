@@ -54,7 +54,6 @@ public class CommentServiceImpl implements CommentService{
 	}
 
 
-
 	@Override
 	public void saveComment(Comment c) {
 		commentRepo.save(c);
@@ -62,7 +61,7 @@ public class CommentServiceImpl implements CommentService{
 		Comment temp = commentRepo.findCommentByEmailAndArticleId(c.getEmail(), c.getArticle_id()).get(0);
 		Notice n = Notice.builder()
 				.article_id(c.getArticle_id()).comment_id(temp.getComment_id())
-				.notice_from(c.getEmail()).notice_id(1).notice_to(notice_to)
+				.notice_from(c.getEmail()).notice_type(1).notice_to(notice_to)
 				.build();
 		noticeRepo.save(n);
 	}
