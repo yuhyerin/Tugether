@@ -155,7 +155,9 @@ public class ArticleUpdateController {
 		Map<String, Object> Userinfo = new HashMap<String, Object>();
 		Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
 		String email = Userinfo.get("email").toString(); // 이메일
+		
 		int articleid = Integer.parseInt(map.get("article_id"));
+		System.out.println(articleid);
 		// 게시글 삭제
 		articleUpdateService.deleteArticle(email, articleid);
 		status = HttpStatus.OK;

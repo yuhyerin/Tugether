@@ -19,14 +19,10 @@ public interface ProfileRepo extends JpaRepository<Profile, String>{
 	void countMyArticle(String email, int article_cnt);
 
 	@Query(value="update profile set nickname= :nickname , profile_photo= :profile_photo where email= :email",nativeQuery=true)
-<<<<<<< HEAD
-	void updateProfile(String email, String nickname, String profile_photo);
-=======
 	void updateProfilewithImage(String email, String nickname, String profile_photo);
 	
 	@Query(value="update profile set nickname= :nickname where email= :email",nativeQuery=true)
 	void updateProfile(String email, String nickname);
->>>>>>> 9e3c10da12ddc8bae955035bfadc90b134c0d77f
 
 	@Query(value = "select profile_photo from profile p where p.email=:email", nativeQuery=true)
 	String findProfilePhoto(String email);

@@ -348,7 +348,7 @@ export default {
         },
         // 게시글 삭제
         clickedDeleteBtn(index) {
-          axios
+           axios
             .post(base + '/tugether/articledelete',
               { "article_id" : this.articles[index].article_id },
               {

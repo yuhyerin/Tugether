@@ -1,10 +1,7 @@
 package com.web.curation.repo;
 
-<<<<<<< HEAD
-=======
-import java.util.Optional;
 
->>>>>>> 9e3c10da12ddc8bae955035bfadc90b134c0d77f
+import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
