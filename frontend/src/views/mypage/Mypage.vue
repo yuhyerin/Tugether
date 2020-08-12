@@ -198,92 +198,84 @@ export default {
         this.checkForm();
       }
     },
+    
     created() {
-        // 프로필 띄우기
-        axios
-            .get(base + '/tugether/profile', 
-            {
-                headers:{
-                    "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
-                }
-            })
-            .then((res) => {
-                console.log(res.data);
-                this.profile_photo = 'https://i3b303.p.ssafy.io/profileimages/' + res.data.profile.profile_photo;
-                this.nickname = res.data.profile.nickname;
-                this.article_cnt = res.data.profile.article_cnt;
-                this.following_cnt = res.data.profile.following_cnt;
-                this.follower_cnt = res.data.profile.follower_cnt;
-                this.favtags = res.data.favtaglist;
-            })
-            .catch((err) => {
-                console.log("created axios get PROFILE error")
-            });
-
-        // 내 게시글, 스크랩한 글 목록 가져오기
-        axios
-            .get(base + '/tugether/profile/articles', {
-                headers:{
-                    "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
-                }
-            })
-            .then((res) => {
-                console.log(res.data)
-                this.articles = res.data.articles;
-                this.scraps = res.data.scraps;
-                console.log('articles : '+this.articles)
-                console.log('scraps : '+this.scraps)
-            })
-            .catch((err) => {
-                console.log("created axios get ARTICLES AND SCRAPS error")
-            });
+        this.refresh();
     },
     methods: {
+
+        //초기 로딩 , 삭제 후 화면 새로고침
+        refresh(){
+            // 프로필 띄우기
+          axios
+              .get(base + '/tugether/profile', 
+              {
+                  headers:{
+                      "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
+                  }
+              })
+              .then((res) => {
+                  console.log(res.data);
+                  this.profile_photo = 'https://i3b303.p.ssafy.io/profileimages/' + res.data.profile.profile_photo;
+                  this.nickname = res.data.profile.nickname;
+                  this.article_cnt = res.data.profile.article_cnt;
+                  this.following_cnt = res.data.profile.following_cnt;
+                  this.follower_cnt = res.data.profile.follower_cnt;
+                  this.favtags = res.data.favtaglist;
+              })
+              .catch((err) => {
+                  console.log("created axios get PROFILE error")
+              });
+
+          // 내 게시글, 스크랩한 글 목록 가져오기
+          axios
+              .get(base + '/tugether/profile/articles', {
+                  headers:{
+                      "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
+                  }
+              })
+              .then((res) => {
+                  console.log(res.data)
+                  this.articles = res.data.articles;
+                  this.scraps = res.data.scraps;
+                  console.log('articles : '+this.articles)
+                  console.log('scraps : '+this.scraps)
+              })
+              .catch((err) => {
+                  console.log("created axios get ARTICLES AND SCRAPS error")
+              });
+        },
+
       // 게시글 수정
         clickedEditBtn(index) {
-          //  axios
-          //   .get(base + '?????',
-          //     this.articles[index].article_id,
-          //     {
-          //       headers:{
-          //           "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
-          //       }
-          //   })
-          //   .then((res) => {
-          //       console.log(res.data);
+          
           console.log(this.articles[index].article_id)
           this.$router.push({
             name: "Update",
             params: {
               article_id: this.articles[index].article_id
-                    // article_id: res.data.article.article_id,
-                    // selectedFile: res.data.article.image,
-                    // myText: res.data.article.content,
-                    // urlLink: res.data.article.link,
-                    // 서버에 tagList는 안들어가고 tagNameList만 들어가는데 이를 어떻게 할지...
-
-                    // tagNameList: res.data.tag.tag_name,
                   }
                 })
-            // })
-            // .catch((err) => {
-            //     console.log("created axios get PROFILE error")
-            // });
+  
         },
       // 게시글 삭제
         clickedDeleteBtn(index) {
            axios
-            .post(base + '?????',
-              this.articles[index].article_id,
+            .post(base + '/tugether/articledelete',
+              { "article_id" : this.articles[index].article_id},
               {
                 headers:{
                     "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
                 }
             })
             .then((res) => {
+                alert("게시글이 삭제 되었습니다.")
                 console.log("삭제 성공");
+                this.refresh();
+                
             })
             .catch((err) => {
+                alert("게시글 삭제 실패!")
                 console.log("삭제 실패")
             });
         },
