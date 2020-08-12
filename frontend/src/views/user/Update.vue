@@ -55,6 +55,7 @@ export default {
   name: "Update",
   data: function () {
     return {
+      article_id : "",
       imageUrl: null,
       selectedFile: null,
       myText: "",
@@ -74,6 +75,7 @@ export default {
     ...mapActions(["getToken"]),
   },
   created() {
+    // this.article_id = this.$route.params.article_id;
     // 초기 수정폼에 글내용 불러오기 
     axios
       .get(base + '/tugether/articleloading',{
@@ -84,7 +86,7 @@ export default {
         })
       .then(res => {
           this.imageUrl = 'https://i3b303.p.ssafy.io/articleimages/'+res.data.article.image;
-          this.selectedFile =res.data.imagefile
+          this.selectedFile =res.data.article.image
           this.myText = res.data.article.content
           this.urlLink = res.data.article.link
           this.favtags = res.data.favtaglist
@@ -139,6 +141,7 @@ export default {
     // 수정하기 
     onUpload(){
       const formdata = new FormData();
+      formdata.append('article_id',this.$route.params.article_id); //게시글 아이디도 전달.
       formdata.append('articleimg', this.selectedFile); //여기서 명시한 키값은 서버에서 사용하기때문에 바꾸면 안됩니당...
       formdata.append('contents', this.myText);
       formdata.append('link',this.urlLink);

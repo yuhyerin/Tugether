@@ -15,4 +15,9 @@ public interface ArticleUpdateService {
 	// 게시글에 등록한 태그리스트 가져오기
 	ArrayList<String> getArticleTag(int article_id);
 
+	// Article 수정 - 이미지X
+	public void updateArticle(Article article);
+
+	// Article 수정 - 이미지O
+	public void updateArticlewithImage(Article article);
 }

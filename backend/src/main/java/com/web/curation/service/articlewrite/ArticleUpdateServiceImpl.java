@@ -15,22 +15,22 @@ public class ArticleUpdateServiceImpl implements ArticleUpdateService {
 
 	@Autowired
 	ArticleUpdateRepo articleUpdateRepo;
-	
+
 	@Autowired
 	ArticleWriteRepo articleWriteRepo;
-	
+
 	@Autowired
 	TagRepo tagRepo;
-	
-	//게시글번호 보내서 내용 가져오기
+
+	// 게시글번호 보내서 내용 가져오기
 	@Override
 	public Article getArticle(int article_id) {
 		try {
-			
+
 			return articleWriteRepo.getArticle(article_id);
-			
-		}catch(NullPointerException e) {
-			
+
+		} catch (NullPointerException e) {
+
 			System.out.println("해당 article_id의  글은 없습니다. 빈 아티클을 반환합니다. ");
 			Article tmp = new Article();
 			return tmp;
@@ -46,13 +46,36 @@ public class ArticleUpdateServiceImpl implements ArticleUpdateService {
 	// 게시글에 등록한 태그리스트 가져오기
 	@Override
 	public ArrayList<String> getArticleTag(int article_id) {
-		
+
 		ArrayList<Integer> tagIdList = articleUpdateRepo.getArticleTags(article_id);
 		ArrayList<String> tagNameList = new ArrayList<String>();
-		for(int i=0; i<tagIdList.size(); i++) {
+		for (int i = 0; i < tagIdList.size(); i++) {
 			tagNameList.add(tagRepo.findTagNameByTagId(tagIdList.get(i)));
 		}
 		return tagNameList;
 	}
-	
+
+	// 게시글 수정
+	@Override
+	public void updateArticlewithImage(Article article) {
+
+		int article_id = article.getArticle_id();
+		String content = article.getContent();
+		String link = article.getLink();
+		String image = article.getImage();
+		articleWriteRepo.updateArticlewithImage(article_id, image, content, link);
+
+	}
+
+	// 게시글 수정
+	@Override
+	public void updateArticle(Article article) {
+
+		int article_id = article.getArticle_id();
+		String content = article.getContent();
+		String link = article.getLink();
+		articleWriteRepo.updateArticle(article_id, content, link);
+
+	}
+
 }
