@@ -1,5 +1,10 @@
 <template>
   <div>
+    <div class="welcome" style="text-align:left">
+      <strong style="font-size: 30px;">관심태그 선택</strong>
+      <p style="color: gray">{{ $store.state.nickname }}님, 태그를 선택하고</p>
+      <p style="color: gray">맞춤화된 피드 추천을 받으세요.({{this.count}}/3)</p>
+    </div>
     <TagList @checked="onChecked" :tagList="tagList" />
     <button class="btn-bottom" @click="submitFavTag" :style="btnFunc">시작하기</button>
   </div>
@@ -23,47 +28,47 @@ export default {
       tagList: [
         {
           id: 1,
-          content: '일상',
+          content: '⌚ 일상',
           isSelected: false,
         },
         {
           id: 2,
-          content: '음식',
+          content: '🍔 음식',
           isSelected: false,
         },
         {
           id: 3,
-          content: '코미디',
+          content: '😆 코미디',
           isSelected: false,
         },
         {
           id: 4,
-          content: '동물',
+          content: '🐱 동물',
           isSelected: false,
         },
         {
           id: 5,
-          content: '음악',
+          content: '🎹 음악',
           isSelected: false,
         },
         {
           id: 6,
-          content: '스포츠',
+          content: '🎳 스포츠',
           isSelected: false,
         },
         {
           id: 7,
-          content: '패션',
+          content: '👕 패션',
           isSelected: false,
         },
         {
           id: 8,
-          content: '뷰티',
+          content: '💄 뷰티',
           isSelected: false,
         },
         {
           id: 9,
-          content: '게임',
+          content: '🎮 게임',
           isSelected: false,
         },
       ],
@@ -169,5 +174,8 @@ export default {
     left: 20px;
     bottom: 17px;
     cursor: pointer;
+  }
+  .welcome {
+    padding: 30px 0 0 30px;
   }
 </style>
