@@ -28,10 +28,22 @@ public class ProfileServiceImpl implements ProfileService{
 		return profileRepo.findProfileByEmail(email);
 	}
 
+	// 프로필 변경 - 이미지 변경했을 때 
+	@Override
+	public void updateProfilewithImage(Profile profile) {
+		String email = profile.getEmail();
+		String nickname = profile.getNickname();
+		String profile_photo = email+ profile.getProfile_photo();
+		profileRepo.updateProfilewithImage(email, nickname, profile_photo);
+	}
+	
 	// 프로필 변경 
 	@Override
-	public void updateProfile(String email, String nickname, String profile_photo) {
-		profileRepo.updateProfile(email, nickname, profile_photo);
+	public void updateProfile(Profile profile) {
+		
+		String email = profile.getEmail();
+		String nickname = profile.getNickname();
+		profileRepo.updateProfile(email, nickname);
 	}
 
 	// 이전 관심태그 지우기
@@ -42,9 +54,13 @@ public class ProfileServiceImpl implements ProfileService{
 	
 	// 관심태그 변경
 	@Override
-	public void updateFavtag(String email, ArrayList<String> favtaglist) {
+	public void updateFavtag(String email, ArrayList<Integer> favtaglist) {
 		
-		
+		for(int i=0; i<favtaglist.size();i++) {
+			favtagRepo.insertFavtagList(email, favtaglist.get(i).intValue());
+		}
+		System.out.println("관심태그에 등록했습니다.");
+
 		
 	}
 

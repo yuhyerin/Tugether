@@ -2,11 +2,11 @@
 <div class="container">
   <div id="mainfeed">
     <h1>뉴스피드({{ this.feed }})</h1>
-    <!-- <button @click="moveMypage">마이페이지로 이동하기</button> -->
     <br>
     <div class="change-tab" style="text-align:center; font-family: Arial, Helvetica">
       <button @click="getTagData" :style="tagTab"><h3>태그</h3></button> | 
-      <button @click="getFollowData" :style="followTab"><h3>팔로우</h3></button>
+      <button @click="getFollowData" :style="followTab"><h3>팔로우</h3></button><br>
+      <!--로그아웃-->
       <a @click="logout"> <img src="@/assets/images/logout.png" height="50px" width="50px" style="float:right"/> </a>
     </div> 
     <br>
@@ -16,7 +16,8 @@
           <div class="profile-image" :style="{'background-image': 'url('+defaultProfile+')'}"></div>
           <div class="user-info">
             <div class="user-name">
-              <button>{{ article.writer }}</button>
+              <!--다른 유저의 페이지로 이동-->
+              <button @click="moveUserpage(article.email)">{{ article.writer }}</button>
             </div>
             <p class="date">{{ timeForToday(article.reg_time) }}</p>
           </div>
@@ -36,7 +37,7 @@
                 <!-- <a :href="article.link" v-if="article.link" target="_blank"><unicon name="youtube" fill="red" ></unicon></a>
                 <a :href="article.link" v-if="article.link" target="_blank"><unicon name="youtube" fill="gray"></unicon></a> -->
               </div>
-              <p class="date">{{article.reg_time.slice(0, 10)}}</p>
+              <p class="date">{{ article.reg_time.slice(0, 10) }}</p>
             </div>
           </div>
         </div>
@@ -77,7 +78,9 @@
             <span class="like-cnt" v-if="article.like_cnt">{{ article.like_cnt }}명이 좋아합니다.</span>
             <!-- <p>{{ $store.state.nickname }}님 외 {{ article.like_cnt }}명이 좋아합니다.</p> -->
           </div>
-          <div class="comment">
+          <!-- <div class="comment"> -->
+            
+            <div class="comment" @click="clickedCommentBtn(article, index)">
             <svg
               class="svg-inline--fa fa-comment-alt fa-w-16 icon"
               aria-hidden="true"
@@ -123,6 +126,7 @@
         </div>
       </div>
     </div>
+    <!--네비게이션 바-->
     <BottomNav/>
   </div>
 </div>    
@@ -138,13 +142,12 @@ import "../../components/css/feed/newsfeed.scss";
 import FeedItem from "../../components/feed/FeedItem.vue";
 import store from "../../vuex/store"
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
-import BottomNav from "@/components/common/BottomNav"
+import BottomNav from "@/components/common/BottomNav";
 
-const SERVER_URL = 'https://i3b303.p.ssafy.io'
 export default {
   name: 'MainFeed',
   components:{
-    BottomNav,
+    BottomNav
   },
   data() {
     return {
@@ -266,7 +269,6 @@ export default {
 
 
     clickedLikeBtn(index) { 
-
       this.clicked = true;
       axios.get(base + '/tugether/mainfeed/like',{
         headers: { 
@@ -284,6 +286,15 @@ export default {
       })
     },
 
+    clickedCommentBtn(articles, index) {
+      this.$router.push({
+        name: 'Comment',
+        params: {
+          // article: this.articles[index],
+          article_id: this.articles[index].article_id
+        }
+      })
+    },
 
     clickedScrapBtn(index) {
       // 스크랩 여부 확인
@@ -324,9 +335,18 @@ export default {
       })
     },
     
-    moveMypage() {
-      this.$router.push("/mypage/mypage");
+    // 다른 유저의 페이지로 이동
+    moveUserpage(user_email) {
+      // this.$router.push("/mypage/userpage");
+      this.$router.push({
+        name: 'Userpage',
+        params: {
+          user_email: this.articles.email
+        },
+        path: "/mypage/userpage"
+      })
     }
+
   },
 
 
