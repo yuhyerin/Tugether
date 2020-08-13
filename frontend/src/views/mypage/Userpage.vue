@@ -7,12 +7,12 @@
         <!--프로필 영역-->
         <div id="profile" style="margin-top: 20px;">
             <!--프로필 사진-->
-            <v-avatar size="150px"><img :src=profile_photo></v-avatar><br>
+            <v-avatar size="150px"><img :src=profile.profile_photo></v-avatar><br>
             <!--닉네임, 게시글 수, 팔로잉 수, 팔로워 수-->
-            <strong style="font-size: 20px;">{{ nickname }}</strong><br>
-            게시글 <strong style="color: red;">{{ article_cnt }}</strong>
-            팔로잉 <strong @click="moveFollow" style="color: red; cursor: pointer;">{{ following_cnt }}</strong>
-            팔로워 <strong @click="moveFollow" style="color: red; cursor: pointer;">{{ follower_cnt }}</strong>
+            <strong style="font-size: 20px;">{{ profile.nickname }}</strong><br>
+            게시글 <strong style="color: red;">{{ profile.article_cnt }}</strong>
+            팔로잉 <strong @click="moveFollow" style="color: red; cursor: pointer;">{{ profile.following_cnt }}</strong>
+            팔로워 <strong @click="moveFollow" style="color: red; cursor: pointer;">{{ profile.follower_cnt }}</strong>
         </div>
         <div id="buttons">
             <button class="button" style="backgroundColor: skyblue;">팔로우</button>
@@ -47,7 +47,7 @@
 <script>
 import axios from "axios";
 import store from '@/vuex/store';
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapMutations } from "vuex";
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
 import BottomNav from "@/components/common/BottomNav";
 import defaultProfile from "../../assets/images/profile_default.png";
@@ -58,19 +58,46 @@ export default {
     },
     data: () => {
         return {
-            profile_photo: "",
-            nickname: "",
-            following_cnt: "",
-            follower_cnt: "",
-            article_cnt: "",
-            favtags: [],
-            articles: [],
-            scraps: [],
-            text: "테스트2",
-            defaultProfile
+            // userEmail: "",
+            // profile_photo: "",
+            // nickname: "",
+            // following_cnt: "",
+            // follower_cnt: "",
+            // article_cnt: "",
+            // favtags: [],
+            // articles: [],
+            // scraps: [],
+            // text: "테스트2",
+            // defaultProfile
+            articles: '',
+            profile: '',
+            scraps: '',
         }
     },
     created() {
+        console.log(this.$store.state.userEmail)
+        console.log(localStorage.getItem("token"))
+        axios.get(base + '/tugether/userpage', 
+        {
+            params: {
+            "userEmail": this.$store.state.userEmail
+            },
+            headers: {
+            "jwt-auth-token": localStorage.getItem("token")
+            }
+        })
+        .then(response => {
+            console.log(response.data)
+            this.articles = response.data.articles,
+            this.profile = response.data.profile,
+            this.scraps = response.data.scraps
+            console.log(this.articles)
+            console.log(this.profile)
+            console.log(this.scraps)
+        })
+        .catch(error => {
+            console.log(error)
+        })
         // 프로필 띄우기
 
         // 유저의 게시글, 스크랩한 글 목록 가져오기
