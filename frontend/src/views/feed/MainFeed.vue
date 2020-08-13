@@ -96,40 +96,43 @@ export default {
   },
 
 
-  // watch:{
-  //   clicked(){
-  //     console.log("clickclick")
-  //     axios.post(base + '/tugether/mainfeed/', {
-  //       tag: this.tag,
-  //     },
-  //     {
-  //       headers:{
-  //         "jwt-auth-token": localStorage.getItem("token")
-  //       }
-  //     })
-  //     .then(response => {
-  //       console.log(response.data.list)
-  //       this.articles = response.data.list;
-  //       this.clicked=false;
-  //     })
-  //     .catch(err =>{
-  //         console.log("망")
-  //     })
-  //     .finally(()=>{
-  //         this.clicked=false;
-  //     })
-  //   }
-  // },
+  watch:{
+    clicked(){
+      console.log("clickclick")
+      axios.post(base + '/tugether/mainfeed/', {
+        tag: this.tag,
+      },
+      {
+        headers:{
+          "jwt-auth-token": localStorage.getItem("token")
+        }
+      })
+      .then(response => {
+        console.log(response.data.list)
+        this.articles = response.data.list;
+        this.clicked=false;
+      })
+      .catch(err =>{
+          console.log("망")
+      })
+      .finally(()=>{
+          this.clicked=false;
+      })
+    }
+  },
 
   methods: {
     infiniteHandler($state) {
       const EACH_LEN = 1
       console.log('___BOTTOM___')
       console.log(this.limit)
-      axios.get(base+'/tugether/mainfeed', {
+      axios.get(base+'/tugether/mainfeed', { 
+        params: {
+          "tag": this.tag,
+          "limit": this.limit
+        },
         headers: {
           "jwt-auth-token": localStorage.getItem("token"),
-          "limit": this.limit
         }
       })
       .then(response => {
@@ -167,13 +170,16 @@ export default {
       this.followTab.color = 'red'
       this.tagTab.color = 'black'
       this.tag = false
-      axios.post(base + '/tugether/mainfeed/', {
-        tag: this.tag,
+      axios.get(base + '/tugether/mainfeed/', {
+        params: {
+          "tag": this.tag,
+          "limit": this.limit,
+        }
       },
       {
         headers:{
           "jwt-auth-token": localStorage.getItem("token")
-          }
+        }
       })
       .then(response => {
         console.log('팔로우 기반 호출')
@@ -192,8 +198,11 @@ export default {
       this.tag = true
       this.followTab.color = 'black'
       this.tagTab.color = 'red'
-      axios.post(base + '/tugether/mainfeed/', {
-        tag: this.tag
+      axios.get(base + '/tugether/mainfeed/', {
+        params: {
+          "tag": this.tag,
+          "limit": this.limit
+        }
       },
       {
         headers:{ 
