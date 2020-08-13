@@ -7,9 +7,9 @@
             <v-avatar size="150px"><img :src=profile_photo></v-avatar><br>
             <!--닉네임, 내 게시글 수, 팔로잉 수, 팔로워 수-->
             <strong style="font-size: 20px;">{{ nickname }}</strong><br>
-            게시글 <strong style="color: red;">{{ article_cnt }}</strong>
+            게시글 <strong style="color: red; margin-right: 5px;">{{ article_cnt }}</strong>
+            팔로워 <strong @click="moveFollow" style="color: red; cursor: pointer; margin-right: 5px;">{{ follower_cnt }}</strong>
             팔로잉 <strong @click="moveFollow" style="color: red; cursor: pointer;">{{ following_cnt }}</strong>
-            팔로워 <strong @click="moveFollow" style="color: red; cursor: pointer;">{{ follower_cnt }}</strong>
         </div>
         <div id="buttons">
             <button class="button" @click="moveSetting">프로필 편집</button>&nbsp;
@@ -32,7 +32,8 @@
                     <div class="feed-item">
                       <!-- 프로필이미지, 작성자, 시간(며칠전..), 태그 -->
                       <div class="top">
-                        <div class="profile-image" :style="{'background-image': 'url('+defaultProfile+')'}"></div> <!--실제 프로필 사진 띄울 것-->
+                        <!--실제 프로필 사진 띄울 것-->
+                        <div class="profile-image" :style="{'background-image': 'url('+defaultProfile+')'}"></div>
                         <div class="user-info">
                           <div class="user-name">
                             <strong>{{ article.writer }}</strong> <!--마이페이지니까 본인이 작성한 글 닉네임 눌러도 아무 일 없는걸로..-->
@@ -147,7 +148,8 @@
                     <div class="feed-item">
                       <!-- 프로필이미지, 작성자, 시간(며칠전..), 태그 -->
                       <div class="top">
-                        <div class="profile-image" :style="{'background-image': 'url('+defaultProfile+')'}"></div> <!--실제 프로필 사진 띄울 것-->
+                        <!--실제 프로필 사진 띄울 것-->
+                        <div class="profile-image" :style="{'background-image': 'url('+defaultProfile+')'}"></div>
                         <div class="user-info">
                           <div class="user-name">
                             <button>{{ scrap.writer }}</button>

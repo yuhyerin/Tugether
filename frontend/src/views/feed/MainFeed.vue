@@ -137,7 +137,7 @@
 <script>
 import axios from 'axios'
 import defaultProfile from "../../assets/images/profile_default.png";
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 import "../../components/css/feed/feed-item.scss";
 import "../../components/css/feed/newsfeed.scss";
 import FeedItem from "../../components/feed/FeedItem.vue";
@@ -190,6 +190,10 @@ export default {
     }
   },
 
+  computed: {
+    ...mapState(["token", "email"]), //store 공동 저장소에 있는 token 사용하기 위해 선언.
+    ...mapActions(["getToken", "getEmail"])
+  },
 
   methods: {
     logout(){
@@ -337,14 +341,10 @@ export default {
     },
     
     // 다른 유저의 페이지로 이동
-    moveUserpage(user_email) {
-      // this.$router.push("/mypage/userpage");
+    moveUserpage(index){
+      store.commit('getUserEmail', this.articles[index].email)
       this.$router.push({
-        name: 'Userpage',
-        params: {
-          user_email: this.articles.email
-        },
-        path: "/mypage/userpage"
+        name: 'Userpage'
       })
     }
 

@@ -1,19 +1,38 @@
 <template>
     <div class="wrapB" style="text-align: center;">
-        <br><br>
-        <strong @click="moveMypage" style="cursor: pointer;">마이페이지로 이동</strong>
+        <br><strong @click="moveMypage" style="cursor: pointer;">마이페이지로 이동</strong>
 
         <!--탭-->
-        <v-tabs grow style="margin-top: 10px;">
-            <!--내가 팔로잉하는 사용자 목록-->
-            <v-tab style="font-weight: bold;">팔로잉</v-tab>
-            <v-tab-item style="padding-top: 15px;">
-                <h1>팔로잉 리스트</h1>
-            </v-tab-item>
+        <v-tabs grow style="margin-top: 10px;" id="tab_wrap">
             <!--나를 팔로우하는 사용자 목록-->
-            <v-tab style="font-weight: bold;">팔로워</v-tab>
-            <v-tab-item style="padding-top: 15px;">
-                <h1>팔로워 리스트</h1>
+            <v-tab style="font-weight: bold;">팔로워 {{follower_cnt}}명</v-tab>
+            <v-tab-item class="follow_item" style="padding-top: 15px;">
+                <div v-for="(user, index) in followerList" :key="index" style="text-align: left;">
+                    <v-avatar><img :src="`https://i3b303.p.ssafy.io/profileimages/${user.profile_photo}`" alt="image"></v-avatar>
+                    <!--닉네임을 클릭하면 해당 유저의 페이지로 이동-->
+                    <button @click="test"><strong style="font-size: 15px; padding-left: 10px;">{{ user.nickname }}</strong></button>
+                    <!--내가 팔로우하고 있지 않은 사용자라면 '팔로우' 버튼 활성화-->
+                    <span v-if="!user.follow">
+                        <v-btn class="follow_button" depressed style="background-color: #3366ff; color: white;">팔로우</v-btn>
+                    </span>
+                    <!--내가 팔로우하고 있는 사용자라면 '팔로잉' 버튼 활성화-->
+                    <span v-else>
+                        <v-btn class="follow_button" outlined style="color: #3366ff;" @click="unFollow">팔로잉</v-btn>
+                    </span>
+                </div>
+            </v-tab-item>
+            <!--내가 팔로우하는 사용자 목록-->
+            <v-tab style="font-weight: bold;">팔로잉 {{following_cnt}}명</v-tab>
+            <v-tab-item class="follow_item" style="padding-top: 15px;">
+               <div v-for="(user, index) in followingList" :key="index" style="text-align: left;">
+                    <v-avatar><img :src="`https://i3b303.p.ssafy.io/profileimages/${user.profile_photo}`" alt="image"></v-avatar>
+                    <!--닉네임을 클릭하면 해당 유저의 페이지로 이동-->
+                    <button @click="test"><strong style="font-size: 15px; padding-left: 10px;">{{ user.nickname }}</strong></button>
+                    <!--내가 팔로우하고 있는 사용자이므로 '팔로잉' 버튼 활성화-->
+                    <span>
+                        <v-btn class="follow_button" outlined style="color: #3366ff;" @click="unFollow">팔로잉</v-btn>
+                    </span>
+                </div>
             </v-tab-item>
         </v-tabs>
 
@@ -35,27 +54,46 @@ export default {
      },
     data: () => {
         return {
+            followerList: [],
+            follower_cnt: "",
+            followingList: [],
+            following_cnt: ""
         }        
     },
     created() {
         // 팔로잉, 팔로워 목록 띄우기
         axios
-            .get(base + '/tugether/follow', {
+            .get(base + '/tugether/mypage/followList', {
                 headers:{
                     "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
                 }
             })
             .then((res) => {
                 console.log(res.data);
+                this.followerList = res.data.followerList;
+                this.follower_cnt = res.data.follower_cnt;
+                this.followingList = res.data.followingList;
+                this.following_cnt = res.data.following_cnt;
             })
             .catch((err) => {
                 console.log("created axios get FOLLOW error")
             });
     },
     methods: {
+        test(){
+
+        },
+        // 팔로우 삭제 (팔로잉 버튼 누를 시)
+        unFollow(){
+            var answer = confirm("팔로우를 취소하시겠습니까?");
+            if(answer){ // true
+                alert("팔로우 취소 기능 여기에 넣어라!");
+                // 백엔드로 해당 유저 이메일 보내주면 DB에서 삭제하도록.
+            }
+        },
         // 페이지 이동
         moveMypage() {
-            this.$router.push("/mypage/Mypage");
+            this.$router.push("/mypage/mypage");
         }
     },
     computed: {
@@ -69,4 +107,10 @@ export default {
 </script>
 
 <style scoped>
+    .follow_button{
+        float: right;
+    }
+    .follow_item{
+        padding: 0 15px;
+    }
 </style>

@@ -104,7 +104,7 @@ export default [
         component : MypagePasswordChange
     },
     {
-        path : '/mypage/userpage',
+        path : '/userpage',
         name : 'Userpage',
         beforeEnter: onlyAuthUser,
         component : Userpage
