@@ -6,11 +6,6 @@ import Join from './views/user/Join.vue'
 import TagView from './views/user/TagView.vue'
 import PasswordFind from './views/user/PasswordFind.vue'
 import ArticleWrite from './views/user/Write.vue'
-<<<<<<< HEAD
-import FeedMain from './views/feed/IndexFeed.vue'
-import MainFeed from './views/feed/MainFeed.vue'
-
-=======
 import MainFeed from './views/feed/MainFeed.vue'
 import Mypage from '@/views/mypage/Mypage.vue'
 import MypageSetting from '@/views/mypage/MypageSetting.vue'
@@ -20,7 +15,6 @@ import Userpage from '@/views/mypage/Userpage.vue'
 import Follow from '@/views/mypage/Follow.vue'
 import Comment from '@/views/user/Comment.vue'
 import Update from '@/views/user/Update.vue'
->>>>>>> 3d247e724db8d6b9e528544d6b7788b9ee89b2f5
 
 import Components from './views/Components.vue'
 import store from './vuex/store'
@@ -120,11 +114,6 @@ export default [
         name : 'Follow',
         beforeEnter: onlyAuthUser,
         component : Follow      
-    },
-    {
-        path : '/mainfeed',
-        name : 'MainFeed',
-        component : MainFeed
     },
     {
         path : '/components',

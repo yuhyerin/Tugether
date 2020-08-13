@@ -14,9 +14,11 @@
       <br>
       <div class="input-with-label" v-show="!isLogin">
         <label for="email">이메일</label>
+
         <input
           v-model="email"
           v-bind:class="{error : error.email, complete:!error.email&&email.length!==0}"
+          @keyup.enter="Login"
           id="email"
           placeholder="이메일을 입력하세요."
           type="text"
@@ -31,11 +33,7 @@
           :type="passwordType"
           v-bind:class="{error : error.password, complete:!error.password&&password.length!==0}"
           id="password"
-<<<<<<< HEAD
-          @keyup.enter="login({email, password})"
-=======
           @keyup.enter="Login"
->>>>>>> 3d247e724db8d6b9e528544d6b7788b9ee89b2f5
           placeholder="비밀번호를 입력하세요."
         />
         <label for="password">비밀번호</label>

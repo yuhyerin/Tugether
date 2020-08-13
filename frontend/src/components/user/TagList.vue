@@ -12,8 +12,6 @@
 </template>
 
 <script>
-const SERVER_URL = 'http://localhost:8080'
-
 export default {
   name: 'TagList',
   props: {
@@ -22,7 +20,6 @@ export default {
       required: true,
     }
   },
-
 }
 </script>
 

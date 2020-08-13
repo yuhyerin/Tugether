@@ -101,11 +101,7 @@ export default new Vuex.Store({
                             console.log(res.data.status) //undefined ...? 
 
                               if(res.data.status){ //관심태그 설정한 놈 
-<<<<<<< HEAD
-                                console.log("관심태그를 설정한 회원입니다.")
-=======
                                 console.log("관심태그 설정했는지 체크하고 돌아왔습니다! (설정했음) ")
->>>>>>> 3d247e724db8d6b9e528544d6b7788b9ee89b2f5
                                 router.push("/mainfeed");
 
                               }else{ //안한놈 
