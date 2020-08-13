@@ -35,6 +35,11 @@ yarn-error.log*
 #Gradle temporary files
 target/
 
+#Maven
+/target/
+*.properties
+*/META-INF/*
+
 #Eclipse files
 **/.project
 **/.classpath
