@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.web.curation.dto.BasicResponse;
-import com.web.curation.dto.article.FrontArticle;
 import com.web.curation.dto.comment.Comment;
 import com.web.curation.dto.comment.FrontComment;
 import com.web.curation.jwt.service.JwtService;
@@ -48,15 +47,13 @@ public class CommentController {
    @GetMapping("/mainfeed/comment")
    @ApiOperation(value = "댓글페이지")
    public ResponseEntity<Map<String,Object>> commentPage(HttpServletRequest request) {
+//      System.out.println("GET : Controller 입장");
       Map<String, Object> resultMap = new HashMap<String, Object>();
-      String token = request.getHeader("jwt-auth-token");   //토큰 가져와서
-      Jws<Claims> claims = jwtService.getDecodeToken(token);   //복호화해서
-      Map<String, Object> Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
-      String email = Userinfo.get("email").toString();
+//      String token = request.getHeader("jwt-auth-token");   //토큰 가져와서
+//      Jws<Claims> claims = jwtService.getDecodeToken(token);   //복호화해서
+//      Map<String, Object> Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
+//      String email = Userinfo.get("email").toString();
       int article_id = Integer.parseInt(request.getHeader("article_id"));
-      
-      FrontArticle article = commentService.findArticle(email, article_id);
-      resultMap.put("article", article);
       
       List<FrontComment> comments = commentService.findComments(article_id);
       resultMap.put("comments", comments);

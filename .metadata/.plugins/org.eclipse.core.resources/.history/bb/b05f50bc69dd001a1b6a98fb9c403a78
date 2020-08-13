@@ -49,15 +49,9 @@ public class CommentController {
    @ApiOperation(value = "댓글페이지")
    public ResponseEntity<Map<String,Object>> commentPage(HttpServletRequest request) {
       Map<String, Object> resultMap = new HashMap<String, Object>();
-      String token = request.getHeader("jwt-auth-token");   //토큰 가져와서
-      Jws<Claims> claims = jwtService.getDecodeToken(token);   //복호화해서
-      Map<String, Object> Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
-      String email = Userinfo.get("email").toString();
       int article_id = Integer.parseInt(request.getHeader("article_id"));
-      
-      FrontArticle article = commentService.findArticle(email, article_id);
+      FrontArticle a = commentService.findArticle(articleID);
       resultMap.put("article", article);
-      
       List<FrontComment> comments = commentService.findComments(article_id);
       resultMap.put("comments", comments);
       System.out.println("result : "+comments.toString());

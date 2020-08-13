@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.web.curation.dto.article.Article;
-import com.web.curation.dto.article.FrontArticle;
 import com.web.curation.dto.comment.Comment;
 import com.web.curation.dto.comment.FrontComment;
 import com.web.curation.dto.notice.Notice;
@@ -15,7 +14,7 @@ import com.web.curation.repo.ArticleRepo;
 import com.web.curation.repo.CommentRepo;
 import com.web.curation.repo.NoticeRepo;
 import com.web.curation.repo.ProfileRepo;
-import com.web.curation.service.feed.FeedService;
+import com.web.curation.repo.UserRepo;
 
 @Service
 public class CommentServiceImpl implements CommentService{
@@ -28,8 +27,6 @@ public class CommentServiceImpl implements CommentService{
 	private NoticeRepo noticeRepo;
 	@Autowired
 	private ArticleRepo articleRepo;
-	@Autowired
-	private FeedService feedService;
 	
 	@Override
 	public List<FrontComment> findComments(int article_id) {
@@ -81,16 +78,6 @@ public class CommentServiceImpl implements CommentService{
 		int comment_cnt = commentRepo.findCommentByArticleId(article_id).size();
 		a.setComment_cnt(comment_cnt);
 		articleRepo.save(a);
-	}
-
-
-
-
-	@Override
-	public FrontArticle findArticle(String email, int article_id) {
-		Article temp = articleRepo.findArticleByArticleId(article_id).get(0);
-		
-		return feedService.makeFront(email , article_id);
 	}
 	
 }

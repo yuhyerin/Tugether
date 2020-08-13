@@ -87,10 +87,10 @@ public class CommentServiceImpl implements CommentService{
 
 
 	@Override
-	public FrontArticle findArticle(String email, int article_id) {
+	public FrontArticle findArticle(int article_id) {
 		Article temp = articleRepo.findArticleByArticleId(article_id).get(0);
 		
-		return feedService.makeFront(email , article_id);
+		return makeFront(c);
 	}
 	
 }

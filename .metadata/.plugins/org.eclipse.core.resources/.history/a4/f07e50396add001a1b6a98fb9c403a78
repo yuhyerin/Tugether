@@ -55,7 +55,7 @@ public class CommentController {
       String email = Userinfo.get("email").toString();
       int article_id = Integer.parseInt(request.getHeader("article_id"));
       
-      FrontArticle article = commentService.findArticle(email, article_id);
+      FrontArticle a = commentService.findArticle(email, article_id);
       resultMap.put("article", article);
       
       List<FrontComment> comments = commentService.findComments(article_id);
