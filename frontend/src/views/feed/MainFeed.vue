@@ -97,7 +97,8 @@
               />
             </svg>
             <!-- <i class="far fa-comment-alt icon"></i> -->
-            {{ cntComment }}
+            <!-- {{ cntComment }} -->
+            {{ article.comment_cnt}}
           </div>
           <!---->
              <!-- <a :href="article.link" v-if="article.link !== 0"><unicon name="youtube" fill="red"></unicon></a>

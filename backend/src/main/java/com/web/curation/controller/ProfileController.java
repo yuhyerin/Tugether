@@ -35,9 +35,9 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @ApiResponses(value = { @ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
-        @ApiResponse(code = 403, message = "Forbidden", response = BasicResponse.class),
-        @ApiResponse(code = 404, message = "Not Found", response = BasicResponse.class),
-        @ApiResponse(code = 500, message = "Failure", response = BasicResponse.class) })
+		@ApiResponse(code = 403, message = "Forbidden", response = BasicResponse.class),
+		@ApiResponse(code = 404, message = "Not Found", response = BasicResponse.class),
+		@ApiResponse(code = 500, message = "Failure", response = BasicResponse.class) })
 
 @CrossOrigin(origins = { "*" })
 @RestController
@@ -50,16 +50,20 @@ public class ProfileController {
 	
 	@Autowired
 	private ProfileService profileSerivce;
-	
+
 	@Autowired
 	private TagService tagService;
 	
 	@Autowired
 	private FavtagService favtagService;
 	
+//	@Autowired
+//	private TagService tagService;
+
 	@Autowired
 	private JwtService jwtService;
 	
+
 	@GetMapping("/profile")
 	@ApiOperation(value = "회원의 프로필정보 가져오기 ")
 	public ResponseEntity<Map<String,Object>> getProfile(HttpServletRequest request) {
@@ -151,5 +155,6 @@ public class ProfileController {
 			return new ResponseEntity<Map<String,Object>>(resultMap, status);
 	
 	}
+
 
 }

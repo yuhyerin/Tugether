@@ -50,11 +50,10 @@ export default {
     WriteList,
     WriteInput,
     BottomNav,
-    // TextareaComponent,
-    // FilePond
   },
   data: function() {
     return {
+
       imageUrl: null,
       selectedFile: null,
       myText: "",
@@ -134,6 +133,4 @@ export default {
 .tag {
   margin: 3px;
 }
-
- 
 </style>

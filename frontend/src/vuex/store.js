@@ -38,6 +38,10 @@ export default new Vuex.Store({
 
         logout(state){
             state.isLogin = false;
+        },
+
+        getEmail(state) {
+            return state.email
         }
 
     }, 
@@ -50,6 +54,7 @@ export default new Vuex.Store({
                 signinObj)
                 .then(res=>{
                     localStorage.setItem("token", res.headers["jwt-auth-token"])
+                    localStorage.setItem("email", res.data.data.email)
                     //임시 비밀번호로 로그인 했으면 => 비밀번호 변경페이지로 이동 
                     if (res.data.data.temp==1 && res.data.status) { 
                         state.message = res.data.data.email;
@@ -71,9 +76,10 @@ export default new Vuex.Store({
                         console.log(res.data.status)
                         console.log("얘 임시비밀번호로 로그인한애야?? "+res.data.data.temp)
                         console.log("임시비밀번호 로그인을 안했으면! ")
-                        state.token =  res.headers["jwt-auth-token"];
-                        state.message = res.data.data.email;
+                        state.token = res.headers["jwt-auth-token"];
+                        state.email = res.data.data.email;
                         state.nickname = res.data.data.nickname;
+                        console.log(state.email);
                         console.log(state.message);
                         console.log(state.nickname);
                         console.log("토큰: "+state.token);
