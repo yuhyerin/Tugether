@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.web.curation.dto.article.Article;
 import com.web.curation.repo.ArticleUpdateRepo;
 import com.web.curation.repo.ArticleWriteRepo;
+import com.web.curation.repo.ProfileRepo;
 import com.web.curation.repo.TagRepo;
 
 @Service
@@ -18,6 +19,11 @@ public class ArticleUpdateServiceImpl implements ArticleUpdateService {
 
 	@Autowired
 	ArticleWriteRepo articleWriteRepo;
+
+	@Autowired
+	ProfileRepo profileRepo;
+	@Autowired
+	ArticleWriteRepo articleRepo;
 
 	@Autowired
 	TagRepo tagRepo;
@@ -55,7 +61,7 @@ public class ArticleUpdateServiceImpl implements ArticleUpdateService {
 		return tagNameList;
 	}
 
-	// 게시글 수정
+	// 게시글 수정 - 이미지 변경했을 때
 	@Override
 	public void updateArticlewithImage(Article article) {
 
@@ -76,6 +82,14 @@ public class ArticleUpdateServiceImpl implements ArticleUpdateService {
 		String link = article.getLink();
 		articleWriteRepo.updateArticle(article_id, content, link);
 
+	}
+
+	// 게시글 삭제
+	@Override
+	public void deleteArticle(String email, int article_id) {
+		articleWriteRepo.deleteArticle(article_id);
+		int article_cnt = articleRepo.countMyArticle(email);
+		profileRepo.countMyArticle(email, article_cnt-1); // 내 게시글 갯수 하나 빼기
 	}
 
 }

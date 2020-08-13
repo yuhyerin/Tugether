@@ -2,11 +2,11 @@
 <div class="container">
   <div id="mainfeed">
     <h1>뉴스피드({{ this.feed }})</h1>
-    <!-- <button @click="moveMypage">마이페이지로 이동하기</button> -->
     <br>
     <div class="change-tab" style="text-align:center; font-family: Arial, Helvetica">
       <button @click="getTagData" :style="tagTab"><h3>태그</h3></button> | 
-      <button @click="getFollowData" :style="followTab"><h3>팔로우</h3></button>
+      <button @click="getFollowData" :style="followTab"><h3>팔로우</h3></button><br>
+      <!--로그아웃-->
       <a @click="logout"> <img src="@/assets/images/logout.png" height="50px" width="50px" style="float:right"/> </a>
     </div> 
     <br>
@@ -16,7 +16,8 @@
           <div class="profile-image" :style="{'background-image': 'url('+defaultProfile+')'}"></div>
           <div class="user-info">
             <div class="user-name">
-              <button>{{ article.writer }}</button>
+              <!--다른 유저의 페이지로 이동-->
+              <button @click="moveUserpage(article.email)">{{ article.writer }}</button>
             </div>
             <p class="date">{{ timeForToday(article.reg_time) }}</p>
           </div>
@@ -126,6 +127,7 @@
         </div>
       </div>
     </div>
+    <!--네비게이션 바-->
     <BottomNav/>
   </div>
 </div>    
@@ -141,14 +143,12 @@ import "../../components/css/feed/newsfeed.scss";
 import FeedItem from "../../components/feed/FeedItem.vue";
 import store from "../../vuex/store"
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
-import BottomNav from "@/components/common/BottomNav"
+import BottomNav from "@/components/common/BottomNav";
 
-// const SERVER_URL = 'https://i3b303.p.ssafy.io'
-const SERVER_URL = 'http://localhost:3000'
 export default {
   name: 'MainFeed',
   components:{
-    BottomNav,
+    BottomNav
   },
   data() {
     return {
@@ -336,9 +336,18 @@ export default {
       })
     },
     
-    moveMypage() {
-      this.$router.push("/mypage/mypage");
+    // 다른 유저의 페이지로 이동
+    moveUserpage(user_email) {
+      // this.$router.push("/mypage/userpage");
+      this.$router.push({
+        name: 'Userpage',
+        params: {
+          user_email: this.articles.email
+        },
+        path: "/mypage/userpage"
+      })
     }
+
   },
 
 

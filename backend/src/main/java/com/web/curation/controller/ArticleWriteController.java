@@ -61,7 +61,8 @@ public class ArticleWriteController {
 	
 	@ApiOperation(value = "게시글 작성")
 	@PostMapping("/articlewrite")
-    public ResponseEntity<Map<String,Object>> addArticle( @RequestParam("articleimg") MultipartFile mFile, 
+    public ResponseEntity<Map<String,Object>> addArticle( 
+    		@RequestParam("articleimg") MultipartFile mFile, 
     		@RequestParam("contents") String contents,
     		@RequestParam("link") String link,
     		@RequestParam("taglist") ArrayList<String> taglist,

@@ -9,8 +9,8 @@ public interface CommentService {
 	
 	List<FrontComment> findComments(int article_id);
 	void saveComment(Comment c);
-	public FrontComment makeFront(Comment c);
 	
 	//1. comment_id 삭제 -> article_tb에서 article_id comment_cnt-1 -> article_id로 comment찾기
 	void deleteComment(int comment_id);
+	public FrontComment makeFront(Comment c);
 }
