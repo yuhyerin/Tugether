@@ -52,10 +52,10 @@
         </div>
       </div>
     </div>
+    <BottomNav/>
     <infinite-loading @infinite="infiniteHandler" spinner="spiral">
       <div slot="no-more" style="color: rgb(102, 102, 102); font-size: 14px; padding: 10px 0px;">목록의 끝입니다 :)</div>
     </infinite-loading>
-    <BottomNav/>
   </div>
 </template>
 
@@ -78,7 +78,7 @@ export default {
   name: 'MainFeed',
   components:{
     BottomNav,
-    InfiniteLoading
+    InfiniteLoading,
   },
   data() {
     return {
@@ -91,39 +91,68 @@ export default {
       clicked: false,
       tagTab: { color: 'red' },
       followTab: { color: 'black' },
-      limit: 10,
+      limit: 0,
     }
   },
 
 
-  watch:{
-    clicked(){
-      console.log("clickclick")
-      axios.post(base + '/tugether/mainfeed/', {
-        tag: this.tag,
-      },
-      {
-        headers:{
-          "jwt-auth-token": localStorage.getItem("token")
+  // watch:{
+  //   clicked(){
+  //     console.log("clickclick")
+  //     axios.post(base + '/tugether/mainfeed/', {
+  //       tag: this.tag,
+  //     },
+  //     {
+  //       headers:{
+  //         "jwt-auth-token": localStorage.getItem("token")
+  //       }
+  //     })
+  //     .then(response => {
+  //       console.log(response.data.list)
+  //       this.articles = response.data.list;
+  //       this.clicked=false;
+  //     })
+  //     .catch(err =>{
+  //         console.log("망")
+  //     })
+  //     .finally(()=>{
+  //         this.clicked=false;
+  //     })
+  //   }
+  // },
+
+  methods: {
+    infiniteHandler($state) {
+      const EACH_LEN = 1
+      console.log('___BOTTOM___')
+      console.log(this.limit)
+      axios.get(base+'/tugether/mainfeed', {
+        headers: {
+          "jwt-auth-token": localStorage.getItem("token"),
+          "limit": this.limit
         }
       })
       .then(response => {
-        console.log(response.data.list)
-        this.articles = response.data.list;
-        this.clicked=false;
-      })
-      .catch(err =>{
-          console.log("망")
-      })
-      .finally(()=>{
-          this.clicked=false;
-      })
-    }
-  },
+        console.log(response.data)
+        console.log('articles: '+response.data)
+        setTimeout(() => {
+          if(response.data.length) {
+            this.articles = [...this.articles, ...response.data]
+            $state.loaded();
+            this.limit=this.limit+1;
+          //  console.log('AFTERDATA ARRIVE!!', this.articles, response.data, this.limit)
 
-  methods: {
-    infiniteHandler() {
-      
+            if(response.data.length / EACH_LEN < 1) {
+              $state.complete()
+            }
+          } else {
+            $state.complete()
+          }
+        }, 500)
+      })
+      .catch(err => {
+        console.log('AFTERDATA NO!!')
+      })
     },
 
     logout(){
@@ -268,40 +297,23 @@ export default {
     },
   },
 
-  beforeCreate() {
-    axios.get(base + '/tugether/mainfeed/', {
-      headers: {
-        "jwt-auth-token": localStorage.getItem("token"),
-        "limit": this.limit
-      }
-    })
-    .then(response => {
-      console.log('데이터가 옵니다')
-    })
-    .catch(err => {
-      console.log('데이터 못와요')
-    })
-    
-
-
-    // this.tag = true
-    // axios.post(base + '/tugether/mainfeed/', {
-    //   tag: this.tag,
-    // },
-    // {
-    //   headers:{
-    //     "jwt-auth-token": localStorage.getItem("token")
-    //   }
-    // })
-    // .then(response => {
-    //   console.log('태그기반 호출')
-    //   this.articles = response.data.list;
-    //   console.log(this.articles)
-    // })
-    // .catch(err =>{
-    //     console.log("망")
-    // })
-  },
+  // created() {
+  //   console.log(this.limit)
+  //   axios.get(base + '/tugether/mainfeed', {
+  //     headers: {
+  //       "jwt-auth-token": localStorage.getItem("token"),
+  //       "limit": this.limit
+  //     }
+  //   })
+  //   .then(response => {
+  //     this.articles = response.data
+  //     console.log('CREATED DATA ARRIVE', this.articles)
+  //     this.limit = this.limit+1;
+  //   })
+  //   .catch(err => {
+  //     console.log('CREATED DATA NO')
+  //   })
+  // },
 }
 </script>
 
