@@ -68,7 +68,7 @@
         </div>
       </div>
     </div>
-    <BottomNav/>
+    <BottomNav />
   </div>
 </template>
 

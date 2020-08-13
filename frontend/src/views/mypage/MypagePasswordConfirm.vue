@@ -1,6 +1,6 @@
 <template>
     <div class="wrapC" >
-        <h1 style="margin-top: 20px;">비밀번호 확인</h1>
+        <h1 style="padding-top: 240px;">비밀번호 확인</h1>
         <strong>보안을 위해 현재 비밀번호를 다시 한 번 입력해주세요.</strong>
         <div class="input-with-label">
             <label for="password">비밀번호</label>
@@ -13,11 +13,11 @@
         <div id="mypage_buttons2">
             <!--프로필 편집 페이지로 돌아가기 버튼-->
             <button class="button" :style="mybtn1" @mouseover="over1" @mouseout="out1"
-                @click="moveMypageSetting" style="width: 200px; height: 45px; margin-right: 10px;">BACK</button>
+                @click="moveMypageSetting" style="width: 48%; height: 45px; margin-right: 10px; float: left;">BACK</button>
             <!--현재 비밀번호 입력 완료 버튼-->
             <!--비밀번호가 틀리면 alert창으로 안내해주고, 맞으면 비밀번호 변경페이지로 이동한다.-->
             <button class="button" :style="mybtn2" @mouseover="over2" @mouseout="out2"
-                @click="checkPW" style="width: 200px; height: 45px;">확인</button>
+                @click="checkPW" style="width: 48%; height: 45px; float: right;">확인</button>
         </div>
         <BottomNav/>
     </div>
@@ -119,9 +119,8 @@ export default {
     #mypage_buttons2{
         width: 100%;
         margin: 0 auto;
-        margin-left: 60px;
-        padding-top: 50px;
-        float: left;
+        padding-top: 20px;
+        display: inline-block;
     }
 </style>
 

@@ -23,6 +23,7 @@
         </div>
       </div>
 
+      <!--이메일 사용 가능 여부 및 인증번호 일치 여부 안내문구 출력-->
       <div class="error-text" v-if="error.email"
         style="color: red; margin-top: 10px; margin-bottom: 0px;">{{error.email}}</div>
 
@@ -31,13 +32,11 @@
         <button class="buttonDuplicate" @click="test"
           style="margin-top: 10px; border-radius: 3px; width: 130px; height: 45px;">이메일 중복 체크</button>
       </div>
-      <div class="input-with-label" style="margin-top: 10px; width: 400px;">
+      <div class="input-with-label" style="margin-top: 10px;">
         <label for="password">인증번호</label>
-        <input v-model="valid_Num" id="valid_Num" type="text" placeholder="인증번호를 입력하세요." />
-      </div>
-      <div>
+        <input v-model="valid_Num" id="valid_Num" type="text" placeholder="인증번호를 입력하세요." style="width: 78%; float: left;" />
         <button class="buttonValidate" @click="checkValid()"
-          style="margin-top: 10px; border-radius: 3px; width: 130px; height: 50px; margin-left: 10px;">인증번호 확인</button>
+          style="border-radius: 3px; width: 20%; height: 50px; margin-left: 5px; float: right;">확인</button>
       </div>
 
       <!--비밀번호-->
@@ -55,6 +54,7 @@
         <!--비밀번호 입력 시 아이콘을 누르면 입력타입을 변경해준다.(text, password)-->
         <span class="eye_icon" @click="showPW2"><i class="far fa-eye fa-lg"></i></span>
       </div>
+      <!--비밀번호 일치 여부 안내문구 출력-->
       <div class="error-text" v-if="error.passwordConfirm" style="color:red">{{error.passwordConfirm}}</div>
 
       <!--닉네임-->
@@ -75,12 +75,12 @@
           <label for="gender">성별</label>
         </div>
         <div class="col-2">
-          <input type="radio" id="female" value="F" v-model="gender" style="left: -8px; height: 20px;" />
-          <label for="female">여성</label>
+          <input type="radio" id="female" value="F" v-model="gender" style="left: -8px; height: 20px; margin-left: 52px;" />
+          <label for="female" style="padding-left: 54px;">여성</label>
         </div>
         <div class="col-1">
-          <input type="radio" id="male" value="M" v-model="gender" style="left: -10px; height: 20px;" />
-          <label for="male">남성</label>
+          <input type="radio" id="male" value="M" v-model="gender" style="left: -10px; height: 20px; margin-left: 52px;" />
+          <label for="male" style="padding-left: 54px;">남성</label>
         </div>
       </div>
     </div>
@@ -89,10 +89,10 @@
     <div id="signup_buttons">
       <!--홈으로 돌아가기 버튼-->
       <button class="button" :style="mybtn1" @mouseover="over1" @mouseout="out1"
-          @click="moveLogin" style="width: 200px; height: 45px; margin-right: 10px;">BACK</button>
+          @click="moveLogin" style="width: 48%; height: 45px; margin-right: 10px; float: left;">BACK</button>
       <!--변경한 내용 저장하기 버튼-->
       <button class="button" :style="mybtn2" @mouseover="over2" @mouseout="out2"
-          @click="checkHandler" style="width: 200px; height: 45px;">가입하기</button>
+          @click="checkHandler" style="width: 48%; height: 45px; float: right;">가입하기</button>
     </div>
 
   </div>
@@ -105,8 +105,6 @@ import * as EmailValidator from "email-validator";
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
 
 var valid = "";
-var localhost_url = "http://127.0.0.1:8080";
-var aws_url = "https://i3b303.p.ssafy.io";
 export default {
   data: () => {
     return {
@@ -207,7 +205,6 @@ export default {
         console.log(valid);
         this.error.email = false;
         alert("인증번호가 확인되었습니다.");
-        // this.error.email = "인증되었습니다."
       } else {
         this.error.email = "인증번호가 일치하지 않습니다.";
       }
@@ -337,8 +334,8 @@ input[type="radio"] {
   width: 100%;
   margin: 0 auto;
   padding-top: 30px;
-  margin-left: 60px;
-  float: left;
+  /* float: left; */
+  display: inline-block;
 }
 .button{
         background: black;

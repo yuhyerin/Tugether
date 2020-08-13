@@ -2,43 +2,55 @@
     <div class="wrapB" style="text-align: center;">
         <br><br>
         <strong @click="moveMypage" style="cursor: pointer;">마이페이지로 이동</strong>
-        <!--tab test-->
-        <div class="tabs" style="margin-top: 30px;">
-            <TabItem
-                v-for="item in list"
-                v-bind="item" :key="item.id"
-                v-model="currentId"/>
-            </div>
-            <div class="contents" style="margin: 0 auto; text-align: center;">
-            <!-- <transition> -->
-                <section class="item" :key="currentId">
-                {{ current.content }}
-                </section>
-            <!-- </transition> -->
-            <BottomNav/>
-        </div>
+
+        <!--탭-->
+        <v-tabs grow style="margin-top: 10px;">
+            <!--내가 팔로잉하는 사용자 목록-->
+            <v-tab style="font-weight: bold;">팔로잉</v-tab>
+            <v-tab-item style="padding-top: 15px;">
+                <h1>팔로잉 리스트</h1>
+            </v-tab-item>
+            <!--나를 팔로우하는 사용자 목록-->
+            <v-tab style="font-weight: bold;">팔로워</v-tab>
+            <v-tab-item style="padding-top: 15px;">
+                <h1>팔로워 리스트</h1>
+            </v-tab-item>
+        </v-tabs>
+
+        <!--네비게이션 바-->
+        <BottomNav/>
     </div>
 </template>
 
 <script>
 import axios from "axios";
+import store from '@/vuex/store';
+import { mapState, mapActions } from "vuex";
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
-import TabItem from '@/components/common/TabItem.vue'
 import BottomNav from "@/components/common/BottomNav"
 
 export default {
     components: { 
-        TabItem,
-        BottomNav,
+        BottomNav
      },
     data: () => {
         return {
-            currentId: 1,
-            list: [
-                { id: 1, label: '팔로잉', content: '콘텐츠1' },
-                { id: 2, label: '팔로워', content: '콘텐츠2' },
-            ]
         }        
+    },
+    created() {
+        // 팔로잉, 팔로워 목록 띄우기
+        axios
+            .get(base + '/tugether/follow', {
+                headers:{
+                    "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
+                }
+            })
+            .then((res) => {
+                console.log(res.data);
+            })
+            .catch((err) => {
+                console.log("created axios get FOLLOW error")
+            });
     },
     methods: {
         // 페이지 이동
@@ -47,6 +59,8 @@ export default {
         }
     },
     computed: {
+        ...mapState(["token"]), //store 공동 저장소에 있는 token 사용하기 위해 선언
+        ...mapActions(["getToken"]),
         current() {
             return this.list.find(el => el.id === this.currentId) || {}
         }
@@ -55,26 +69,4 @@ export default {
 </script>
 
 <style scoped>
-.contents {
-  position: relative;
-  overflow: hidden;
-  width: 280px;
-  /* border: 2px solid #000; */
-}
-.item {
-  box-sizing: border-box;
-  padding: 10px;
-  width: 100%;
-  transition: all 0.8s ease;
-}
-/* 트랜지션 전용 스타일 */
-.v-leave-active {
-  position: absolute;
-}
-.v-enter {
-  transform: translateX(-100%);
-}
-.v-leave-to {
-  transform: translateX(100%);
-}
 </style>

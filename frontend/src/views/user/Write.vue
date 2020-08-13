@@ -23,7 +23,7 @@
 
         <h3>링크</h3>
         <p><img src="@/assets/images/paperclip.png" style="height: 30px; width: 30px;">영상을 공유하고 싶다면 링크를 달아주세요</p>
-        <input type="text" style="width: 100%; margin-bottom: 2px; height: 40px;" v-model="urlLink"/>
+        <input type="text" style="width: 100%; margin-bottom: 2px; height: 40px;" v-model="urlLink" />
         
         <button
           v-on:click="onUpload"
@@ -44,26 +44,22 @@ import { bus } from '@/event-bus'
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
 import BottomNav from "@/components/common/BottomNav"
 
-const localhost_url = "http://localhost:8080/tugether/articlewrite"
-
 export default {
   name: 'Write',
   components: {
     WriteList,
     WriteInput,
     BottomNav,
-    // TextareaComponent,
-    // FilePond
   },
   data: function() {
     return {
+
       imageUrl: null,
       selectedFile: null,
       myText: "",
       urlLink: "",
       tagList: [],
       tagNameList: [],
-
     }
   },
   watch: {
@@ -90,6 +86,7 @@ export default {
       this.tagList = [...this.tagList, tag]
       this.tagNameList = [...this.tagNameList, tag.content]
       console.log(this.tagList)
+      console.log(this.tagNameList)
 
     },
     onFileSelected(){
@@ -136,6 +133,4 @@ export default {
 .tag {
   margin: 3px;
 }
-
- 
 </style>

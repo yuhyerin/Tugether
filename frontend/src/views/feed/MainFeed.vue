@@ -36,7 +36,7 @@
                 <!-- <a :href="article.link" v-if="article.link" target="_blank"><unicon name="youtube" fill="red" ></unicon></a>
                 <a :href="article.link" v-if="article.link" target="_blank"><unicon name="youtube" fill="gray"></unicon></a> -->
               </div>
-              <p class="date">{{article.reg_time.slice(0, 10)}}</p>
+              <p class="date">{{ article.reg_time.slice(0, 10) }}</p>
             </div>
           </div>
         </div>
@@ -77,7 +77,9 @@
             <span class="like-cnt" v-if="article.like_cnt">{{ article.like_cnt }}명이 좋아합니다.</span>
             <!-- <p>{{ $store.state.nickname }}님 외 {{ article.like_cnt }}명이 좋아합니다.</p> -->
           </div>
-          <div class="comment">
+          <!-- <div class="comment"> -->
+            
+            <div class="comment" @click="clickedCommentBtn(article, index)">
             <svg
               class="svg-inline--fa fa-comment-alt fa-w-16 icon"
               aria-hidden="true"
@@ -94,7 +96,8 @@
               />
             </svg>
             <!-- <i class="far fa-comment-alt icon"></i> -->
-            {{ cntComment }}
+            <!-- {{ cntComment }} -->
+            {{ article.comment_cnt}}
           </div>
           <!---->
              <!-- <a :href="article.link" v-if="article.link !== 0"><unicon name="youtube" fill="red"></unicon></a>
@@ -140,7 +143,8 @@ import store from "../../vuex/store"
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
 import BottomNav from "@/components/common/BottomNav"
 
-const SERVER_URL = 'https://i3b303.p.ssafy.io'
+// const SERVER_URL = 'https://i3b303.p.ssafy.io'
+const SERVER_URL = 'http://localhost:3000'
 export default {
   name: 'MainFeed',
   components:{
@@ -266,7 +270,6 @@ export default {
 
 
     clickedLikeBtn(index) { 
-
       this.clicked = true;
       axios.get(base + '/tugether/mainfeed/like',{
         headers: { 
@@ -284,6 +287,15 @@ export default {
       })
     },
 
+    clickedCommentBtn(articles, index) {
+      this.$router.push({
+        name: 'Comment',
+        params: {
+          // article: this.articles[index],
+          article_id: this.articles[index].article_id
+        }
+      })
+    },
 
     clickedScrapBtn(index) {
       // 스크랩 여부 확인
