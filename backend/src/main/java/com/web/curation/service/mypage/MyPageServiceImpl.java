@@ -10,6 +10,7 @@ import com.web.curation.dto.article.Article;
 import com.web.curation.dto.article.FrontArticle;
 import com.web.curation.repo.ArticleRepo;
 import com.web.curation.repo.ArticleTagRepo;
+import com.web.curation.repo.FavtagRepo;
 import com.web.curation.repo.FollowingRepo;
 import com.web.curation.repo.ScrapRepo;
 import com.web.curation.repo.TagRepo;
@@ -27,6 +28,8 @@ public class MyPageServiceImpl implements MyPageService {
 	private ArticleTagRepo articletagRepo;
 	@Autowired
 	private TagRepo tagRepo;
+	@Autowired
+	private FavtagRepo favtagRepo;
 	
 	@Override
 	public List<FrontArticle> findArticles(String email) {
@@ -81,6 +84,15 @@ public class MyPageServiceImpl implements MyPageService {
 				.build();
 				
 		return ar;
+	}
+
+	@Override
+	public List<String> findFavTags(String email) {
+		List<Integer> tagIDs = favtagRepo.findTagIdByEmail(email);
+		List<String> result = new ArrayList<String>();
+		for(int i=0;i<tagIDs.size();i++)
+			result.add(tagRepo.findTagNameByTagId(tagIDs.get(i)));
+		return result;
 	}
 	
 	
