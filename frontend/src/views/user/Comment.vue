@@ -26,6 +26,7 @@
           <v-text-field
             label="댓글"
             single-line
+            v-model="userComment"
           ></v-text-field>
         </v-col>
    
