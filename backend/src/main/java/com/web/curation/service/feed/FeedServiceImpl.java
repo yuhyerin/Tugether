@@ -3,8 +3,12 @@ package com.web.curation.service.feed;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.web.curation.dto.article.Article;
@@ -22,6 +26,9 @@ import com.web.curation.repo.ProfileRepo;
 import com.web.curation.repo.ScrapRepo;
 import com.web.curation.repo.TagRepo;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Service
 public class FeedServiceImpl implements FeedService {
 
@@ -186,6 +193,20 @@ public class FeedServiceImpl implements FeedService {
 				.build();
 				
 		return ar;
+	}
+
+	@Override
+	@Transactional
+	public List<FrontArticle> findByPageRequest(PageRequest pageRequest, String email) {
+		//List<Article> list = articleRepo.findArticleByEmail(email);
+		//1. 태그기반
+		List<Article> list = articleRepo.findAll(pageRequest).stream().collect(Collectors.toList());
+		List<FrontArticle> result = new ArrayList<FrontArticle>();
+		for(int i=0;i<list.size();i++)
+			result.add(makeFront(email,list.get(i).getArticle_id()));
+		//2. 팔로우기반
+		
+		return result;
 	}
 
 }

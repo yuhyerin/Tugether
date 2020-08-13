@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -51,6 +52,7 @@ public class FeedController {
 	// 2. 팔로우기반 피드
 	// following테이블에서 from_user=email로 to_user 리스트 찾아와
 	// article 테이블에서 uid = email인 List<article>로 다 가져가
+	/*
 	@PostMapping("/mainfeed")
 	public ResponseEntity<Map<String,Object>> MainFeed(@RequestBody Map<String, Object> map, HttpServletRequest request) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -71,6 +73,21 @@ public class FeedController {
 		resultMap.put("list", list);
 		
 		return new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.OK);
+	}
+	*/
+	
+	@GetMapping("/mainfeed")
+	public List<FrontArticle> getMainFeed(HttpServletRequest request){
+		System.out.println("Controller입장 : GET");
+		String email = 
+				((Map<String, Object>)jwtService.getDecodeToken(request.getHeader("jwt-auth-token"))
+				.getBody().get("AuthenticationResponse")).get("email").toString();
+		int pageNum = Integer.parseInt(request.getHeader("pageNum"));
+		System.out.println("pageNum은 ? "+pageNum);
+		PageRequest pageRequest = PageRequest.of(pageNum, 2);
+		List<FrontArticle> result = feedService.findByPageRequest(pageRequest, email);
+		System.out.println(result.toString());
+		return result;
 	}
 	
 	@GetMapping("/mainfeed/like")
