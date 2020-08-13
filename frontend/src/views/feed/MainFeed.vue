@@ -14,7 +14,7 @@
           <!-- <div class="profile-image" :style="{'background-image': 'url('+defaultProfile+')'}"></div> -->
           <div class="user-info">
             <div class="user-name">
-              <button>{{ article.writer }}</button>
+              <button @click="moveUserpage(article.email)">{{ article.writer }}</button>
             </div>
             <p class="date">{{ timeForToday(article.reg_time) }}</p>
           </div>
@@ -41,8 +41,9 @@
             <i class="fas fa-heart" v-show="article.like"></i>
             <span class="like-cnt" v-if="article.like_cnt">{{ article.like_cnt }}명이 좋아합니다.</span>
           </div>
-          <div class="comment-btn">
+          <div class="comment-btn" @click="clickedCommentBtn(article, index)">
             <i class="far fa-comment-alt"></i>
+            <span>{{ article.comment_cnt }}</span>
           </div>
           <div class="scrap-btn" @click="clickedScrapBtn(index)">
             <i class="far fa-bookmark"></i>
@@ -259,7 +260,14 @@ export default {
       })
     },
 
-    
+    clickedCommentBtn(articles, index) {
+      this.$router.push({
+        name: 'Comment',
+        params: {
+          article_id: this.articles[index].article_id
+        }
+      })
+    },
 
     clickedScrapBtn(index) {
       // 스크랩 여부 확인
@@ -301,8 +309,14 @@ export default {
     },
 
     
-    moveUserpage() {
-      this.$router.push("/mypage/userpage");
+    moveUserpage(user_email) {
+      this.$router.push({
+        name: 'Userpage',
+        parmas: {
+          user_email: this.articles.email
+        },
+        path: "/mypage/userpage"
+      });
     },
   },
 
