@@ -117,9 +117,9 @@
                 width: auto;
                 font-size: 15px;
             }
-            &:last-child {
-                margin-right: 0;
-            }
+            // &:last-child {
+            //     margin-right: 0;
+            // }
         }
         .likeScrap {
             position: relative;
@@ -141,7 +141,11 @@
                 left: 0;
                 top:0;
                 &.full {
+<<<<<<< HEAD
                     display: inline-block;
+=======
+                    display:inline-block;
+>>>>>>> 3d247e724db8d6b9e528544d6b7788b9ee89b2f5
                 }
                 &.empty {
                     display: inline-block;
@@ -158,6 +162,15 @@
             font-size: $font-size__5;
         }
     }
+    // .link-btn {
+    //     width: calc(100% - 50px);
+    //     float:right;
+    //     button {
+    //         color:$ssafy;
+    //         font-weight: $f600;
+    //         font-size: $font-size__5;
+    //     }
+    // }
 }
 
 .scrab-feed-item {

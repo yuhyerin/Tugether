@@ -4,7 +4,7 @@
     <menu></menu>
     <div class="wrapC">
       <br>
-      <h1>
+      <h1 style="text-align: center;">
         즐거운 시간을 함께 나눠요, Tugether😊
       </h1>
 
@@ -22,20 +22,26 @@
           type="text"
         />
         <label for="email">이메일</label>
-        <div class="error-text" v-if="error.email">{{error.email}}</div>
+        <!-- <div class="error-text" v-if="error.email">{{error.email}}</div> -->
       </div>
 
       <div class="input-with-label" v-show="!isLogin">
         <input
           v-model="password"
-          type="password"
+          :type="passwordType"
           v-bind:class="{error : error.password, complete:!error.password&&password.length!==0}"
           id="password"
+<<<<<<< HEAD
           @keyup.enter="login({email, password})"
+=======
+          @keyup.enter="Login"
+>>>>>>> 3d247e724db8d6b9e528544d6b7788b9ee89b2f5
           placeholder="비밀번호를 입력하세요."
         />
         <label for="password">비밀번호</label>
-        <div class="error-text" v-if="error.password">{{error.password}}</div>
+        <!--비밀번호 입력 시 아이콘을 누르면 입력타입을 변경해준다.(text, password)-->
+        <span class="eye_icon" @click="showPW"><i class="far fa-eye fa-lg"></i></span>
+        <!-- <div class="error-text" v-if="error.password">{{error.password}}</div> -->
       </div>
       
         <button
@@ -63,34 +69,8 @@
 
         </div>
       </div>
-  <v-bottom-navigation
-    v-model="bottomNav"
-    dark
-    shift
-  >
-    <v-btn>
-      <span>Video</span>
-      <v-icon>mdi-television-play</v-icon>
-    </v-btn>
-
-    <v-btn>
-      <span>Music</span>
-      <v-icon>mdi-music-note</v-icon>
-    </v-btn>
-
-    <v-btn>
-      <span>Book</span>
-      <v-icon>mdi-book</v-icon>
-    </v-btn>
-
-    <v-btn>
-      <span>Image</span>
-      <v-icon>mdi-image</v-icon>
-    </v-btn>
-  </v-bottom-navigation>
-
     </div>
-
+    <BottomNav />
   </div>
 </template>
 
@@ -110,18 +90,15 @@ import UserApi from "../../api/UserApi";
 import store from "../../vuex/store"
 import * as axios from 'axios';
 import { mapState, mapActions} from "vuex"
-import Menu from '../menu/Menu';
+import { base } from "@/components/common/BaseURL.vue"; // baseURL
+import BottomNav from "@/components/common/BottomNav";
 
-const storage = window.localStorage;
-const ai = axios.create({
-    baseURL: "http://localhost:8080/account/"
-});
+const storage = window.sessionStorage;
 
 export default {
   name: 'Login',
   component:{
-
-    'menu': Menu
+    BottomNav,
   },
 
   data: () => {
@@ -133,6 +110,7 @@ export default {
       message: "로그인해주세요.",
       email: "",
       password: "",
+      passwordType: "password",
       passwordSchema: new PV(),
       nickname:"",
       error: {
@@ -168,7 +146,6 @@ export default {
       this.checkForm();
     }
   },
-  
   methods: {
     ...mapActions(["login"]), // store.js의 Actions에 정의한 함수를 쓰기 위해서 선언해준다.
 
@@ -190,6 +167,15 @@ export default {
       });
       this.isSubmit = isSubmit;
     },
+
+    // 비밀번호 입력 시 아이콘을 누르면 입력타입 변경(text, password)
+    showPW() {
+      if (this.passwordType === "password") {
+        this.passwordType = "text";
+      } else {
+        this.passwordType = "password";
+      }
+    },
     
     onLogin() {
       if (this.isSubmit) {
@@ -199,6 +185,52 @@ export default {
           email,
           password
         };
+
+        storage.setItem("jwt-auth-token", "");
+        storage.setItem("login_user","");
+        
+
+        // ai.post("/signin",
+        //   {email: this.email,
+        //   password: this.password
+        //   })
+        //   .then(res=>{
+        //     console.log(res.data.status) // true 
+        //     if(res.data.status){
+        //         this.message = res.data.data.email+"로 로그인 되었습니다.";
+        //         this.nickname = res.data.data.nickname;
+        //         console.log(this.message);
+        //         console.log(this.nickname);
+        //         console.log("토큰: "+res.headers["jwt-auth-token"]);
+        //         this.setInfo(
+        //           "성공",
+        //           res.headers["jwt-auth-token"],
+        //           JSON.stringify(res.data.data)
+        //         );
+        //         storage.setItem("jwt-auth-token", res.headers["jwt-auth-token"]);
+        //         storage.setItem("login_user", res.data.data.email);
+        //         store.state.login_user_token =  res.headers["jwt-auth-token"];
+        //         store.state.login_user_nickname = res.data.data.nickname;
+        //         this.isSubmit = true;
+                
+        //         alert("로그인 성공! 환영합니다 :)");
+        //         this.$router.push("/feed/main");
+        //     }else{
+        //       this.setInfo("", "", "");
+        //       this.message = "로그인해주세요.";
+        //       alert("입력정보를 확인하세요.");
+        //     }
+        //   })
+        //   .catch(e=>{
+        //     this.isSubmit=true;
+        //     alert("이메일과 비밀번호를 확인해 주세요");
+        //     this.email = "";
+        //     this.password=""
+        //     this.setInfo("실패",
+        //                 "",
+        //                 JSON.stringify(e.response || e.message));
+        // });
+
 
         //요청 후에는 버튼 비활성화
         this.isSubmit = false;
@@ -213,8 +245,8 @@ export default {
     },
 
     getInfo(){ //저장된 토큰을 사용하여 회원정보를 가져온다.
-      ai.post(
-        "/info",
+      axios
+      .post(base + '/info',
         {
           email: this.email,
           password: this.password
@@ -243,18 +275,18 @@ export default {
     },
   
     init(){
-      if(localStorage.getItem("token")){
-        alert("이미 로그인 한 사용자 입니다:)");
-        this.$router.push("/feed/main");
+      if(storage.getItem("jwt-auth-token")){
+        this.message = storage.getItem("login_user")+" 로 로그인 되었습니다.";
+      }else{
+        storage.setItem("jwt-auth-token", "");
       }
     }
 
   },
   mounted(){
     this.init();
+    
   },
-  
-
 };
 </script>
 

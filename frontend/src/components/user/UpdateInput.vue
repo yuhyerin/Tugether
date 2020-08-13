@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: 'WriteInput',
+  name: 'UpdateInput',
   data() {
     return {
       content: '',
@@ -21,7 +21,7 @@ export default {
           id: Date.now(),
           content: this.content,
         }
-        this.$emit('add-tag', tag)
+        this.$emit('add-tag', tag.content)
         this.content = ''
       }
     },

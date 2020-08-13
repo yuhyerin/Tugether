@@ -1,11 +1,21 @@
 <template>
 <div class="container">
   <div id="mainfeed">
+<<<<<<< HEAD
     <h1 style="text-align:center; font-weight:bold; font-size:2.5em; font-family: Arial, Helvetica">뉴스피드({{ this.feed }})</h1>
     <br>
     <div class="change-tab" style="text-align:center font-family: Arial, Helvetica">
       <button @click="getTagData" :style="tagTab"><h3>태그</h3></button> | 
       <button @click="getFollowData" :style="followTab"><h3>팔로우</h3></button>
+=======
+    <h1>뉴스피드({{ this.feed }})</h1>
+    <br>
+    <div class="change-tab" style="text-align:center; font-family: Arial, Helvetica">
+      <button @click="getTagData" :style="tagTab"><h3>태그</h3></button> | 
+      <button @click="getFollowData" :style="followTab"><h3>팔로우</h3></button><br>
+      <!--로그아웃-->
+      <a @click="logout"> <img src="@/assets/images/logout.png" height="50px" width="50px" style="float:right"/> </a>
+>>>>>>> 3d247e724db8d6b9e528544d6b7788b9ee89b2f5
     </div> 
     <br>
     <div class="wrapC" v-for="(article, index) in articles" :key="article.id" :articles="articles">
@@ -14,7 +24,12 @@
           <div class="profile-image" :style="{'background-image': 'url('+defaultProfile+')'}"></div>
           <div class="user-info">
             <div class="user-name">
+<<<<<<< HEAD
               <button>{{ article.writer }}</button>
+=======
+              <!--다른 유저의 페이지로 이동-->
+              <button @click="moveUserpage(article.email)">{{ article.writer }}</button>
+>>>>>>> 3d247e724db8d6b9e528544d6b7788b9ee89b2f5
             </div>
             <p class="date">{{ timeForToday(article.reg_time) }}</p>
           </div>
@@ -34,12 +49,20 @@
                 <!-- <a :href="article.link" v-if="article.link" target="_blank"><unicon name="youtube" fill="red" ></unicon></a>
                 <a :href="article.link" v-if="article.link" target="_blank"><unicon name="youtube" fill="gray"></unicon></a> -->
               </div>
+<<<<<<< HEAD
               <p class="date">{{article.reg_time.slice(0, 10)}}</p>
+=======
+              <p class="date">{{ article.reg_time.slice(0, 10) }}</p>
+>>>>>>> 3d247e724db8d6b9e528544d6b7788b9ee89b2f5
             </div>
           </div>
         </div>
 
+<<<<<<< HEAD
         <div class="btn-group wrap"> <!-- 좋아요, 댓글,  -->
+=======
+        <div class="btn-group wrap"> <!-- 좋아요, 댓글,  스크랩-->
+>>>>>>> 3d247e724db8d6b9e528544d6b7788b9ee89b2f5
           <div class="like likeScrap" @click="clickedLikeBtn(index)">
             <svg v-show="article.like" 
               class="svg-inline--fa fa-heart fa-w-16 icon full"
@@ -72,10 +95,19 @@
                 d="M458.4 64.3C400.6 15.7 311.3 23 256 79.3 200.7 23 111.4 15.6 53.6 64.3-21.6 127.6-10.6 230.8 43 285.5l175.4 178.7c10 10.2 23.4 15.9 37.6 15.9 14.3 0 27.6-5.6 37.6-15.8L469 285.6c53.5-54.7 64.7-157.9-10.6-221.3zm-23.6 187.5L259.4 430.5c-2.4 2.4-4.4 2.4-6.8 0L77.2 251.8c-36.5-37.2-43.9-107.6 7.3-150.7 38.9-32.7 98.9-27.8 136.5 10.5l35 35.7 35-35.7c37.8-38.5 97.8-43.2 136.5-10.6 51.1 43.1 43.5 113.9 7.3 150.8z"
               />
             </svg>
+<<<<<<< HEAD
             <span class="like-cnt" v-if="article.like_cnt !== 0">{{ article.like_cnt }}명이 좋아합니다.</span>
             <!-- <p>{{ $store.state.nickname }}님 외 {{ article.like_cnt }}명이 좋아합니다.</p> -->
           </div>
           <div class="comment">
+=======
+            <span class="like-cnt" v-if="article.like_cnt">{{ article.like_cnt }}명이 좋아합니다.</span>
+            <!-- <p>{{ $store.state.nickname }}님 외 {{ article.like_cnt }}명이 좋아합니다.</p> -->
+          </div>
+          <!-- <div class="comment"> -->
+            
+            <div class="comment" @click="clickedCommentBtn(article, index)">
+>>>>>>> 3d247e724db8d6b9e528544d6b7788b9ee89b2f5
             <svg
               class="svg-inline--fa fa-comment-alt fa-w-16 icon"
               aria-hidden="true"
@@ -92,6 +124,7 @@
               />
             </svg>
             <!-- <i class="far fa-comment-alt icon"></i> -->
+<<<<<<< HEAD
             {{ cntComment }}
           </div>
           <!---->
@@ -101,6 +134,18 @@
           </div> -->
             <!-- <a :href="article.link"><i class="fab fa-youtube-square"></i></a> -->
           <div class="scrap" @click="clickedScrapBtn(index)">
+=======
+            <!-- {{ cntComment }} -->
+            {{ article.comment_cnt}}
+          </div>
+          <!---->
+             <!-- <a :href="article.link" v-if="article.link !== 0"><unicon name="youtube" fill="red"></unicon></a>
+            <a :href="article.link" v-if="article.scrap_cnt == 0"><unicon name="youtube" fill="gray"></unicon></a> -->
+
+          <div class="scrap" @click="clickedScrapBtn(index)">
+            <!-- <i class="far fa-bookmark" v-show="!article.scrap"></i>
+            <i class="fas fa-bookmark" v-show="article.scrap"></i> -->
+>>>>>>> 3d247e724db8d6b9e528544d6b7788b9ee89b2f5
             <svg
               class="svg-inline--fa fa-share-alt fa-w-14 icon"
               aria-hidden="true"
@@ -116,11 +161,20 @@
                 d="M352 320c-22.608 0-43.387 7.819-59.79 20.895l-102.486-64.054a96.551 96.551 0 0 0 0-41.683l102.486-64.054C308.613 184.181 329.392 192 352 192c53.019 0 96-42.981 96-96S405.019 0 352 0s-96 42.981-96 96c0 7.158.79 14.13 2.276 20.841L155.79 180.895C139.387 167.819 118.608 160 96 160c-53.019 0-96 42.981-96 96s42.981 96 96 96c22.608 0 43.387-7.819 59.79-20.895l102.486 64.054A96.301 96.301 0 0 0 256 416c0 53.019 42.981 96 96 96s96-42.981 96-96-42.981-96-96-96z"
               />
             </svg>
+<<<<<<< HEAD
             <span class="scrap-cnt" v-if="article.scrap_cnt !== 0">{{ article.scrap_cnt }}회</span>
+=======
+            <span class="scrap-cnt" v-if="article.scrap_cnt">{{ article.scrap_cnt }}회</span>
+>>>>>>> 3d247e724db8d6b9e528544d6b7788b9ee89b2f5
           </div>
         </div>
       </div>
     </div>
+<<<<<<< HEAD
+=======
+    <!--네비게이션 바-->
+    <BottomNav/>
+>>>>>>> 3d247e724db8d6b9e528544d6b7788b9ee89b2f5
   </div>
 </div>    
 </template>
@@ -135,11 +189,21 @@ import "../../components/css/feed/newsfeed.scss";
 import FeedItem from "../../components/feed/FeedItem.vue";
 import store from "../../vuex/store"
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
+<<<<<<< HEAD
 
 
 const SERVER_URL = 'https://i3b303.p.ssafy.io'
 export default {
   name: 'MainFeed',
+=======
+import BottomNav from "@/components/common/BottomNav";
+
+export default {
+  name: 'MainFeed',
+  components:{
+    BottomNav
+  },
+>>>>>>> 3d247e724db8d6b9e528544d6b7788b9ee89b2f5
   data() {
     return {
       articles: [],
@@ -163,7 +227,11 @@ export default {
       },
       {
         headers:{
+<<<<<<< HEAD
           "jwt-auth-token": this.$store.state.token
+=======
+          "jwt-auth-token": localStorage.getItem("token")
+>>>>>>> 3d247e724db8d6b9e528544d6b7788b9ee89b2f5
         }
       })
       .then(response => {
@@ -182,6 +250,17 @@ export default {
 
 
   methods: {
+<<<<<<< HEAD
+=======
+    logout(){
+      this.$store.commit('logout');
+      localStorage.clear();
+      alert("로그아웃 되었습니다 bye bye :)");
+      this.$router.push("/");
+
+    },
+    
+>>>>>>> 3d247e724db8d6b9e528544d6b7788b9ee89b2f5
     getFollowData() {
       this.feed = '팔로우';
       this.followTab.color = 'red'
@@ -192,7 +271,11 @@ export default {
       },
       {
         headers:{
+<<<<<<< HEAD
           "jwt-auth-token": this.$store.state.token
+=======
+          "jwt-auth-token": localStorage.getItem("token")
+>>>>>>> 3d247e724db8d6b9e528544d6b7788b9ee89b2f5
           }
       })
       .then(response => {
@@ -217,7 +300,11 @@ export default {
       },
       {
         headers:{ 
+<<<<<<< HEAD
           "jwt-auth-token": this.$store.state.token
+=======
+          "jwt-auth-token": localStorage.getItem("token")
+>>>>>>> 3d247e724db8d6b9e528544d6b7788b9ee89b2f5
         }
       })
       .then(response => {
@@ -252,11 +339,18 @@ export default {
 
 
     clickedLikeBtn(index) { 
+<<<<<<< HEAD
 
       this.clicked = true;
       axios.get(base + '/tugether/mainfeed/like',{
         headers: { 
           "jwt-auth-token": this.$store.state.token,
+=======
+      this.clicked = true;
+      axios.get(base + '/tugether/mainfeed/like',{
+        headers: { 
+          "jwt-auth-token": localStorage.getItem("token"),
+>>>>>>> 3d247e724db8d6b9e528544d6b7788b9ee89b2f5
           "article_id": this.articles[index].article_id,
         }
       })
@@ -270,12 +364,28 @@ export default {
       })
     },
 
+<<<<<<< HEAD
+=======
+    clickedCommentBtn(articles, index) {
+      this.$router.push({
+        name: 'Comment',
+        params: {
+          // article: this.articles[index],
+          article_id: this.articles[index].article_id
+        }
+      })
+    },
+>>>>>>> 3d247e724db8d6b9e528544d6b7788b9ee89b2f5
 
     clickedScrapBtn(index) {
       // 스크랩 여부 확인
       axios.get(base + '/tugether/mainfeed/scrap', {
         headers: {
+<<<<<<< HEAD
           "jwt-auth-token": this.$store.state.token,
+=======
+          "jwt-auth-token": localStorage.getItem("token"),
+>>>>>>> 3d247e724db8d6b9e528544d6b7788b9ee89b2f5
           "article_id": this.articles[index].article_id,
         }
       })
@@ -293,7 +403,11 @@ export default {
               },
               {
                 headers: {
+<<<<<<< HEAD
                   "jwt-auth-token": this.$store.state.token,
+=======
+                  "jwt-auth-token": localStorage.getItem("token"),
+>>>>>>> 3d247e724db8d6b9e528544d6b7788b9ee89b2f5
                 }
               })
               .then(response => {
@@ -309,6 +423,22 @@ export default {
         console.log('스크랩 실패')
       })
     },
+<<<<<<< HEAD
+=======
+    
+    // 다른 유저의 페이지로 이동
+    moveUserpage(user_email) {
+      // this.$router.push("/mypage/userpage");
+      this.$router.push({
+        name: 'Userpage',
+        params: {
+          user_email: this.articles.email
+        },
+        path: "/mypage/userpage"
+      })
+    }
+
+>>>>>>> 3d247e724db8d6b9e528544d6b7788b9ee89b2f5
   },
 
 
@@ -319,7 +449,11 @@ export default {
     },
     {
       headers:{
+<<<<<<< HEAD
         "jwt-auth-token": this.$store.state.token
+=======
+        "jwt-auth-token": localStorage.getItem("token")
+>>>>>>> 3d247e724db8d6b9e528544d6b7788b9ee89b2f5
       }
     })
     .then(response => {
@@ -357,5 +491,17 @@ export default {
   text-overflow: ellipsis;
 }
 
+<<<<<<< HEAD
 
 </style>
+=======
+#mainfeed > h1 {
+  text-align:center; 
+  font-weight:bold; 
+  font-size:2.5em; 
+  font-family: Arial, Helvetica
+}
+</style>
+<!--https://junistory.blogspot.com/2017/06/css-ellipsis.html 글자 수 제한-->
+<!-- https://xetown.com/tips/1110772 -->
+>>>>>>> 3d247e724db8d6b9e528544d6b7788b9ee89b2f5
