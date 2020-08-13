@@ -1,8 +1,8 @@
 <template>
   <div class="wrapC" style="height: 800px;">
     <div class="row">
-      <div class="col" style="width: 80%;">
-        <h3>피드</h3>
+      <div class="col" style="width: 100%;">
+        <h3>피드영역 들어와야함</h3>
       </div>
     </div>
     
@@ -18,35 +18,36 @@
     <div class="time">
       {{ reg_time }}
     </div> -->
-    <hr>
+    <!-- <hr>
 
-    <h3>댓글작성</h3>
+    <h3>댓글작성</h3> -->
       <v-row>
-        <v-col sm=10>
+        <v-col sm=10 style="padding-top: 2px;">
           <v-text-field
             label="댓글"
             single-line
+            v-model="userComment"
           ></v-text-field>
         </v-col>
    
         <!-- <input type="text" v-model="userComment" @keypress.enter="addComment" style="width: 90%;"/> -->
         <!-- <button @click="addComment" style="margin-left: 2px; width: 10%; background: lightgray;">작성</button> -->
         <v-col>
-          <v-btn style="margin-left: 5px;" color="primary" fab small dark @click="addComment">
+          <v-btn style="background: black; margin-left: 27px;" fab small dark @click="addComment">
             <v-icon>mdi-pencil</v-icon>
           </v-btn>
         </v-col>
       </v-row>
     <hr>
     <div>
-    <h3>댓글목록</h3>
+    <!-- <h3>댓글목록</h3> -->
       <table>
         <colgroup>
           <col style="width: 10%;">
           <col style="width: 20%;">
-          <col style="width: 40%;">
-          <col style="width: 17%;">
-          <col style="width: 8%;">
+          <col style="width: 46%;">
+          <col style="width: 19%;">
+          <!-- <col style="width: 8%;"> -->
           <col style="width: 5%;">
         </colgroup>
         <thead>
@@ -55,8 +56,8 @@
             <th scope="commentWriterNickName"></th>
             <th scope="commentWriterContent"></th>
             <th scope="commentWriterRegTime"></th>
-            <th scope="commentWriterRegTime"></th>
-            <th scope="commentWriterRegTime"></th>
+            <!-- <th scope="commentWriterRegTime"></th> -->
+            <th scope="commentDelete"></th>
           </tr>
         </thead>
         <tbody>
@@ -64,9 +65,9 @@
             <td scope="col"><img :src="`https://i3b303.p.ssafy.io/profileimages/${comment.profile_photo}`" alt="comment.profile_photo" style="width: 100%; height: 100%; max-width: 30px; max-height: 30px;"></td>
             <td scope="col">{{ comment.nickname }}</td>
             <td scope="col">{{ comment.content }}</td>
-            <td scope="col">{{ timeForToday(comment.reg_time) }}</td>
-            <td v-show="userEmail === comment.email"><button style="width: 35px; height: 25px; background: skyblue; border-radius: 5px;">수정</button></td>
-            <td v-show="userEmail === comment.email" @click="commentDelete(index)"><button style="width: 35px; height: 25px; background: crimson; border-radius: 5px;">삭제</button></td>
+            <td scope="col" style="color: gray;">{{ timeForToday(comment.reg_time) }}</td>
+            <!-- <td scope="col" v-show="userEmail === comment.email"><button style="width: 35px; height: 25px; background: skyblue; border-radius: 5px;">수정</button></td> -->
+            <td scope="col" v-show="userEmail === comment.email" @click="commentDelete(index)"><button style="width: 40px; height: 30px; background: crimson; border-radius: 6px;">삭제</button></td>
           </tr>
         </tbody>
       </table>
@@ -145,7 +146,7 @@ export default {
   },
   computed:{
     ...mapState(["token", "email"]), //store 공동 저장소에 있는 token 사용하기 위해 선언.
-    ...mapActions(["getToken", "getEmail"]),
+    ...mapActions(["getToken", "getEmail"])
   },
   methods: {
     addComment() {

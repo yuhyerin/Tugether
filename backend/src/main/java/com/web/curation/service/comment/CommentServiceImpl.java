@@ -14,6 +14,7 @@ import com.web.curation.repo.ArticleRepo;
 import com.web.curation.repo.CommentRepo;
 import com.web.curation.repo.NoticeRepo;
 import com.web.curation.repo.ProfileRepo;
+import com.web.curation.repo.UserRepo;
 
 @Service
 public class CommentServiceImpl implements CommentService{
@@ -67,8 +68,6 @@ public class CommentServiceImpl implements CommentService{
 				.build();
 		noticeRepo.save(n);
 	}
-
-
 
 	@Override
 	public void deleteComment(int comment_id) {

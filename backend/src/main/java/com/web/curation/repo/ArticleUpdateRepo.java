@@ -21,6 +21,4 @@ public interface ArticleUpdateRepo extends JpaRepository<ArticleTag, String>{
 	@Query(value="select tag_id from articletag where article_id = :article_id", nativeQuery = true)
 	ArrayList<Integer> getArticleTags(int article_id);
 	
-
-	
 }

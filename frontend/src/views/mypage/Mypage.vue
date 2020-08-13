@@ -38,11 +38,11 @@
                             <strong>{{ article.writer }}</strong> <!--마이페이지니까 본인이 작성한 글 닉네임 눌러도 아무 일 없는걸로..-->
                           </div>
                           <!--글 수정, 삭제 기능-->
-                          <div style="display: inline-block; margin-left: 140px;">
+                          <div style="display: inline-block; float: right;">
                               <span class="article_function" @click="clickedEditBtn(index)" style="margin-right: 5px;">수정</span>
                               <span class="article_function" @click="clickedDeleteBtn(index)">삭제</span>
                           </div>
-                          <p class="date">{{ timeForToday(article.reg_time) }}</p>
+                          <!-- <p class="date">{{ timeForToday(article.reg_time) }}</p> -->
                         </div>
                         <div class="content">
                           <span v-for="tag in article.tag_name" :key="tag.name">

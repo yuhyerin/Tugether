@@ -16,9 +16,17 @@
     <br>
     <br>
     <h3>관심태그</h3>
-    <WriteInput @add-tag="onAddTag" />
-    <!-- <WriteList @delete="onRemove" @checked="onChecked" :todoList="todoList"/> -->
-    <WriteList @delete="onRemove" :tagList="tagList"/>
+
+      <input type="text" v-model="content" @keypress.enter="addTag">
+      <button @click="addTag" style="margin-left: 10px; padding: 0px 10px 0px 10px; height: 50px; background: black; color: white; border: 0px solid skyblue;">추가</button>
+      
+      <ul>
+        <!-- 목록을 보여줄 예정 -->
+        <li v-for="(tag, index) in this.tagList" :key="tag.id">
+          <span>{{ tag.content }}</span>
+          <button @click="onRemove(tag, index)" style="padding: 0px 5px 0px 5px; margin: 3px 10px 3px 10px; height: 20px; background: red; color: white;">X</button>
+        </li>
+      </ul>
     <br>
 
     <h3>링크</h3>
@@ -30,7 +38,6 @@
       class="btn btn--back btn--login"
       style="height: 40px; padding-top: 0px;"
     >업로드</button>
-    
     <BottomNav/>
   </div>
 </template>
@@ -39,8 +46,8 @@
 import axios from 'axios'
 import store from '@/vuex/store'
 import { mapState, mapActions } from "vuex"
-import UpdateList from '@/components/user/WriteList'
-import UpdateInput from '@/components/user/WriteInput'
+import UpdateList from '@/components/user/UpdateList'
+import UpdateInput from '@/components/user/UpdateInput'
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
 import BottomNav from "@/components/common/BottomNav"
 
@@ -48,6 +55,7 @@ export default {
   name: "Update",
   data: function () {
     return {
+      article_id : "",
       imageUrl: null,
       selectedFile: null,
       myText: "",
@@ -67,21 +75,23 @@ export default {
     ...mapActions(["getToken"]),
   },
   created() {
+    // this.article_id = this.$route.params.article_id;
+    // 초기 수정폼에 글내용 불러오기 
     axios
-      .get(base + '/tugether/articleupdate',{
+      .get(base + '/tugether/articleloading',{
           headers: {
             "jwt-auth-token": localStorage.getItem("token"), // 토큰 보내기
             "article_id": this.$route.params.article_id
           },
         })
       .then(res => {
-          // console.log(res.data);
-          this.selectedFile = res.data.article.image
+          this.imageUrl = 'https://i3b303.p.ssafy.io/articleimages/'+res.data.article.image;
+          this.selectedFile =res.data.article.image
           this.myText = res.data.article.content
           this.urlLink = res.data.article.link
-          this.tagNameList = res.data.tag.tag_name
-          this.favtags = res.data.favtaglist;
-
+          this.favtags = res.data.favtaglist
+          console.log("관심태그 리스트")
+          console.log(this.favtags);
           for(var i=0; i<this.favtags.length; i++) {
               var fav = new Object();
               fav['id'] = Date.now();
@@ -103,34 +113,46 @@ export default {
 
     onRemove (tag, index) {
       this.tagList.splice(index, 1)
+      this.tagNameList.splice(index, 1)
+    },
+
+    addTag() {
+      if (this.content.trim()) {
+        const tag = {
+          id: Date.now(),
+          content: this.content,
+        }
+        this.onAddTag(tag)
+        this.content = ''
+      }
     },
 
     onAddTag(tag) {
       this.tagList = [...this.tagList, tag];
       this.tagNameList = [...this.tagNameList, tag.content];
+      console.log("onAddTag : ")
       console.log(this.tagList)
-      // this.tagNameList = [...this.tagNameList, tag.content]
-      // console.log(this.tagNameList)
 
     },
     onFileSelected(){
-      this.selectedFile = this.$refs.articleimg.files[0];
+      this.selectedFile = this.$refs.articleimg.files[0]; // MultipartFile Object
       this.imageUrl = URL.createObjectURL(this.selectedFile);
     },
+    // 수정하기 
     onUpload(){
       const formdata = new FormData();
+      formdata.append('article_id',this.$route.params.article_id); //게시글 아이디도 전달.
       formdata.append('articleimg', this.selectedFile); //여기서 명시한 키값은 서버에서 사용하기때문에 바꾸면 안됩니당...
       formdata.append('contents', this.myText);
       formdata.append('link',this.urlLink);
       formdata.append('taglist', this.tagNameList);
-      console.log(this.tagList)
 
       // FormData 객체는 그 자체를 로깅하면 빈 객체만을 리턴한다.
       // FormData를 로깅하려면 FormData.entries()를 이용해서, key-value쌍을 뽑아야 한다.
       for(let key of formdata.entries()){
         console.log(`${key}`)
       }
-       axios.post(base + '/tugether/articlewrite',
+       axios.post(base + '/tugether/articleupdate',
        formdata,
         {
             headers:{
@@ -145,6 +167,7 @@ export default {
          this.$router.push('/mypage/mypage')
        })
        .catch(err=>{
+         alert("게시글 작성을 실패하였습니다:(")
          console.log(err);
        });
        
