@@ -29,6 +29,7 @@ import com.web.curation.dto.article.Article;
 import com.web.curation.jwt.service.JwtService;
 import com.web.curation.service.articlewrite.ArticleUpdateService;
 import com.web.curation.service.articlewrite.ArticleWriteService;
+import com.web.curation.service.profile.ProfileService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -53,6 +54,9 @@ public class ArticleUpdateController {
 	@Autowired
 	private JwtService jwtService;
 
+	@Autowired
+	private ProfileService profileService;
+	
 	@Autowired
 	private ArticleWriteService articleWriteService;
 
@@ -99,7 +103,6 @@ public class ArticleUpdateController {
 		Map<String, Object> Userinfo = new HashMap<String, Object>();
 		Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
 		String email = Userinfo.get("email").toString(); // 이메일
-		String writer = Userinfo.get("nickname").toString(); // 닉네임
 		int articleid = Integer.parseInt(article_id);
 
 		Article article = new Article();
@@ -108,7 +111,6 @@ public class ArticleUpdateController {
 		} else {
 			String articleimg = mFile.getOriginalFilename();
 			article.setImage(email+articleimg);
-			System.out.println("파일명: "+articleimg);
 			// 이미지 파일 업로드
 			try {
 				// 파일업로드 할때 => 경로 + (작성자 이메일 + 파일명)
@@ -122,27 +124,31 @@ public class ArticleUpdateController {
 			}
 		}
 
+		/** 1. 게시글 수정 */
 		article.setArticle_id(articleid);
 		article.setContent(contents);
 		article.setLink(link);
 		article.setLike_cnt(0);
 		article.setScrap_cnt(0);
 		articleUpdateService.updateArticle(article);
-		System.out.println("Controller - 게시글을 업데이트 합니다.");
 		
-		// 태그리스트 한번 날리고,
-		articleUpdateService.resetArticleTag(articleid);
-		System.out.println("기존 게시글 태그리스트를 제거 했습니다.");
+		/** 2. articletag에 기존등록했던 태그들 지우기  & tag테이블에서 article_cnt -1 해주기 */
+		ArrayList<String> oldtaglist = articleUpdateService.getArticleTag(articleid);
+		articleUpdateService.resetArticleTag(articleid, oldtaglist);
 
-		// 등록한 태그 리스트를 넘겨주면 받아서 => ArticleTag에 추가 하기 !!!
+		/** 3. articletag에 새로등록한 태그 등록하기  */
 		articleWriteService.addArticleTag(articleid, taglist);
-		System.out.println("새로운 게시글 태그리스트를 등록 했습니다.");
 		status = HttpStatus.OK;
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 
 	}
 
-	
+	/**
+	 * 게시글 삭제 시 해줘야 할꺼 
+	 * 1. article테이블에서 삭제
+	 * 2. articletag 테이블에서 삭제 & tag테이블에서 article_cnt감소
+	 * 3. profile테이블에 article_cnt 감소
+	 */
 	@ApiOperation(value = "게시글 삭제하기")
 	@PostMapping("/articledelete")
 	public ResponseEntity<Map<String, Object>> deleteArticle(
@@ -156,11 +162,18 @@ public class ArticleUpdateController {
 		Map<String, Object> Userinfo = new HashMap<String, Object>();
 		Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
 		String email = Userinfo.get("email").toString(); // 이메일
-		
 		int articleid = Integer.parseInt(map.get("article_id"));
-		System.out.println(articleid);
-		// 게시글 삭제
+		
+		/** 1. article 테이블에서 삭제 */
 		articleUpdateService.deleteArticle(email, articleid);
+		
+		/** 2. articletag 테이블에서 삭제 & tag테이블에서 article_cnt감소  */
+		ArrayList<String> taglist = articleUpdateService.getArticleTag(articleid);
+		articleUpdateService.resetArticleTag(articleid, taglist);
+		
+		/** 3. profile테이블에 article_cnt 감소 */
+		profileService.countMinusArticleCnt(email);
+		
 		status = HttpStatus.OK;
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 

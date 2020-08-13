@@ -75,37 +75,30 @@ public class FavtagController {
 
 	}
 	
-	// 사용자가 고른 관심태그를 등록한다.
+	/** 1. Favtag테이블에 데이터 넣기 
+	 *  2. Tag테이블에서 fav_cnt 증가 */
 	@ApiOperation(value = "최초로그인 시 관심태그 등록")
 	@PostMapping("/favtag")
     public ResponseEntity<Map<String,Object>> addFavtag(@RequestBody Map<String, Object> map, HttpServletRequest request) {
     	
-		ArrayList<Integer> taglist = (ArrayList)map.get("taglist");
-		System.out.println(taglist.toString());
-		
-		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		HttpStatus status = null;
-		
 		String token = request.getHeader("jwt-auth-token");
 		Jws<Claims> claims = jwtService.getDecodeToken(token);
 		System.out.println(claims.getBody().get("AuthenticationResponse"));
 		Map<String, Object> Userinfo = new HashMap<String, Object>();
 		Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
 		String email = Userinfo.get("email").toString();
-		
-		System.out.println("로그인한 사용자의 토큰은??? "+ request.getHeader("jwt-auth-token"));
-		System.out.println("보낸 관심태그 리스트중에 가장앞에꺼는? "+ taglist.get(0));
+		ArrayList<Integer> taglist = (ArrayList)map.get("taglist");	
 		
 		try {
-    		
+			
 			favtagService.addFavtag( email , taglist);
     		resultMap.put("status", true);
     		status = HttpStatus.OK;
-    		System.out.println("입력한 태그를 디비에 넣었습니다!!!!! ");
     		
     	}catch(RuntimeException e) {
-    		System.out.println("관심태그 등록 실패 ");
+    		
     		resultMap.put("message", e.getMessage());
     		status = HttpStatus.INTERNAL_SERVER_ERROR;
     	}

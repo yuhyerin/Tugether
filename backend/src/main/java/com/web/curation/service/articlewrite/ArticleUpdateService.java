@@ -10,7 +10,7 @@ public interface ArticleUpdateService {
 	Article getArticle(int article_id);
 
 	// 게시글에 등록한 태그들 초기화(다 지우기)
-	void resetArticleTag(int article_id);
+	void resetArticleTag(int article_id, ArrayList<String> taglist);
 
 	// 게시글에 등록한 태그리스트 가져오기
 	ArrayList<String> getArticleTag(int article_id);
