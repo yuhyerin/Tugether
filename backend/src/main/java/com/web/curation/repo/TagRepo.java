@@ -1,6 +1,6 @@
 package com.web.curation.repo;
 
-
+import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 
@@ -18,6 +18,13 @@ public interface TagRepo extends JpaRepository<Tag, String>{
 	@Query(value="select tag_name from tag t where t.tag_id=:tag_id", nativeQuery = true)
 	public String findTagNameByTagId(int tag_id);
 	
+	//키워드를 포함한 모든 태그이름 찾기
+	@Query(value="select tag_name from tag t where t.tag_name like CONCAT('%',:keyword,'%')", nativeQuery=true)
+	public List<String> findTagNameByTagNameContains(String keyword);
+	//키워드를 포함한 태그아이디찾기
+	@Query(value="select tag_id from tag t where t.tag_name like CONCAT('%',:keyword,'%')", nativeQuery=true)
+	List<Integer> findTagIdByTagNameContains(String keyword);
+
 	@Query(value="select tag_id from tag t where t.tag_name = :tag_name",nativeQuery = true )
 	public Optional<Integer> findTagIdByTagName(String tag_name);
 
@@ -28,7 +35,5 @@ public interface TagRepo extends JpaRepository<Tag, String>{
 	@Transactional
 	@Query(value="update tag t set t.fav_cnt = t.fav_cnt + 1 where t.tag_id = :tag_id",nativeQuery = true)
 	public void updateFav_cnt(@Param("tag_id")int tag_id);
-
-	
 
 }

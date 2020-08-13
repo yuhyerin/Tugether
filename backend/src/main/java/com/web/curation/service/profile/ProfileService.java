@@ -9,6 +9,7 @@ public interface ProfileService {
 	// 해당 이메일의 프로필 조회하기 
 	public Profile getProfile(String email);
 	
+
 	// 프로필 업데이트 - 이미지 변경 
 	public void updateProfilewithImage(Profile profile);
 	

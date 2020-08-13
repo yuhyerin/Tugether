@@ -141,6 +141,7 @@ public class ArticleUpdateController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 
 	}
+
 	
 	@ApiOperation(value = "게시글 삭제하기")
 	@PostMapping("/articledelete")
@@ -164,5 +165,6 @@ public class ArticleUpdateController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 
 	}
+
 
 }

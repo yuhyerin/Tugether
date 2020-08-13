@@ -134,7 +134,7 @@ export default [
         component: Update
     },
     {
-        path : '/comment/:contentId',
+        path : '/comment/:article_id',
         name : 'Comment',
         component : Comment
     },

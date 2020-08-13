@@ -14,15 +14,17 @@ import com.web.curation.repo.TagRepo;
 @Service
 public class ArticleUpdateServiceImpl implements ArticleUpdateService {
 
-	
+	@Autowired
+	ArticleUpdateRepo articleUpdateRepo;
+
+	@Autowired
+	ArticleWriteRepo articleWriteRepo;
+
 	@Autowired
 	ProfileRepo profileRepo;
 	@Autowired
 	ArticleWriteRepo articleRepo;
-	@Autowired
-	ArticleUpdateRepo articleUpdateRepo;
-	@Autowired
-	ArticleWriteRepo articleWriteRepo;
+
 	@Autowired
 	TagRepo tagRepo;
 

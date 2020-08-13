@@ -15,18 +15,18 @@ public class ProfileServiceImpl implements ProfileService{
 
 	@Autowired
 	private ProfileRepo profileRepo;
+	@Autowired
+	private FavtagRepo favtagRepo;
 	
 	@Autowired
 	private TagRepo tagRepo;
-	
-	@Autowired
-	private FavtagRepo favtagRepo;
 	
 	// 프로필 조회 
 	@Override
 	public Profile getProfile(String email) {
 		return profileRepo.findProfileByEmail(email);
 	}
+
 
 	// 프로필 변경 - 이미지 변경했을 때 
 	@Override
@@ -44,6 +44,7 @@ public class ProfileServiceImpl implements ProfileService{
 		String email = profile.getEmail();
 		String nickname = profile.getNickname();
 		profileRepo.updateProfile(email, nickname);
+
 	}
 
 	// 이전 관심태그 지우기

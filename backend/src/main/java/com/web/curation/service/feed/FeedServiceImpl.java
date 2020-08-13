@@ -11,11 +11,13 @@ import com.web.curation.dto.article.Article;
 import com.web.curation.dto.article.FrontArticle;
 import com.web.curation.dto.article.Likey;
 import com.web.curation.dto.article.Scrap;
+import com.web.curation.dto.notice.Notice;
 import com.web.curation.repo.ArticleRepo;
 import com.web.curation.repo.ArticleTagRepo;
 import com.web.curation.repo.FavtagRepo;
 import com.web.curation.repo.FollowingRepo;
 import com.web.curation.repo.LikeyRepo;
+import com.web.curation.repo.NoticeRepo;
 import com.web.curation.repo.ProfileRepo;
 import com.web.curation.repo.ScrapRepo;
 import com.web.curation.repo.TagRepo;
@@ -37,6 +39,8 @@ public class FeedServiceImpl implements FeedService {
 	private LikeyRepo likeRepo;
 	@Autowired
 	private ScrapRepo scrapRepo;
+	@Autowired 
+	private NoticeRepo noticeRepo;
 	@Autowired
 	private ProfileRepo profileRepo;
 
@@ -106,14 +110,24 @@ public class FeedServiceImpl implements FeedService {
 		return result;
 	}
 
-	@Override
+	@Override	//좋아요 클릭 시
 	public FrontArticle updateLike(int article_id, String email) {
+		Article a = articleRepo.findArticleByArticleId(article_id).get(0);
+		
 		// 1. likey테이블에서 좋아요 여부 확인
 		if (likeRepo.findLike(article_id, email).isPresent()) { // 좋아요 한 적 있음
 			likeRepo.deleteLikey(email, article_id);
+			noticeRepo.deleteNotice(email, article_id);
+			
 		} else { // 좋아요 한 적 없음
 			likeRepo.save(Likey.builder().article_id(article_id).email(email).build());
-			System.out.println(likeRepo.findLike(article_id, email));
+			Notice n = Notice.builder()
+					.notice_to(a.getEmail())
+					.notice_type(2)
+					.notice_from(email)
+					.article_id(article_id)
+					.build();
+			noticeRepo.save(n);
 		}
 
 		int like_cnt = likeRepo.findLikeByArticleId(article_id).size(); // 게시글의 좋아요 갯수
@@ -144,24 +158,34 @@ public class FeedServiceImpl implements FeedService {
 	}
 
 	@Override // email = like 체크 / article_id = 태그리스트
-	   public FrontArticle makeFront(String email, int article_id) {
+	public FrontArticle makeFront(String email, int article_id) {
 
-	      Article now = articleRepo.findArticleByArticleId(article_id).get(0);
-	      List<Integer> taglist = articletagRepo.findTagIdByArticleId(now.getArticle_id()); // 아티클태그케이블에서 태그 가져와야 프론트에 줄 수
-	                                                                     // 있음
-	      String[] temp = new String[taglist.size()]; // 태그 리스트를 태그 배열로 만들거임
-	      for (int j = 0; j < taglist.size(); j++) {
-	         temp[j] = tagRepo.findTagNameByTagId(taglist.get(j)); // 태그테이블에서 태그아이디로 태그네임 찾아서 배열 저장
-	      }
+		Article now = articleRepo.findArticleByArticleId(article_id).get(0);
+		List<Integer> taglist = articletagRepo.findTagIdByArticleId(now.getArticle_id()); // 아티클태그케이블에서 태그 가져와야 프론트에 줄 수
+																							// 있음
+		String[] temp = new String[taglist.size()]; // 태그 리스트를 태그 배열로 만들거임
+		for (int j = 0; j < taglist.size(); j++) {
+			temp[j] = tagRepo.findTagNameByTagId(taglist.get(j)); // 태그테이블에서 태그아이디로 태그네임 찾아서 배열 저장
+		}
 
-	      // 1. 그 이메일로 프로필테이블에서 프로필포토 가져와야해
-	      String profile_photo = profileRepo.findProfilePhoto(now.getEmail());
-	      
-	      boolean like = likeRepo.findLike(article_id, email).isPresent();
-	      FrontArticle ar = new FrontArticle(article_id, profile_photo, now.getWriter(), now.getReg_time(), now.getImage(),
-	            now.getContent(), now.getLink(), now.getLike_cnt(), like, now.getComment_cnt(), now.getScrap_cnt(),
-	            temp);
-	      return ar;
-	   }
+		boolean like = likeRepo.findLike(article_id, email).isPresent();
+		String profile_photo = profileRepo.findProfilePhotoByEmail(email);
+		FrontArticle ar = FrontArticle.builder()
+				.article_id(article_id)
+				.writer(now.getWriter())
+				.reg_time(now.getReg_time())
+				.image(now.getImage())
+				.profile_photo(profile_photo)
+				.content(now.getContent())
+				.link(now.getLink())
+				.like_cnt(now.getLike_cnt())
+				.like(like)
+				.comment_cnt(now.getComment_cnt())
+				.scrap_cnt(now.getScrap_cnt())
+				.tag_name(temp)
+				.build();
+				
+		return ar;
+	}
 
 }
