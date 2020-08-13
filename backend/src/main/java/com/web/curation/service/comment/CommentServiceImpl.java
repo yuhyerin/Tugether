@@ -65,6 +65,10 @@ public class CommentServiceImpl implements CommentService{
 		commentRepo.save(c);
 		String notice_to = articleRepo.findArticleByArticleId(c.getArticle_id()).get(0).getEmail();
 		Comment temp = commentRepo.findCommentByEmailAndArticleId(c.getEmail(), c.getArticle_id()).get(0);
+		Article a = articleRepo.findArticleByArticleId(c.getArticle_id()).get(0);
+		int comment_cnt = commentRepo.findCommentByArticleId(c.getArticle_id()).size();
+		a.setComment_cnt(comment_cnt);
+		articleRepo.save(a);
 		Notice n = Notice.builder()
 				.article_id(c.getArticle_id()).comment_id(temp.getComment_id())
 				.notice_from(c.getEmail()).notice_type(1).notice_to(notice_to)
