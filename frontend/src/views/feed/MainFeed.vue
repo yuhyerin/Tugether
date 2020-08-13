@@ -175,16 +175,14 @@ export default {
         params: {
           "tag": this.tag,
           "limit": this.limit,
-        }
-      },
-      {
+        },
         headers:{
           "jwt-auth-token": localStorage.getItem("token")
         }
       })
       .then(response => {
         console.log('팔로우 기반 호출')
-          this.articles = response.data.list;
+          this.articles = response.data;
           console.log(this.articles)
           this.clicked = true;
       })
@@ -203,17 +201,15 @@ export default {
         params: {
           "tag": this.tag,
           "limit": this.limit
-        }
-      },
-      {
+        },
         headers:{ 
           "jwt-auth-token": localStorage.getItem("token")
         }
       })
       .then(response => {
-        console.log(response.data.list)
+        console.log(response.data)
         console.log('태그기반 호출')
-        this.articles = response.data.list;
+        this.articles = response.data;
         this.clicked = true; 
       })
       .catch(err =>{

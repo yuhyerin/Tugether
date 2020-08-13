@@ -119,7 +119,8 @@ export default {
       comments: [],
       clicked: false,
       userComment: '',
-      userEmail: ''
+      userEmail: '',
+      article: ''
     }
   },
   watch: {
@@ -134,7 +135,8 @@ export default {
       })
       .then(res => {
         this.comments = res.data.comments;
-        console.log(this.comments)
+        this.article = res.data.article;
+        console.log(this.article)
       })
       .catch(err => {
         console.log('실패함')
@@ -210,8 +212,8 @@ export default {
   },
   created() {
     this.userEmail = localStorage.getItem("email")
-    console.log(this.userEmail)
-    console.log("comment.vue : " + this.$route.params.article_id)
+    // console.log(this.userEmail)
+    // console.log("comment.vue : " + this.$route.params.article_id)
     axios.get('http://localhost:8080/tugether/mainfeed/comment',
       {
         headers: { 
@@ -221,7 +223,9 @@ export default {
       })
       .then(res => {
         this.comments = res.data.comments;
-        console.log(this.comments);
+        this.article = res.data.article;
+        console.log(this.article)
+        // console.log(this.comments);
       })
       .catch(err => {
         console.log('실패함')

@@ -61,7 +61,7 @@ public class FeedController {
 				((Map<String, Object>)jwtService.getDecodeToken(request.getHeader("jwt-auth-token"))
 				.getBody().get("AuthenticationResponse")).get("email").toString();
 //		int pageNum = Integer.parseInt(request.getHeader("pageNum"));
-		System.out.println("pageNum은 ? "+limit);
+//		System.out.println("pageNum은 ? "+limit);
 		PageRequest pageRequest = PageRequest.of(limit, 2);
 		List<FrontArticle> result;
 		if(tag)
@@ -69,6 +69,7 @@ public class FeedController {
 		else
 			result = feedService.findByPageRequestFollow(pageRequest, email);
 		System.out.println(result.toString());
+		System.out.println(tag);
 		return result;
 	}
 	
