@@ -14,24 +14,23 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name="favtag")
-@Table(name="favtag")
+@Entity(name = "favtag")
+@Table(name = "favtag")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Builder
 public class FavTag {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int fav_id;
-	
-	@Column(name = "email")
+
+	@Column(name = "email", nullable = false)
 	private String email;
-	
-	@Column(name = "tag_id")
+
+	@Column(name = "tag_id", nullable = false)
 	private int tag_id;
-	
-	
+
 }

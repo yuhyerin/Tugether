@@ -27,11 +27,13 @@ public class Comment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int comment_id;
 
+	@Column(name = "email", nullable = false)
 	private String email;
 
-	@Column(name = "article_id")
+	@Column(name = "article_id", nullable = false)
 	private int article_id;
 
+	@Column(name = "content")
 	private String content;
 
 	@Column(name = "reg_time", insertable = false)

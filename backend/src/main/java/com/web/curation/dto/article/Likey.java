@@ -25,10 +25,10 @@ public class Likey {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)	// 얘가 auto_increment
 	private int uid;
 	
-	@Column(name="email")
+	@Column(name="email", nullable=false)
 	private String email;
 	
-	@Column(name="article_id")
+	@Column(name="article_id", nullable=false)
 	private int article_id;
 
 }

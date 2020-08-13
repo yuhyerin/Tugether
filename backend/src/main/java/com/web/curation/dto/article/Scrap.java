@@ -1,7 +1,5 @@
 package com.web.curation.dto.article;
 
-import java.sql.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +17,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//@JsonInclude(JsonInclude.Include.NON_NULL)
 @Builder
 public class Scrap {
 
@@ -27,10 +24,10 @@ public class Scrap {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)	// 얘가 auto_increment
 	private int uid;
 	
-	@Column(name="email")
+	@Column(name="email", nullable=false)
 	private String email;
 
-	@Column(name="article_id")
+	@Column(name="article_id", nullable=false)
 	private int article_id;
 	
 	

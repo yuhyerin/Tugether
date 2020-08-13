@@ -22,7 +22,6 @@ public class Profile {
 
 		
 		@Id
-		@Column(name = "email")
 		private String email;
 		
 		@Column(name = "nickname")

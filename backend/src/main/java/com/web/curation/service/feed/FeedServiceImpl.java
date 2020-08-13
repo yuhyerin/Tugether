@@ -59,14 +59,14 @@ public class FeedServiceImpl implements FeedService {
 		// favtag에서 이메일로 저장된 tagid 가져와
 		List<Integer> tagIDs = favtagRepo.findTagIdByEmail(email);
 
-		for (int i = 0; i < tagIDs.size(); i++) {
-			for (int j = i + 1; j < tagIDs.size(); j++) {
-				if (tagIDs.get(i) == tagIDs.get(j)) {
-					tagIDs.remove(j);
-					j--;
-				}
-			}
-		}
+//		for (int i = 0; i < tagIDs.size(); i++) {
+//			for (int j = i + 1; j < tagIDs.size(); j++) {
+//				if (tagIDs.get(i) == tagIDs.get(j)) {
+//					tagIDs.remove(j);
+//					j--;
+//				}
+//			}
+//		}
 
 		// ArticleTag테이블에서 tag_id로 article_id들 리스트로 받아와
 		TreeSet<Integer> articleIdList = new TreeSet<>();
@@ -197,15 +197,32 @@ public class FeedServiceImpl implements FeedService {
 
 	@Override
 	@Transactional
-	public List<FrontArticle> findByPageRequest(PageRequest pageRequest, String email) {
-		//List<Article> list = articleRepo.findArticleByEmail(email);
-		//1. 태그기반
-		List<Article> list = articleRepo.findAll(pageRequest).stream().collect(Collectors.toList());
+	public List<FrontArticle> findByPageRequestTag(PageRequest pageRequest, String email) {
+		// 1. 태그기반 피드
+		// front에서 email get -> favtag테이블에서 해당 이메일로 tag_id 찾아와
+		// ArticleTag테이블에서 tag_id로 article_id들 리스트로 받아와
+		// Article테이블에서 article_id로 article리스트 다 데려와
+		// ArticleTag테이블에서 article_id로 List<tag_id> 가져와 => Tag테이블에서 tag_id로 tag_name 가져와
+		
+		List<Article> list 
+		= articleRepo.findArticlesByTag(pageRequest, email).stream().collect(Collectors.toList());
 		List<FrontArticle> result = new ArrayList<FrontArticle>();
 		for(int i=0;i<list.size();i++)
 			result.add(makeFront(email,list.get(i).getArticle_id()));
-		//2. 팔로우기반
-		
+		return result;
+	}
+
+	@Override
+	@Transactional
+	public List<FrontArticle> findByPageRequestFollow(PageRequest pageRequest, String email) {
+		// 2. 팔로우기반 피드
+		// following테이블에서 from_user=email로 to_user 리스트 찾아와
+		// article 테이블에서 uid = email인 List<article>로 다 가져가
+		List<Article> list
+		= articleRepo.findArticleByFollow(pageRequest, email).stream().collect(Collectors.toList());
+		List<FrontArticle> result = new ArrayList<FrontArticle>();
+		for(int i=0;i<list.size();i++)
+			result.add(makeFront(email,list.get(i).getArticle_id()));
 		return result;
 	}
 
