@@ -293,7 +293,7 @@ export default {
               .get(base + '/tugether/userpage', 
               {
                   params: {
-                      "userEmail": this.$store.state.userEmail
+                      "userEmail": localStorage.getItem("userEmail")
                   },
                   headers: {
                       "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기

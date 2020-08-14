@@ -65,7 +65,7 @@
             <td scope="col">{{ comment.nickname }}</td>
             <td scope="col">{{ comment.content }}</td>
             <td scope="col" style="color: gray;">{{ timeForToday(comment.reg_time) }}</td>
-            <td scope="col" v-show="userEmail === comment.email" @click="commentDelete(index)"><button style="width: 40px; height: 30px; background: crimson; border-radius: 6px;">삭제</button></td>
+            <td scope="col" v-show="email === comment.email" @click="commentDelete(index)"><button style="width: 40px; height: 30px; background: crimson; border-radius: 6px;">삭제</button></td>
           </tr>
         </tbody>
       </table>
@@ -74,8 +74,13 @@
   <v-card
     max-width="550"
     class="mx-auto"
+    style="margin-bottom: 50px;"
   >
     <v-list v-for="(comment, index) in comments" :key="index">
+      <!-- <v-divider
+        :key="index"
+        style="margin: 0px;"
+        ></v-divider> -->
         <v-list-item
         >
           <v-list-item-avatar style="margin-right: 10px;">
@@ -87,7 +92,7 @@
             <v-list-item-subtitle>
               <span>{{ timeForToday(comment.reg_time) }}</span> &dash;
               <span style="white-space: normal;">{{ comment.content }}</span> &emsp;
-              <span><button v-show="userEmail === comment.email" @click="commentDelete(index)" style="width: 35px; height: 25px; background: crimson; border-radius: 6px;">삭제</button></span>
+              <span><button v-show="email === comment.email" @click="commentDelete(index)" style="width: 35px; height: 25px; background: crimson; border-radius: 6px;">삭제</button></span>
             </v-list-item-subtitle>
           
           </v-list-item-content>
@@ -113,8 +118,8 @@
             
             <td>{{ comment.content }}</td>
             <td>{{ timeForToday(comment.reg_time) }}</td>
-            <td v-show="userEmail === comment.email">수정</td>
-            <td v-show="userEmail === comment.email" @click="commentDelete(index)">삭제</td>
+            <td v-show="email === comment.email">수정</td>
+            <td v-show="email === comment.email" @click="commentDelete(index)">삭제</td>
           </tr>
         </tbody>
       </template>
@@ -141,8 +146,7 @@ export default {
       comments: [],
       clicked: false,
       userComment: '',
-      userEmail: '',
-      article: ''
+      email: '',
     }
   },
   watch: {
@@ -168,6 +172,7 @@ export default {
       }) 
     }
   },
+  // 따로 commit으로 함수 실행시키는게 아니라 computed에 안적어도 동작에는 문제없는듯
   computed:{
     ...mapState(["token", "email"]), //store 공동 저장소에 있는 token 사용하기 위해 선언.
     ...mapActions(["getToken", "getEmail"])
@@ -216,10 +221,17 @@ export default {
         })
     },
     moveUserpage(index){
-      store.commit('getUserEmail', this.comments[index].email)
+      if (this.comments[index].email !== localStorage.getItem("email")) {
+      // store.commit('getUserEmail', this.comments[index].email)
+      localStorage.setItem("userEmail", this.comments[index].email)
       this.$router.push({
         name: 'Userpage'
       })
+      } else {
+        this.$router.push({
+          name: 'Mypage'
+        })
+      }
     },
 
       timeForToday(value) {
@@ -241,8 +253,8 @@ export default {
     },
   },
   created() {
-    this.userEmail = localStorage.getItem("email")
-    console.log(this.userEmail)
+    this.email = localStorage.getItem("email")
+    console.log(this.email)
     console.log("comment.vue : " + this.$route.params.article_id)
     axios.get(base + '/tugether/mainfeed/comment',
       {
@@ -255,7 +267,7 @@ export default {
         this.comments = res.data.comments;
         this.article = res.data.article;
         console.log(this.article)
-        // console.log(this.comments);
+        console.log(this.comments);
       })
       .catch(err => {
         console.log('실패함')

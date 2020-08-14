@@ -137,8 +137,8 @@ export default {
         // 다른 유저의 페이지로 이동
         moveUserpage(email){
             this.email = email;
+            localStorage.setItem("userEmail", this.email)
             console.log(this.email)
-            store.commit('getUserEmail', email)
             this.$router.push({
                 name: 'Userpage'
             })
