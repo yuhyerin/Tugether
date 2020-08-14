@@ -27,6 +27,7 @@
     "vue-cookies": "^1.7.3",
     "vue-google-login": "^2.0.5",
     "vue-google-oauth2": "^1.5.5",
+    "vue-infinite-loading": "^2.4.5",
     "vue-router": "^3.4.3",
     "vue-unicons": "^2.3.0",
     "vuetify": "^2.2.11",

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.web.curation.dto.BasicResponse;
+import com.web.curation.dto.article.FrontArticle;
 import com.web.curation.dto.comment.Comment;
 import com.web.curation.dto.comment.FrontComment;
 import com.web.curation.jwt.service.JwtService;
@@ -47,13 +48,15 @@ public class CommentController {
    @GetMapping("/mainfeed/comment")
    @ApiOperation(value = "댓글페이지")
    public ResponseEntity<Map<String,Object>> commentPage(HttpServletRequest request) {
-//      System.out.println("GET : Controller 입장");
       Map<String, Object> resultMap = new HashMap<String, Object>();
-//      String token = request.getHeader("jwt-auth-token");   //토큰 가져와서
-//      Jws<Claims> claims = jwtService.getDecodeToken(token);   //복호화해서
-//      Map<String, Object> Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
-//      String email = Userinfo.get("email").toString();
+      String token = request.getHeader("jwt-auth-token");   //토큰 가져와서
+      Jws<Claims> claims = jwtService.getDecodeToken(token);   //복호화해서
+      Map<String, Object> Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
+      String email = Userinfo.get("email").toString();
       int article_id = Integer.parseInt(request.getHeader("article_id"));
+      
+      FrontArticle article = commentService.findArticle(email, article_id);
+      resultMap.put("article", article);
       
       List<FrontComment> comments = commentService.findComments(article_id);
       resultMap.put("comments", comments);
@@ -63,10 +66,7 @@ public class CommentController {
    
    @PostMapping("/mainfeed/comment")
    @ApiOperation(value="댓글작성")
-   public ResponseEntity<Map<String,Object>> writeComment(
-//         @RequestParam("article_id") int article_id,
-//         @RequestParam("content") String content, HttpServletResponse response) {
-         @RequestBody Comment comment, HttpServletRequest request){
+   public ResponseEntity<Map<String,Object>> writeComment(@RequestBody Comment comment, HttpServletRequest request){
        int article_id = comment.getArticle_id();
        String content = comment.getContent();
        
@@ -76,7 +76,6 @@ public class CommentController {
       Map<String, Object> Userinfo = new HashMap<String, Object>();
       Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
       String email = Userinfo.get("email").toString();
-//      System.out.println("email : "+email);
       Comment c = Comment.builder().article_id(article_id).content(content).email(email).build();
       System.out.println(c.toString());
        commentService.saveComment(c);

@@ -3,14 +3,17 @@
 package com.web.curation.dto.account;
 
 
-import lombok.*;
+import java.sql.Date;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
-import java.sql.Date;
-import java.text.SimpleDateFormat;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity(name="user")
 @Table(name="user")
@@ -23,22 +26,20 @@ public class User {
     @Id // @Column(name="EMAIL")
     private String email;
     
-//    @Column(nullable = false)// , name="PASSWORD")
+    @Column(name="password", nullable = false)
     private String password;
 
-//    @Column(name="signup_date", insertable = false) //insertable = false, updatable = false) //, name="SIGNUP_DATE")
+    @Column(name="signup_date", insertable = false)
     private Date signup_date;
-    //   SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//    @Column(nullable = false) //, name="NICKNAME")
     private String nickname;
     
-//    @Column(nullable = false, updatable = false) //, name="GENDER")
+    @Column(name="gender", nullable = false)
     private char gender;
     
-//    @Column(name="BIRTH_YEAR")//nullable = false, updatable = false) //, name="BIRTH_YEAR")
+    @Column(name="birth_year", nullable = false)
     private int birth_year;
-
-//    @Column(name="TEMP")@Getter
+    
+    @Column(name="temp")
     private boolean temp;
 
 	public boolean getTemp() {

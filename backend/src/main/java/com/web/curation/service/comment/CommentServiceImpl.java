@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.web.curation.dto.article.Article;
+import com.web.curation.dto.article.FrontArticle;
 import com.web.curation.dto.comment.Comment;
 import com.web.curation.dto.comment.FrontComment;
 import com.web.curation.dto.notice.Notice;
@@ -14,7 +15,7 @@ import com.web.curation.repo.ArticleRepo;
 import com.web.curation.repo.CommentRepo;
 import com.web.curation.repo.NoticeRepo;
 import com.web.curation.repo.ProfileRepo;
-import com.web.curation.repo.UserRepo;
+import com.web.curation.service.feed.FeedService;
 
 @Service
 public class CommentServiceImpl implements CommentService{
@@ -27,6 +28,8 @@ public class CommentServiceImpl implements CommentService{
 	private NoticeRepo noticeRepo;
 	@Autowired
 	private ArticleRepo articleRepo;
+	@Autowired
+	private FeedService feedService;
 	
 	@Override
 	public List<FrontComment> findComments(int article_id) {
@@ -62,6 +65,10 @@ public class CommentServiceImpl implements CommentService{
 		commentRepo.save(c);
 		String notice_to = articleRepo.findArticleByArticleId(c.getArticle_id()).get(0).getEmail();
 		Comment temp = commentRepo.findCommentByEmailAndArticleId(c.getEmail(), c.getArticle_id()).get(0);
+		Article a = articleRepo.findArticleByArticleId(c.getArticle_id()).get(0);
+		int comment_cnt = commentRepo.findCommentByArticleId(c.getArticle_id()).size();
+		a.setComment_cnt(comment_cnt);
+		articleRepo.save(a);
 		Notice n = Notice.builder()
 				.article_id(c.getArticle_id()).comment_id(temp.getComment_id())
 				.notice_from(c.getEmail()).notice_type(1).notice_to(notice_to)
@@ -78,6 +85,16 @@ public class CommentServiceImpl implements CommentService{
 		int comment_cnt = commentRepo.findCommentByArticleId(article_id).size();
 		a.setComment_cnt(comment_cnt);
 		articleRepo.save(a);
+	}
+
+
+
+
+	@Override
+	public FrontArticle findArticle(String email, int article_id) {
+		Article temp = articleRepo.findArticleByArticleId(article_id).get(0);
+		
+		return feedService.makeFront(email , article_id);
 	}
 	
 }

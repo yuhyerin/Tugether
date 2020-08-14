@@ -15,8 +15,6 @@ import Userpage from '@/views/mypage/Userpage.vue'
 import Follow from '@/views/mypage/Follow.vue'
 import Comment from '@/views/user/Comment.vue'
 import Update from '@/views/user/Update.vue'
-import Stats from '@/views/user/Stats.vue'
-
 import Components from './views/Components.vue'
 import store from './vuex/store'
 

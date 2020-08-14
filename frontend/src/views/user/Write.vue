@@ -20,18 +20,19 @@
         <!-- <WriteList @delete="onRemove" @checked="onChecked" :todoList="todoList"/> -->
         <WriteList @delete="onRemove" :tagList="tagList"/>
         <br>
-
-        <h3>링크</h3>
-        <img src="@/assets/images/paperclip.png" style="height: 30px; width: 30px;">
+        <div>
+        <h3 style="margin-top: 50px;">링크</h3>
+        </div>
+        <img src="@/assets/images/paperclip.png" style="float: left; height: 30px; width: 30px;">
         <input type="text" 
           placeholder="영상을 공유하고 싶다면 링크를 달아주세요"
-          style="width: 93%; margin-left: 5px; margin-bottom: 2px; height: 40px;"
+          style="float: right; width: 90%; margin-left: 5px; margin-bottom: 2px; height: 40px;"
           v-model="urlLink" />
         
         <button
           v-on:click="onUpload"
           class="btn btn--back btn--login"
-          style="height: 40px; padding-top: 0px;"
+          style="height: 40px; padding-top: 0px; margin-top: 30px;"
         >업로드</button>
         <BottomNav/>
     </div>

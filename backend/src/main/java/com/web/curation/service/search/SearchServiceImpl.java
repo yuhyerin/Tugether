@@ -104,6 +104,7 @@ public class SearchServiceImpl implements SearchService {
 		String profile_photo = profileRepo.findProfilePhotoByEmail(email);
 		FrontArticle ar = FrontArticle.builder()
 				.article_id(article_id)
+				.email(now.getEmail())
 				.writer(now.getWriter())
 				.reg_time(now.getReg_time())
 				.image(now.getImage())

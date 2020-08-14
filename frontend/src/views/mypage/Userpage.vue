@@ -1,8 +1,7 @@
 <template>
   <div class="feed mypage">
       <div class="wrapB" style="text-align: center;">
-        <h1>다른 사람의 마이페이지</h1>
-        <!-- {{ this.$route.params.user_email }} -->
+        <h2 style="font-weight: bold;">{{ profile.nickname }}님의 마이페이지</h2>
 
         <!--프로필 영역-->
         <div id="profile" style="margin-top: 20px;">
@@ -10,22 +9,26 @@
             <v-avatar size="150px"><img :src= "`https://i3b303.p.ssafy.io/profileimages/${profile.profile_photo}`" alt="image"></v-avatar><br>
             <!--닉네임, 게시글 수, 팔로잉 수, 팔로워 수-->
             <strong style="font-size: 20px;">{{ profile.nickname }}</strong><br>
-            게시글 <strong style="color: red;">{{ profile.article_cnt }}</strong>
-            <!-- 팔로잉 <strong @click="moveFollow" style="color: red; cursor: pointer;">{{ profile.following_cnt }}</strong>
-            팔로워 <strong @click="moveFollow" style="color: red; cursor: pointer;">{{ profile.follower_cnt }}</strong> -->
+            게시글 <strong style="color: red; margin-right: 5px;">{{ profile.article_cnt }}</strong>
+            팔로워 <strong style="color: red; cursor: pointer; margin-right: 5px;">{{ profile.follower_cnt }}</strong>
             팔로잉 <strong style="color: red; cursor: pointer;">{{ profile.following_cnt }}</strong>
-            팔로워 <strong style="color: red; cursor: pointer;">{{ profile.following_cnt }}</strong>
         </div>
-        <div id="buttons">
-            <button class="button" style="backgroundColor: skyblue;">팔로우</button>
+        <!--나와 상대 유저의 팔로우 관계에 따라 다른 버튼이 보인다.-->
+        <div v-if="follow"> <!--true-->
+            <!--내가 팔로우하고 있는 사용자라면 '팔로잉' 버튼 활성화-->
+            <v-btn class="follow_button" outlined style="color: #3366ff;" @click="unFollow(profile.email)">팔로잉</v-btn>
         </div>
-        <!-- 백엔드 업데이트 해야함 그래야 favtags 받을 수 있다. -->
-        <!-- <div id="favtags" style="margin-top: 10px;">
-            <strong>관심태그</strong>
-            <span v-for="tags in favtags" :key=tags>
-                {{ tags }}&nbsp;
+        <div v-else> <!--false-->
+            <!--내가 팔로우하고 있지 않은 사용자라면 '팔로우' 버튼 활성화-->
+            <v-btn class="follow_button" depressed style="background-color: #3366ff; color: white;" @click="toFollow(profile.email)">팔로우</v-btn>
+        </div>
+        <!--유저의 관심태그 목록 보여주기-->
+        <div id="favtags" style="margin-top: 10px;">
+            <strong>관심태그 </strong>
+            <span id="tags_test" v-for="tags in favtags" :key=tags>
+                #{{ tags }}&nbsp;
             </span>
-        </div> -->
+        </div>
 
         <!--탭(유저 게시글 & 유저가 스크랩한 글)-->
         <!--유저 게시글-->
@@ -37,7 +40,7 @@
                       <!-- 프로필이미지, 작성자, 시간(며칠전..), 태그 -->
                       <div class="top">
                         <!--실제 프로필 사진 띄울 것-->
-                        <!-- <div class="profile-image" :style="{'background-image': 'url('+defaultProfile+')'}"></div> -->
+                        <div class="profile-image" :style="{'background-image': 'url('+defaultProfile+')'}"></div>
                         <div class="user-info">
                           <div class="user-name">
                             <strong>{{ article.writer }}</strong> <!--마이페이지니까 본인이 작성한 글 닉네임 눌러도 아무 일 없는걸로..-->
@@ -148,7 +151,7 @@
                       <!-- 프로필이미지, 작성자, 시간(며칠전..), 태그 -->
                       <div class="top">
                         <!--실제 프로필 사진 띄울 것-->
-                        <!-- <div class="profile-image" :style="{'background-image': 'url('+defaultProfile+')'}"></div> -->
+                        <div class="profile-image" :style="{'background-image': 'url('+defaultProfile+')'}"></div>
                         <div class="user-info">
                           <div class="user-name">
                             <button>{{ scrap.writer }}</button>
@@ -264,7 +267,7 @@ import store from '@/vuex/store';
 import { mapState, mapActions, mapMutations } from "vuex";
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
 import BottomNav from "@/components/common/BottomNav";
-// import defaultProfile from "../../assets/images/profile_default.png";
+import defaultProfile from "../../assets/images/profile_default.png";
 
 export default {
     components:{
@@ -273,49 +276,91 @@ export default {
     data: () => {
         return {
             // userEmail: "",
-            profile_photo: "",
-            // nickname: "",
-            // following_cnt: "",
-            // follower_cnt: "",
-            // article_cnt: "",
-            // favtags: [],
-            // articles: [],
-            // scraps: [],
-            // text: "테스트2",
-            // defaultProfile
+            follow: "",
+            favtags: [],
             articles: '',
             profile: '',
             scraps: '',
+            defaultProfile
         }
     },
     created() {
-        console.log(localStorage.getItem("userEmail"))
-        console.log(localStorage.getItem("token"))
-        axios.get(base + '/tugether/userpage', 
-        {
-            params: {
-            "userEmail": localStorage.getItem("userEmail")
-            },
-            headers: {
-            "jwt-auth-token": localStorage.getItem("token")
-            }
-        })
-        .then(response => {
-            console.log(response.data)
-            this.articles = response.data.articles,
-            this.profile = response.data.profile,
-            this.scraps = response.data.scraps
-            this.profile_photo = response.data.profile.profile_photo
-            
-        })
-        .catch(error => {
-            console.log(error)
-        })
-        // 프로필 띄우기
-
-        // 유저의 게시글, 스크랩한 글 목록 가져오기
+        this.refresh();
     },
     methods: {
+        refresh() {
+          axios
+              .get(base + '/tugether/userpage', 
+              {
+                  params: {
+                      "userEmail": localStorage.getItem("userEmail")
+                  },
+                  headers: {
+                      "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
+                  }
+              })
+              .then((res) => {
+                  console.log(res.data)
+                  // 프로필 띄우기
+                  this.profile = res.data.profile;
+                  this.follow = res.data.follow;
+                  this.favtags = res.data.favtags;
+                  // 유저의 게시글, 스크랩한 글 목록 가져오기
+                  this.articles = res.data.articles;
+                  this.scraps = res.data.scrap;
+              })
+              .catch((err) => {
+                  console.log("created axios get PROFILE and ARTICLES, SCRAPS error")
+              })
+        },
+        // 팔로잉 하기 (팔로우 버튼 누를 시)
+        toFollow(email) {
+            this.email = email;
+            var answer = confirm("팔로우 하시겠습니까?");
+            if(answer) { // true
+                axios
+                    .post(base + '/tugether/mypage/followapply', {
+                        email: this.email
+                    },
+                    {
+                        headers:{
+                            "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
+                        }
+                    })
+                    .then(({data}) => {
+                        // this.follow = true; // 팔로우 성공
+                        this.refresh();
+                    })
+                    .catch((err) => {
+                        console.log("FOLLOW function error")
+                });
+            } // if
+        },
+        // 팔로우 삭제 (팔로잉 버튼 누를 시)
+        unFollow(email){
+            this.email = email;
+            var answer = confirm("팔로우를 취소하시겠습니까?");
+            if(answer){ // true
+                axios
+                    .post(base + '/tugether/mypage/followcancel', {
+                        email: this.email
+                    },
+                    {
+                        headers:{
+                            "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
+                        }
+                    })
+                    .then(({data}) => {
+                        console.log(data.data);
+                        alert("팔로우가 취소되었습니다.");
+                        // this.follow = false; // 언팔 성공
+                        this.refresh();
+                    })
+                    .catch((err) => {
+                        console.log("UNFOLLOW function error")
+                });
+            } // if
+        },
         // 시간 체크
         timeForToday(value) {
         const today = new Date();

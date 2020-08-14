@@ -17,9 +17,12 @@
     <br>
     <br>
     <h3>관심태그</h3>
-      <input type="text" v-model="content" @keypress.enter="addTag" style="width: 89%;">
-      <button @click="addTag" style="margin-left: 10px; padding: 0px 10px 0px 10px; height: 50px; background: black; color: white; border: 0px solid skyblue;">추가</button>
+      <input type="text" v-model="content" @keypress.enter="addTag" style="width: 85%; float: left">
+      <button @click="addTag" style="width: 13%; float: right; margin-left: 0px; padding: 0px 10px 0px 10px; height: 50px; background: black; color: white; border: 0px solid skyblue;">추가</button>
+      <br>
+
       
+      <div>
       <ul>
         <!-- 목록을 보여줄 예정 -->
         <li v-for="(tag, index) in this.tagList" :key="tag.id">
@@ -27,20 +30,21 @@
           <button @click="onRemove(tag, index)" style="padding: 0px 5px 0px 5px; margin: 3px 10px 3px 10px; height: 20px; background: red; color: white;">X</button>
         </li>
       </ul>
+      </div>
     <br>
 
     <h3>링크</h3>
     <!-- <p>영상을 공유하고 싶다면 링크를 달아주세요</p> -->
-    <img src="@/assets/images/paperclip.png" style="height: 30px; width: 30px;">
+    <img src="@/assets/images/paperclip.png" style="float: left; height: 30px; width: 30px;">
     <input type="text"
       placeholder="영상을 공유하고 싶다면 링크를 달아주세요"
-      style="align: left; width: 93%; margin-left: 5px; margin-bottom: 2px; height: 40px;" 
+      style="float: right; width: 90%; margin-left: 5px; margin-bottom: 2px; height: 40px;" 
       v-model="urlLink" />
     
     <button
       v-on:click="onUpload"
       class="btn btn--back btn--login"
-      style="height: 40px; padding-top: 0px;"
+      style="height: 40px; padding-top: 0px; margin-top: 30px;"
     >업로드</button>
 
     <BottomNav/>
@@ -51,8 +55,6 @@
 import axios from 'axios'
 import store from '@/vuex/store'
 import { mapState, mapActions } from "vuex"
-import UpdateList from '@/components/user/UpdateList'
-import UpdateInput from '@/components/user/UpdateInput'
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
 import BottomNav from "@/components/common/BottomNav"
 

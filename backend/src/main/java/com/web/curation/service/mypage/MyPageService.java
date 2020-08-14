@@ -16,5 +16,7 @@ public interface MyPageService {
 	boolean findFollow(String userEmail, String email);
 	
 	public FrontArticle makeFront(String email, int article_id);
+	
+	List<String> findFavTags(String email);
 
 }
