@@ -10,8 +10,8 @@
             <!--닉네임, 게시글 수, 팔로잉 수, 팔로워 수-->
             <strong style="font-size: 20px;">{{ profile.nickname }}</strong><br>
             게시글 <strong style="color: red; margin-right: 5px;">{{ profile.article_cnt }}</strong>
-            팔로잉 <strong style="color: red; cursor: pointer; margin-right: 5px;">{{ profile.following_cnt }}</strong>
-            팔로워 <strong style="color: red; cursor: pointer;">{{ profile.following_cnt }}</strong>
+            팔로워 <strong style="color: red; cursor: pointer; margin-right: 5px;">{{ profile.follower_cnt }}</strong>
+            팔로잉 <strong style="color: red; cursor: pointer;">{{ profile.following_cnt }}</strong>
         </div>
         <!--나와 상대 유저의 팔로우 관계에 따라 다른 버튼이 보인다.-->
         <div v-if="follow"> <!--true-->
@@ -284,37 +284,37 @@ export default {
         }
     },
     created() {
-        console.log(this.$store.state.userEmail)
-        console.log(localStorage.getItem("token"))
-        axios
-            .get(base + '/tugether/userpage', 
-            {
-                params: {
-                "userEmail": this.$store.state.userEmail
-                },
-                headers: {
-                "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
-                }
-            })
-            .then((res) => {
-                console.log(res.data)
-                // 프로필 띄우기
-                this.profile = res.data.profile;
-                this.follow = res.data.follow;
-                this.favtags = res.data.favtags;
-                // 유저의 게시글, 스크랩한 글 목록 가져오기
-                this.articles = res.data.articles;
-                this.scraps = res.data.scrap;
-            })
-            .catch((err) => {
-                console.log("created axios get PROFILE and ARTICLES, SCRAPS error")
-            })
+        this.refresh();
     },
     methods: {
+        refresh() {
+          axios
+              .get(base + '/tugether/userpage', 
+              {
+                  params: {
+                  "userEmail": this.$store.state.userEmail
+                  },
+                  headers: {
+                  "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
+                  }
+              })
+              .then((res) => {
+                  console.log(res.data)
+                  // 프로필 띄우기
+                  this.profile = res.data.profile;
+                  this.follow = res.data.follow;
+                  this.favtags = res.data.favtags;
+                  // 유저의 게시글, 스크랩한 글 목록 가져오기
+                  this.articles = res.data.articles;
+                  this.scraps = res.data.scrap;
+              })
+              .catch((err) => {
+                  console.log("created axios get PROFILE and ARTICLES, SCRAPS error")
+              })
+        },
         // 팔로잉 하기 (팔로우 버튼 누를 시)
         toFollow(email) {
             this.email = email;
-            // alert("팔로우 추가 " + this.email);
             var answer = confirm("팔로우 하시겠습니까?");
             if(answer) { // true
                 axios
@@ -327,8 +327,8 @@ export default {
                         }
                     })
                     .then(({data}) => {
-                        console.log(data.data);
-                        this.follow = true; // 팔로우 성공
+                        // this.follow = true; // 팔로우 성공
+                        this.refresh();
                     })
                     .catch((err) => {
                         console.log("FOLLOW function error")
@@ -338,7 +338,6 @@ export default {
         // 팔로우 삭제 (팔로잉 버튼 누를 시)
         unFollow(email){
             this.email = email;
-            // alert("팔로우 삭제 " + this.email);
             var answer = confirm("팔로우를 취소하시겠습니까?");
             if(answer){ // true
                 axios
@@ -353,7 +352,8 @@ export default {
                     .then(({data}) => {
                         console.log(data.data);
                         alert("팔로우가 취소되었습니다.");
-                        this.follow = false; // 언팔 성공
+                        // this.follow = false; // 언팔 성공
+                        this.refresh();
                     })
                     .catch((err) => {
                         console.log("UNFOLLOW function error")

@@ -345,8 +345,8 @@ export default {
     // 다른 유저의 페이지로 이동
     moveUserpage(email){
       this.userEmail = email;
-      console.log(this.userEmail)
-      console.log(this.articles)
+      // console.log(this.userEmail)
+      // console.log(this.articles)
       store.commit('getUserEmail', this.userEmail)
       this.$router.push({
         name: 'Userpage'
