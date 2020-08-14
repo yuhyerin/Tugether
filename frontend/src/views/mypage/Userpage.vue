@@ -318,7 +318,7 @@ export default {
             var answer = confirm("팔로우 하시겠습니까?");
             if(answer) { // true
                 axios
-                    .post(base + '/tugether/followapply', {
+                    .post(base + '/tugether/mypage/followapply', {
                         email: this.email
                     },
                     {
@@ -342,7 +342,7 @@ export default {
             var answer = confirm("팔로우를 취소하시겠습니까?");
             if(answer){ // true
                 axios
-                    .post(base + '/tugether/followcancel', {
+                    .post(base + '/tugether/mypage/followcancel', {
                         email: this.email
                     },
                     {
