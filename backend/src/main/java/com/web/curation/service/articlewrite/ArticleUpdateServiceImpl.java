@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.web.curation.dto.article.Article;
+import com.web.curation.dto.tag.Tag;
 import com.web.curation.repo.ArticleUpdateRepo;
 import com.web.curation.repo.ArticleWriteRepo;
+import com.web.curation.repo.ArticleWriteTagRepo;
 import com.web.curation.repo.ProfileRepo;
 import com.web.curation.repo.TagRepo;
 
@@ -16,10 +18,10 @@ public class ArticleUpdateServiceImpl implements ArticleUpdateService {
 
 	@Autowired
 	ArticleUpdateRepo articleUpdateRepo;
-
 	@Autowired
 	ArticleWriteRepo articleWriteRepo;
-
+	@Autowired
+	ArticleWriteTagRepo articleWriteTagRepo;
 	@Autowired
 	ProfileRepo profileRepo;
 	@Autowired
@@ -43,10 +45,19 @@ public class ArticleUpdateServiceImpl implements ArticleUpdateService {
 		}
 	}
 
-	// 게시글에 등록한 태그들 초기화(다 지우기)
+	/**
+	 * 1. articletag에서 지우기 
+	 * 2. tag테이블에서 article_cnt -1 하기  */
 	@Override
-	public void resetArticleTag(int article_id) {
+	public void resetArticleTag(int article_id, ArrayList<String> taglist) {
+		// 1. articletag에서 지우기 
 		articleUpdateRepo.resetArticleTag(article_id);
+		// 2. tag테이블에서 article_cnt -1 하기
+		for(int i=0; i<taglist.size(); i++) {
+			Tag tag = articleWriteTagRepo.findTagByTagName(taglist.get(i));
+			articleWriteTagRepo.countArticleMinusCnt(tag.getTag_id());
+		}
+		
 	}
 
 	// 게시글에 등록한 태그리스트 가져오기
@@ -84,12 +95,13 @@ public class ArticleUpdateServiceImpl implements ArticleUpdateService {
 
 	}
 
-	// 게시글 삭제
+
+	// article 테이블에서 삭제
 	@Override
 	public void deleteArticle(String email, int article_id) {
+		
 		articleWriteRepo.deleteArticle(article_id);
-		int article_cnt = articleRepo.countMyArticle(email);
-		profileRepo.countMyArticle(email, article_cnt-1); // 내 게시글 갯수 하나 빼기
+		
 	}
 
 }

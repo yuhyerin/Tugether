@@ -56,9 +56,6 @@ public class ProfileController {
 	
 	@Autowired
 	private FavtagService favtagService;
-	
-//	@Autowired
-//	private TagService tagService;
 
 	@Autowired
 	private JwtService jwtService;
@@ -92,6 +89,9 @@ public class ProfileController {
 	
 	}
 	
+	/** 1. User 테이블에서 닉네임이 업데이트 된다.
+	 *  2. Profile 테이블에서  닉네임, 프로필사진이 업데이트 된다.
+	 *  3. Favtag 테이블에서 관심태그가 업데이트 된다. */
 	@PostMapping("/profilechange")
 	@ApiOperation(value = "회원의 프로필 수정하기 ")
 	public ResponseEntity<Map<String,Object>> updateProfile(
@@ -100,7 +100,6 @@ public class ProfileController {
     		@RequestParam("taglist") ArrayList<String> favtaglist,
 			HttpServletRequest request) {
 	
-			System.out.println("profilechange 들어왔습니다.");
 			HttpStatus status = null;
 			String token = request.getHeader("jwt-auth-token");
 			Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -109,23 +108,22 @@ public class ProfileController {
 			Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
 			String email = Userinfo.get("email").toString();
 			
+			/** 1. User테이블에서 닉네임 업데이트 */
+			profileSerivce.updateUserNickname(email, nickname);
+			
 			Profile profile = new Profile();
 			profile.setEmail(email);
 			profile.setNickname(nickname);
 			
-			
-			if(mFile==null) {
-				System.out.println("프로필사진을 수정하지 않았습니다.");
+			if(mFile==null) { // 프로필사진을 변경하지 않은 경우 
 				// 이메일로 해당 유저 프로필 수정하기 
 				profileSerivce.updateProfile(profile);
-				System.out.println("프로필 수정이 완료되었습니다!");
 				
-			}else {
-				System.out.println("프로필사진을 수정했습니다.");
+			}else { // 프로필사진을 변경한 경우
 				String profile_photo = mFile.getOriginalFilename();
-				profile.setProfile_photo(profile_photo);
-				System.out.println("프로필 사진이름?? "+profile_photo);
+				profile.setProfile_photo(email+profile_photo);
 				profileSerivce.updateProfilewithImage(profile);
+				
 				// 프로필사진 업로드
 				try {
 					// 파일업로드 할때 => 경로 + (작성자 이메일 + 파일명) 
@@ -143,12 +141,10 @@ public class ProfileController {
 
 			// 이전 관심태그 지우기
 			profileSerivce.resetFavtag(email);
-			System.out.println("이전 관심태그 목록을 지웠습니다. ");
 					
 			// 태그리스트 [ "고양이", "게임", "롤" ] 가 태그테이블에 있는지 검사해서, 없으면 추가하고 태그id를 얻어오기.
 			ArrayList<Integer> favtagIdlist = tagService.updateFavtag(favtaglist);
 			profileSerivce.updateFavtag(email, favtagIdlist);
-			System.out.println("프로필 컨트롤러 - 관심태그 수정 완료했습니다.");
 			status = HttpStatus.OK;
 
 

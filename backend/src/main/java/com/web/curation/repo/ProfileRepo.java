@@ -5,7 +5,9 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.web.curation.dto.profile.Profile;
@@ -40,4 +42,14 @@ public interface ProfileRepo extends JpaRepository<Profile, String>{
 
 	@Query(value = "select profile_photo from profile p where p.email=:email", nativeQuery=true)
 	String findProfilePhoto(String email);
+
+	@Modifying(clearAutomatically = true)
+	@Transactional
+	@Query(value="update profile p set p.article_cnt = p.article_cnt + 1 where p.email = :email",nativeQuery = true)
+	void countPlusArticleCnt(@Param("email")String email);
+	
+	@Modifying(clearAutomatically = true)
+	@Transactional
+	@Query(value="update profile p set p.article_cnt = p.article_cnt - 1 where p.email = :email",nativeQuery = true)
+	void countMinusArticleCnt(@Param("email")String email);
 }
