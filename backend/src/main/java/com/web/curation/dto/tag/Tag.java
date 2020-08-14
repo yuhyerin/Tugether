@@ -11,27 +11,25 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name="tag")
-@Table(name="tag")
+@Entity(name = "tag")
+@Table(name = "tag")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//@JsonInclude(JsonInclude.Include.NON_NULL)
 @Builder
 public class Tag {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)	// 얘가 auto_increment
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // 얘가 auto_increment
 	private int tag_id;
-	
-	@Column(name="tag_name")
+
+	@Column(name = "tag_name", nullable = false)
 	private String tag_name;
-	
-	@Column(name="fav_cnt")
+
+	@Column(name = "fav_cnt")
 	private int fav_cnt;
-	
-	@Column(name="article_cnt")
+
+	@Column(name = "article_cnt")
 	private int article_cnt;
-	
 
 }

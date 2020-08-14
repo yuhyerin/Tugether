@@ -121,19 +121,18 @@ public class MyPageController {
 		String email = Userinfo.get("email").toString();
 		// 1. 게시글 가져오기
 		List<FrontArticle> articles=myPageService.findArticles(userEmail); 
-//		System.out.println("articles : "+articles.toString());
 		resultMap.put("articles", articles);
 		//2. 스크랩한 게시글 가져오기
 		List<FrontArticle> scraps = myPageService.findScraps(userEmail);
-//		System.out.println("scraps : "+scraps.toString());
 		resultMap.put("scraps", scraps);
 		//3. 프로필 가져오기
 		Profile profile = profileService.getProfile(userEmail);
-//		System.out.println("profile : "+profile.toString());
 		resultMap.put("profile", profile);
 		boolean follow = myPageService.findFollow(userEmail, email);
-//		System.out.println("follow : "+follow);
 		resultMap.put("follow", follow);
+		
+		List<String> favtags = myPageService.findFavTags(email);
+		resultMap.put("favtags", favtags);
 		return new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.OK);
 	}
 	

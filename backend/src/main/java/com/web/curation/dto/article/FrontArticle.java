@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 public class FrontArticle {
 
 	private int article_id;
+	private String email;
 	private String writer;
 	private LocalDateTime reg_time;
 	private String image;

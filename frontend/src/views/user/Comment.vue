@@ -141,7 +141,8 @@ export default {
       comments: [],
       clicked: false,
       userComment: '',
-      userEmail: ''
+      userEmail: '',
+      article: ''
     }
   },
   watch: {
@@ -156,7 +157,8 @@ export default {
       })
       .then(res => {
         this.comments = res.data.comments;
-        console.log(this.comments)
+        this.article = res.data.article;
+        console.log(this.article)
       })
       .catch(err => {
         console.log('실패함')
@@ -251,7 +253,9 @@ export default {
       })
       .then(res => {
         this.comments = res.data.comments;
-        console.log(this.comments);
+        this.article = res.data.article;
+        console.log(this.article)
+        // console.log(this.comments);
       })
       .catch(err => {
         console.log('실패함')
