@@ -512,3 +512,4 @@
 2020-08-14 01:40:02,758 [Worker-218: Launching backend - WebCurationApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
 2020-08-14 01:40:02,761 [Worker-218: Launching backend - WebCurationApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
 2020-08-14 01:40:02,761 [Worker-218: Launching backend - WebCurationApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\SSAFY\git\s03p13b303\backend\src\test\resources
+2020-08-14 13:20:20,405 [Worker-1: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
