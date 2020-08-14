@@ -91,7 +91,7 @@ export default {
             var answer = confirm("팔로우 하시겠습니까?");
             if(answer) { // true
                 axios
-                    .post(base + '/tugether/', {
+                    .post(base + '/tugether/followapply', {
                         email: this.email
                     },
                     {
@@ -114,7 +114,7 @@ export default {
             var answer = confirm("팔로우를 취소하시겠습니까?");
             if(answer){ // true
                 axios
-                    .post(base + '/tugether/', {
+                    .post(base + '/tugether/followcancel', {
                         email: this.email
                     },
                     {
