@@ -101,8 +101,7 @@ export default {
                     }
                 })
                 .then(({data}) => {
-                    console.log(data.data);
-
+                    // console.log(data.data);
                     alert("비밀번호 변경이 완료되었습니다.");
                     this.moveMypage(); // 마이페이지로 이동
                 })
