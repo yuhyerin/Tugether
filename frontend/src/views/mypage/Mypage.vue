@@ -290,7 +290,6 @@ export default {
         this.checkForm();
       }
     },
-    
     created() {
         this.refresh();
     },
