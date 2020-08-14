@@ -28,7 +28,6 @@ INDEX VERSION 1.131+C:\SSAFY\git\s03p13b303\.metadata\.plugins\org.eclipse.jdt.c
 1759406546.index
 692564787.index
 3308868564.index
-1965174767.index
 998144213.index
 2243634308.index
 1628756593.index

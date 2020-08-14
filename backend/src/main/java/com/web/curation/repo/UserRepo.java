@@ -12,11 +12,12 @@ public interface UserRepo extends JpaRepository<User, String> {
     
 	@Query(value="select email from user u where u.email=:email", nativeQuery = true)
 	String findEmailByEmail(String email);
-	
-//	@Query(value="select password from user u where u.email=:email", nativeQuery = true)
-//	String findPasswordByEmail(String email);
 
 	User findUserByEmail(String email);
+	
 	User findUserByEmailAndPassword(String email, String password);
+	
+	@Query(value="update user set nickname = :nickname where email= :email ",nativeQuery=true)
+	void updateUserNickname(String email, String nickname);
 
 }
