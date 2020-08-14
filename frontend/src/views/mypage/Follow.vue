@@ -13,7 +13,7 @@
                     <button @click="moveUserpage(user.email)"><strong style="font-size: 15px; padding-left: 10px;">{{ user.nickname }}</strong></button>
                     <!--내가 팔로우하고 있지 않은 사용자라면 '팔로우' 버튼 활성화-->
                     <span v-if="!user.follow">
-                        <v-btn class="follow_button" depressed style="background-color: #3366ff; color: white;" @click="follow(user.email)">팔로우</v-btn>
+                        <v-btn class="follow_button" depressed style="background-color: #3366ff; color: white;" @click="toFollow(user.email)">팔로우</v-btn>
                     </span>
                     <!--내가 팔로우하고 있는 사용자라면 '팔로잉' 버튼 활성화-->
                     <span v-else>
@@ -88,7 +88,7 @@ export default {
                 });
         },
         // 팔로잉 하기 (팔로우 버튼 누를 시)
-        follow(email) {
+        toFollow(email) {
             this.email = email;
             var answer = confirm("팔로우 하시겠습니까?");
             if(answer) { // true
