@@ -118,7 +118,7 @@ export default {
        .then(res=>{
          console.log(res);
          alert("게시글이 작성되었습니다! :)")
-         this.$router.push('/mypage/mypage')
+         this.$router.push('/mypage')
        })
        .catch(err=>{
          console.log(err);

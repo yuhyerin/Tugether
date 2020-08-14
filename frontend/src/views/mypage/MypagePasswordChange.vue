@@ -157,7 +157,7 @@ export default {
             this.$router.push("/mypage/mypagesetting");
         },
         moveMypage(){
-            this.$router.push("/mypage/mypage");
+            this.$router.push("/mypage");
         },
         // 비밀번호 입력 시 아이콘을 누르면 입력타입 변경(text, password)
         showPW1() {

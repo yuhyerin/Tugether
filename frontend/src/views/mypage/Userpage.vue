@@ -22,10 +22,11 @@
             <!--내가 팔로우하고 있지 않은 사용자라면 '팔로우' 버튼 활성화-->
             <v-btn class="follow_button" depressed style="background-color: #3366ff; color: white;" @click="toFollow(profile.email)">팔로우</v-btn>
         </div>
+        <!--유저의 관심태그 목록 보여주기-->
         <div id="favtags" style="margin-top: 10px;">
-            <strong>관심태그</strong>
-            <span v-for="tags in favtags" :key=tags>
-                {{ tags }}&nbsp;
+            <strong>관심태그 </strong>
+            <span id="tags_test" v-for="tags in favtags" :key=tags>
+                #{{ tags }}&nbsp;
             </span>
         </div>
 
@@ -292,10 +293,10 @@ export default {
               .get(base + '/tugether/userpage', 
               {
                   params: {
-                  "userEmail": this.$store.state.userEmail
+                      "userEmail": this.$store.state.userEmail
                   },
                   headers: {
-                  "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
+                      "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
                   }
               })
               .then((res) => {

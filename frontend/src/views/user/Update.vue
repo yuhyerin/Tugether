@@ -163,8 +163,8 @@ export default {
         )
        .then(res=>{
          console.log(res);
-         alert("게시글이 작성되었습니다! :)")
-         this.$router.push('/mypage/mypage')
+         alert("게시글이 수정되었습니다! :)")
+         this.$router.push('/mypage')
        })
        .catch(err=>{
          alert("게시글 작성을 실패하였습니다:(")
