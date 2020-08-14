@@ -10,7 +10,7 @@
                 <div v-for="(user, index) in followerList" :key="index" style="text-align: left;">
                     <v-avatar><img :src="`https://i3b303.p.ssafy.io/profileimages/${user.profile_photo}`" alt="image"></v-avatar>
                     <!--닉네임을 클릭하면 해당 유저의 페이지로 이동-->
-                    <button @click="test"><strong style="font-size: 15px; padding-left: 10px;">{{ user.nickname }}</strong></button>
+                    <button @click="moveUserpage(user.email)"><strong style="font-size: 15px; padding-left: 10px;">{{ user.nickname }}</strong></button>
                     <!--내가 팔로우하고 있지 않은 사용자라면 '팔로우' 버튼 활성화-->
                     <span v-if="!user.follow">
                         <v-btn class="follow_button" depressed style="background-color: #3366ff; color: white;" @click="follow(user.email)">팔로우</v-btn>
@@ -27,7 +27,7 @@
                <div v-for="(user, index) in followingList" :key="index" style="text-align: left;">
                     <v-avatar><img :src="`https://i3b303.p.ssafy.io/profileimages/${user.profile_photo}`" alt="image"></v-avatar>
                     <!--닉네임을 클릭하면 해당 유저의 페이지로 이동-->
-                    <button><strong style="font-size: 15px; padding-left: 10px;">{{ user.nickname }}</strong></button>
+                    <button @click="moveUserpage(user.email)"><strong style="font-size: 15px; padding-left: 10px;">{{ user.nickname }}</strong></button>
                     <!--내가 팔로우하고 있는 사용자이므로 '팔로잉' 버튼 활성화-->
                     <span>
                         <v-btn class="follow_button" outlined style="color: #3366ff;" @click="unFollow(user.email)">팔로잉</v-btn>
@@ -76,8 +76,10 @@ export default {
                 })
                 .then((res) => {
                     // console.log(res.data);
+                    // 팔로워 정보
                     this.followerList = res.data.followerList;
                     this.follower_cnt = res.data.follower_cnt;
+                    // 팔로잉 정보
                     this.followingList = res.data.followingList;
                     this.following_cnt = res.data.following_cnt;
                 })
@@ -131,6 +133,15 @@ export default {
                         console.log("UNFOLLOW function error")
                 });
             } // if
+        },
+        // 다른 유저의 페이지로 이동
+        moveUserpage(email){
+            this.email = email;
+            console.log(this.email)
+            store.commit('getUserEmail', email)
+            this.$router.push({
+                name: 'Userpage'
+            })
         },
         // 페이지 이동
         moveMypage() {

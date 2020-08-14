@@ -155,12 +155,13 @@ export default {
       articles: [],
       defaultProfile,
       feed: '태그',
-      token: "",
+      // token: "",
       tag: true,
       reg_time: '',
       clicked: false,
       tagTab: { color: 'red' },
       followTab: { color: 'black' },
+      userEmail: ""
     }
   },
 
@@ -243,8 +244,9 @@ export default {
         }
       })
       .then(response => {
-        console.log(response.data.list)
-        console.log('태그기반 호출')
+        console.log(response.data)
+        // console.log(response.data.list)
+        // console.log('태그기반 호출')
         this.articles = response.data.list;
         this.clicked = true; 
       })
@@ -341,8 +343,11 @@ export default {
     },
     
     // 다른 유저의 페이지로 이동
-    moveUserpage(index){
-      store.commit('getUserEmail', this.articles[index].email)
+    moveUserpage(email){
+      this.userEmail = email;
+      console.log(this.userEmail)
+      console.log(this.articles)
+      store.commit('getUserEmail', this.userEmail)
       this.$router.push({
         name: 'Userpage'
       })

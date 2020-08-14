@@ -281,11 +281,8 @@ export default {
             favtags: [],
             articles: [],
             scraps: [],
-
             defaultProfile,
-            feed: '태그',
-            tag: true,
-            reg_time: ''
+            reg_time: ""
         }
     },
     watch: {
