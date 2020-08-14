@@ -15,6 +15,7 @@ import Userpage from '@/views/mypage/Userpage.vue'
 import Follow from '@/views/mypage/Follow.vue'
 import Comment from '@/views/user/Comment.vue'
 import Update from '@/views/user/Update.vue'
+import Notice from '@/views/notice/Notice.vue'
 import Components from './views/Components.vue'
 import store from './vuex/store'
 
@@ -131,6 +132,12 @@ export default [
         name: 'Update',
         beforeEnter: onlyAuthUser,
         component: Update
+    },
+    {
+        path : '/notice',
+        name: 'Notice',
+        beforeEnter: onlyAuthUser,
+        component: Notice
     },
     {
         path : '/comment/:article_id',
