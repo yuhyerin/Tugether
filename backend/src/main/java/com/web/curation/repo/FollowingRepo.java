@@ -24,7 +24,7 @@ public interface FollowingRepo extends JpaRepository<Following, String> {
 	@Query(value="insert into following(from_user, to_user) values( :from_email , :to_email )", nativeQuery = true)
 	public void addFollow(String from_email, String to_email);
 	
-	@Query(value="delete from following where from_user = :from_email , to_user = :to_email ", nativeQuery = true)
+	@Query(value="delete from following where from_user = :from_email and to_user = :to_email ", nativeQuery = true)
 	public void deleteFollow(String from_email, String to_email);
 	
 }
