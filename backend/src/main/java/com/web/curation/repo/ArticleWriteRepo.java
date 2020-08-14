@@ -24,5 +24,17 @@ public interface ArticleWriteRepo extends JpaRepository<Article, String>{
 	@Query(value="select count(*) from article a where a.email=:email ", nativeQuery = true)
 	public int countMyArticle(String email);
 	
+	@Query(value="select * from article where article_id=:article_id", nativeQuery=true)
+	Article getArticle(int article_id);
 	
+	@Query(value="update article a set a.content= :content, a.link = :link where a.article_id = :article_id",nativeQuery = true)
+	void updateArticle(int article_id, String content,String link);
+	
+	@Query(value="update article a set a.image = :image , a.content= :content, a.link = :link where a.article_id = :article_id",nativeQuery = true)
+	void updateArticlewithImage(int article_id,String image,String content,String link);
+
+	@Query(value="delete from article where article_id= :article_id",nativeQuery=true)
+	void deleteArticle(int article_id);
+
 }
+

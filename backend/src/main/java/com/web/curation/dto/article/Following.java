@@ -1,5 +1,6 @@
 package com.web.curation.dto.article;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,8 +25,9 @@ public class Following {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)	// 얘가 auto_increment
 	private int uid;
 	
-//	@Column(name="email")
+	@Column(name="from_user")
 	private String from_user;
-
+	
+	@Column(name="to_user")
 	private String to_user;
 }

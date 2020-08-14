@@ -22,11 +22,12 @@ public class ArticleWriteServiceImpl implements ArticleWriteService{
 	ProfileRepo profileRepo;
 	
 	@Autowired
-	ArticleWriteRepo articleRepo;
+	ArticleWriteRepo articleWriteRepo;
 	
 	@Autowired
-	ArticleWriteTagRepo articleTagRepo;
+	ArticleWriteTagRepo articleWriteTagRepo;
 	
+	// Article 테이블에 insert 하고 article_id 반환.
 	@Override
 	public int addArticle(Article article) {
 		
@@ -37,13 +38,8 @@ public class ArticleWriteServiceImpl implements ArticleWriteService{
 			String image = article.getImage();
 			String content = article.getContent();
 			String link = article.getLink();
-			articleRepo.insertArticle(email, writer, image, content, link);
-			System.out.println("디비에 글을 넣었습니다.");
-			int article_cnt = articleRepo.countMyArticle(email);
-			profileRepo.countMyArticle(email, article_cnt+1); // 내 게시글 갯수 하나 추가
-			System.out.println("내 게시글 갯수 하나 추가했습니다.");
-			// 내 게시글 찾아오기
-			article_id = articleRepo.findArticleByImage(image);
+			articleWriteRepo.insertArticle(email, writer, image, content, link);
+			article_id = articleWriteRepo.findArticleByImage(image);
 			
 		}catch(IllegalArgumentException e) {
 			e.printStackTrace();
@@ -53,27 +49,25 @@ public class ArticleWriteServiceImpl implements ArticleWriteService{
 		
 	}
 
+	// ArticleTag 테이블에 insert & tag테이블에서 article_cnt 증가
 	@Override
 	public void addArticleTag(int article_id, ArrayList<String> taglist) {
 		
-		ResponseEntity<Object> response = null;
-		BasicResponse result = new BasicResponse();
-		
-		
 		try {
-			
 			// 한글로 된 태그들이 tag 테이블에 있는지 검사 
 			for(int i=0; i<taglist.size(); i++) {
-				Tag tag = articleTagRepo.findTagByTagName(taglist.get(i));
-				if(tag==null) { //없으면 
-					articleTagRepo.insertTag(taglist.get(i));
-					tag = articleTagRepo.findTagByTagName(taglist.get(i));
+				Tag tag = articleWriteTagRepo.findTagByTagName(taglist.get(i));
+				if(tag==null) { //없으면 우선 Tag테이블에 넣는다. article_cnt 1로 넣는다.
+					articleWriteTagRepo.insertTag(taglist.get(i), 1);
+					tag = articleWriteTagRepo.findTagByTagName(taglist.get(i));
 					
+				}else { // 있으면 그 아이의 article_cnt+1하기.
+					tag = articleWriteTagRepo.findTagByTagName(taglist.get(i));
+					articleWriteTagRepo.countArticleCnt(tag.getTag_id());
 				}
 				int tag_id = tag.getTag_id();
 				// articletag 테이블에 넣기 
-				articleRepo.insertArticleTag(article_id, tag_id);
-				System.out.println("ArticleTag에 드디어!!! insert 했습니다. ");
+				articleWriteRepo.insertArticleTag(article_id, tag_id);
 			}
 			
 			
@@ -82,6 +76,5 @@ public class ArticleWriteServiceImpl implements ArticleWriteService{
 		}
 		
 	}
-
 	
 }

@@ -1,6 +1,6 @@
 <template>
     <div class="wrapC">
-        <h1 style="margin-top: 20px;">비밀번호 변경</h1>
+        <h1 style="padding-top: 240px;">비밀번호 변경</h1>
         <!--비밀번호-->
         <div class="input-with-label">
             <label for="password">신규 비밀번호</label>
@@ -23,10 +23,10 @@
         <div id="mypage_buttons2">
             <!--프로필 편집 페이지로 돌아가는 버튼 (비밀번호 변경을 원할 경우 재확인 해야함)-->
             <button class="button" :style="mybtn1" @mouseover="over1" @mouseout="out1"
-                @click="moveMypageSetting" style="width: 200px; height: 45px; margin-right: 10px;">BACK</button>
+                @click="moveMypageSetting" style="width: 48%; height: 45px; margin-right: 10px; float: left;">BACK</button>
             <!--비밀번호 변경 완료 버튼-->
             <button class="button" :style="mybtn2" @mouseover="over2" @mouseout="out2"
-                @click="checkHandler" style="width: 200px; height: 45px;">비밀번호 변경하기</button>
+                @click="checkHandler" style="width: 48%; height: 45px; float: right;">비밀번호 변경하기</button>
         </div>
         <BottomNav/>
     </div>
@@ -101,8 +101,7 @@ export default {
                     }
                 })
                 .then(({data}) => {
-                    console.log(data.data);
-
+                    // console.log(data.data);
                     alert("비밀번호 변경이 완료되었습니다.");
                     this.moveMypage(); // 마이페이지로 이동
                 })
@@ -158,7 +157,7 @@ export default {
             this.$router.push("/mypage/mypagesetting");
         },
         moveMypage(){
-            this.$router.push("/mypage/mypage");
+            this.$router.push("/mypage");
         },
         // 비밀번호 입력 시 아이콘을 누르면 입력타입 변경(text, password)
         showPW1() {

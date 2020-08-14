@@ -1,5 +1,5 @@
 <template>
-    <div class="wrapC" style="height: 800px">
+    <div class="wrapC" style="height: 800px;">
         <h3>이미지</h3>
           <div style="height: 230px; border: 1px solid lightgray;">
             <img :src="imageUrl" style="width: 100%; max-height: 230px;">
@@ -10,25 +10,29 @@
         <br>
 
         <h3>본문</h3>
-        <textarea cols="60" rows="4" style="border:1px solid lightgray; width: 100%;" placeholder=" 입력" v-model="myText"></textarea>
+        <textarea v-if="myText.length < 300"  maxlength="300" cols="60" rows="4" style="border:1px solid lightgray; width: 100%; height: 50px;" placeholder=" 입력" v-model="myText"></textarea>
+        <textarea v-if="myText.length === 300"  maxlength="300" cols="60" rows="4" style="border:1px solid red; width: 100%; height: 50px;" placeholder=" 입력" v-model="myText"></textarea>
         <span> {{ myText.length }} / 300</span>
-
         <br>
         <br>
         <h3>관심태그</h3>
-        <WriteInput @add-tag="onAddTag" />
+        <WriteInput @add-tag="onAddTag"/>
         <!-- <WriteList @delete="onRemove" @checked="onChecked" :todoList="todoList"/> -->
         <WriteList @delete="onRemove" :tagList="tagList"/>
         <br>
-
-        <h3>링크</h3>
-        <p><img src="@/assets/images/paperclip.png" style="height: 30px; width: 30px;">영상을 공유하고 싶다면 링크를 달아주세요</p>
-        <input type="text" style="width: 100%; margin-bottom: 2px; height: 40px;" v-model="urlLink"/>
+        <div>
+        <h3 style="margin-top: 50px;">링크</h3>
+        </div>
+        <img src="@/assets/images/paperclip.png" style="float: left; height: 30px; width: 30px;">
+        <input type="text" 
+          placeholder="영상을 공유하고 싶다면 링크를 달아주세요"
+          style="float: right; width: 90%; margin-left: 5px; margin-bottom: 2px; height: 40px;"
+          v-model="urlLink" />
         
         <button
           v-on:click="onUpload"
           class="btn btn--back btn--login"
-          style="height: 40px; padding-top: 0px;"
+          style="height: 40px; padding-top: 0px; margin-top: 30px;"
         >업로드</button>
         <BottomNav/>
     </div>
@@ -44,16 +48,12 @@ import { bus } from '@/event-bus'
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
 import BottomNav from "@/components/common/BottomNav"
 
-const localhost_url = "http://localhost:8080/tugether/articlewrite"
-
 export default {
   name: 'Write',
   components: {
     WriteList,
     WriteInput,
     BottomNav,
-    // TextareaComponent,
-    // FilePond
   },
   data: function() {
     return {
@@ -63,13 +63,15 @@ export default {
       urlLink: "",
       tagList: [],
       tagNameList: [],
-
+      // error: {
+      //   myText: false
+      // }
     }
   },
   watch: {
-    myText: function() {
-      this.checkForm();
-    }
+     myText: function() {
+       this.checkForm();
+     }
   },
   computed:{
     ...mapState(["token"]), //store 공동 저장소에 있는 token 사용하기 위해 선언.
@@ -77,11 +79,16 @@ export default {
   },
   methods: {
     checkForm () {
-      if (this.myText.length > 300) {
+      if (this.myText.length >= 300) {
         alert("300자 이하로 기재해주세요.")
       }
+    // if (this.myText.length > 300) {
+    //   this.error.myText = "300자 이하로 입력해주세요"
+    // } else {
+    //   this.error.myText = false;
+    // }
     },
-
+    
     onRemove (tag, index) {
       this.tagList.splice(index, 1)
     },
@@ -90,6 +97,7 @@ export default {
       this.tagList = [...this.tagList, tag]
       this.tagNameList = [...this.tagNameList, tag.content]
       console.log(this.tagList)
+      console.log(this.tagNameList)
 
     },
     onFileSelected(){
@@ -121,7 +129,7 @@ export default {
        .then(res=>{
          console.log(res);
          alert("게시글이 작성되었습니다! :)")
-         this.$router.push('/mypage/mypage')
+         this.$router.push('/mypage')
        })
        .catch(err=>{
          console.log(err);
@@ -136,6 +144,4 @@ export default {
 .tag {
   margin: 3px;
 }
-
- 
 </style>

@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.web.curation.dto.BasicResponse;
@@ -39,7 +41,6 @@ public class FeedController {
 	
 	@Autowired
 	private JwtService jwtService;
-	
 	@Autowired
 	private FeedService feedService;
 
@@ -52,26 +53,24 @@ public class FeedController {
 	// 2. 팔로우기반 피드
 	// following테이블에서 from_user=email로 to_user 리스트 찾아와
 	// article 테이블에서 uid = email인 List<article>로 다 가져가
-	@PostMapping("/mainfeed")
-	public ResponseEntity<Map<String,Object>> MainFeed(@RequestBody Map<String, Object> map, HttpServletRequest request) {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		String token = request.getHeader("jwt-auth-token");	//토큰 가져와서
-		Jws<Claims> claims = jwtService.getDecodeToken(token);	//복호화해서
-		Map<String, Object> Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
-		String email = Userinfo.get("email").toString();	//email 가져올거임
-		List<FrontArticle> list = null;
-		
-//		1. 태그기반 / 팔로우기반 확인
-		boolean tag = (boolean)map.get("tag");
-
-		if(tag) {	// 1. 태그기반
-			list = feedService.findArticleListByTag(email);
-		} else {	// 2. 팔로우기반
-			list = feedService.findArticleListByFollow(email);
-		}
-		resultMap.put("list", list);
-		
-		return new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.OK);
+	
+	@GetMapping("/mainfeed")
+	public List<FrontArticle> getMainFeed(@RequestParam boolean tag, @RequestParam int limit, HttpServletRequest request){
+		System.out.println("Controller입장 : GET");
+		String email = 
+				((Map<String, Object>)jwtService.getDecodeToken(request.getHeader("jwt-auth-token"))
+				.getBody().get("AuthenticationResponse")).get("email").toString();
+//		int pageNum = Integer.parseInt(request.getHeader("pageNum"));
+//		System.out.println("pageNum은 ? "+limit);
+		PageRequest pageRequest = PageRequest.of(limit, 2);
+		List<FrontArticle> result;
+		if(tag)
+			result = feedService.findByPageRequestTag(pageRequest, email);
+		else
+			result = feedService.findByPageRequestFollow(pageRequest, email);
+		System.out.println(result.toString());
+		System.out.println(tag);
+		return result;
 	}
 	
 	@GetMapping("/mainfeed/like")

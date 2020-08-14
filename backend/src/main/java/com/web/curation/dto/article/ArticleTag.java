@@ -19,7 +19,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//@JsonInclude(JsonInclude.Include.NON_NULL)
 @Builder
 public class ArticleTag {
 	
@@ -27,10 +26,10 @@ public class ArticleTag {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)	// 얘가 auto_increment
 	private int uid;
 	
-	@Column(name="article_id")
+	@Column(name="article_id", nullable=false)
 	private int article_id;
 	
-	@Column(name="tag_id")
+	@Column(name="tag_id", nullable=false)
 	private int tag_id;
 	
 	
