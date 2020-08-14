@@ -80,7 +80,7 @@ export default [
         component : MainFeed
     },
     {
-        path : '/mypage/mypage',
+        path : '/mypage',
         name : 'Mypage',
         beforeEnter: onlyAuthUser,
         component : Mypage

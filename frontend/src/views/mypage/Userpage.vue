@@ -300,12 +300,10 @@ export default {
             console.log(res.data)
             // 프로필 띄우기
             this.profile = res.data.profile;
+            this.favtags = res.data.favtags;
             // 유저의 게시글, 스크랩한 글 목록 가져오기
             this.articles = res.data.articles;
             this.scraps = res.data.scrap;
-            console.log(this.articles)
-            console.log(this.profile)
-            console.log(this.scraps)
         })
         .catch((err) => {
             console.log("created axios get error")
@@ -340,5 +338,27 @@ export default {
         color: white;
         width: 25%;
         height: 35px;
+    }
+    /* 관심태그 리스트 */
+    #tags_test{
+        color: white;
+        background-color: red;
+    }
+    /* 게시글 크기 조절 */
+    .link {
+      width: 15px;
+      height: 15px;
+    }
+    .feed-card > img {
+      max-height: 225px;
+      width: 100%;
+    }
+    .title {
+      text-overflow: ellipsis;
+    }
+    .article_function{
+      font-size: 95%;
+      color: navy;
+      cursor: pointer;
     }
 </style>

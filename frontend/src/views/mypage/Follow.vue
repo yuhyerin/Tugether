@@ -13,11 +13,11 @@
                     <button @click="test"><strong style="font-size: 15px; padding-left: 10px;">{{ user.nickname }}</strong></button>
                     <!--내가 팔로우하고 있지 않은 사용자라면 '팔로우' 버튼 활성화-->
                     <span v-if="!user.follow">
-                        <v-btn class="follow_button" depressed style="background-color: #3366ff; color: white;">팔로우</v-btn>
+                        <v-btn class="follow_button" depressed style="background-color: #3366ff; color: white;" @click="follow(user.email)">팔로우</v-btn>
                     </span>
                     <!--내가 팔로우하고 있는 사용자라면 '팔로잉' 버튼 활성화-->
                     <span v-else>
-                        <v-btn class="follow_button" outlined style="color: #3366ff;" @click="unFollow">팔로잉</v-btn>
+                        <v-btn class="follow_button" outlined style="color: #3366ff;" @click="unFollow(user.email)">팔로잉</v-btn>
                     </span>
                 </div>
             </v-tab-item>
@@ -27,10 +27,10 @@
                <div v-for="(user, index) in followingList" :key="index" style="text-align: left;">
                     <v-avatar><img :src="`https://i3b303.p.ssafy.io/profileimages/${user.profile_photo}`" alt="image"></v-avatar>
                     <!--닉네임을 클릭하면 해당 유저의 페이지로 이동-->
-                    <button @click="test"><strong style="font-size: 15px; padding-left: 10px;">{{ user.nickname }}</strong></button>
+                    <button><strong style="font-size: 15px; padding-left: 10px;">{{ user.nickname }}</strong></button>
                     <!--내가 팔로우하고 있는 사용자이므로 '팔로잉' 버튼 활성화-->
                     <span>
-                        <v-btn class="follow_button" outlined style="color: #3366ff;" @click="unFollow">팔로잉</v-btn>
+                        <v-btn class="follow_button" outlined style="color: #3366ff;" @click="unFollow(user.email)">팔로잉</v-btn>
                     </span>
                 </div>
             </v-tab-item>
@@ -54,6 +54,8 @@ export default {
      },
     data: () => {
         return {
+            // model: "following",
+            email: "",
             followerList: [],
             follower_cnt: "",
             followingList: [],
@@ -61,39 +63,78 @@ export default {
         }        
     },
     created() {
-        // 팔로잉, 팔로워 목록 띄우기
-        axios
-            .get(base + '/tugether/mypage/followList', {
-                headers:{
-                    "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
-                }
-            })
-            .then((res) => {
-                console.log(res.data);
-                this.followerList = res.data.followerList;
-                this.follower_cnt = res.data.follower_cnt;
-                this.followingList = res.data.followingList;
-                this.following_cnt = res.data.following_cnt;
-            })
-            .catch((err) => {
-                console.log("created axios get FOLLOW error")
-            });
-    },
+            this.refresh();
+        },
     methods: {
-        test(){
-
+        refresh() {
+            // 팔로잉, 팔로워 목록 띄우기
+            axios
+                .get(base + '/tugether/mypage/followList', {
+                    headers:{
+                        "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
+                    }
+                })
+                .then((res) => {
+                    // console.log(res.data);
+                    this.followerList = res.data.followerList;
+                    this.follower_cnt = res.data.follower_cnt;
+                    this.followingList = res.data.followingList;
+                    this.following_cnt = res.data.following_cnt;
+                })
+                .catch((err) => {
+                    console.log("created axios get FOLLOW error")
+                });
+        },
+        // 팔로잉 하기 (팔로우 버튼 누를 시)
+        follow(email) {
+            this.email = email;
+            var answer = confirm("팔로우 하시겠습니까?");
+            if(answer) { // true
+                axios
+                    .post(base + '/tugether/', {
+                        email: this.email
+                    },
+                    {
+                        headers:{
+                            "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
+                        }
+                    })
+                    .then(({data}) => {
+                        console.log(data.data);
+                        this.refresh();
+                    })
+                    .catch((err) => {
+                        console.log("FOLLOW function error")
+                });
+            } // if
         },
         // 팔로우 삭제 (팔로잉 버튼 누를 시)
-        unFollow(){
+        unFollow(email){
+            this.email = email;
             var answer = confirm("팔로우를 취소하시겠습니까?");
             if(answer){ // true
-                alert("팔로우 취소 기능 여기에 넣어라!");
-                // 백엔드로 해당 유저 이메일 보내주면 DB에서 삭제하도록.
-            }
+                axios
+                    .post(base + '/tugether/', {
+                        email: this.email
+                    },
+                    {
+                        headers:{
+                            "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
+                        }
+                    })
+                    .then(({data}) => {
+                        console.log(data.data);
+                        alert("팔로우가 취소되었습니다.");
+                        this.refresh();
+                    })
+                    .catch((err) => {
+                        console.log("UNFOLLOW function error")
+                });
+            } // if
         },
         // 페이지 이동
         moveMypage() {
-            this.$router.push("/mypage/mypage");
+            this.$router.push("/mypage");
         }
     },
     computed: {
