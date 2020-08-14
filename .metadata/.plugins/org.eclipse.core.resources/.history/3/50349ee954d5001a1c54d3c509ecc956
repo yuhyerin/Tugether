@@ -1,6 +1,0 @@
-package com.web.curation.service.fileupload;
-
-@Service
-public class FileUploadServiceImpl implements FileUploadService{
-
-}

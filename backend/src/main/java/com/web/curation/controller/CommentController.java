@@ -66,10 +66,7 @@ public class CommentController {
    
    @PostMapping("/mainfeed/comment")
    @ApiOperation(value="댓글작성")
-   public ResponseEntity<Map<String,Object>> writeComment(
-//         @RequestParam("article_id") int article_id,
-//         @RequestParam("content") String content, HttpServletResponse response) {
-         @RequestBody Comment comment, HttpServletRequest request){
+   public ResponseEntity<Map<String,Object>> writeComment(@RequestBody Comment comment, HttpServletRequest request){
        int article_id = comment.getArticle_id();
        String content = comment.getContent();
        
@@ -79,7 +76,6 @@ public class CommentController {
       Map<String, Object> Userinfo = new HashMap<String, Object>();
       Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
       String email = Userinfo.get("email").toString();
-//      System.out.println("email : "+email);
       Comment c = Comment.builder().article_id(article_id).content(content).email(email).build();
       System.out.println(c.toString());
        commentService.saveComment(c);
