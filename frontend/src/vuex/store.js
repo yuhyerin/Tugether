@@ -16,7 +16,8 @@ export default new Vuex.Store({
         message: "로그인해주세요.",
         token: "",
         email: "",
-        nickname:"",
+        nickname: "",
+        userEmail: "",
     },
     mutations:{ //mutations는 state를 변경시키는 로직만을 작성하는게 원칙
         // 로그인 성공 시
@@ -42,6 +43,10 @@ export default new Vuex.Store({
 
         getEmail(state) {
             return state.email
+        },
+
+        getUserEmail(state) {
+            return state.userEmail
         }
 
     }, 

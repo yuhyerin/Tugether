@@ -22,32 +22,32 @@
 
     <h3>댓글작성</h3> -->
       <v-row>
-        <v-col sm=10 style="padding-top: 2px;">
+        <v-col sm=10 style="padding-top: 2px; margin-left: 5px;">
           <v-text-field
             label="댓글"
             single-line
             v-model="userComment"
+            @keypress.enter="addComment"
           ></v-text-field>
         </v-col>
    
         <!-- <input type="text" v-model="userComment" @keypress.enter="addComment" style="width: 90%;"/> -->
         <!-- <button @click="addComment" style="margin-left: 2px; width: 10%; background: lightgray;">작성</button> -->
         <v-col>
-          <v-btn style="background: black; margin-left: 27px;" fab small dark @click="addComment">
+          <v-btn style="background: black; margin-left: 25px;" fab small dark @click="addComment">
             <v-icon>mdi-pencil</v-icon>
           </v-btn>
         </v-col>
       </v-row>
     <hr>
-    <div>
-    <!-- <h3>댓글목록</h3> -->
+    <!-- <div>
+    <h3>댓글목록</h3>
       <table>
         <colgroup>
           <col style="width: 10%;">
           <col style="width: 20%;">
-          <col style="width: 46%;">
-          <col style="width: 19%;">
-          <!-- <col style="width: 8%;"> -->
+          <col style="width: 45%;">
+          <col style="width: 20%;">
           <col style="width: 5%;">
         </colgroup>
         <thead>
@@ -56,22 +56,49 @@
             <th scope="commentWriterNickName"></th>
             <th scope="commentWriterContent"></th>
             <th scope="commentWriterRegTime"></th>
-            <!-- <th scope="commentWriterRegTime"></th> -->
             <th scope="commentDelete"></th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(comment, index) in comments" :key="index">
-            <td scope="col"><img :src="`https://i3b303.p.ssafy.io/profileimages/${comment.profile_photo}`" alt="comment.profile_photo" style="width: 100%; height: 100%; max-width: 30px; max-height: 30px;"></td>
+            <td scope="col"><v-avatar><img :src="`https://i3b303.p.ssafy.io/profileimages/${comment.profile_photo}`" alt="comment.profile_photo" style="width: 100%; height: 100%; max-width: 30px; max-height: 30px;"></v-avatar></td>
             <td scope="col">{{ comment.nickname }}</td>
             <td scope="col">{{ comment.content }}</td>
             <td scope="col" style="color: gray;">{{ timeForToday(comment.reg_time) }}</td>
-            <!-- <td scope="col" v-show="userEmail === comment.email"><button style="width: 35px; height: 25px; background: skyblue; border-radius: 5px;">수정</button></td> -->
-            <td scope="col" v-show="userEmail === comment.email" @click="commentDelete(index)"><button style="width: 40px; height: 30px; background: crimson; border-radius: 6px;">삭제</button></td>
+            <td scope="col" v-show="email === comment.email" @click="commentDelete(index)"><button style="width: 40px; height: 30px; background: crimson; border-radius: 6px;">삭제</button></td>
           </tr>
         </tbody>
       </table>
-    </div>
+    </div> -->
+
+  <v-card
+    max-width="550"
+    class="mx-auto"
+    style="margin-bottom: 50px;"
+  >
+    <v-list v-for="(comment, index) in comments" :key="index">
+      <!-- <v-divider
+        :key="index"
+        style="margin: 0px;"
+        ></v-divider> -->
+        <v-list-item
+        >
+          <v-list-item-avatar style="margin-right: 10px;">
+            <v-img :src="`https://i3b303.p.ssafy.io/profileimages/${comment.profile_photo}`" alt="comment.profile_photo" @click="moveUserpage(index)" style="cursor: pointer;"></v-img>
+          </v-list-item-avatar>
+
+          <v-list-item-content style="padding-top: 0px; padding-bottom: 0px;">
+            <v-list-item-title>{{ comment.nickname }}</v-list-item-title>
+            <v-list-item-subtitle>
+              <span>{{ timeForToday(comment.reg_time) }}</span> &dash;
+              <span style="white-space: normal;">{{ comment.content }}</span> &emsp;
+              <span><button v-show="email === comment.email" @click="commentDelete(index)" style="width: 35px; height: 25px; background: crimson; border-radius: 6px;">삭제</button></span>
+            </v-list-item-subtitle>
+          
+          </v-list-item-content>
+        </v-list-item>
+    </v-list>
+  </v-card>
     <!-- <v-simple-table>
       <template v-slot:default>
         <thead>
@@ -91,8 +118,8 @@
             
             <td>{{ comment.content }}</td>
             <td>{{ timeForToday(comment.reg_time) }}</td>
-            <td v-show="userEmail === comment.email">수정</td>
-            <td v-show="userEmail === comment.email" @click="commentDelete(index)">삭제</td>
+            <td v-show="email === comment.email">수정</td>
+            <td v-show="email === comment.email" @click="commentDelete(index)">삭제</td>
           </tr>
         </tbody>
       </template>
@@ -119,8 +146,7 @@ export default {
       comments: [],
       clicked: false,
       userComment: '',
-      userEmail: '',
-      article: ''
+      email: '',
     }
   },
   watch: {
@@ -146,6 +172,7 @@ export default {
       }) 
     }
   },
+  // 따로 commit으로 함수 실행시키는게 아니라 computed에 안적어도 동작에는 문제없는듯
   computed:{
     ...mapState(["token", "email"]), //store 공동 저장소에 있는 token 사용하기 위해 선언.
     ...mapActions(["getToken", "getEmail"])
@@ -168,6 +195,7 @@ export default {
           })
           .then(response => {
             console.log(response.data)
+            this.userComment = ''
           })
           .catch(err => {
             console.log('실패함')
@@ -192,6 +220,20 @@ export default {
           console.log('댓글삭제실패함')
         })
     },
+    moveUserpage(index){
+      if (this.comments[index].email !== localStorage.getItem("email")) {
+      // store.commit('getUserEmail', this.comments[index].email)
+      localStorage.setItem("userEmail", this.comments[index].email)
+      this.$router.push({
+        name: 'Userpage'
+      })
+      } else {
+        this.$router.push({
+          name: 'Mypage'
+        })
+      }
+    },
+
       timeForToday(value) {
       const today = new Date();
       const timeValue = new Date(value);
@@ -211,10 +253,10 @@ export default {
     },
   },
   created() {
-    this.userEmail = localStorage.getItem("email")
-    // console.log(this.userEmail)
-    // console.log("comment.vue : " + this.$route.params.article_id)
-    axios.get('http://localhost:8080/tugether/mainfeed/comment',
+    this.email = localStorage.getItem("email")
+    console.log(this.email)
+    console.log("comment.vue : " + this.$route.params.article_id)
+    axios.get(base + '/tugether/mainfeed/comment',
       {
         headers: { 
           "jwt-auth-token": localStorage.getItem("token"),
@@ -225,7 +267,7 @@ export default {
         this.comments = res.data.comments;
         this.article = res.data.article;
         console.log(this.article)
-        // console.log(this.comments);
+        console.log(this.comments);
       })
       .catch(err => {
         console.log('실패함')
@@ -235,7 +277,7 @@ export default {
 </script>
 
 <style scoped>
- td {
-   padding-top: 10px;
- }
+ /* td {
+   padding-top: 5px;
+ } */
 </style>

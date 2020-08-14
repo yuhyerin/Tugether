@@ -78,6 +78,7 @@ public class FollowServiceImpl implements FollowService{
 	public void deleteFollow(String from_email, String to_email) {
 		
 		// 1. Follow테이블에 데이터 삭제 
+		System.out.println(from_email+" 님이 "+to_email+" 를 팔로우 취소하겠습니다. ");
 		followRepo.deleteFollow(from_email,to_email);
 		// 2. from_email 유저의 Profile테이블에서 following_cnt +1
 		profileRepo.countMinusFollowingCnt(from_email);

@@ -38,7 +38,7 @@ export default {
         this.$router.push('/mainfeed')
     },
     senToMyPage () {
-        this.$router.push('/mypage/mypage')
+        this.$router.push('/mypage')
     },
     sendToNotice () {
         this.$router.push('/notice')

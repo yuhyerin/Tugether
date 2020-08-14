@@ -10,16 +10,19 @@
     <br>
 
     <h3>본문</h3>
-    <textarea cols="60" rows="4" style="border:1px solid lightgray; width: 100%;" placeholder=" 입력" v-model="myText"></textarea>
+    <textarea v-if="myText.length < 300"  maxlength="300" cols="60" rows="4" style="border:1px solid lightgray; width: 100%; height: 50px;" placeholder=" 입력" v-model="myText"></textarea>
+    <textarea v-if="myText.length === 300"  maxlength="300" cols="60" rows="4" style="border:1px solid red; width: 100%; height: 50px;" placeholder=" 입력" v-model="myText"></textarea>
     <span> {{ myText.length }} / 300</span>
 
     <br>
     <br>
     <h3>관심태그</h3>
+      <input type="text" v-model="content" @keypress.enter="addTag" style="width: 85%; float: left">
+      <button @click="addTag" style="width: 13%; float: right; margin-left: 0px; padding: 0px 10px 0px 10px; height: 50px; background: black; color: white; border: 0px solid skyblue;">추가</button>
+      <br>
 
-      <input type="text" v-model="content" @keypress.enter="addTag">
-      <button @click="addTag" style="margin-left: 10px; padding: 0px 10px 0px 10px; height: 50px; background: black; color: white; border: 0px solid skyblue;">추가</button>
       
+      <div>
       <ul>
         <!-- 목록을 보여줄 예정 -->
         <li v-for="(tag, index) in this.tagList" :key="tag.id">
@@ -27,17 +30,23 @@
           <button @click="onRemove(tag, index)" style="padding: 0px 5px 0px 5px; margin: 3px 10px 3px 10px; height: 20px; background: red; color: white;">X</button>
         </li>
       </ul>
+      </div>
     <br>
 
     <h3>링크</h3>
-    <p><img src="@/assets/images/paperclip.png" style="height: 30px; width: 30px;">영상을 공유하고 싶다면 링크를 달아주세요</p>
-    <input type="text" style="width: 100%; margin-bottom: 2px; height: 40px;" v-model="urlLink" />
+    <!-- <p>영상을 공유하고 싶다면 링크를 달아주세요</p> -->
+    <img src="@/assets/images/paperclip.png" style="float: left; height: 30px; width: 30px;">
+    <input type="text"
+      placeholder="영상을 공유하고 싶다면 링크를 달아주세요"
+      style="float: right; width: 90%; margin-left: 5px; margin-bottom: 2px; height: 40px;" 
+      v-model="urlLink" />
     
     <button
       v-on:click="onUpload"
       class="btn btn--back btn--login"
-      style="height: 40px; padding-top: 0px;"
+      style="height: 40px; padding-top: 0px; margin-top: 30px;"
     >업로드</button>
+
     <BottomNav/>
   </div>
 </template>
@@ -46,8 +55,6 @@
 import axios from 'axios'
 import store from '@/vuex/store'
 import { mapState, mapActions } from "vuex"
-import UpdateList from '@/components/user/UpdateList'
-import UpdateInput from '@/components/user/UpdateInput'
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
 import BottomNav from "@/components/common/BottomNav"
 
@@ -64,6 +71,9 @@ export default {
       tagList: [],
       tagNameList: [],
     }
+  },
+  components: {
+    BottomNav
   },
   watch: {
     myText: function() {
@@ -106,7 +116,7 @@ export default {
     },
   methods: {
     checkForm () {
-      if (this.myText.length > 300) {
+      if (this.myText.length >= 300) {
         alert("300자 이하로 기재해주세요.")
       }
     },
@@ -163,8 +173,8 @@ export default {
         )
        .then(res=>{
          console.log(res);
-         alert("게시글이 작성되었습니다! :)")
-         this.$router.push('/mypage/mypage')
+         alert("게시글이 수정되었습니다! :)")
+         this.$router.push('/mypage')
        })
        .catch(err=>{
          alert("게시글 작성을 실패하였습니다:(")

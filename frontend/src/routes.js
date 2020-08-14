@@ -80,7 +80,7 @@ export default [
         component : MainFeed
     },
     {
-        path : '/mypage/mypage',
+        path : '/mypage',
         name : 'Mypage',
         beforeEnter: onlyAuthUser,
         component : Mypage
@@ -104,7 +104,7 @@ export default [
         component : MypagePasswordChange
     },
     {
-        path : '/mypage/userpage',
+        path : '/userpage',
         name : 'Userpage',
         beforeEnter: onlyAuthUser,
         component : Userpage
