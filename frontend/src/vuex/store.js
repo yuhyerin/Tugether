@@ -45,8 +45,8 @@ export default new Vuex.Store({
             return state.email
         },
 
-        getUserEmail(state, payload) {
-            state.userEmail = payload
+        getUserEmail(state) {
+            return state.userEmail
         }
 
     }, 

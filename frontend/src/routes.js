@@ -15,6 +15,7 @@ import Userpage from '@/views/mypage/Userpage.vue'
 import Follow from '@/views/mypage/Follow.vue'
 import Comment from '@/views/user/Comment.vue'
 import Update from '@/views/user/Update.vue'
+import Stats from '@/views/user/Stats.vue'
 
 import Components from './views/Components.vue'
 import store from './vuex/store'
@@ -80,7 +81,7 @@ export default [
         component : MainFeed
     },
     {
-        path : '/mypage/mypage',
+        path : '/mypage',
         name : 'Mypage',
         beforeEnter: onlyAuthUser,
         component : Mypage
@@ -104,7 +105,7 @@ export default [
         component : MypagePasswordChange
     },
     {
-        path : '/mypage/userpage',
+        path : '/userpage',
         name : 'Userpage',
         beforeEnter: onlyAuthUser,
         component : Userpage
