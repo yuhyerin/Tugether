@@ -52,4 +52,24 @@ public interface ProfileRepo extends JpaRepository<Profile, String>{
 	@Transactional
 	@Query(value="update profile p set p.article_cnt = p.article_cnt - 1 where p.email = :email",nativeQuery = true)
 	void countMinusArticleCnt(@Param("email")String email);
+
+	@Modifying(clearAutomatically = true)
+	@Transactional
+	@Query(value="update profile p set p.following_cnt = p.following_cnt + 1 where p.email = :from_email",nativeQuery = true)
+	void countPlusFollowingCnt(@Param("from_email")String from_email);
+
+	@Modifying(clearAutomatically = true)
+	@Transactional
+	@Query(value="update profile p set p.follower_cnt = p.follower_cnt + 1 where p.email = :to_email",nativeQuery = true)
+	void countPlusFollowerCnt(@Param("to_email")String to_email);
+
+	@Modifying(clearAutomatically = true)
+	@Transactional
+	@Query(value="update profile p set p.following_cnt = p.following_cnt - 1 where p.email = :from_email",nativeQuery = true)
+	void countMinusFollowingCnt(@Param("from_email")String from_email);
+
+	@Modifying(clearAutomatically = true)
+	@Transactional
+	@Query(value="update profile p set p.follower_cnt = p.follower_cnt - 1 where p.email = :to_email",nativeQuery = true)
+	void countMinusFollowerCnt(@Param("to_email")String to_email);
 }

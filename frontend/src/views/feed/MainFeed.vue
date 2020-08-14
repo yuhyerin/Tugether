@@ -137,7 +137,7 @@
 <script>
 import axios from 'axios'
 import defaultProfile from "../../assets/images/profile_default.png";
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 import "../../components/css/feed/feed-item.scss";
 import "../../components/css/feed/newsfeed.scss";
 import FeedItem from "../../components/feed/FeedItem.vue";
@@ -155,12 +155,13 @@ export default {
       articles: [],
       defaultProfile,
       feed: '태그',
-      token: "",
+      // token: "",
       tag: true,
       reg_time: '',
       clicked: false,
       tagTab: { color: 'red' },
       followTab: { color: 'black' },
+      userEmail: ""
     }
   },
 
@@ -190,6 +191,10 @@ export default {
     }
   },
 
+  computed: {
+    ...mapState(["token", "email"]), //store 공동 저장소에 있는 token 사용하기 위해 선언.
+    ...mapActions(["getToken", "getEmail"])
+  },
 
   methods: {
     logout(){
@@ -239,8 +244,9 @@ export default {
         }
       })
       .then(response => {
-        console.log(response.data.list)
-        console.log('태그기반 호출')
+        console.log(response.data)
+        // console.log(response.data.list)
+        // console.log('태그기반 호출')
         this.articles = response.data.list;
         this.clicked = true; 
       })
@@ -337,14 +343,13 @@ export default {
     },
     
     // 다른 유저의 페이지로 이동
-    moveUserpage(user_email) {
-      // this.$router.push("/mypage/userpage");
+    moveUserpage(email){
+      this.userEmail = email;
+      // console.log(this.userEmail)
+      // console.log(this.articles)
+      store.commit('getUserEmail', this.userEmail)
       this.$router.push({
-        name: 'Userpage',
-        params: {
-          user_email: this.articles.email
-        },
-        path: "/mypage/userpage"
+        name: 'Userpage'
       })
     }
 

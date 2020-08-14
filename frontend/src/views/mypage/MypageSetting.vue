@@ -172,7 +172,7 @@ export default {
             this.$router.push("/mypage/mypagepasswordconfirm");
         },
         moveMypage() {
-            this.$router.push("/mypage/mypage");
+            this.$router.push("/mypage");
         },
         // 관심태그 추가 및 삭제 기능
         onRemove (tag, index) {

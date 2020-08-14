@@ -63,4 +63,29 @@ public class FollowServiceImpl implements FollowService{
 		return followingList;
 	}
 
+	@Override
+	public void addFollow(String from_email, String to_email) {
+		// 1. Follow테이블에 데이터 추가 
+		followRepo.addFollow(from_email, to_email);
+		// 2. from_email 유저의 Profile테이블에서 following_cnt +1 
+		profileRepo.countPlusFollowingCnt(from_email);
+		// 3. to_email 유저의 Profile테이블에서 follower_cnt + 1
+		profileRepo.countPlusFollowerCnt(to_email);
+		
+	}
+
+	@Override
+	public void deleteFollow(String from_email, String to_email) {
+		
+		// 1. Follow테이블에 데이터 삭제 
+		System.out.println(from_email+" 님이 "+to_email+" 를 팔로우 취소하겠습니다. ");
+		followRepo.deleteFollow(from_email,to_email);
+		// 2. from_email 유저의 Profile테이블에서 following_cnt +1
+		profileRepo.countMinusFollowingCnt(from_email);
+		// 3. to_email 유저의 Profile테이블에서 follower_cnt + 1
+		profileRepo.countMinusFollowerCnt(to_email);
+		
+		
+	}
+
 }
