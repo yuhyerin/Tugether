@@ -114,10 +114,10 @@
           <button @click="scrollToTop" style="color:red">🔺TOP</button>
         </div>
       </div>  
+      <BottomNav/>
       <infinite-loading @infinite="infiniteHandler" spinner="circles">
         <div slot="no-more" style="color: rgb(102, 102, 102); font-size: 14px; padding: 10px 0px;">목록의 끝입니다 :)</div>
       </infinite-loading>
-      <BottomNav/>
     </div>
   </div>
 </template>
@@ -192,7 +192,7 @@ export default {
     },
 
     // 무한스크롤이 동작할 때 수행할 메소드
-    infiniteHandler($state) {
+    infiniteHandler: async function($state) {
       const EACH_LEN = 1
       console.log('___BOTTOM___')
       console.log(this.limit)
@@ -220,7 +220,7 @@ export default {
           else {
             $state.complete()
           }
-        }, 200)
+        })
       })
       .catch(err => {
         console.log('AFTERDATA NO!!')
@@ -240,6 +240,7 @@ export default {
       this.tagTab.color = 'black'
       this.tag = false
       this.limit = 0
+
       console.log('followlimit'+this.limit)
       axios.get(base + '/tugether/mainfeed/', {
         params: {
@@ -259,7 +260,6 @@ export default {
       .catch(err =>{
           console.log("getFollowData X")
       })
-      this.limit = this.limit + 1
     },
 
     // 태그 기반의 글 목록 불러오기
@@ -288,7 +288,7 @@ export default {
       .catch(err =>{
           console.log("getTagData X")
       })
-      this.limit = this.limit + 1
+      
     },
 
     // 시간 체크
@@ -327,6 +327,7 @@ export default {
       .catch(err => {
         console.log('실패함')
       })
+
     },
 
     clickedCommentBtn(articles, index) {
@@ -381,7 +382,7 @@ export default {
     moveUserpage(user_email) {
       this.$router.push({
         name: 'Userpage',
-        parmas: {
+        params: {
           user_email: this.articles.email
         },
         path: "/mypage/userpage"
