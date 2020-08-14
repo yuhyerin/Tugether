@@ -17,7 +17,7 @@
         <v-icon style="color: black;">mdi-account-circle</v-icon>
       </v-btn>
       
-      <v-btn>
+      <v-btn @click="sendToNotice">
         <span>Alarm</span>
         <v-icon style="color: red;">mdi-heart</v-icon>
       </v-btn>
@@ -39,6 +39,9 @@ export default {
     },
     senToMyPage () {
         this.$router.push('/mypage/mypage')
+    },
+    sendToNotice () {
+        this.$router.push('/notice')
     },
   }
 }
