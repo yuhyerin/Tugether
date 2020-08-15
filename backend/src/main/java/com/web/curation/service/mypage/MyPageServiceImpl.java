@@ -12,6 +12,7 @@ import com.web.curation.repo.ArticleRepo;
 import com.web.curation.repo.ArticleTagRepo;
 import com.web.curation.repo.FavtagRepo;
 import com.web.curation.repo.FollowingRepo;
+import com.web.curation.repo.ProfileRepo;
 import com.web.curation.repo.ScrapRepo;
 import com.web.curation.repo.TagRepo;
 
@@ -30,6 +31,8 @@ public class MyPageServiceImpl implements MyPageService {
 	private TagRepo tagRepo;
 	@Autowired
 	private FavtagRepo favtagRepo;
+	@Autowired
+	private ProfileRepo profileRepo;
 	
 	@Override
 	public List<FrontArticle> findArticles(String email) {
@@ -70,8 +73,11 @@ public class MyPageServiceImpl implements MyPageService {
 			temp[j] = tagRepo.findTagNameByTagId(taglist.get(j)); // 태그테이블에서 태그아이디로 태그네임 찾아서 배열 저장
 		}
 
+		String profile_photo = profileRepo.findProfilePhoto(now.getEmail());
+		
 		FrontArticle ar = FrontArticle.builder()
 				.article_id(article_id)
+				.profile_photo(profile_photo)
 				.email(now.getEmail())
 				.writer(now.getWriter())
 				.reg_time(now.getReg_time())
