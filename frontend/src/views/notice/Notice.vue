@@ -1,22 +1,43 @@
 <template>
   <div class="wrapC">
     <div class="notice">
-      <h1>알림</h1>
-      <div class="media" v-for="(notice, index) in notices" :key="notice.id">
-        <!-- <div class="timenotice">{{}}</div> -->
-         <!-- <p>{{ getMonday(notice.reg_time)}}</p> -->
-      
-        <v-avatar size="40px" @click="moveUserpage(notice.notice_from)" class="mr-3" style="hover"><img :src="`https://i3b303.p.ssafy.io/profileimages/${notice.profile_photo}`"></v-avatar>
-        <div class="media-body">
-          <span v-if="notice.notice_type == 1" @click="moveArticleDetail(index)">{{ notice.from_nickname }}님이 회원님의 게시글에 댓글을 남겼습니다.</span>
-          <span v-else-if="notice.notice_type == 2" @click="moveArticleDetail(index)">{{ notice.from_nickname }}님이 회원님의 게시글을 좋아합니다.</span>
-          <span v-else-if="notice.notice_type == 3" @click="moveUserpage(notice.notice_from)">{{ notice.from_nickname }}님이 회원님을 팔로우하기 시작했습니다.</span>
+      <strong style="font-size: 30px;">알림</strong>
+      <v-tabs grow style="margin-top: 10px;">
+        <v-tab style="font-weight: bold;">댓글</v-tab>
+        <v-tab-item style="padding-top: 15px;">
+        <div class="media" v-for="(notice, index) in notices_1" :key="notice.id">
+            <v-avatar size="50px" @click="moveUserpage(index)" class="mr-3" style="hover"><img :src="`https://i3b303.p.ssafy.io/profileimages/${notice.profile_photo}`"></v-avatar>
+            <div class="media-body">
+            <span @click="moveArticleDatail"><span class="nickname">{{ notice.from_nickname }}</span>님이 회원님의 게시글에 댓글을 남겼습니다.</span>
+            <span class="date" style="font-size: 10px;">{{ timeForToday(notice.reg_time) }}</span>
+          </div>
+        </div>  
+        </v-tab-item>
+        <v-tab style="font-weight: bold;">좋아요</v-tab>
+        <v-tab-item style="padding-top: 15px;">  
+        <div class="media" v-for="(notice, index) in notices_2" :key="notice.id">
+          <v-avatar size="50px" @click="moveUserpage(index)" class="mr-3" style="hover"><img :src="`https://i3b303.p.ssafy.io/profileimages/${notice.profile_photo}`"></v-avatar>
+          <div class="media-body">
+          <span @click="moveArticleDetail"><span class="nickname">{{ notice.from_nickname }}</span>님이 회원님의 게시글을 좋아합니다.</span>
           <span class="date" style="font-size: 10px;">{{ timeForToday(notice.reg_time) }}</span>
-        </div>
-      </div>
-
+          </div>
+        </div>  
+        </v-tab-item>  
+        <v-tab style="font-weight: bold;">팔로우</v-tab>
+        <v-tab-item style="padding-top: 15px;">
+        <div class="media" v-for="(notice, index) in notices_3" :key="notice.id">
+          <div class="media-body">
+          <v-avatar size="50px" @click="moveUserpage(index)" class="mr-3" style="hover"><img :src="`https://i3b303.p.ssafy.io/profileimages/${notice.profile_photo}`"></v-avatar>
+          <span @click="moveUserpage(index)"><span class="nickname">{{ notice.from_nickname }}</span>님이 회원님을 팔로우하기 시작했습니다.</span>
+          <span class="date" style="font-size: 10px;">{{ timeForToday(notice.reg_time) }}</span>
+          </div>
+          <div v-show="!notices_3">
+            <p>팔로우 알림이 없어요</p>
+          </div>
+        </div>  
+        </v-tab-item>         
+      </v-tabs> 
     </div>
-
     <BottomNav/>
   </div>
 </template>
@@ -34,7 +55,9 @@ export default {
   },
   data() {
     return {
-      notices: [],
+      notices_1: [],
+      notices_2: [],
+      notices_3: [],
       reg_time: '',
     }
   },
@@ -79,29 +102,23 @@ export default {
       return `${Math.floor(betweenTimeDay / 365)}년 전`;
     },
 
-    moveUserpage(user_email) {
+    moveUserpage(index) {
+      console.log(this.notices[index].notice_from)
       this.$router.push({
         name: 'Userpage',
-        params: {
-          user_email: this.user_email
-        },
-        // path: "/userpage"
+        params:{
+          'notice_from' : this.notices[index].notice_from
+        }  
       });
     },
 
-
-    moveArticleDetail(index) {
-      console.log(this.notices[index])
-      this.$router.push({
-        name: 'Comment',
-        params: {
-          "article_id": this.notices[index].article_id
-        }
-      })
-    },
+    moveArticleDetail() {
+      this.$router.push("/mainfeed/:")
+    }
   },
    
   created() {
+    let i =0
     axios.get(base + '/tugether/notice', {
       headers: { 
         "jwt-auth-token": localStorage.getItem("token"),
@@ -109,8 +126,19 @@ export default {
     })
     .then(response => {
       console.log('알림 호출')
-      this.notices = response.data.notices;
-      console.log(this.notices)
+      // this.notices = response.data.notices;
+      for (i=0; i<100; i++) {
+        if (response.data.notices[i].notice_type==1) {
+          this.notices_1.push(response.data.notices[i])
+        }
+        if (response.data.notices[i].notice_type==2) {
+          this.notices_2.push(response.data.notices[i])
+        }
+        if (response.data.notices[i].notice_type==3) {
+          this.notices_3.push(response.data.notices[i])
+        }
+      }
+
     })
     .catch(err =>{
         console.log("알림 안와")
@@ -121,7 +149,7 @@ export default {
 
 <style>
 .wrapC {
-  margin-bottom: 65px;
+  margin-bottom: 80px;
 }
 
 .media {
@@ -143,4 +171,11 @@ export default {
   font-family: Arial, Helvetica;
   padding: 15px 0px;
 }
+
+.nickname {
+  font-weight: bold;
+  color: red;
+}
+
+
 </style>
