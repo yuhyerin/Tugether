@@ -9,7 +9,7 @@
       </h1>
 
       <div class="embed-responsive embed-responsive-16by9">
-        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/ozMBCFd7fFM?autoplay=1" allowfullscreen></iframe>
+        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/ozMBCFd7fFM?autoplay=1" allow="autoplay" allowfullscreen></iframe>
       </div>
       <br>
       <div class="input-with-label" v-show="!isLogin">

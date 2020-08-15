@@ -37,13 +37,13 @@ target/
 
 #Maven
 /target/
-*.properties
+#*.properties
 */META-INF/*
 
 #Eclipse files
 **/.project
-**/.classpath
-**/.settings/
+#**/.classpath
+#**/.settings/
 blog/bin/
 **/.tern-project
 
