@@ -131,7 +131,7 @@ public class MyPageController {
 		boolean follow = myPageService.findFollow(userEmail, email);
 		resultMap.put("follow", follow);
 		
-		List<String> favtags = myPageService.findFavTags(email);
+		List<String> favtags = myPageService.findFavTags(userEmail);
 		resultMap.put("favtags", favtags);
 		return new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.OK);
 	}
