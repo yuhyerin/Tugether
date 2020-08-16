@@ -2,13 +2,13 @@ package com.web.curation.service.search;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.web.curation.dto.article.Article;
 import com.web.curation.dto.article.FrontArticle;
+import com.web.curation.dto.profile.Profile;
 import com.web.curation.repo.ArticleRepo;
 import com.web.curation.repo.ArticleTagRepo;
 import com.web.curation.repo.LikeyRepo;
@@ -48,35 +48,35 @@ public class SearchServiceImpl implements SearchService {
 	}
 	
 	@Override
-	public List<String> findNickNamesByNickname(String keyword) {
-		List<String> list = profileRepo.findNicknamesByNickname(keyword);
+	public List<Profile> findUserByNickname(String keyword, String email) {
+		List<Profile> list = profileRepo.findUserByNickname(keyword, email);
 		return list;
 	}
 	
-	@Override
-	public List<FrontArticle> findArticlesByNickname(String email, String keyword) {
-		List<String> list = profileRepo.findNicknamesByNickname(keyword);
-		List<String> emails = new ArrayList<>();
-		for(int i=0;i<list.size();i++) {
-			List<String> temp = profileRepo.findEmailByNickname(list.get(i));
-			for(int j=0;j<temp.size();j++) {
-				if(emails.contains(temp.get(j)))
-					continue;
-				emails.add(temp.get(j));
-			}
-		}
-		List<FrontArticle> result = new ArrayList<>();
-		//이메일로 아티클데려옴
-		TreeSet<Integer> articleIDs = new TreeSet<>();
-		for(int i=0;i<emails.size();i++) {
-			List<Integer> temp = articleRepo.findArticleIdByEmail(emails.get(i));
-			for(int j=0;j<temp.size();j++)
-				articleIDs.add(temp.get(j));
-		}
-		while(articleIDs.size()>0)
-			result.add(makeFront(email, articleIDs.pollLast()));
-		return result;
-	}
+//	@Override
+//	public List<FrontArticle> findArticlesByNickname(String email, String keyword) {
+//		List<String> list = profileRepo.findNicknamesByNickname(keyword);
+//		List<String> emails = new ArrayList<>();
+//		for(int i=0;i<list.size();i++) {
+//			List<String> temp = profileRepo.findEmailByNickname(list.get(i));
+//			for(int j=0;j<temp.size();j++) {
+//				if(emails.contains(temp.get(j)))
+//					continue;
+//				emails.add(temp.get(j));
+//			}
+//		}
+//		List<FrontArticle> result = new ArrayList<>();
+//		//이메일로 아티클데려옴
+//		TreeSet<Integer> articleIDs = new TreeSet<>();
+//		for(int i=0;i<emails.size();i++) {
+//			List<Integer> temp = articleRepo.findArticleIdByEmail(emails.get(i));
+//			for(int j=0;j<temp.size();j++)
+//				articleIDs.add(temp.get(j));
+//		}
+//		while(articleIDs.size()>0)
+//			result.add(makeFront(email, articleIDs.pollLast()));
+//		return result;
+//	}
 	
 	@Override // email = like 체크 / article_id = 태그리스트
 	public FrontArticle makeFront(String email, int article_id) {
@@ -109,9 +109,5 @@ public class SearchServiceImpl implements SearchService {
 				
 		return ar;
 	}
-
-	
-
-	
 
 }
