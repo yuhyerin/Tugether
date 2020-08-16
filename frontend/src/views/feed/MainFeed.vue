@@ -167,8 +167,8 @@ export default {
         }
       })
       .then(response => {
-        console.log(response.data.list)
-        this.articles = response.data.list;
+        console.log(response.data)
+        this.articles = response.data;
         this.clicked=false;
       })
       .catch(err =>{
