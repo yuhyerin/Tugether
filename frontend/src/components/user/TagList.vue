@@ -31,19 +31,6 @@ export default {
     font-weight: bold;
     margin-top: 17px;
   } */
-  /* .tag {
-    width: 100px;
-    border: none;
-    color: black;
-    padding: 15px 15px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 15px;
-    margin: 20px 15px 15px 15px;
-    cursor: pointer;
-    border-radius: 20px;
-    background-color: lightgray;
-  } */
   .tag {
     width: 90px;
     border: none;
@@ -57,8 +44,8 @@ export default {
     background-color: lightgray;
   } 
   .selected {
-    background-color: red;
-    color: white;
+    background-color: red !important;
+    color: white !important;
   }
   ul {
     list-style: none;
