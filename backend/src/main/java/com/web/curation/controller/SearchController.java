@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,7 +43,7 @@ public class SearchController {
 	private SearchService searchService;
 
 	// 1. 태그기반 검색
-/*	@GetMapping("/tag")
+	@GetMapping("/tag")
 	@ApiOperation(value = "키워드 포함 태그이름 검색")
 	public ResponseEntity<Map<String, Object>> searchByTag(@RequestParam String keyword, HttpServletRequest request) {
 
@@ -76,8 +77,8 @@ public class SearchController {
 		System.out.println("result : " + articles.toString());
 		resultMap.put("articles", articles);
 		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
-	} */
-	
+	} 
+/*	
 	@GetMapping("/tag")
 	@ApiOperation(value="태그기반검색")
 	public ResponseEntity<Map<String, Object>> searchByTagName(@RequestParam String keyword, HttpServletRequest request){
@@ -116,4 +117,5 @@ public class SearchController {
 		resultMap.put("articles", articles);
 		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 	}
+	*/
 }
