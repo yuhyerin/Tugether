@@ -52,7 +52,16 @@ public class NoticeServiceImpl implements NoticeService {
 			break;
 		case 2: // 좋아요
 			img = articleRepo.findImgByArticleId(notice.getArticle_id());
+			fn.setArticle_id(notice.getArticle_id());
 			fn.setImg(img);
+			break;
+		case 3:
+			profile_photo = profileRepo.findProfilePhoto(notice.getNotice_from());
+			img = articleRepo.findImgByArticleId(notice.getArticle_id());
+			fn.setImg(img);
+			fn.setNotice_from(notice.getNotice_from());
+			fn.setFrom_nickname(profileRepo.findNicknameByEmail(notice.getNotice_from()));
+			fn.setProfile_photo(profile_photo);
 			break;
 		}
 		return fn;
