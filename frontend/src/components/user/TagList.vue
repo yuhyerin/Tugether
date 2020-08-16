@@ -44,8 +44,8 @@ export default {
     background-color: lightgray;
   } 
   .selected {
-    background-color: red !important;
-    color: white !important;
+    background-color: red;
+    color: white;
   }
   ul {
     list-style: none;

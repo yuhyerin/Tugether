@@ -3,7 +3,7 @@
     <div class="notice">
       <strong style="font-size: 30px;">알림</strong>
         <div class="media" v-for="(notice, index) in notices" :key="notice.id">
-          <v-avatar size="50px" @click="moveUserpage(index)" class="mr-3" style="hover"><img :src="`https://i3b303.p.ssafy.io/profileimages/${notice.profile_photo}`"></v-avatar>
+          <v-avatar size="50px" @click="moveUserpage(notice.notice_from)" class="mr-3" style="hover"><img :src="`https://i3b303.p.ssafy.io/profileimages/${notice.profile_photo}`"></v-avatar>
           <div class="media-body">
           <span v-if="notice.notice_type == 1" @click="moveArticleDetail(notice, index)"><span class="nickname">{{ notice.from_nickname }}</span>님이 회원님의 게시글에 댓글을 남겼습니다.</span>
           <span v-if="notice.notice_type == 2" @click="moveArticleDetail(notice, index)"><span class="nickname">{{ notice.from_nickname }}</span>님이 회원님의 게시글을 좋아합니다.</span>
@@ -31,6 +31,7 @@ export default {
     return {
       notices: [],
       reg_time: '',
+      email: '',
     }
   },
   methods: {
@@ -75,13 +76,12 @@ export default {
     },
 
     moveUserpage(user_email) {
+      this.email = user_email;
+      localStorage.setItem("userEmail", this.email);
+      console.log(this.email)
       this.$router.push({
-        name: 'Userpage',
-        params:{
-          'user_email' : this.articles.email
-        },
-        path: "/mypage/userpage"  
-      });
+        name: 'Userpage'
+      })
     },
 
     moveArticleDetail(notices, index) {

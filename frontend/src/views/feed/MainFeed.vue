@@ -13,7 +13,7 @@
                   <v-mainfeed id="inspire">
                     <v-card max-width="344" class="mx-auto" outlined>
                       <v-list-item>
-                        <v-list-item-avatar class="mr-2" size="40px" @click="moveUserpage" style="cursor:pointer"><img :src="`https://i3b303.p.ssafy.io/articleimages/${article.profile_photo}`"></v-list-item-avatar>
+                        <v-list-item-avatar class="mr-2" size="40px" @click="moveUserpage(article.email)" style="cursor:pointer"><img :src="`https://i3b303.p.ssafy.io/articleimages/${article.profile_photo}`"></v-list-item-avatar>
                         <v-list-item-content>
                           <v-list-item-title class="headline" @click="moveUserpage(article.email)" style="cursor:pointer;">{{ article.writer }}</v-list-item-title>
                           <v-list-item-subtitle style="font-size:0.8rem;">{{ timeForToday(article.reg_time) }}</v-list-item-subtitle>
@@ -64,7 +64,7 @@
                   <v-mainfeed id="inspire">
                     <v-card max-width="344" class="mx-auto">
                       <v-list-item>
-                        <v-list-item-avatar class="mr-2" size="40px" @click="moveUserpage" style="cursor:pointer"><img :src="`https://i3b303.p.ssafy.io/articleimages/${article.profile_photo}`"></v-list-item-avatar>
+                        <v-list-item-avatar class="mr-2" size="40px" @click="moveUserpage(article.email)" style="cursor:pointer"><img :src="`https://i3b303.p.ssafy.io/articleimages/${article.profile_photo}`"></v-list-item-avatar>
                         <v-list-item-content>
                           <v-list-item-title class="headline" @click="moveUserpage(article.email)" style="cursor:pointer">{{ article.writer }}</v-list-item-title>
                           <v-list-item-subtitle style="font-size:0.8rem;">{{ timeForToday(article.reg_time) }}</v-list-item-subtitle>
