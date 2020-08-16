@@ -31,9 +31,6 @@
           <span @click="moveUserpage(index)"><span class="nickname">{{ notice.from_nickname }}</span>님이 회원님을 팔로우하기 시작했습니다.</span>
           <span class="date" style="font-size: 10px;">{{ timeForToday(notice.reg_time) }}</span>
           </div>
-          <div v-show="!notices_3">
-            <p>팔로우 알림이 없어요</p>
-          </div>
         </div>  
         </v-tab-item>         
       </v-tabs> 
@@ -147,7 +144,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .wrapC {
   margin-bottom: 80px;
 }
