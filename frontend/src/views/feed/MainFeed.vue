@@ -12,15 +12,15 @@
       <div class="wrapC" v-for="(article, index) in articles" :key="article.id" :articles="articles">
         <div class="feed-item">
           <div class="top"> <!-- 프로필이미지, 작성자, 시간(며칠전..), 태그 -->
-            <v-avatar size="50px" @click="moveUserpage"><img :src="`https://i3b303.p.ssafy.io/articleimages/${article.profile_photo}`"></v-avatar>
+            <v-avatar size="50px" @click="moveUserpage(article.email)"><img :src="`https://i3b303.p.ssafy.io/articleimages/${article.profile_photo}`"></v-avatar>
             <!-- <div class="profile-image" :style="{'background-image': 'url('+defaultProfile+')'}"></div> -->
             <div class="user-info">
               <div class="user-name">
-                <button @click="moveUserpage(article.email)">{{ article.writer }}</button>
+                <button @click="moveUserpage(article.email)" style="font-size: 15px;">{{ article.writer }}</button>
               </div>
               <p class="date">{{ timeForToday(article.reg_time) }}</p>
             </div>
-            <div class="content">
+            <div class="content" style="margin-top: -25px;">
               <span v-for="tag in article.tag_name" :key="tag.name">
                 #{{ tag }}
               </span>
@@ -155,7 +155,7 @@ export default {
       tagTab: { color: 'red' },
       followTab: { color: 'black' },
       limit: 0, // 무한스크롤 되면서 갱신될 페이지
-      email:'',
+      email: ""
     }
   },
 
@@ -378,16 +378,15 @@ export default {
         console.log('스크랩 실패')
       })
     },
-
-    
+    // 유저페이지로 이동
     moveUserpage(email) {
       this.email = email;
       localStorage.setItem("userEmail", this.email);
       console.log(this.email)
       this.$router.push({
-        name: 'Userpage'
-    })
-  },
+          name: 'Userpage'
+      })
+    }
   },
 
   // created() {

@@ -4,22 +4,25 @@
         <!--프로필 영역-->
         <div id="profile" style="margin-top: 20px;">
             <!--프로필 사진-->
-            <v-avatar size="150px"><img :src=profile_photo></v-avatar><br>
+            <v-avatar size="130px" style="margin-bottom: 8px;"><img :src=profile_photo></v-avatar><br>
             <!--닉네임, 내 게시글 수, 팔로잉 수, 팔로워 수-->
             <strong style="font-size: 20px;">{{ nickname }}</strong><br>
-            게시글 <strong style="color: red; margin-right: 5px;">{{ article_cnt }}</strong>
-            팔로워 <strong @click="moveFollow" style="color: red; cursor: pointer; margin-right: 5px;">{{ follower_cnt }}</strong>
-            팔로잉 <strong @click="moveFollow" style="color: red; cursor: pointer;">{{ following_cnt }}</strong>
+            <div style="font-size: 15px;">
+              게시글 <strong style="color: red; margin-right: 5px;">{{ article_cnt }}</strong>
+              <sapn @click="moveFollow">팔로워</sapn> <strong @click="moveFollow" style="color: red; cursor: pointer; margin-right: 5px;">{{ follower_cnt }}</strong>
+              <sapn @click="moveFollow">팔로잉</sapn> <strong @click="moveFollow" style="color: red; cursor: pointer;">{{ following_cnt }}</strong>
+            </div>
         </div>
         <div id="buttons">
             <button class="button" @click="moveSetting">프로필 편집</button>&nbsp;
             <button class="button" @click="moveWrite">글 작성</button>
         </div>
         <!--저장된 관심태그 목록 보여주기-->
-        <div id="favtags" style="margin-top: 10px;">
-            <strong>관심태그 </strong>
-            <span id="tags_test" v-for="tags in favtags" :key=tags>
-                #{{ tags }}&nbsp;
+        <div style="margin-top: 10px;">
+            <!-- <strong>관심태그</strong><br> -->
+            <span v-for="tags in favtags" :key=tags>
+                <v-chip style="color: white; background-color: red;">#{{ tags }}</v-chip>
+                <!-- <v-chip>#{{ tags }}</v-chip> -->
             </span>
         </div>
 
@@ -32,20 +35,19 @@
                     <div class="feed-item">
                       <!-- 프로필이미지, 작성자, 시간(며칠전..), 태그 -->
                       <div class="top">
-                        <!--실제 프로필 사진 띄울 것-->
-                        <div class="profile-image" :style="{'background-image': 'url('+defaultProfile+')'}"></div>
+                        <v-avatar><img :src="`https://i3b303.p.ssafy.io/articleimages/${article.profile_photo}`"></v-avatar>
                         <div class="user-info">
                           <div class="user-name">
-                            <strong>{{ article.writer }}</strong> <!--마이페이지니까 본인이 작성한 글 닉네임 눌러도 아무 일 없는걸로..-->
+                            <!--마이페이지니까 본인이 작성한 글 닉네임 눌러도 아무 일도 일어나지 않음-->
+                            <strong style="font-size: 15px;">{{ article.writer }}</strong>
                           </div>
                           <!--글 수정, 삭제 기능-->
                           <div style="display: inline-block; float: right;">
                               <span class="article_function" @click="clickedEditBtn(index)" style="margin-right: 5px;">수정</span>
                               <span class="article_function" @click="clickedDeleteBtn(index)">삭제</span>
                           </div>
-                          <!-- <p class="date">{{ timeForToday(article.reg_time) }}</p> -->
                         </div>
-                        <div class="content">
+                        <div class="content" style="margin-top: -25px;">
                           <span v-for="tag in article.tag_name" :key="tag.name">
                             #{{ tag }}
                           </span>
@@ -66,7 +68,7 @@
                       </div>
                       <!-- 좋아요, 댓글,  -->
                       <div class="btn-group wrap">
-                        <div class="like likeScrap">
+                        <div class="like likeScrap" @click="clickedLikeBtn(index)">
                           <svg v-show="article.like" 
                             class="svg-inline--fa fa-heart fa-w-16 icon full"
                             aria-hidden="true"
@@ -100,7 +102,7 @@
                           </svg>
                           <span class="like-cnt" v-if="article.like_cnt !== 0">{{ article.like_cnt }}명이 좋아합니다.</span>
                         </div>
-                        <div class="comment">
+                        <div class="comment" @click="clickedCommentBtnArticle(article, index)">
                           <svg
                             class="svg-inline--fa fa-comment-alt fa-w-16 icon"
                             aria-hidden="true"
@@ -116,7 +118,7 @@
                               d="M448 0H64C28.7 0 0 28.7 0 64v288c0 35.3 28.7 64 64 64h96v84c0 7.1 5.8 12 12 12 2.4 0 4.9-.7 7.1-2.4L304 416h144c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64zm16 352c0 8.8-7.2 16-16 16H288l-12.8 9.6L208 428v-60H64c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16h384c8.8 0 16 7.2 16 16v288z"
                             />
                           </svg>
-                          <!-- {{ cntComment }} -->
+                          {{ article.comment_cnt }}
                         </div>
                         <div class="scrap">
                           <svg
@@ -148,15 +150,14 @@
                     <div class="feed-item">
                       <!-- 프로필이미지, 작성자, 시간(며칠전..), 태그 -->
                       <div class="top">
-                        <!--실제 프로필 사진 띄울 것-->
-                        <div class="profile-image" :style="{'background-image': 'url('+defaultProfile+')'}"></div>
+                        <v-avatar @click="moveUserpage(scrap.email)"><img :src="`https://i3b303.p.ssafy.io/articleimages/${scrap.profile_photo}`"></v-avatar>
                         <div class="user-info">
                           <div class="user-name">
-                            <button>{{ scrap.writer }}</button>
+                            <button @click="moveUserpage(scrap.email)" style="font-size: 15px;">{{ scrap.writer }}</button>
                           </div>
                           <p class="date">{{ timeForToday(scrap.reg_time) }}</p>
                         </div>
-                        <div class="content">
+                        <div class="content" style="margin-top: -25px;">
                           <span v-for="tag in scrap.tag_name" :key="tag.name">
                             #{{ tag }}
                           </span>
@@ -177,7 +178,7 @@
                       </div>
                       <!-- 좋아요, 댓글,  -->
                       <div class="btn-group wrap">
-                        <div class="like likeScrap">
+                        <div class="like likeScrap" @click="clickedLikeBtn(index)">
                           <svg v-show="scrap.like" 
                             class="svg-inline--fa fa-heart fa-w-16 icon full"
                             aria-hidden="true"
@@ -211,7 +212,7 @@
                           </svg>
                           <span class="like-cnt" v-if="scrap.like_cnt !== 0">{{ scrap.like_cnt }}명이 좋아합니다.</span>
                         </div>
-                        <div class="comment">
+                        <div class="comment" @click="clickedCommentBtnScrap(scrap, index)">
                           <svg
                             class="svg-inline--fa fa-comment-alt fa-w-16 icon"
                             aria-hidden="true"
@@ -227,7 +228,7 @@
                               d="M448 0H64C28.7 0 0 28.7 0 64v288c0 35.3 28.7 64 64 64h96v84c0 7.1 5.8 12 12 12 2.4 0 4.9-.7 7.1-2.4L304 416h144c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64zm16 352c0 8.8-7.2 16-16 16H288l-12.8 9.6L208 428v-60H64c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16h384c8.8 0 16 7.2 16 16v288z"
                             />
                           </svg>
-                          <!-- {{ cntComment }} -->
+                          {{ scrap.comment_cnt }}
                         </div>
                         <div class="scrap">
                           <svg
@@ -265,7 +266,6 @@ import store from '@/vuex/store';
 import { mapState, mapActions } from "vuex";
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
 import BottomNav from "@/components/common/BottomNav";
-import defaultProfile from "../../assets/images/profile_default.png";
 
 export default {
     components: { 
@@ -281,8 +281,8 @@ export default {
             favtags: [],
             articles: [],
             scraps: [],
-            defaultProfile,
-            reg_time: ""
+            clicked: false,
+            email: ""
         }
     },
     watch: {
@@ -290,7 +290,6 @@ export default {
         this.checkForm();
       }
     },
-    
     created() {
         this.refresh();
     },
@@ -305,7 +304,7 @@ export default {
                     }
                 })
                 .then((res) => {
-                    console.log(res.data);
+                    // console.log(res.data);
                     this.profile_photo = 'https://i3b303.p.ssafy.io/profileimages/' + res.data.profile.profile_photo;
                     this.nickname = res.data.profile.nickname;
                     this.article_cnt = res.data.profile.article_cnt;
@@ -328,8 +327,6 @@ export default {
                     console.log(res.data)
                     this.articles = res.data.articles;
                     this.scraps = res.data.scraps;
-                    console.log('articles : ' + this.articles)
-                    console.log('scraps : ' + this.scraps)
                 })
                 .catch((err) => {
                     console.log("created axios get ARTICLES AND SCRAPS error")
@@ -358,13 +355,48 @@ export default {
             )
             .then((res) => {
                 alert("게시글이 삭제 되었습니다.");
-                console.log("삭제 성공")
+                // console.log("삭제 성공")
                 this.refresh(); // 글 삭제 후 내 게시글 리스트를 새로고침 하기 위함
             })
             .catch((err) => {
                 alert("게시글 삭제 실패!");
-                console.log("삭제 실패")
+                // console.log("삭제 실패")
             });
+        },
+        // 좋아요 기능 (url?)
+        clickedLikeBtn(index) { 
+            this.clicked = true;
+            axios.get(base + '/tugether/mainfeed/like', {
+              headers: { 
+                "jwt-auth-token": localStorage.getItem("token"),
+                "article_id": this.articles[index].article_id
+              }
+            })
+            .then(response => {
+                this.articles[index] = response.data.article;
+                console.log(this.articles)
+                this.clicked = true;
+            })
+            .catch(err => {
+                console.log('실패함')
+            })
+        },
+        // 댓글 보기 기능
+        clickedCommentBtnArticle(articles, index) {
+            this.$router.push({
+                name: 'Comment',
+                params: {
+                  "article_id": this.articles[index].article_id
+                }
+            })
+        },
+        clickedCommentBtnScrap(scraps, index) {
+            this.$router.push({
+                name: 'Comment',
+                params: {
+                  "article_id": this.scraps[index].article_id
+                }
+            })
         },
         // 페이지 이동
         moveSetting() {
@@ -378,6 +410,14 @@ export default {
         },
         moveMain() {
             this.$router.push("/mainfeed");
+        },
+        // 유저페이지로 이동
+        moveUserpage(email) {
+            this.email = email;
+            localStorage.setItem("userEmail", this.email);
+            this.$router.push({
+                name: 'Userpage'
+            })
         },
         // 시간 체크
         timeForToday(value) {
@@ -416,10 +456,10 @@ export default {
         height: 35px;
     }
     /* 관심태그 리스트 */
-    #tags_test{
-        color: white;
+    /* #favtags{
         background-color: red;
-    }
+        color: white;
+    } */
     /* 게시글 크기 조절 */
     .link {
       width: 15px;

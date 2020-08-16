@@ -6,12 +6,14 @@
         <!--프로필 영역-->
         <div id="profile" style="margin-top: 20px;">
             <!--프로필 사진-->
-            <v-avatar size="150px"><img :src= "`https://i3b303.p.ssafy.io/profileimages/${profile.profile_photo}`" alt="image"></v-avatar><br>
+            <v-avatar size="130px" style="margin-bottom: 8px;"><img :src= "`https://i3b303.p.ssafy.io/profileimages/${profile.profile_photo}`" alt="image"></v-avatar><br>
             <!--닉네임, 게시글 수, 팔로잉 수, 팔로워 수-->
             <strong style="font-size: 20px;">{{ profile.nickname }}</strong><br>
-            게시글 <strong style="color: red; margin-right: 5px;">{{ profile.article_cnt }}</strong>
-            팔로워 <strong style="color: red; cursor: pointer; margin-right: 5px;">{{ profile.follower_cnt }}</strong>
-            팔로잉 <strong style="color: red; cursor: pointer;">{{ profile.following_cnt }}</strong>
+            <div style="font-size: 15px;">
+              게시글 <strong style="color: red; margin-right: 5px;">{{ profile.article_cnt }}</strong>
+              팔로워 <strong style="color: red; cursor: pointer; margin-right: 5px;">{{ profile.follower_cnt }}</strong>
+              팔로잉 <strong style="color: red; cursor: pointer;">{{ profile.following_cnt }}</strong>
+            </div>
         </div>
         <!--나와 상대 유저의 팔로우 관계에 따라 다른 버튼이 보인다.-->
         <div v-if="follow"> <!--true-->
@@ -33,21 +35,21 @@
         <!--탭(유저 게시글 & 유저가 스크랩한 글)-->
         <!--유저 게시글-->
           <v-tabs grow style="margin-top: 10px;">
-            <v-tab style="font-weight: bold;">내 게시글</v-tab>
+            <v-tab style="font-weight: bold;">게시글</v-tab>
               <v-tab-item style="padding-top: 15px;">
                   <div class="wrapC" v-for="(article, index) in articles" :key="index" :articles="articles" style="text-align: left;">
                     <div class="feed-item">
                       <!-- 프로필이미지, 작성자, 시간(며칠전..), 태그 -->
                       <div class="top">
-                        <!--실제 프로필 사진 띄울 것-->
-                        <div class="profile-image" :style="{'background-image': 'url('+defaultProfile+')'}"></div>
+                        <v-avatar><img :src="`https://i3b303.p.ssafy.io/articleimages/${article.profile_photo}`"></v-avatar>
                         <div class="user-info">
                           <div class="user-name">
-                            <strong>{{ article.writer }}</strong> <!--마이페이지니까 본인이 작성한 글 닉네임 눌러도 아무 일 없는걸로..-->
+                            <!-- 이미 유저페이지이므로 해당 유저의 글에서 닉네임을 눌러도 아무 일도 일어나지 않음.-->
+                            <strong style="font-size: 15px;">{{ article.writer }}</strong>
                           </div>
                           <p class="date">{{ timeForToday(article.reg_time) }}</p>
                         </div>
-                        <div class="content">
+                        <div class="content" style="margin-top: -25px;">
                           <span v-for="tag in article.tag_name" :key="tag.name">
                             #{{ tag }}
                           </span>
@@ -68,7 +70,7 @@
                       </div>
                       <!-- 좋아요, 댓글,  -->
                       <div class="btn-group wrap">
-                        <div class="like likeScrap">
+                        <div class="like likeScrap" @click="clickedLikeBtn(index)">
                           <svg v-show="article.like" 
                             class="svg-inline--fa fa-heart fa-w-16 icon full"
                             aria-hidden="true"
@@ -102,7 +104,7 @@
                           </svg>
                           <span class="like-cnt" v-if="article.like_cnt !== 0">{{ article.like_cnt }}명이 좋아합니다.</span>
                         </div>
-                        <div class="comment">
+                        <div class="comment" @click="clickedCommentBtnArticle(article, index)">
                           <svg
                             class="svg-inline--fa fa-comment-alt fa-w-16 icon"
                             aria-hidden="true"
@@ -118,7 +120,7 @@
                               d="M448 0H64C28.7 0 0 28.7 0 64v288c0 35.3 28.7 64 64 64h96v84c0 7.1 5.8 12 12 12 2.4 0 4.9-.7 7.1-2.4L304 416h144c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64zm16 352c0 8.8-7.2 16-16 16H288l-12.8 9.6L208 428v-60H64c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16h384c8.8 0 16 7.2 16 16v288z"
                             />
                           </svg>
-                          <!-- {{ cntComment }} -->
+                          {{ article.comment_cnt }}
                         </div>
                         <div class="scrap">
                           <svg
@@ -150,15 +152,14 @@
                     <div class="feed-item">
                       <!-- 프로필이미지, 작성자, 시간(며칠전..), 태그 -->
                       <div class="top">
-                        <!--실제 프로필 사진 띄울 것-->
-                        <div class="profile-image" :style="{'background-image': 'url('+defaultProfile+')'}"></div>
+                        <v-avatar @click="moveUserpage(scrap.email)"><img :src="`https://i3b303.p.ssafy.io/articleimages/${scrap.profile_photo}`"></v-avatar>
                         <div class="user-info">
                           <div class="user-name">
-                            <button>{{ scrap.writer }}</button>
+                            <button @click="moveUserpage(scrap.email)" style="font-size: 15px;">{{ scrap.writer }}</button>
                           </div>
                           <p class="date">{{ timeForToday(scrap.reg_time) }}</p>
                         </div>
-                        <div class="content">
+                        <div class="content" style="margin-top: -25px;">
                           <span v-for="tag in scrap.tag_name" :key="tag.name">
                             #{{ tag }}
                           </span>
@@ -179,7 +180,7 @@
                       </div>
                       <!-- 좋아요, 댓글,  -->
                       <div class="btn-group wrap">
-                        <div class="like likeScrap">
+                        <div class="like likeScrap" @click="clickedLikeBtn(index)">
                           <svg v-show="scrap.like" 
                             class="svg-inline--fa fa-heart fa-w-16 icon full"
                             aria-hidden="true"
@@ -213,7 +214,7 @@
                           </svg>
                           <span class="like-cnt" v-if="scrap.like_cnt !== 0">{{ scrap.like_cnt }}명이 좋아합니다.</span>
                         </div>
-                        <div class="comment">
+                        <div class="comment" @click="clickedCommentBtnScrap(scrap, index)">
                           <svg
                             class="svg-inline--fa fa-comment-alt fa-w-16 icon"
                             aria-hidden="true"
@@ -229,7 +230,7 @@
                               d="M448 0H64C28.7 0 0 28.7 0 64v288c0 35.3 28.7 64 64 64h96v84c0 7.1 5.8 12 12 12 2.4 0 4.9-.7 7.1-2.4L304 416h144c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64zm16 352c0 8.8-7.2 16-16 16H288l-12.8 9.6L208 428v-60H64c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16h384c8.8 0 16 7.2 16 16v288z"
                             />
                           </svg>
-                          <!-- {{ cntComment }} -->
+                          {{ scrap.comment_cnt }}
                         </div>
                         <div class="scrap">
                           <svg
@@ -267,7 +268,6 @@ import store from '@/vuex/store';
 import { mapState, mapActions, mapMutations } from "vuex";
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
 import BottomNav from "@/components/common/BottomNav";
-import defaultProfile from "../../assets/images/profile_default.png";
 
 export default {
     components:{
@@ -275,13 +275,13 @@ export default {
     },
     data: () => {
         return {
-            // userEmail: "",
             follow: "",
             favtags: [],
-            articles: '',
+            articles: "",
             profile: '',
-            scraps: '',
-            defaultProfile
+            scraps: "",
+            email: "",
+            clicked: false
         }
     },
     created() {
@@ -307,7 +307,7 @@ export default {
                   this.favtags = res.data.favtags;
                   // 유저의 게시글, 스크랩한 글 목록 가져오기
                   this.articles = res.data.articles;
-                  this.scraps = res.data.scrap;
+                  this.scraps = res.data.scraps;
               })
               .catch((err) => {
                   console.log("created axios get PROFILE and ARTICLES, SCRAPS error")
@@ -360,6 +360,55 @@ export default {
                         console.log("UNFOLLOW function error")
                 });
             } // if
+        },
+        // 좋아요 기능 (url?)
+        clickedLikeBtn(index) { 
+            this.clicked = true;
+            axios.get(base + '/tugether/mainfeed/like', {
+              headers: { 
+                "jwt-auth-token": localStorage.getItem("token"),
+                "article_id": this.articles[index].article_id
+              }
+            })
+            .then(response => {
+                this.articles[index] = response.data.article;
+                console.log(this.articles)
+                this.clicked = true;
+            })
+            .catch(err => {
+                console.log('실패함')
+            })
+        },
+        // 댓글 보기 기능
+        clickedCommentBtnArticle(articles, index) {
+            this.$router.push({
+                name: 'Comment',
+                params: {
+                  "article_id": this.articles[index].article_id
+                }
+            })
+        },
+        clickedCommentBtnScrap(scraps, index) {
+            this.$router.push({
+                name: 'Comment',
+                params: {
+                  "article_id": this.scraps[index].article_id
+                }
+            })
+        },
+        // 유저페이지로 이동
+        moveUserpage(email) {
+          this.email = email;
+          if (this.email !== localStorage.getItem("email")) {
+                localStorage.setItem("userEmail", this.email);
+                this.$router.go(this.$router.currentRoute); // 현재 경로와 중복되므로 이를 사용해 다른 사용자의 데이터로 업데이트 해준다.
+            }
+            // 만약 해당 유저가 내 글을 스크랩 했을 경우는 닉네임(또는 프로필사진)을 눌렀을 때 마이페이지로 이동한다.
+            else {
+              this.$router.push({
+                name: 'Mypage'
+              })
+            }
         },
         // 시간 체크
         timeForToday(value) {
