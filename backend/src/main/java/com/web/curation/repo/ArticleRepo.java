@@ -14,10 +14,10 @@ import com.web.curation.dto.article.Article;
 public interface ArticleRepo extends JpaRepository<Article, String> {
 
 	@Query(value = "select * from article a where a.article_id=:article_id order by article_id desc", nativeQuery = true)
-	public List<Article> findArticleByArticleId(int article_id);
+	Article findArticleByArticleId(int article_id);
 
 	@Query(value = "select * from article a where a.article_id=:article_id and a.email!=:email order by article_id desc", nativeQuery = true)
-	public List<Article> findArticleByArticleIdandEmail(int article_id, String email);
+	Article findArticleByArticleIdandEmail(int article_id, String email);
 
 	@Query(value = "select * from article a where a.email=:email order by article_id desc", nativeQuery = true)
 	public List<Article> findArticleByEmail(String email);
@@ -44,5 +44,11 @@ public interface ArticleRepo extends JpaRepository<Article, String> {
 	@Query(value="select article_id from article a where a.email in ( " + 
 			"select `to_user` from `following` f where f.from_user = :email ) and a.article_id in (:to, :from) and a.email!=:email order by reg_time desc", nativeQuery=true)
 	List<Integer> findArticleIdByEmailFromToFollow(String email, int from, int to);
+	
+	// search by Tag
+	@Query(value="select distinct article_id from article a where a.article_id in ( " + 
+			"select article_id from articletag ta where ta.tag_id in ( " + 
+			"(select tag_id from tag t where t.tag_name like concat('%',':keyword','%')) ) ) and a.email!=:email order by reg_time desc;", nativeQuery=true)
+	List<Integer> findArticleByTagNameForSearch(String email, String keyword);
 	
 }

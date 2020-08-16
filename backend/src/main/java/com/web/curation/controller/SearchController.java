@@ -73,7 +73,7 @@ public class SearchController {
 		Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
 		String email = Userinfo.get("email").toString();
 
-		List<FrontArticle> articles = searchService.findByTagName(email, keyword);
+		List<FrontArticle> articles = searchService.findArticlesByTagName(email, keyword);
 		System.out.println("result : " + articles.toString());
 		resultMap.put("articles", articles);
 		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);

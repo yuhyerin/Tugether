@@ -31,31 +31,20 @@ public class SearchServiceImpl implements SearchService {
 	@Autowired
 	private ProfileRepo profileRepo;
 
-	@Override	//키워드 포함한 태그이름 찾기
+	@Override	//키워드 포함한 태그이름 찾기	// 이게 드롭다운용
 	public List<String> findTagNamesByTag(String keyword) {
 		List<String> tagNames = tagRepo.findTagNameByTagNameContains(keyword);
 		return tagNames;
 	}
 
-	@Override
-	public List<FrontArticle> findByTagName(String email, String keyword) {
-		//1. 키워드를 포함한 태그이름으로 태그아이디 가져오기
-		List<Integer> tagIDs = tagRepo.findTagIdByTagNameContains(keyword);
-		//2. 태그아이디를 가지고 있는 아티클아이디 가져오기 -> treeset 써서 중복 제거 또는 list.contains 써서 중복 제거
-		List<Integer> articleIDs = new ArrayList<>();
-		for(int i=0;i<tagIDs.size();i++) {
-			List<Integer> temp = articletagRepo.findArticleIdByTagId(tagIDs.get(i));
-			for(int j=0;j<temp.size();j++) {
-				if(articleIDs.contains(temp.get(j)))
-					continue;
-				articleIDs.add(temp.get(j));
-			}
+	@Override	// 얘가 피드용
+	public List<FrontArticle> findArticlesByTagName(String email, String keyword) {
+		List<Integer> temp = articleRepo.findArticleByTagNameForSearch(email, keyword);
+		List<FrontArticle> result = new ArrayList<FrontArticle>();
+		for(int i=0;i<temp.size();i++) {
+			result.add(makeFront(email, temp.get(i)));
 		}
-		List<FrontArticle> list = new ArrayList<>();
-		for(int i=articleIDs.size()-1;i>=0;i--) {
-			list.add(makeFront(email, articleIDs.get(i)));
-		}
-		return list;
+		return result;
 	}
 	
 	@Override
@@ -92,7 +81,7 @@ public class SearchServiceImpl implements SearchService {
 	@Override // email = like 체크 / article_id = 태그리스트
 	public FrontArticle makeFront(String email, int article_id) {
 
-		Article now = articleRepo.findArticleByArticleId(article_id).get(0);
+		Article now = articleRepo.findArticleByArticleId(article_id);
 		List<Integer> taglist = articletagRepo.findTagIdByArticleId(now.getArticle_id()); // 아티클태그케이블에서 태그 가져와야 프론트에 줄 수
 																							// 있음
 		String[] temp = new String[taglist.size()]; // 태그 리스트를 태그 배열로 만들거임

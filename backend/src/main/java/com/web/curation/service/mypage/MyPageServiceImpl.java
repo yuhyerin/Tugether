@@ -65,7 +65,7 @@ public class MyPageServiceImpl implements MyPageService {
 	@Override // email = like 체크 / article_id = 태그리스트
 	public FrontArticle makeFront(String email, int article_id) {
 
-		Article now = articleRepo.findArticleByArticleId(article_id).get(0);
+		Article now = articleRepo.findArticleByArticleId(article_id);
 		List<Integer> taglist = articletagRepo.findTagIdByArticleId(now.getArticle_id()); // 아티클태그케이블에서 태그 가져와야 프론트에 줄 수
 																							// 있음
 		String[] temp = new String[taglist.size()]; // 태그 리스트를 태그 배열로 만들거임
