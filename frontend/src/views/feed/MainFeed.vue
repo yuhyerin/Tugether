@@ -62,11 +62,11 @@
               <v-row dense class="pt-0">
                 <v-col cols="12"  v-for="(article, index) in articles" :key="article.id" :articles="articles">
                   <v-mainfeed id="inspire">
-                    <v-card max-width="344" class="mx-auto">
+                    <v-card max-width="344" class="mx-auto" outlined>
                       <v-list-item>
                         <v-list-item-avatar class="mr-2" size="40px" @click="moveUserpage(article.email)" style="cursor:pointer"><img :src="`https://i3b303.p.ssafy.io/articleimages/${article.profile_photo}`"></v-list-item-avatar>
                         <v-list-item-content>
-                          <v-list-item-title class="headline" @click="moveUserpage(article.email)" style="cursor:pointer">{{ article.writer }}</v-list-item-title>
+                          <v-list-item-title class="headline" @click="moveUserpage(article.email)" style="cursor:pointer;">{{ article.writer }}</v-list-item-title>
                           <v-list-item-subtitle style="font-size:0.8rem;">{{ timeForToday(article.reg_time) }}</v-list-item-subtitle>
                         </v-list-item-content>
                         <v-spacer></v-spacer>
@@ -76,9 +76,10 @@
                       <v-card-text class="pb-0">{{ article.content }}</v-card-text>
                       <v-chip-group column>
                         <span v-for="tag in article.tag_name" :key="tag.name">
-                            <v-chip class="ml-2" style="cursor:default">#{{ tag }}</v-chip>
+                          <v-chip class="ml-2 mr-0" outlined pill style="cursor:default;">#{{ tag }}</v-chip>
                           </span>
                       </v-chip-group>
+                      <!-- <v-divider class="mx-6 my-0"></v-divider> -->
                       <v-card-actions>
                         <v-btn icon>
                           <v-icon class="mr-1 ml-5" v-show="!article.like" @click="clickedLikeBtn(index)">mdi-heart</v-icon>
@@ -101,7 +102,6 @@
                 </v-col>
               </v-row>
             </v-container>
-            
             <v-btn class="mx-2" fab dark small color="blue-gray" @click="scrollToTop" style="position: fixed; bottom: 70px; right: 15px;">
               <v-icon dark>mdi-chevron-up</v-icon>
             </v-btn>
@@ -147,6 +147,8 @@ export default {
       followTab: { color: 'black' },
       limit: 0, // 무한스크롤 되면서 갱신될 페이지
       email:'',
+      from: '',
+      to: '',
     }
   },
 
@@ -154,17 +156,19 @@ export default {
   watch:{
     clicked(){
       console.log("clickclick")
-      axios.post(base + '/tugether/mainfeed/', {
-        "tag": this.tag,
+      axios.get(base + '/tugether/mainfeed/fromto', {
+        params: {
+          "tag": this.tag,
+          "from": this.from ,
+          "to": this.to ,
         },
-        {
-          headers:{
-            "jwt-auth-token": localStorage.getItem("token")
-          }
+        headers: {
+          "jwt-auth-token": localStorage.getItem("token"),
+        }
       })
       .then(response => {
-        console.log(response.data)
-        this.articles = response.data;
+        console.log(response.data.list)
+        this.articles = response.data.list;
         this.clicked=false;
       })
       .catch(err =>{
@@ -199,8 +203,10 @@ export default {
       .then(response => {
         setTimeout(() => {
           if(response.data.length) {
-            this.articles.push(...response.data)
+            this.articles =[...this.articles, ...response.data]
             this.limit += 1;
+            this.from = this.articles[0].article_id,
+            this.to = this.articles[this.articles.length-1].article_id
             $state.loaded(); // 데이터 로드가 전부 수행되었다는 것을 알려줌, 다음 리퀘스트가 있을 때까지 대기 상태
             if(response.data.length / EACH_LEN < 1) {
               $state.complete() // 더이상 불러올 데이터가 없을 때 사용, 이후에는 데이터가 없다는 메시지를 표시하고 더이상 무한스크롤 작업 X
