@@ -262,6 +262,9 @@
 
 <script>
 import axios from "axios";
+import "../../components/css/feed/feed-item.scss";
+import "../../components/css/feed/newsfeed.scss";
+import FeedItem from "../../components/feed/FeedItem.vue";
 import store from '@/vuex/store';
 import { mapState, mapActions } from "vuex";
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
