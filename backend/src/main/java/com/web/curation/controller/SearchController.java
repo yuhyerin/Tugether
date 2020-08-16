@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.web.curation.dto.BasicResponse;
 import com.web.curation.dto.article.FrontArticle;
+import com.web.curation.dto.profile.Profile;
 import com.web.curation.jwt.service.JwtService;
 import com.web.curation.service.search.SearchService;
 
@@ -48,13 +49,13 @@ public class SearchController {
 	public ResponseEntity<Map<String, Object>> searchByTag(@RequestParam String keyword, HttpServletRequest request) {
 
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-
-//		String token = request.getHeader("jwt-auth-token");
-//		Jws<Claims> claims = jwtService.getDecodeToken(token);
-//		Map<String, Object> Userinfo = new HashMap<String, Object>();
-//		Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
-//		String email = Userinfo.get("email").toString();
-
+/*
+		String token = request.getHeader("jwt-auth-token");
+		Jws<Claims> claims = jwtService.getDecodeToken(token);
+		Map<String, Object> Userinfo = new HashMap<String, Object>();
+		Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
+		String email = Userinfo.get("email").toString();
+*/
 		List<String> list = searchService.findTagNamesByTag(keyword);
 		resultMap.put("searchList",list);
 		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
@@ -78,6 +79,43 @@ public class SearchController {
 		resultMap.put("articles", articles);
 		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 	} 
+	
+	// 2. 유저기반 검색
+	@GetMapping("/user")
+	@ApiOperation(value = "키워드 포함 유저닉네임 검색")
+	public ResponseEntity<Map<String, Object>> searchByNickname(@RequestParam String keyword, HttpServletRequest request) {
+
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+
+		String token = request.getHeader("jwt-auth-token");
+		Jws<Claims> claims = jwtService.getDecodeToken(token);
+		Map<String, Object> Userinfo = new HashMap<String, Object>();
+		Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
+		String email = Userinfo.get("email").toString();
+
+		List<Profile> list = searchService.findUserByNickname(keyword, email);
+		resultMap.put("searchList",list);
+		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+	}
+
+//	@PostMapping("/user")
+//	@ApiOperation(value = "유저검색")	//검색버튼 클릭 시 
+//	public ResponseEntity<Map<String, Object>> searchByTagName(@RequestParam String keyword, HttpServletRequest request) {
+//
+//		Map<String, Object> resultMap = new HashMap<String, Object>();
+//
+//		String token = request.getHeader("jwt-auth-token");
+//		Jws<Claims> claims = jwtService.getDecodeToken(token);
+//		Map<String, Object> Userinfo = new HashMap<String, Object>();
+//		Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
+//		String email = Userinfo.get("email").toString();
+//
+//		List<FrontArticle> articles = searchService.findArticlesByTagName(email, keyword);
+//		System.out.println("result : " + articles.toString());
+//		resultMap.put("articles", articles);
+//		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+//	} 
+	
 /*	
 	@GetMapping("/tag")
 	@ApiOperation(value="태그기반검색")
@@ -118,4 +156,6 @@ public class SearchController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 	}
 	*/
+	
+	
 }

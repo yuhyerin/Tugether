@@ -155,7 +155,7 @@ export default {
 
   watch:{
     clicked(){
-      console.log("clickclick")
+      console.log("from : "+this.from +" \t to : "+this.to)
       axios.get(base + '/tugether/mainfeed/fromto', {
         params: {
           "tag": this.tag,
