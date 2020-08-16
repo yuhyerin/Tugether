@@ -5,9 +5,9 @@
         <div class="media" v-for="(notice, index) in notices" :key="notice.id">
           <v-avatar size="50px" @click="moveUserpage(index)" class="mr-3" style="hover"><img :src="`https://i3b303.p.ssafy.io/profileimages/${notice.profile_photo}`"></v-avatar>
           <div class="media-body">
-          <span v-if="notice.notice_type == 1" @click="moveArticleDatail">{{ notice.from_nickname }}님이 회원님의 게시글에 댓글을 남겼습니다.</span>
-          <span v-if="notice.notice_type == 2" @click="moveArticleDetail">{{ notice.from_nickname }}님이 회원님의 게시글을 좋아합니다.</span>
-          <span v-if="notice.notice_type == 3" @click="moveUserpage(index)">{{ notice.from_nickname }}님이 회원님을 팔로우하기 시작했습니다.</span>
+          <span v-if="notice.notice_type == 1" @click="moveArticleDetail(notice, index)"><span class="nickname">{{ notice.from_nickname }}</span>님이 회원님의 게시글에 댓글을 남겼습니다.</span>
+          <span v-if="notice.notice_type == 2" @click="moveArticleDetail(notice, index)"><span class="nickname">{{ notice.from_nickname }}</span>님이 회원님의 게시글을 좋아합니다.</span>
+          <span v-if="notice.notice_type == 3" @click="moveUserpage(index)"><span class="nickname">{{ notice.from_nickname }}</span>님이 회원님을 팔로우하기 시작했습니다.</span>
           <span class="date" style="font-size: 10px;">{{ timeForToday(notice.reg_time) }}</span>
           </div>  
         </div>
@@ -84,8 +84,13 @@ export default {
       });
     },
 
-    moveArticleDetail() {
-      this.$router.push("/mainfeed/:")
+    moveArticleDetail(notices, index) {
+      this.$router.push({
+        name: 'Comment',
+        params: {
+          article_id: this.notices[index].article_id
+        }
+      })
     }
   },
    
@@ -119,4 +124,17 @@ export default {
   background-color: lightgray;
   cursor: pointer;
 }
+.notice > h1 {
+  text-align:center; 
+  font-weight:bold; 
+  font-size:2.5em; 
+  font-family: Arial, Helvetica;
+  padding: 15px 0px;
+}
+
+.nickname {
+  font-weight: bold;
+  color: red;
+}
+
 </style>
