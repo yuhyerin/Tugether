@@ -155,20 +155,21 @@ export default {
 
   watch:{
     clicked(){
+      this.article = []
       console.log("clickclick")
       axios.get(base + '/tugether/mainfeed/fromto', {
         params: {
           "tag": this.tag,
-          "from": this.from ,
-          "to": this.to ,
+          "from": this.from,
+          "to": this.to,
         },
         headers: {
           "jwt-auth-token": localStorage.getItem("token"),
         }
       })
       .then(response => {
-        console.log(response.data.list)
-        this.articles = response.data.list;
+        console.log(response.data)
+        this.articles = response.data;
         this.clicked=false;
       })
       .catch(err =>{
@@ -189,8 +190,6 @@ export default {
     // 무한스크롤이 동작할 때 수행할 메소드
     infiniteHandler($state) {
       const EACH_LEN = 2
-      console.log('___BOTTOM___')
-      console.log(this.limit)
       axios.get(base+'/tugether/mainfeed', { 
         params: {
           "limit": this.limit,
@@ -203,7 +202,7 @@ export default {
       .then(response => {
         setTimeout(() => {
           if(response.data.length) {
-            this.articles =[...this.articles, ...response.data]
+            this.articles = [...this.articles, ...response.data]
             this.limit += 1;
             this.from = this.articles[0].article_id,
             this.to = this.articles[this.articles.length-1].article_id
@@ -265,11 +264,13 @@ export default {
     },
 
     clickedLikeBtn(index) { 
-      this.clicked = true;
+      // this.clicked = true;
       axios.get(base + '/tugether/mainfeed/like', {
+        params: {
+          "article_id": this.articles[index].article_id,
+        },
         headers: { 
           "jwt-auth-token": localStorage.getItem("token"),
-          "article_id": this.articles[index].article_id,
         }
       })
       .then(response => {
@@ -295,9 +296,11 @@ export default {
     clickedScrapBtn(index) {
       // 스크랩 여부 확인
       axios.get(base + '/tugether/mainfeed/scrap', {
+        params: {
+          "article_id": this.articles[index].article_id,
+        },
         headers: {
           "jwt-auth-token": localStorage.getItem("token"),
-          "article_id": this.articles[index].article_id,
         }
       })
       .then(response => {
