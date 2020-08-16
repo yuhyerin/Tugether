@@ -2,38 +2,15 @@
   <div class="wrapC">
     <div class="notice">
       <strong style="font-size: 30px;">알림</strong>
-      <v-tabs grow style="margin-top: 10px;">
-        <v-tab style="font-weight: bold;">댓글</v-tab>
-        <v-tab-item style="padding-top: 15px;">
-        <div class="media" v-for="(notice, index) in notices_1" :key="notice.id">
-            <v-avatar size="50px" @click="moveUserpage(index)" class="mr-3" style="hover"><img :src="`https://i3b303.p.ssafy.io/profileimages/${notice.profile_photo}`"></v-avatar>
-            <div class="media-body">
-            <span @click="moveArticleDatail"><span class="nickname">{{ notice.from_nickname }}</span>님이 회원님의 게시글에 댓글을 남겼습니다.</span>
-            <span class="date" style="font-size: 10px;">{{ timeForToday(notice.reg_time) }}</span>
-          </div>
-        </div>  
-        </v-tab-item>
-        <v-tab style="font-weight: bold;">좋아요</v-tab>
-        <v-tab-item style="padding-top: 15px;">  
-        <div class="media" v-for="(notice, index) in notices_2" :key="notice.id">
+        <div class="media" v-for="(notice, index) in notices" :key="notice.id">
           <v-avatar size="50px" @click="moveUserpage(index)" class="mr-3" style="hover"><img :src="`https://i3b303.p.ssafy.io/profileimages/${notice.profile_photo}`"></v-avatar>
           <div class="media-body">
-          <span @click="moveArticleDetail"><span class="nickname">{{ notice.from_nickname }}</span>님이 회원님의 게시글을 좋아합니다.</span>
+          <span v-if="notice.notice_type == 1" @click="moveArticleDatail">{{ notice.from_nickname }}님이 회원님의 게시글에 댓글을 남겼습니다.</span>
+          <span v-if="notice.notice_type == 2" @click="moveArticleDetail">{{ notice.from_nickname }}님이 회원님의 게시글을 좋아합니다.</span>
+          <span v-if="notice.notice_type == 3" @click="moveUserpage(index)">{{ notice.from_nickname }}님이 회원님을 팔로우하기 시작했습니다.</span>
           <span class="date" style="font-size: 10px;">{{ timeForToday(notice.reg_time) }}</span>
-          </div>
-        </div>  
-        </v-tab-item>  
-        <v-tab style="font-weight: bold;">팔로우</v-tab>
-        <v-tab-item style="padding-top: 15px;">
-        <div class="media" v-for="(notice, index) in notices_3" :key="notice.id">
-          <div class="media-body">
-          <v-avatar size="50px" @click="moveUserpage(index)" class="mr-3" style="hover"><img :src="`https://i3b303.p.ssafy.io/profileimages/${notice.profile_photo}`"></v-avatar>
-          <span @click="moveUserpage(index)"><span class="nickname">{{ notice.from_nickname }}</span>님이 회원님을 팔로우하기 시작했습니다.</span>
-          <span class="date" style="font-size: 10px;">{{ timeForToday(notice.reg_time) }}</span>
-          </div>
-        </div>  
-        </v-tab-item>         
-      </v-tabs> 
+          </div>  
+        </div>
     </div>
     <BottomNav/>
   </div>
@@ -52,9 +29,7 @@ export default {
   },
   data() {
     return {
-      notices_1: [],
-      notices_2: [],
-      notices_3: [],
+      notices: [],
       reg_time: '',
     }
   },
@@ -115,7 +90,6 @@ export default {
   },
    
   created() {
-    let i =0
     axios.get(base + '/tugether/notice', {
       headers: { 
         "jwt-auth-token": localStorage.getItem("token"),
@@ -123,19 +97,8 @@ export default {
     })
     .then(response => {
       console.log('알림 호출')
-      // this.notices = response.data.notices;
-      for (i=0; i<100; i++) {
-        if (response.data.notices[i].notice_type==1) {
-          this.notices_1.push(response.data.notices[i])
-        }
-        if (response.data.notices[i].notice_type==2) {
-          this.notices_2.push(response.data.notices[i])
-        }
-        if (response.data.notices[i].notice_type==3) {
-          this.notices_3.push(response.data.notices[i])
-        }
-      }
-
+      this.notices = response.data.notices;
+      console.log(this.notices)
     })
     .catch(err =>{
         console.log("알림 안와")
@@ -144,11 +107,7 @@ export default {
 }
 </script>
 
-<style scoped>
-.wrapC {
-  margin-bottom: 80px;
-}
-
+<style>
 .media {
   background-color: rgba(0, 0, 0, .03);
   margin-bottom: 7px;
@@ -160,19 +119,4 @@ export default {
   background-color: lightgray;
   cursor: pointer;
 }
-
-.notice > h1 {
-  text-align:center; 
-  font-weight:bold; 
-  font-size:2.5em; 
-  font-family: Arial, Helvetica;
-  padding: 15px 0px;
-}
-
-.nickname {
-  font-weight: bold;
-  color: red;
-}
-
-
 </style>
