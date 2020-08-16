@@ -38,11 +38,11 @@ public interface ArticleRepo extends JpaRepository<Article, String> {
 	
 	@Query(value="select article_id from article a where article_id in ( " + 
 			"select distinct article_id from articletag ta where ta.tag_id in " + 
-			"(select tag_id from favtag f where f.email = :email) ) and article_id in (:to, :from) and a.email!=:email order by reg_time desc", nativeQuery = true)
+			"(select tag_id from favtag f where f.email = :email) ) and a.article_id >=:to and a.article_id <=:from and a.email!=:email order by reg_time desc", nativeQuery = true)
 	List<Integer> findArticleIdByEmailFromToTag(String email, int from, int to);
 	
 	@Query(value="select article_id from article a where a.email in ( " + 
-			"select `to_user` from `following` f where f.from_user = :email ) and a.article_id in (:to, :from) and a.email!=:email order by reg_time desc", nativeQuery=true)
+			"select `to_user` from `following` f where f.from_user = :email ) and a.article_id >=:to and a.article_id <=:from and a.email!=:email order by reg_time desc", nativeQuery=true)
 	List<Integer> findArticleIdByEmailFromToFollow(String email, int from, int to);
 	
 	// search by Tag
