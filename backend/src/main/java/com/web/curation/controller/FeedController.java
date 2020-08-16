@@ -54,9 +54,25 @@ public class FeedController {
 	// following테이블에서 from_user=email로 to_user 리스트 찾아와
 	// article 테이블에서 uid = email인 List<article>로 다 가져가
 	
+	@GetMapping("/mainfeed/fromto")
+	public List<FrontArticle> getAfterMainFeed(@RequestParam boolean tag, @RequestParam int from, @RequestParam int to, HttpServletRequest request){
+		System.out.println("Controller입장 : MAINFEED from to GET");
+		String email = 
+				((Map<String, Object>)jwtService.getDecodeToken(request.getHeader("jwt-auth-token"))
+				.getBody().get("AuthenticationResponse")).get("email").toString();
+		List<FrontArticle> result = null;
+		if(tag) {
+			result = feedService.findArticleListByTag(email, from, to);
+		} else {
+			result = feedService.findArticleListByFollow(email, from, to);
+		}
+		System.out.println("FROMTOcontroller result : " + result.toString());
+		return result;
+	}
+	
 	@GetMapping("/mainfeed")
 	public List<FrontArticle> getMainFeed(@RequestParam boolean tag, @RequestParam int limit, HttpServletRequest request){
-		System.out.println("Controller입장 : GET");
+		System.out.println("Controller입장 : MAINFEED tag limit GET");
 		String email = 
 				((Map<String, Object>)jwtService.getDecodeToken(request.getHeader("jwt-auth-token"))
 				.getBody().get("AuthenticationResponse")).get("email").toString();

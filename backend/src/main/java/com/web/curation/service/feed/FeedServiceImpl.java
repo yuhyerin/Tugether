@@ -59,15 +59,6 @@ public class FeedServiceImpl implements FeedService {
 		// favtag에서 이메일로 저장된 tagid 가져와
 		List<Integer> tagIDs = favtagRepo.findTagIdByEmail(email);
 
-//		for (int i = 0; i < tagIDs.size(); i++) {
-//			for (int j = i + 1; j < tagIDs.size(); j++) {
-//				if (tagIDs.get(i) == tagIDs.get(j)) {
-//					tagIDs.remove(j);
-//					j--;
-//				}
-//			}
-//		}
-
 		// ArticleTag테이블에서 tag_id로 article_id들 리스트로 받아와
 		TreeSet<Integer> articleIdList = new TreeSet<>();
 		for (int l = 0; l < tagIDs.size(); l++) {
@@ -163,6 +154,27 @@ public class FeedServiceImpl implements FeedService {
 		}
 		return makeFront(email, article_id);
 	}
+	
+	@Override
+	public List<FrontArticle> findArticleListByTag(String email, int from, int to){
+		List<FrontArticle> result = new ArrayList<FrontArticle>();
+		List<Integer> temp = articleRepo.findArticleByEmailFromToTag(email, from, to);
+		for(int l=0;l<temp.size();l++)
+			result.add(makeFront(email, temp.get(l)));
+		return result;
+	}
+	
+	@Override
+	public List<FrontArticle> findArticleListByFollow(String email, int from, int to){
+		List<FrontArticle> result = new ArrayList<FrontArticle>();
+		List<Integer> temp = articleRepo.findArticleByEmailFromToFollow(email, from, to);
+		for(int l=0;l<temp.size();l++)
+			result.add(makeFront(email, temp.get(l)));
+		return result;
+	}
+	
+	
+	
 
 	@Override // email = like 체크 / article_id = 태그리스트
 	public FrontArticle makeFront(String email, int article_id) {
