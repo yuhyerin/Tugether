@@ -155,7 +155,6 @@ export default {
 
   watch:{
     clicked(){
-      this.article = []
       console.log("clickclick")
       axios.get(base + '/tugether/mainfeed/fromto', {
         params: {
@@ -168,8 +167,9 @@ export default {
         }
       })
       .then(response => {
-        console.log(response.data)
-        this.articles = response.data;
+        console.log('clicked:', response.data)
+        this.articles = response.data
+        console.log('articles:', this.articles)
         this.clicked=false;
       })
       .catch(err =>{
@@ -275,11 +275,11 @@ export default {
       })
       .then(response => {
         this.articles[index] = response.data.article;
-        console.log(this.articles)
+        console.log('clicedLikeBtn:', this.articles[index])
         this.clicked = true;
       })
       .catch(err => {
-        console.log('실패함')
+        console.log('clickLikeBtn FAIL!!!')
       })
 
     },
