@@ -3,28 +3,28 @@
     fixed
     >
       <v-btn value="home" @click="sendToHome">
-        <span >Home</span>
-        <v-icon style="color: black;">home</v-icon>
+        <span>Home</span>
+        <v-icon style="color: black; padding-top: 20px;">home</v-icon>
       </v-btn>
 
       <v-btn value="search">
         <span>Search</span>
-        <v-icon style="color: red;">mdi-magnify</v-icon>
+        <v-icon style="color: red; padding-top: 20px;">mdi-magnify</v-icon>
       </v-btn>
 
       <v-btn @click="senToMyPage">
         <span>MyPage</span>
-        <v-icon style="color: black;">mdi-account-circle</v-icon>
+        <v-icon style="color: black; padding-top: 20px;">mdi-account-circle</v-icon>
       </v-btn>
       
       <v-btn @click="sendToNotice">
         <span>Alarm</span>
-        <v-icon style="color: red;">mdi-heart</v-icon>
+        <v-icon style="color: red; padding-top: 20px;">mdi-heart</v-icon>
       </v-btn>
 
-      <v-btn>
+      <v-btn @click="senToStatPage">
         <span>Stats</span>
-        <v-icon style="color: black;">mdi-chart-bar</v-icon>
+        <v-icon style="color: black; padding-top: 20px;">mdi-chart-bar</v-icon>
       </v-btn>
     </v-bottom-navigation>
 </template>
@@ -43,10 +43,12 @@ export default {
     sendToNotice () {
         this.$router.push('/notice')
     },
+    senToStatPage () {
+        this.$router.push('/stats')
+    }
   }
 }
 </script>
 
-<style>
-
+<style scoped>
 </style>

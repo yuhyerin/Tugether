@@ -1,86 +1,53 @@
 <template>
   <div class="wrapC" style="height: 800px;">
     <div class="row">
-      <div class="col" style="width: 100%;">
-        <h3>피드영역 들어와야함</h3>
+      <div class="col" style="width: 100%; padding-bottom: 0px;">
+        <br>
+        <v-card
+          max-width="550"
+          class="mx-auto"
+        >
+        <v-list-item style="padding: 5px 16px 5px 16px;">
+          <v-list-item-avatar style="max-height: 40px; max-width: 40px; width: 100%; height: 100%; margin-right: 10px;">
+            <v-img :src="`https://i3b303.p.ssafy.io/profileimages/${article.profile_photo}`" alt="article.profile_photo" @click="movePage(article.email)" style="cursor: pointer;"></v-img>
+          </v-list-item-avatar>
+          <v-list-item-content style="padding-top: 0px; padding-bottom: 0px;">
+            <v-list-item-title>{{ article.writer }}</v-list-item-title>
+            <v-list-item-subtitle>
+              <span style="white-space: normal;">{{ article.content }}</span> &dash;
+              <span>{{ timeForToday(article.reg_time) }}</span> &emsp;
+            </v-list-item-subtitle>
+          </v-list-item-content>
+          </v-list-item>
+        </v-card>
       </div>
     </div>
-    
-    <!-- <div class="profile">
-      <span>{{ profile_photo }}</span>
-      <span>{{ nickname }}</span>
-    </div>
-
-    <div class="content">
-      {{ content }}
-    </div>
-
-    <div class="time">
-      {{ reg_time }}
-    </div> -->
-    <!-- <hr>
-
-    <h3>댓글작성</h3> -->
-      <v-row>
-        <v-col sm=10 style="padding-top: 2px; margin-left: 5px;">
+      <div class="row" style="height: 70px;">
+        <!-- <v-col sm=11 style="padding-top: 2px;"> -->
+        <div class="col-10" style="padding-top: 2px;">
           <v-text-field
-            label="댓글"
+            label=" 댓글"
             single-line
             v-model="userComment"
             @keypress.enter="addComment"
           ></v-text-field>
-        </v-col>
-   
-        <!-- <input type="text" v-model="userComment" @keypress.enter="addComment" style="width: 90%;"/> -->
-        <!-- <button @click="addComment" style="margin-left: 2px; width: 10%; background: lightgray;">작성</button> -->
-        <v-col>
-          <v-btn style="background: black; margin-left: 25px;" fab small dark @click="addComment">
+        <!-- </v-col>
+        <v-col style="align: right;"> -->
+        </div>
+        <div class="col-2">
+          <v-btn style="background: black;" fab small dark @click="addComment">
             <v-icon>mdi-pencil</v-icon>
           </v-btn>
-        </v-col>
-      </v-row>
-    <hr>
-    <!-- <div>
-    <h3>댓글목록</h3>
-      <table>
-        <colgroup>
-          <col style="width: 10%;">
-          <col style="width: 20%;">
-          <col style="width: 45%;">
-          <col style="width: 20%;">
-          <col style="width: 5%;">
-        </colgroup>
-        <thead>
-          <tr>
-            <th scope="commentWriterProfilePhoto"></th>
-            <th scope="commentWriterNickName"></th>
-            <th scope="commentWriterContent"></th>
-            <th scope="commentWriterRegTime"></th>
-            <th scope="commentDelete"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(comment, index) in comments" :key="index">
-            <td scope="col"><v-avatar><img :src="`https://i3b303.p.ssafy.io/profileimages/${comment.profile_photo}`" alt="comment.profile_photo" style="width: 100%; height: 100%; max-width: 30px; max-height: 30px;"></v-avatar></td>
-            <td scope="col">{{ comment.nickname }}</td>
-            <td scope="col">{{ comment.content }}</td>
-            <td scope="col" style="color: gray;">{{ timeForToday(comment.reg_time) }}</td>
-            <td scope="col" v-show="email === comment.email" @click="commentDelete(index)"><button style="width: 40px; height: 30px; background: crimson; border-radius: 6px;">삭제</button></td>
-          </tr>
-        </tbody>
-      </table>
-    </div> -->
-
+        </div>
+      </div>
+        <!-- </v-col>
+      </v-row> -->
   <v-card
     max-width="550"
     class="mx-auto"
     style="margin-bottom: 50px;"
   >
     <v-list v-for="(comment, index) in comments" :key="index">
-      <!-- <v-divider
-        :key="index"
-        style="margin: 0px;"
-        ></v-divider> -->
         <v-list-item
         >
           <v-list-item-avatar style="margin-right: 10px;">
@@ -90,8 +57,8 @@
           <v-list-item-content style="padding-top: 0px; padding-bottom: 0px;">
             <v-list-item-title>{{ comment.nickname }}</v-list-item-title>
             <v-list-item-subtitle>
-              <span>{{ timeForToday(comment.reg_time) }}</span> &dash;
-              <span style="white-space: normal;">{{ comment.content }}</span> &emsp;
+              <span style="white-space: normal;">{{ comment.content }}</span> &dash;
+              <span>{{ timeForToday(comment.reg_time) }}</span> &emsp;
               <span><button v-show="email === comment.email" @click="commentDelete(index)" style="width: 35px; height: 25px; background: crimson; border-radius: 6px;">삭제</button></span>
             </v-list-item-subtitle>
           
@@ -99,32 +66,6 @@
         </v-list-item>
     </v-list>
   </v-card>
-    <!-- <v-simple-table>
-      <template v-slot:default>
-        <thead>
-          <tr>
-            <th class="text-left"></th>
-            <th class="text-left"></th>
-            <th class="text-left"></th>
-            <th class="text-left"></th>
-            <th class="text-left"></th>
-            <th class="text-left"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(comment, index) in comments" :key="index">
-            <td><img :src="`https://i3b303.p.ssafy.io/profileimages/${comment.profile_photo}`" alt="comment.profile_photo" style="width: 100%; height: 100%; max-width: 40px; max-height: 40px;"></td>
-            <td>{{ comment.nickname }}</td>
-            
-            <td>{{ comment.content }}</td>
-            <td>{{ timeForToday(comment.reg_time) }}</td>
-            <td v-show="email === comment.email">수정</td>
-            <td v-show="email === comment.email" @click="commentDelete(index)">삭제</td>
-          </tr>
-        </tbody>
-      </template>
-    </v-simple-table> -->
-    <!-- <td><input type="text" readonly="readonly" value=""/>{{ comment.content }}</td> -->
     <BottomNav />
   </div>
 </template>
@@ -147,6 +88,7 @@ export default {
       clicked: false,
       userComment: '',
       email: '',
+      article: [],
     }
   },
   watch: {
@@ -233,8 +175,20 @@ export default {
         })
       }
     },
+    movePage(email) {
+      if (email !== localStorage.getItem("email")) {
+        localStorage.setItem("userEmail", email)
+        this.$router.push({
+          name: 'Userpage'
+        })
+      } else {
+        this.$router.push({
+          name: 'Mypage'
+        })
+      }
+    },
 
-      timeForToday(value) {
+    timeForToday(value) {
       const today = new Date();
       const timeValue = new Date(value);
 

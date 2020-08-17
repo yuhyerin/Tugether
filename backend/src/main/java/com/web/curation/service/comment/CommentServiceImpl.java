@@ -63,9 +63,9 @@ public class CommentServiceImpl implements CommentService{
 	@Override
 	public void saveComment(Comment c) {
 		commentRepo.save(c);
-		String notice_to = articleRepo.findArticleByArticleId(c.getArticle_id()).get(0).getEmail();
+		String notice_to = articleRepo.findArticleByArticleId(c.getArticle_id()).getEmail();
 		Comment temp = commentRepo.findCommentByEmailAndArticleId(c.getEmail(), c.getArticle_id()).get(0);
-		Article a = articleRepo.findArticleByArticleId(c.getArticle_id()).get(0);
+		Article a = articleRepo.findArticleByArticleId(c.getArticle_id());
 		int comment_cnt = commentRepo.findCommentByArticleId(c.getArticle_id()).size();
 		a.setComment_cnt(comment_cnt);
 		articleRepo.save(a);
@@ -81,7 +81,7 @@ public class CommentServiceImpl implements CommentService{
 		//1. comment_id 삭제 -> article_tb에서 article_id comment_cnt-1 -> article_id로 comment찾기
 		int article_id = commentRepo.findArticleIdByCommentId(comment_id);
 		commentRepo.deleteComment(comment_id);
-		Article a = articleRepo.findArticleByArticleId(article_id).get(0);
+		Article a = articleRepo.findArticleByArticleId(article_id);
 		int comment_cnt = commentRepo.findCommentByArticleId(article_id).size();
 		a.setComment_cnt(comment_cnt);
 		articleRepo.save(a);
@@ -92,7 +92,7 @@ public class CommentServiceImpl implements CommentService{
 
 	@Override
 	public FrontArticle findArticle(String email, int article_id) {
-		Article temp = articleRepo.findArticleByArticleId(article_id).get(0);
+		Article temp = articleRepo.findArticleByArticleId(article_id);
 		
 		return feedService.makeFront(email , article_id);
 	}
