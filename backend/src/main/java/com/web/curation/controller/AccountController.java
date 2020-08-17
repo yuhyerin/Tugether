@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.GsonFactoryBean;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,10 +23,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.gson.GsonFactory;
 import com.web.curation.dto.BasicResponse;
 import com.web.curation.dto.account.AuthenticationRequest;
 import com.web.curation.dto.account.AuthenticationResponse;
-import com.web.curation.dto.account.GoogleRequest;
 import com.web.curation.dto.account.User;
 import com.web.curation.jwt.service.JwtService;
 import com.web.curation.service.account.FindService;
@@ -37,13 +41,6 @@ import com.web.curation.service.account.SignupService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.gson.GsonFactory;
 
 @ApiResponses(value = { @ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
 		@ApiResponse(code = 403, message = "Forbidden", response = BasicResponse.class),
@@ -162,13 +159,14 @@ public class AccountController {
 				 */
 				User tmpuser = loginService.isPresentEmail(email);
 				if(tmpuser==null) { //존재하지 않으면 회원가입
-					User newuser = new User();
-					newuser.setEmail(email);
-					newuser.setPassword("임시비밀번호");
-					newuser.setNickname(name);
-					newuser.setBirth_year(1995);
-					newuser.setGender('M');
-					newuser.setTemp(true);
+					User newuser = User.builder().email(email).password("임시비밀번호").nickname(name).birth_year(1995).gender('M').temp(true).build();
+//					User newuser = new User();
+//					newuser.setEmail(email);
+//					newuser.setPassword("임시비밀번호");
+//					newuser.setNickname(name);
+//					newuser.setBirth_year(1995);
+//					newuser.setGender('M');
+//					newuser.setTemp(true);
 					signupService.save(newuser);
 				}
 				// 이미 존재하는 회원이면
