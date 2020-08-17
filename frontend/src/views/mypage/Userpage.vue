@@ -41,7 +41,7 @@
                     <div class="feed-item">
                       <!-- 프로필이미지, 작성자, 시간(며칠전..), 태그 -->
                       <div class="top">
-                        <v-avatar><img :src="`https://i3b303.p.ssafy.io/articleimages/${article.profile_photo}`"></v-avatar>
+                        <v-avatar><img :src="`https://i3b303.p.ssafy.io/profileimages/${article.profile_photo}`"></v-avatar>
                         <div class="user-info">
                           <div class="user-name">
                             <!-- 이미 유저페이지이므로 해당 유저의 글에서 닉네임을 눌러도 아무 일도 일어나지 않음.-->
