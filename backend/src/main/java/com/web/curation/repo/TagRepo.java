@@ -21,6 +21,10 @@ public interface TagRepo extends JpaRepository<Tag, String>{
 	//키워드를 포함한 모든 태그이름 찾기
 	@Query(value="select tag_name from tag t where t.tag_name like CONCAT('%',:keyword,'%')", nativeQuery=true)
 	public List<String> findTagNameByTagNameContains(String keyword);
+	
+	@Query(value="select * from tag t where t.tag_name = :keyword", nativeQuery=true)
+	Optional<Tag> findTagByTagName(String keyword);
+	
 	//키워드를 포함한 태그아이디찾기
 	@Query(value="select tag_id from tag t where t.tag_name like CONCAT('%',:keyword,'%')", nativeQuery=true)
 	List<Integer> findTagIdByTagNameContains(String keyword);
