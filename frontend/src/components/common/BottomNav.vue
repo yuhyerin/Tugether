@@ -7,7 +7,7 @@
         <v-icon style="color: black; padding-top: 20px;">home</v-icon>
       </v-btn>
 
-      <v-btn value="search">
+      <v-btn value="search" @click="sendToSearchPage">
         <span>Search</span>
         <v-icon style="color: red; padding-top: 20px;">mdi-magnify</v-icon>
       </v-btn>
@@ -45,6 +45,9 @@ export default {
     },
     senToStatPage () {
         this.$router.push('/stats')
+    },
+    sendToSearchPage () {
+        this.$router.push('/search')
     }
   }
 }
