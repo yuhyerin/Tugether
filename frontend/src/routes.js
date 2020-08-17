@@ -18,6 +18,7 @@ import Update from '@/views/user/Update.vue'
 import Notice from '@/views/notice/Notice.vue'
 import Components from './views/Components.vue'
 import store from './vuex/store'
+import Stats from '@/views/user/Stats.vue'
 
 // 라우터가드1) 인증받은 유저는 reject 하겠다! 
 const rejectAuthUser = (to, from, next)=>{
@@ -143,5 +144,10 @@ export default [
         path : '/comment/:article_id',
         name : 'Comment',
         component : Comment
+    },
+    {
+        path : '/stats',
+        name : 'Stats',
+        component : Stats
     },
 ]
