@@ -2,6 +2,7 @@ package com.web.curation.service.search;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.web.curation.dto.article.Article;
 import com.web.curation.dto.article.FrontArticle;
 import com.web.curation.dto.profile.Profile;
+import com.web.curation.dto.tag.Tag;
 import com.web.curation.repo.ArticleRepo;
 import com.web.curation.repo.ArticleTagRepo;
 import com.web.curation.repo.LikeyRepo;
@@ -43,6 +45,12 @@ public class SearchServiceImpl implements SearchService {
 		List<FrontArticle> result = new ArrayList<FrontArticle>();
 		for(int i=0;i<temp.size();i++) {
 			result.add(makeFront(email, temp.get(i)));
+		}
+		Optional<Tag> t = tagRepo.findTagByTagName(keyword);
+		if(t.isPresent()) {
+			Tag test = t.get();
+			test.setSearch_cnt(test.getSearch_cnt()+1);
+			tagRepo.save(test);
 		}
 		return result;
 	}
