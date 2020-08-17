@@ -2,7 +2,7 @@
   <div class="container">
     <div id="mainfeed">
       <h1>뉴스피드({{ this.feed }})</h1>
-      <a @click="logout"> <img src="@/assets/images/logout.png" height="50px" width="50px" style="float:right"/> </a>
+      <a @click="logout" style="color:blue">로그아웃</a>
       <br>
       <v-tabs grow style="padding-bottom: 10px;">
         <v-tab style="font-weight: bold;" @click="getTagData">태그</v-tab>
