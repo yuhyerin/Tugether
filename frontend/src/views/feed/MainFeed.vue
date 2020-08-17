@@ -11,9 +11,9 @@
               <v-row dense class="pt-0">
                 <v-col cols="12"  v-for="(article, index) in articles" :key="article.id" :articles="articles">
                   <v-mainfeed id="inspire">
-                    <v-card max-width="344" class="mx-auto" outlined>
+                    <v-card max-width="344" class="mx-auto">
                       <v-list-item>
-                        <v-list-item-avatar class="mr-2" size="40px" @click="moveUserpage(article.email)" style="cursor:pointer"><img :src="`https://i3b303.p.ssafy.io/articleimages/${article.profile_photo}`"></v-list-item-avatar>
+                        <v-list-item-avatar class="mr-2" size="40px" @click="moveUserpage(article.email)" style="cursor:pointer"><img :src="`https://i3b303.p.ssafy.io/profileimages/${article.profile_photo}`"></v-list-item-avatar>
                         <v-list-item-content>
                           <v-list-item-title class="headline" @click="moveUserpage(article.email)" style="cursor:pointer;">{{ article.writer }}</v-list-item-title>
                           <v-list-item-subtitle style="font-size:0.8rem;">{{ timeForToday(article.reg_time) }}</v-list-item-subtitle>
@@ -22,12 +22,13 @@
                         <a :href="article.link" v-if="article.link" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:25px; height:25px;"></a>
                       </v-list-item>
                       <v-img :src="`https://i3b303.p.ssafy.io/articleimages/${article.image}`" height="194"></v-img>
-                      <v-card-text class="pb-0">{{ article.content }}</v-card-text>
+                      <v-card-text class="pb-0" style="color:black">{{ article.content }}</v-card-text>
                       <v-chip-group column>
                         <span v-for="tag in article.tag_name" :key="tag.name">
-                          <v-chip class="ml-2 mr-0" outlined pill style="cursor:default;">#{{ tag }}</v-chip>
+                          <v-chip class="ml-2 mr-0" style="cursor:default; font-weight:bold;">#{{ tag }}</v-chip>
                           </span>
                       </v-chip-group>
+                      <!-- <p class="subheading mr-2 ml-2" style="color: gray">00님 외 {{ article.like_cnt }}명이 좋아합니다.</p> -->
                       <!-- <v-divider class="mx-6 my-0"></v-divider> -->
                       <v-card-actions>
                         <v-btn icon>
@@ -46,6 +47,7 @@
                           <span class="subheading mr-5">{{ article.scrap_cnt }}회</span>
                         </v-btn>
                       </v-card-actions>
+                      <!-- <p class="subheading mr-2 ml-2" style="color: gray">00님 외 {{ article.like_cnt }}명이 좋아합니다.</p> -->
                     </v-card>
                   </v-mainfeed>
                 </v-col>
@@ -62,9 +64,9 @@
               <v-row dense class="pt-0">
                 <v-col cols="12"  v-for="(article, index) in articles" :key="article.id" :articles="articles">
                   <v-mainfeed id="inspire">
-                    <v-card max-width="344" class="mx-auto" outlined>
+                    <v-card max-width="344" class="mx-auto">
                       <v-list-item>
-                        <v-list-item-avatar class="mr-2" size="40px" @click="moveUserpage(article.email)" style="cursor:pointer"><img :src="`https://i3b303.p.ssafy.io/articleimages/${article.profile_photo}`"></v-list-item-avatar>
+                        <v-list-item-avatar class="mr-2" size="40px" @click="moveUserpage(article.email)" style="cursor:pointer"><img :src="`https://i3b303.p.ssafy.io/profileimages/${article.profile_photo}`"></v-list-item-avatar>
                         <v-list-item-content>
                           <v-list-item-title class="headline" @click="moveUserpage(article.email)" style="cursor:pointer;">{{ article.writer }}</v-list-item-title>
                           <v-list-item-subtitle style="font-size:0.8rem;">{{ timeForToday(article.reg_time) }}</v-list-item-subtitle>
@@ -73,10 +75,10 @@
                         <a :href="article.link" v-if="article.link" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:25px; height:25px;"></a>
                       </v-list-item>
                       <v-img :src="`https://i3b303.p.ssafy.io/articleimages/${article.image}`" height="194"></v-img>
-                      <v-card-text class="pb-0">{{ article.content }}</v-card-text>
+                      <v-card-text class="pb-0" style="color:black">{{ article.content }}</v-card-text>
                       <v-chip-group column>
                         <span v-for="tag in article.tag_name" :key="tag.name">
-                          <v-chip class="ml-2 mr-0" outlined pill style="cursor:default;">#{{ tag }}</v-chip>
+                          <v-chip class="ml-2 mr-0" style="cursor:default; font-weight:bold;">#{{ tag }}</v-chip>
                           </span>
                       </v-chip-group>
                       <!-- <v-divider class="mx-6 my-0"></v-divider> -->
@@ -167,6 +169,8 @@ export default {
         }
       })
       .then(response => {
+        console.log('click this.from', this.from)
+        console.log('click this.to', this.to)
         console.log('clicked:', response.data)
         this.articles = response.data
         console.log('articles:', this.articles)
@@ -190,6 +194,7 @@ export default {
     // 무한스크롤이 동작할 때 수행할 메소드
     infiniteHandler($state) {
       const EACH_LEN = 2
+      console.log('__BOTTOM__')
       axios.get(base+'/tugether/mainfeed', { 
         params: {
           "limit": this.limit,
@@ -206,6 +211,9 @@ export default {
             this.limit += 1;
             this.from = this.articles[0].article_id,
             this.to = this.articles[this.articles.length-1].article_id
+            console.log('this.from', this.from)
+            console.log('this.to', this.to)
+            console.log('infi articles:' , this.articles)
             $state.loaded(); // 데이터 로드가 전부 수행되었다는 것을 알려줌, 다음 리퀘스트가 있을 때까지 대기 상태
             if(response.data.length / EACH_LEN < 1) {
               $state.complete() // 더이상 불러올 데이터가 없을 때 사용, 이후에는 데이터가 없다는 메시지를 표시하고 더이상 무한스크롤 작업 X
@@ -231,7 +239,12 @@ export default {
     // 태그 기반의 글 목록 불러오기
     getTagData() {
       this.limit = 0;
-      this.articles = [];
+      // if(!this.articles) {
+      //   this.articles = []
+      // }
+      this.articles = [
+
+      ]
       this.tag = true;
       this.feed = '태그';
     },
@@ -264,7 +277,7 @@ export default {
     },
 
     clickedLikeBtn(index) { 
-      // this.clicked = true;
+      this.clicked = true;
       axios.get(base + '/tugether/mainfeed/like', {
         params: {
           "article_id": this.articles[index].article_id,
@@ -276,7 +289,7 @@ export default {
       .then(response => {
         this.articles[index] = response.data.article;
         console.log('clicedLikeBtn:', this.articles[index])
-        this.clicked = true;
+        // this.clicked = true;
       })
       .catch(err => {
         console.log('clickLikeBtn FAIL!!!')
@@ -360,5 +373,3 @@ export default {
 
 
 </style>
-<!--https://junistory.blogspot.com/2017/06/css-ellipsis.html 글자 수 제한-->
-<!-- https://xetown.com/tips/1110772 -->
