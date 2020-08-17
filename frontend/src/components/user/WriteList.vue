@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- <h1>관심태그 목록</h1> -->
-    <ul>
+    <ul style="padding-top: 0px;">
       <!-- 목록을 보여줄 예정 -->
       <li v-for="(tag, index) in tagList" :key="tag.id">
         <span>{{ tag.content }}</span>

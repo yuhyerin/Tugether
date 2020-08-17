@@ -79,6 +79,7 @@ public class MyPageServiceImpl implements MyPageService {
 				.article_id(article_id)
 				.profile_photo(profile_photo)
 				.email(now.getEmail())
+				.profile_photo(profile_photo)
 				.writer(now.getWriter())
 				.reg_time(now.getReg_time())
 				.image(now.getImage())

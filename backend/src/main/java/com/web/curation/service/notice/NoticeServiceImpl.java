@@ -67,4 +67,9 @@ public class NoticeServiceImpl implements NoticeService {
 		return fn;
 	}
 
+	@Override
+	public void deleteNoticeByArticleId(int articleid) {
+		noticeRepo.deleteNoticeByArticleId(articleid);
+	}
+
 }

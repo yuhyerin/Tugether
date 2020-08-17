@@ -32,7 +32,7 @@ public class ProfileServiceImpl implements ProfileService {
 	public void updateProfilewithImage(Profile profile) {
 		String email = profile.getEmail();
 		String nickname = profile.getNickname();
-		String profile_photo = email + profile.getProfile_photo();
+		String profile_photo = profile.getProfile_photo();
 		profileRepo.updateProfilewithImage(email, nickname, profile_photo);
 	}
 

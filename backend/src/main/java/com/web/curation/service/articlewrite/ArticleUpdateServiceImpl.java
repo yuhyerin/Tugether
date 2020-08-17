@@ -104,4 +104,11 @@ public class ArticleUpdateServiceImpl implements ArticleUpdateService {
 		
 	}
 
+	// article에서 writer 변경하기
+	@Override
+	public void updateArticleWriter(String email, String nickname) {
+
+		articleWriteRepo.updateArticleWriter(email, nickname);
+	}
+
 }

@@ -22,7 +22,7 @@
         <v-icon style="color: red; padding-top: 20px;">mdi-heart</v-icon>
       </v-btn>
 
-      <v-btn>
+      <v-btn @click="senToStatPage">
         <span>Stats</span>
         <v-icon style="color: black; padding-top: 20px;">mdi-chart-bar</v-icon>
       </v-btn>
@@ -43,6 +43,9 @@ export default {
     sendToNotice () {
         this.$router.push('/notice')
     },
+    senToStatPage () {
+        this.$router.push('/stats')
+    }
   }
 }
 </script>

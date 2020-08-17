@@ -64,8 +64,9 @@
           <router-link to="/user/join" class="btn--text">가입하기</router-link>
           <br>
           <router-link to="/passwordfind" class="btn--text">비밀번호 찾기</router-link>
-
         </div>
+        <!-- <GoogleLogin :params="params" :renderParams="renderParams" :onSuccess="googlelogin">Login</GoogleLogin> -->
+        <!-- <Button @click="googlelogout()">Logout</Button> -->
       </div>
     </div>
     <BottomNav />
@@ -90,13 +91,14 @@ import * as axios from 'axios';
 import { mapState, mapActions} from "vuex"
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
 import BottomNav from "@/components/common/BottomNav";
+import GoogleLogin from 'vue-google-login';
 
 const storage = window.sessionStorage;
 
 export default {
   name: 'Login',
-  component:{
-    BottomNav,
+  components:{
+    // GoogleLogin,
   },
 
   data: () => {
@@ -116,7 +118,15 @@ export default {
         passowrd: false
       },
       isSubmit: false,
-      component: this
+      component: this,
+      params: {
+          client_id: "963926899908-ncql9skkc6bkmifvg9bhc9jv2asecrcd.apps.googleusercontent.com"
+      },
+      renderParams: {
+          width: 250,
+          height: 50,
+          longtitle: true
+      },
     };
   },
   created() {
@@ -145,7 +155,15 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["login"]), // store.js의 Actions에 정의한 함수를 쓰기 위해서 선언해준다.
+    ...mapActions(["login", "googlelogin", "googlelogout", "googletoken"]), // store.js의 Actions에 정의한 함수를 쓰기 위해서 선언해준다.
+
+    
+    signOut(){
+          // var auth2 = gapi.auth2.getAuthInstance();
+          // auth2.signOut().then(function () {
+          // console.log('User signed out.');
+          // });
+    },
 
     checkForm() {
       if (this.email.length >= 0 && !EmailValidator.validate(this.email))
@@ -183,52 +201,6 @@ export default {
           email,
           password
         };
-
-        storage.setItem("jwt-auth-token", "");
-        storage.setItem("login_user","");
-        
-
-        // ai.post("/signin",
-        //   {email: this.email,
-        //   password: this.password
-        //   })
-        //   .then(res=>{
-        //     console.log(res.data.status) // true 
-        //     if(res.data.status){
-        //         this.message = res.data.data.email+"로 로그인 되었습니다.";
-        //         this.nickname = res.data.data.nickname;
-        //         console.log(this.message);
-        //         console.log(this.nickname);
-        //         console.log("토큰: "+res.headers["jwt-auth-token"]);
-        //         this.setInfo(
-        //           "성공",
-        //           res.headers["jwt-auth-token"],
-        //           JSON.stringify(res.data.data)
-        //         );
-        //         storage.setItem("jwt-auth-token", res.headers["jwt-auth-token"]);
-        //         storage.setItem("login_user", res.data.data.email);
-        //         store.state.login_user_token =  res.headers["jwt-auth-token"];
-        //         store.state.login_user_nickname = res.data.data.nickname;
-        //         this.isSubmit = true;
-                
-        //         alert("로그인 성공! 환영합니다 :)");
-        //         this.$router.push("/feed/main");
-        //     }else{
-        //       this.setInfo("", "", "");
-        //       this.message = "로그인해주세요.";
-        //       alert("입력정보를 확인하세요.");
-        //     }
-        //   })
-        //   .catch(e=>{
-        //     this.isSubmit=true;
-        //     alert("이메일과 비밀번호를 확인해 주세요");
-        //     this.email = "";
-        //     this.password=""
-        //     this.setInfo("실패",
-        //                 "",
-        //                 JSON.stringify(e.response || e.message));
-        // });
-
 
         //요청 후에는 버튼 비활성화
         this.isSubmit = false;
