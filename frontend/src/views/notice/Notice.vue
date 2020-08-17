@@ -1,7 +1,7 @@
 <template>
   <div class="wrapC">
     <div class="notice">
-      <strong style="font-size: 30px;">알림</strong>
+      <h1 style="font-size: 30px;">알림</h1>
         <div class="media" v-for="(notice, index) in notices" :key="notice.id">
           <v-avatar size="50px" @click="moveUserpage(notice.notice_from)" class="mr-3" style="hover"><img :src="`https://i3b303.p.ssafy.io/profileimages/${notice.profile_photo}`"></v-avatar>
           <div class="media-body">
@@ -136,5 +136,4 @@ export default {
   font-weight: bold;
   color: red;
 }
-
 </style>
