@@ -8,8 +8,8 @@
       
         <v-avatar size="40px" @click="moveUserpage(notice.notice_from)" class="mr-3" style="hover"><img :src="`https://i3b303.p.ssafy.io/profileimages/${notice.profile_photo}`"></v-avatar>
         <div class="media-body">
-          <span v-if="notice.notice_type == 1" @click="moveArticleDatail(notice, index)">{{ notice.from_nickname }}님이 회원님의 게시글에 댓글을 남겼습니다.</span>
-          <span v-else-if="notice.notice_type == 2" @click="moveArticleDetail(notice, index)">{{ notice.from_nickname }}님이 회원님의 게시글을 좋아합니다.</span>
+          <span v-if="notice.notice_type == 1" @click="moveArticleDetail(index)">{{ notice.from_nickname }}님이 회원님의 게시글에 댓글을 남겼습니다.</span>
+          <span v-else-if="notice.notice_type == 2" @click="moveArticleDetail(index)">{{ notice.from_nickname }}님이 회원님의 게시글을 좋아합니다.</span>
           <span v-else-if="notice.notice_type == 3" @click="moveUserpage(notice.notice_from)">{{ notice.from_nickname }}님이 회원님을 팔로우하기 시작했습니다.</span>
           <span class="date" style="font-size: 10px;">{{ timeForToday(notice.reg_time) }}</span>
         </div>
@@ -82,19 +82,20 @@ export default {
     moveUserpage(user_email) {
       this.$router.push({
         name: 'Userpage',
-        parmas: {
-          user_email: this.articles.email
+        params: {
+          user_email: this.user_email
         },
-        path: "/mypage/userpage"
+        // path: "/userpage"
       });
     },
 
 
-    moveArticleDetail(notices, index) {
+    moveArticleDetail(index) {
+      console.log(this.notices[index])
       this.$router.push({
         name: 'Comment',
-        parmas: {
-          notice_id: this.notices[index].notice_id
+        params: {
+          "article_id": this.notices[index].article_id
         }
       })
     },

@@ -254,8 +254,9 @@ export default {
   },
   created() {
     this.email = localStorage.getItem("email")
-    console.log(this.email)
-    console.log("comment.vue : " + this.$route.params.article_id)
+    // console.log(this.email)
+    console.log('article_id : '+this.$route.params.article_id)
+    // console.log("comment.vue : " + this.$route.params.article_id)
     axios.get(base + '/tugether/mainfeed/comment',
       {
         headers: { 

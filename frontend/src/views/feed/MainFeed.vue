@@ -156,6 +156,7 @@ export default {
       tagTab: { color: 'red' },
       followTab: { color: 'black' },
       limit: 0, // 무한스크롤 되면서 갱신될 페이지
+      email:'',
     }
   },
 
@@ -390,15 +391,14 @@ export default {
     },
 
     
-    moveUserpage(user_email) {
+    moveUserpage(email) {
+      this.email = email;
+      localStorage.setItem("userEmail", this.email);
+      console.log(this.email)
       this.$router.push({
-        name: 'Userpage',
-        params: {
-          user_email: this.articles.email
-        },
-        path: "/mypage/userpage"
-      });
-    },
+        name: 'Userpage'
+    })
+  },
   },
 
   // created() {

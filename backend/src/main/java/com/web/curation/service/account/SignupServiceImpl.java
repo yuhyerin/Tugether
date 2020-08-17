@@ -66,7 +66,7 @@ public class SignupServiceImpl implements SignupService {
 
 		try {
     		userRepo.save(user);
-    		Profile p = Profile.builder().email(user.getEmail())
+    		Profile p = Profile.builder().email(user.getEmail()).profile_photo("default.png")
     				.nickname(user.getNickname()).build();
     		profileRepo.save(p);
     		result.status = true;

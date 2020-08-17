@@ -54,11 +54,12 @@ public class CommentController {
       Map<String, Object> Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
       String email = Userinfo.get("email").toString();
       int article_id = Integer.parseInt(request.getHeader("article_id"));
-      
+      System.out.println("article_id : "+article_id);
       FrontArticle article = commentService.findArticle(email, article_id);
+      System.out.println(article.toString());
       resultMap.put("article", article);
-      
       List<FrontComment> comments = commentService.findComments(article_id);
+      System.out.println(comments.toString());
       resultMap.put("comments", comments);
       System.out.println("result : "+comments.toString());
       return new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.OK);
