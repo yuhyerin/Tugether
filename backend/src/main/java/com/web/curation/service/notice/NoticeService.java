@@ -9,5 +9,6 @@ public interface NoticeService {
 	
 	List<FrontNotice> findNotice(String email);
 	FrontNotice makeFront(Notice notice, String email);
+	void deleteNoticeByArticleId(int articleid);
 
 }

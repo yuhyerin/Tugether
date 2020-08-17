@@ -124,6 +124,7 @@
 
 
 <script>
+import Vue from 'vue'
 import axios from 'axios'
 import defaultProfile from "../../assets/images/profile_default.png";
 import { mapState } from "vuex";
@@ -228,6 +229,16 @@ export default {
     },
 
     logout(){
+      Vue.GoogleAuth.then(auth2=>{
+                console.log(auth2.isSignedIn.get());
+                console.log(auth2.currentUser.get());
+                console.log(JSON.stringify(auth2.currentUser.get().getAuthResponse()));
+                console.log(JSON.stringify(auth2.currentUser.get().getAuthResponse(true).id_token));
+                auth2.signOut().then(function(){
+                    console.log("로그아웃 되었습니다!");
+                });
+                auth2.disconnect();
+      })
       this.$store.commit('logout');
       localStorage.clear();
       alert("로그아웃 되었습니다 bye bye :)");

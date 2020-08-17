@@ -29,7 +29,11 @@ import com.web.curation.dto.article.Article;
 import com.web.curation.jwt.service.JwtService;
 import com.web.curation.service.articlewrite.ArticleUpdateService;
 import com.web.curation.service.articlewrite.ArticleWriteService;
+import com.web.curation.service.comment.CommentService;
+import com.web.curation.service.likey.LikeyService;
+import com.web.curation.service.notice.NoticeService;
 import com.web.curation.service.profile.ProfileService;
+import com.web.curation.service.scrap.ScrapService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -47,21 +51,26 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/tugether")
 public class ArticleUpdateController {
 
-//	@Value("${ubuntu.article.upload.directory}")
 	@Value("${window.article.upload.directory}")
+//	@Value("${ubuntu.article.upload.directory}")
 	String upload_FILE_PATH;
 
 	@Autowired
 	private JwtService jwtService;
-
 	@Autowired
 	private ProfileService profileService;
-	
 	@Autowired
 	private ArticleWriteService articleWriteService;
-
 	@Autowired
 	private ArticleUpdateService articleUpdateService;
+	@Autowired
+	private CommentService commentService;
+	@Autowired
+	private NoticeService noticeService;
+	@Autowired
+	private LikeyService likeyService;
+	@Autowired
+	private ScrapService scrapService;
 
 	@ApiOperation(value = "게시글 내용 가져오기")
 	@GetMapping("/articleloading")
@@ -171,9 +180,20 @@ public class ArticleUpdateController {
 		ArrayList<String> taglist = articleUpdateService.getArticleTag(articleid);
 		articleUpdateService.resetArticleTag(articleid, taglist);
 		
-		/** 3. profile테이블에 article_cnt 감소 */
+		/** 3. profile테이블에 article_cnt 감소  */
 		profileService.countMinusArticleCnt(email);
 		
+		/** 4. comment테이블에서 삭제 - 해당글에 달린 댓글들 */
+		commentService.deleteCommentByArticleId(articleid);
+		
+		/** 5. notice테이블에서 삭제 - 알림에도 안뜨게 */
+		noticeService.deleteNoticeByArticleId(articleid);
+		
+		/** 6. likey테이블에서 삭제 */
+		likeyService.deleteLikeyByArticleId(articleid);
+		
+		/** 7. scrap테이블에서 삭제 */
+		scrapService.deleteScrapByArticleId(articleid);
 		status = HttpStatus.OK;
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 
