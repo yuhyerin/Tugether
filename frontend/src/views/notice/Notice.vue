@@ -113,6 +113,9 @@ export default {
 </script>
 
 <style>
+.notice {
+  margin-bottom: 65px;
+}
 .media {
   background-color: rgba(0, 0, 0, .03);
   margin-bottom: 7px;
