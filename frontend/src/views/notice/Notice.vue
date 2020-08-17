@@ -1,22 +1,17 @@
 <template>
   <div class="wrapC">
     <div class="notice">
-      <h1>알림</h1>
-      <div class="media" v-for="(notice, index) in notices" :key="notice.id">
-        <!-- <div class="timenotice">{{}}</div> -->
-         <!-- <p>{{ getMonday(notice.reg_time)}}</p> -->
-      
-        <v-avatar size="40px" @click="moveUserpage(notice.notice_from)" class="mr-3" style="hover"><img :src="`https://i3b303.p.ssafy.io/profileimages/${notice.profile_photo}`"></v-avatar>
-        <div class="media-body">
-          <span v-if="notice.notice_type == 1" @click="moveArticleDetail(index)">{{ notice.from_nickname }}님이 회원님의 게시글에 댓글을 남겼습니다.</span>
-          <span v-else-if="notice.notice_type == 2" @click="moveArticleDetail(index)">{{ notice.from_nickname }}님이 회원님의 게시글을 좋아합니다.</span>
-          <span v-else-if="notice.notice_type == 3" @click="moveUserpage(notice.notice_from)">{{ notice.from_nickname }}님이 회원님을 팔로우하기 시작했습니다.</span>
+      <h1 style="font-size: 30px;">알림</h1>
+        <div class="media" v-for="(notice, index) in notices" :key="notice.id">
+          <v-avatar size="50px" @click="moveUserpage(notice.notice_from)" class="mr-3" style="hover"><img :src="`https://i3b303.p.ssafy.io/profileimages/${notice.profile_photo}`"></v-avatar>
+          <div class="media-body">
+          <span v-if="notice.notice_type == 1" @click="moveArticleDetail(notice, index)"><span class="nickname">{{ notice.from_nickname }}</span>님이 회원님의 게시글에 댓글을 남겼습니다.</span>
+          <span v-if="notice.notice_type == 2" @click="moveArticleDetail(notice, index)"><span class="nickname">{{ notice.from_nickname }}</span>님이 회원님의 게시글을 좋아합니다.</span>
+          <span v-if="notice.notice_type == 3" @click="moveUserpage(notice.notice_from)"><span class="nickname">{{ notice.from_nickname }}</span>님이 회원님을 팔로우하기 시작했습니다.</span>
           <span class="date" style="font-size: 10px;">{{ timeForToday(notice.reg_time) }}</span>
+          </div>  
         </div>
-      </div>
-
     </div>
-
     <BottomNav/>
   </div>
 </template>
@@ -36,6 +31,7 @@ export default {
     return {
       notices: [],
       reg_time: '',
+      email: '',
     }
   },
   methods: {
@@ -80,25 +76,22 @@ export default {
     },
 
     moveUserpage(user_email) {
+      this.email = user_email;
+      localStorage.setItem("userEmail", this.email);
+      console.log(this.email)
       this.$router.push({
-        name: 'Userpage',
-        params: {
-          user_email: this.user_email
-        },
-        // path: "/userpage"
-      });
+        name: 'Userpage'
+      })
     },
 
-
-    moveArticleDetail(index) {
-      console.log(this.notices[index])
+    moveArticleDetail(notices, index) {
       this.$router.push({
         name: 'Comment',
         params: {
-          "article_id": this.notices[index].article_id
+          article_id: this.notices[index].article_id
         }
       })
-    },
+    }
   },
    
   created() {
@@ -120,10 +113,9 @@ export default {
 </script>
 
 <style>
-.wrapC {
+.notice {
   margin-bottom: 65px;
 }
-
 .media {
   background-color: rgba(0, 0, 0, .03);
   margin-bottom: 7px;
@@ -135,12 +127,16 @@ export default {
   background-color: lightgray;
   cursor: pointer;
 }
-
 .notice > h1 {
   text-align:center; 
   font-weight:bold; 
   font-size:2.5em; 
   font-family: Arial, Helvetica;
   padding: 15px 0px;
+}
+
+.nickname {
+  font-weight: bold;
+  color: red;
 }
 </style>

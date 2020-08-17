@@ -135,7 +135,6 @@ public class AccountController {
     	return findService.changePW(u);
     }
     
-    
     @GetMapping("/findpw/{email}")
     @ApiOperation(value = "비밀번호 찾기")
     public Object sendMail(@PathVariable String email) throws MessagingException {

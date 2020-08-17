@@ -31,5 +31,8 @@ public class Tag {
 
 	@Column(name = "article_cnt")
 	private int article_cnt;
+	
+	@Column(name = "search_cnt")
+	private int search_cnt;
 
 }

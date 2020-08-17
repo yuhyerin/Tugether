@@ -12,6 +12,7 @@ import com.web.curation.repo.ArticleRepo;
 import com.web.curation.repo.ArticleTagRepo;
 import com.web.curation.repo.FavtagRepo;
 import com.web.curation.repo.FollowingRepo;
+import com.web.curation.repo.ProfileRepo;
 import com.web.curation.repo.ScrapRepo;
 import com.web.curation.repo.TagRepo;
 
@@ -30,6 +31,8 @@ public class MyPageServiceImpl implements MyPageService {
 	private TagRepo tagRepo;
 	@Autowired
 	private FavtagRepo favtagRepo;
+	@Autowired
+	private ProfileRepo profileRepo;
 	
 	@Override
 	public List<FrontArticle> findArticles(String email) {
@@ -62,7 +65,7 @@ public class MyPageServiceImpl implements MyPageService {
 	@Override // email = like 체크 / article_id = 태그리스트
 	public FrontArticle makeFront(String email, int article_id) {
 
-		Article now = articleRepo.findArticleByArticleId(article_id).get(0);
+		Article now = articleRepo.findArticleByArticleId(article_id);
 		List<Integer> taglist = articletagRepo.findTagIdByArticleId(now.getArticle_id()); // 아티클태그케이블에서 태그 가져와야 프론트에 줄 수
 																							// 있음
 		String[] temp = new String[taglist.size()]; // 태그 리스트를 태그 배열로 만들거임
@@ -70,8 +73,11 @@ public class MyPageServiceImpl implements MyPageService {
 			temp[j] = tagRepo.findTagNameByTagId(taglist.get(j)); // 태그테이블에서 태그아이디로 태그네임 찾아서 배열 저장
 		}
 
+		String profile_photo = profileRepo.findProfilePhoto(now.getEmail());
+		
 		FrontArticle ar = FrontArticle.builder()
 				.article_id(article_id)
+				.profile_photo(profile_photo)
 				.email(now.getEmail())
 				.writer(now.getWriter())
 				.reg_time(now.getReg_time())

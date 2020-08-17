@@ -138,7 +138,7 @@ export default {
         moveUserpage(email){
             this.email = email;
             localStorage.setItem("userEmail", this.email)
-            console.log(this.email)
+            // console.log(this.email)
             this.$router.push({
                 name: 'Userpage'
             })

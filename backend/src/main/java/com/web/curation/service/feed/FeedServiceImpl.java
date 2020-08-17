@@ -46,99 +46,90 @@ public class FeedServiceImpl implements FeedService {
 	private LikeyRepo likeRepo;
 	@Autowired
 	private ScrapRepo scrapRepo;
-	@Autowired 
+	@Autowired
 	private NoticeRepo noticeRepo;
 	@Autowired
 	private ProfileRepo profileRepo;
 
 	// 1. 태그기반 피드
-	@Override
-	public List<FrontArticle> findArticleListByTag(String email) {
-		List<FrontArticle> result = new ArrayList<>();
-		List<Article> articles = new ArrayList<>();
-		// favtag에서 이메일로 저장된 tagid 가져와
-		List<Integer> tagIDs = favtagRepo.findTagIdByEmail(email);
-
-//		for (int i = 0; i < tagIDs.size(); i++) {
-//			for (int j = i + 1; j < tagIDs.size(); j++) {
-//				if (tagIDs.get(i) == tagIDs.get(j)) {
-//					tagIDs.remove(j);
-//					j--;
-//				}
-//			}
+//	@Override
+//	public List<FrontArticle> findArticleListByTag(String email) {
+//		List<FrontArticle> result = new ArrayList<>();
+//		List<Article> articles = new ArrayList<>();
+//		// favtag에서 이메일로 저장된 tagid 가져와
+//		List<Integer> tagIDs = favtagRepo.findTagIdByEmail(email);
+//
+//		// ArticleTag테이블에서 tag_id로 article_id들 리스트로 받아와
+//		TreeSet<Integer> articleIdList = new TreeSet<>();
+//		for (int l = 0; l < tagIDs.size(); l++) {
+//			List<Integer> temp = articletagRepo.findArticleIdByTagId(tagIDs.get(l));
+//			for (int m = 0; m < temp.size(); m++)
+//				articleIdList.add(temp.get(m));
 //		}
+//
+//		int length = articleIdList.size();
+//		for (int i = 0; i < length; i++) {
+//			// Article테이블에서 article_id로 article리스트 다 데려와
+//			Article a = articleRepo.findArticleByArticleIdandEmail(articleIdList.pollLast(), email);
+//			for (int j = 0; j < a.size(); j++)
+//				articles.add(a.get(j));
+//		}
+//
+//		// ArticleTag테이블에서 article_id로 List<tag_id> 가져와 => Tag테이블에서 tag_id로 tag_name 가져와
+//		for (int i = 0; i < articles.size(); i++) {
+//			FrontArticle ar = makeFront(email, articles.get(i).getArticle_id());
+//			result.add(ar);
+//		}
+//
+//		System.out.println("result : " + result.toString());
+//		return result;
+//		
+//	}
+//
+//	// 2. 팔로우기반 피드
+//	@Override
+//	public List<FrontArticle> findArticleListByFollow(String email) {
+//		List<FrontArticle> result = new ArrayList<>();
+//
+//		// following테이블에서 from_user=email로 to_user 리스트 찾아와
+//		List<String> toUser = followingRepo.findToUserByFromUser(email);
+//
+//		// article 테이블에서 uid = email인 List<article>로 다 가져가
+//		for (int l = 0; l < toUser.size(); l++) {
+//			List<Article> list = articleRepo.findArticleByEmail(toUser.get(l));
+//
+//			for (int m = 0; m < list.size(); m++) {
+//				// ArticleTag테이블에서 article_id로 List<tag_id> 가져와 => Tag테이블에서 tag_id로 tag_name 가져와
+//				FrontArticle a = makeFront(email, list.get(m).getArticle_id());
+//				result.add(a);
+//			}
+//
+//		}
+//		System.out.println("result : " + result.toString());
+//		return result;
+//	}
 
-		// ArticleTag테이블에서 tag_id로 article_id들 리스트로 받아와
-		TreeSet<Integer> articleIdList = new TreeSet<>();
-		for (int l = 0; l < tagIDs.size(); l++) {
-			List<Integer> temp = articletagRepo.findArticleIdByTagId(tagIDs.get(l));
-			for (int m = 0; m < temp.size(); m++)
-				articleIdList.add(temp.get(m));
-		}
-
-		int length = articleIdList.size();
-		for (int i = 0; i < length; i++) {
-			// Article테이블에서 article_id로 article리스트 다 데려와
-			List<Article> a = articleRepo.findArticleByArticleIdandEmail(articleIdList.pollLast(), email);
-			for (int j = 0; j < a.size(); j++)
-				articles.add(a.get(j));
-		}
-
-		// ArticleTag테이블에서 article_id로 List<tag_id> 가져와 => Tag테이블에서 tag_id로 tag_name 가져와
-		for (int i = 0; i < articles.size(); i++) {
-			FrontArticle ar = makeFront(email, articles.get(i).getArticle_id());
-			result.add(ar);
-		}
-
-		System.out.println("result : " + result.toString());
-		return result;
-	}
-
-	// 2. 팔로우기반 피드
-	@Override
-	public List<FrontArticle> findArticleListByFollow(String email) {
-		List<FrontArticle> result = new ArrayList<>();
-
-		// following테이블에서 from_user=email로 to_user 리스트 찾아와
-		List<String> toUser = followingRepo.findToUserByFromUser(email);
-
-		// article 테이블에서 uid = email인 List<article>로 다 가져가
-		for (int l = 0; l < toUser.size(); l++) {
-			List<Article> list = articleRepo.findArticleByEmail(toUser.get(l));
-
-			for (int m = 0; m < list.size(); m++) {
-				// ArticleTag테이블에서 article_id로 List<tag_id> 가져와 => Tag테이블에서 tag_id로 tag_name 가져와
-				FrontArticle a = makeFront(email, list.get(m).getArticle_id());
-				result.add(a);
-			}
-			
-		}
-		System.out.println("result : "+result.toString());
-		return result;
-	}
-
-	@Override	//좋아요 클릭 시
+	@Override // 좋아요 클릭 시
 	public FrontArticle updateLike(int article_id, String email) {
-		Article a = articleRepo.findArticleByArticleId(article_id).get(0);
-		
+		Article a = articleRepo.findArticleByArticleId(article_id);
+
 		// 1. likey테이블에서 좋아요 여부 확인
 		if (likeRepo.findLike(article_id, email).isPresent()) { // 좋아요 한 적 있음
 			likeRepo.deleteLikey(email, article_id);
-			noticeRepo.deleteNotice(email, article_id);
-			
+			if (!email.equals(a.getEmail()))
+				noticeRepo.deleteNotice(email, article_id);
+
 		} else { // 좋아요 한 적 없음
 			likeRepo.save(Likey.builder().article_id(article_id).email(email).build());
-			Notice n = Notice.builder()
-					.notice_to(a.getEmail())
-					.notice_type(2)
-					.notice_from(email)
-					.article_id(article_id)
-					.build();
-			noticeRepo.save(n);
+			if (!email.equals(a.getEmail())) {
+				Notice n = Notice.builder().notice_to(a.getEmail()).notice_type(2).notice_from(email)
+						.article_id(article_id).build();
+				noticeRepo.save(n);
+			}
 		}
 
 		int like_cnt = likeRepo.findLikeByArticleId(article_id).size(); // 게시글의 좋아요 갯수
-		Article temp = articleRepo.findArticleByArticleId(article_id).get(0);
+		Article temp = articleRepo.findArticleByArticleId(article_id);
 		temp.setLike_cnt(like_cnt);
 		articleRepo.save(temp); // article테이블 업데이트
 
@@ -153,7 +144,7 @@ public class FeedServiceImpl implements FeedService {
 	@Override
 	public FrontArticle scrap(String email, int article_id) {
 
-		Article a = articleRepo.findArticleByArticleId(article_id).get(0);
+		Article a = articleRepo.findArticleByArticleId(article_id);
 
 		if (!scrapRepo.findScrap(email, article_id).isPresent()) {
 			scrapRepo.save(Scrap.builder().article_id(article_id).email(email).build());
@@ -164,10 +155,28 @@ public class FeedServiceImpl implements FeedService {
 		return makeFront(email, article_id);
 	}
 
+	@Override
+	public List<FrontArticle> findArticleListByTag(String email, int from, int to) {
+		List<FrontArticle> result = new ArrayList<FrontArticle>();
+		List<Integer> temp = articleRepo.findArticleIdByEmailFromToTag(email, from, to);
+		for (int l = 0; l < temp.size(); l++)
+			result.add(makeFront(email, temp.get(l)));
+		return result;
+	}
+
+	@Override
+	public List<FrontArticle> findArticleListByFollow(String email, int from, int to) {
+		List<FrontArticle> result = new ArrayList<FrontArticle>();
+		List<Integer> temp = articleRepo.findArticleIdByEmailFromToFollow(email, from, to);
+		for (int l = 0; l < temp.size(); l++)
+			result.add(makeFront(email, temp.get(l)));
+		return result;
+	}
+
 	@Override // email = like 체크 / article_id = 태그리스트
 	public FrontArticle makeFront(String email, int article_id) {
 
-		Article now = articleRepo.findArticleByArticleId(article_id).get(0);
+		Article now = articleRepo.findArticleByArticleId(article_id);
 		List<Integer> taglist = articletagRepo.findTagIdByArticleId(now.getArticle_id()); // 아티클태그케이블에서 태그 가져와야 프론트에 줄 수
 																							// 있음
 		String[] temp = new String[taglist.size()]; // 태그 리스트를 태그 배열로 만들거임
@@ -177,22 +186,11 @@ public class FeedServiceImpl implements FeedService {
 
 		boolean like = likeRepo.findLike(article_id, email).isPresent();
 		String profile_photo = profileRepo.findProfilePhotoByEmail(email);
-		FrontArticle ar = FrontArticle.builder()
-				.article_id(article_id)
-				.email(now.getEmail())
-				.writer(now.getWriter())
-				.reg_time(now.getReg_time())
-				.image(now.getImage())
-				.profile_photo(profile_photo)
-				.content(now.getContent())
-				.link(now.getLink())
-				.like_cnt(now.getLike_cnt())
-				.like(like)
-				.comment_cnt(now.getComment_cnt())
-				.scrap_cnt(now.getScrap_cnt())
-				.tag_name(temp)
-				.build();
-				
+		FrontArticle ar = FrontArticle.builder().article_id(article_id).email(now.getEmail()).writer(now.getWriter())
+				.reg_time(now.getReg_time()).image(now.getImage()).profile_photo(profile_photo)
+				.content(now.getContent()).link(now.getLink()).like_cnt(now.getLike_cnt()).like(like)
+				.comment_cnt(now.getComment_cnt()).scrap_cnt(now.getScrap_cnt()).tag_name(temp).build();
+
 		return ar;
 	}
 
@@ -204,12 +202,11 @@ public class FeedServiceImpl implements FeedService {
 		// ArticleTag테이블에서 tag_id로 article_id들 리스트로 받아와
 		// Article테이블에서 article_id로 article리스트 다 데려와
 		// ArticleTag테이블에서 article_id로 List<tag_id> 가져와 => Tag테이블에서 tag_id로 tag_name 가져와
-		
-		List<Article> list 
-		= articleRepo.findArticlesByTag(pageRequest, email).stream().collect(Collectors.toList());
+
+		List<Article> list = articleRepo.findArticlesByTag(pageRequest, email).stream().collect(Collectors.toList());
 		List<FrontArticle> result = new ArrayList<FrontArticle>();
-		for(int i=0;i<list.size();i++)
-			result.add(makeFront(email,list.get(i).getArticle_id()));
+		for (int i = 0; i < list.size(); i++)
+			result.add(makeFront(email, list.get(i).getArticle_id()));
 		return result;
 	}
 
@@ -219,11 +216,10 @@ public class FeedServiceImpl implements FeedService {
 		// 2. 팔로우기반 피드
 		// following테이블에서 from_user=email로 to_user 리스트 찾아와
 		// article 테이블에서 uid = email인 List<article>로 다 가져가
-		List<Article> list
-		= articleRepo.findArticleByFollow(pageRequest, email).stream().collect(Collectors.toList());
+		List<Article> list = articleRepo.findArticleByFollow(pageRequest, email).stream().collect(Collectors.toList());
 		List<FrontArticle> result = new ArrayList<FrontArticle>();
-		for(int i=0;i<list.size();i++)
-			result.add(makeFront(email,list.get(i).getArticle_id()));
+		for (int i = 0; i < list.size(); i++)
+			result.add(makeFront(email, list.get(i).getArticle_id()));
 		return result;
 	}
 
