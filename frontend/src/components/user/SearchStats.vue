@@ -1,69 +1,64 @@
+<template>
+  <v-card
+    class="mx-auto"
+    max-width="580"
+    tile
+    dark
+  >
+    <v-list rounded>
+      <v-list-item-group v-model="item" color="primary">
+        <v-list-item
+          v-for="(item, i) in topsearchtags"
+          :key="i"
+        >
+          <v-list-item-icon>
+            <v-badge
+              color="pink"
+              dot
+              style="margin-right: 10px;"
+            >
+              {{ i + 1 }}위
+            </v-badge>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title v-text="item.tag_name"></v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-item-group>
+    </v-list>
+  </v-card>
+</template>
+
 <script>
-//Importing Bar class from the vue-chartjs wrapper
-import { Line } from 'vue-chartjs'
 import axios from 'axios'
+import defaultProfile from "../../assets/images/profile_default.png"
 import { base } from "@/components/common/BaseURL.vue"
-//Exporting this so it can be used in other components
+import BottomNav from "@/components/common/BottomNav"
+
 export default {
-  extends: Line,
+  name: 'SearchStats',
   data() {
     return {
-      datacollection: {
-        //Data to be represented on x-axis
-        labels: ['1', '2', '3', '4', '5'],
-        datasets: [
-          {
-            label: '검색 횟수',
-            backgroundColor: 'transparent',
-            pointBackgroundColor: 'black',
-            borderWidth: 2,
-            pointBorderColor: 'black',
-            //Data to be represented on y-axis
-            data: [50, 40, 30, 20, 10]
-          }
-        ]
-      },
-      //Chart.js options that controls the appearance of the chart
-      options: {
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true
-            },
-            gridLines: {
-              display: true
-            }
-          }],
-          xAxes: [ {
-            gridLines: {
-              display: false
-            }
-          }]
-        },
-        legend: {
-            display: true
-          },
-        responsive: true,
-        maintainAspectRatio: false
-      }
+      topsearchtags: [],
     }
   },
-  mounted() {
-    //renderChart function renders the chart with the datacollection and options object.
-    this.renderChart(this.datacollection, this.options)
-  },
-  // created() {
-  //   axios.get(base + '???', {
-  //     headers: {
-  //       "jwt-auth-token": localStorage.getItem("token")
-  //     }
-  //   })
-  //   .then(response => {
-  //     console.log(response.data)
-  //   })
-  //   .catch(error => {
-  //     console.log(error)
-  //   })
-  // }
+  created() {
+    axios.get(base + 'tugether/searchstats', {
+      headers: {
+        "jwt-auth-token": localStorage.getItem("token")
+      }
+    })
+    .then(response => {
+      console.log(response.data.topsearchtags)
+      this.topsearchtags = response.data.topsearchtags
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
 }
 </script>
+
+<style>
+
+</style>

@@ -21,7 +21,7 @@
         <WriteList @delete="onRemove" :tagList="tagList"/>
         <br>
         <div>
-        <h3 style="margin-top: 50px;">링크</h3>
+        <h3 style="margin-top: 40px;">링크</h3>
         </div>
         <img src="@/assets/images/paperclip.png" style="float: left; height: 30px; width: 30px;">
         <input type="text" 
@@ -29,12 +29,19 @@
           style="float: right; width: 90%; margin-left: 5px; margin-bottom: 2px; height: 40px;"
           v-model="urlLink" />
         
+      <div style="width: 100%; display: inline-block">
+        <button
+          class="btn btn--back btn--login"
+          @click="moveMypage"
+          style="width: 49%; height: 40px; padding-top: 0px; margin-top: 30px; margin-right: 0px; float: left;"
+          >BACK</button>
         <button
           v-on:click="onUpload"
           class="btn btn--back btn--login"
-          style="height: 40px; padding-top: 0px; margin-top: 30px;"
+          style="width: 49%; height: 40px; padding-top: 0px; margin-top: 30px; margin-bottom: 50px; float: right;"
         >업로드</button>
-        <BottomNav/>
+      </div>
+      <BottomNav/>
     </div>
 </template>
 
@@ -136,6 +143,9 @@ export default {
        });
        
     },
+      moveMypage() {
+        this.$router.push("/mypage");
+      },
 }
 }
 </script>

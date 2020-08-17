@@ -1,6 +1,6 @@
 <template>
-    <div class="wrapB">
-      <br>
+  <div class="wrapB" style="margin-bottom: 50px;">
+    <br>
       <!-- <div class="column">
         <h3>Line Chart</h3>
         <line-chart></line-chart> -->
@@ -27,7 +27,8 @@
         <bar-chart></bar-chart>
         <FeedStats />
       </div>
-    </div>
+    <BottomNav />
+  </div>
 </template>
  
 <script>
@@ -35,6 +36,7 @@
 import SearchStats from '@/components/user/SearchStats'
 import TagStats from '@/components/user/TagStats'
 import FeedStats from '@/components/user/FeedStats'
+import BottomNav from "@/components/common/BottomNav"
 
 export default {
   name: 'Stats',
@@ -42,7 +44,8 @@ export default {
     // LineChart,
     SearchStats,
     TagStats,
-    FeedStats
+    FeedStats,
+    BottomNav
   },
  
   }

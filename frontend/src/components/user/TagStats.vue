@@ -1,25 +1,25 @@
 <script>
 //Importing Bar class from the vue-chartjs wrapper
-import {Doughnut} from 'vue-chartjs'
+import { Bar } from 'vue-chartjs'
 import axios from 'axios'
 import { base } from "@/components/common/BaseURL.vue"
 //Exporting this so it can be used in other components
 export default {
-  extends: Doughnut,
+  extends: Bar,
   data() {
     return {
       datacollection: {
         //Data to be represented on x-axis
-        labels: ['A', 'B', 'C', 'D', 'E'],
+        labels: [],
         datasets: [
           {
             label: '태그 횟수',
-            backgroundColor: ['rgba(0, 0, 255, 1)', 'rgba(0, 0, 255, 0.8)', 'rgba(0, 0, 255, 0.6)', 'rgba(0, 0, 255, 0.4)', 'rgba(0, 0, 255, 0.2)'],
-            pointBackgroundColor: 'white',
+            backgroundColor: ['rgba(255,0,0,1)', 'rgba(255,0,0,0.8)', 'rgba(255,0,0,0.6)', 'rgba(255,0,0,0.4)', 'rgba(255,0,0,0.2)'],
+            pointBackgroundColor: 'black',
             borderWidth: 1,
             pointBorderColor: '#249EBF',
             //Data to be represented on y-axis
-            data: [9, 7, 5, 3, 1]
+            data: []
           }
         ]
       },
@@ -28,10 +28,10 @@ export default {
         scales: {
           yAxes: [{
             ticks: {
-              beginAtZero: false
+              beginAtZero: true
             },
             gridLines: {
-              display: false
+              display: true
             }
           }],
           xAxes: [ {
@@ -52,18 +52,32 @@ export default {
     //renderChart function renders the chart with the datacollection and options object.
     this.renderChart(this.datacollection, this.options)
   },
-// created() {
-//     axios.get(base + '???', {
-//       headers: {
-//         "jwt-auth-token": localStorage.getItem("token")
-//       }
-//     })
-//     .then(response => {
-//       console.log(response.data)
-//     })
-//     .catch(error => {
-//       console.log(error)
-//     })
-//   }
+created() {
+    axios.get(base + 'tugether/articletagstats', {
+      headers: {
+        "jwt-auth-token": localStorage.getItem("token")
+      }
+    })
+    .then(response => {
+      console.log(response.data.toparticletags)
+      this.datacollection.labels = [
+        response.data.toparticletags[0].tag_name,
+        response.data.toparticletags[1].tag_name,
+        response.data.toparticletags[2].tag_name,
+        response.data.toparticletags[3].tag_name,
+        response.data.toparticletags[4].tag_name,
+      ]
+      this.datacollection.datatsets.data = [
+        response.data.toparticletags[0].search_cnt,
+        response.data.toparticletags[1].search_cnt,
+        response.data.toparticletags[2].search_cnt,
+        response.data.toparticletags[3].search_cnt,
+        response.data.toparticletags[4].search_cnt,
+      ]
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
 }
 </script>

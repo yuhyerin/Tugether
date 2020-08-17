@@ -23,7 +23,7 @@
 
       
       <div>
-      <ul>
+      <ul style="padding-top: 0px;">
         <!-- 목록을 보여줄 예정 -->
         <li v-for="(tag, index) in this.tagList" :key="tag.id">
           <span>{{ tag.content }}</span>
@@ -41,11 +41,18 @@
       style="float: right; width: 90%; margin-left: 5px; margin-bottom: 2px; height: 40px;" 
       v-model="urlLink" />
     
-    <button
-      v-on:click="onUpload"
-      class="btn btn--back btn--login"
-      style="height: 40px; padding-top: 0px; margin-top: 30px;"
-    >업로드</button>
+    <div style="width: 100%; display: inline-block">
+      <button
+        class="btn btn--back btn--login"
+        @click="moveMypage"
+        style="width: 49%; height: 40px; padding-top: 0px; margin-top: 30px; margin-right: 0px; float: left;"
+        >BACK</button>
+      <button
+        v-on:click="onUpload"
+        class="btn btn--back btn--login"
+        style="width: 49%; height: 40px; padding-top: 0px; margin-top: 30px; margin-bottom: 50px; float: right;"
+      >수정</button>
+    </div>
 
     <BottomNav/>
   </div>
@@ -181,6 +188,9 @@ export default {
          console.log(err);
        });
        
+    },
+    moveMypage() {
+      this.$router.push("/mypage");
     },
   }
 }
