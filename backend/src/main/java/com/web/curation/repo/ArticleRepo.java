@@ -13,27 +13,27 @@ import com.web.curation.dto.article.Article;
 @Repository
 public interface ArticleRepo extends JpaRepository<Article, String> {
 
-	@Query(value = "select * from article a where a.article_id=:article_id order by article_id desc", nativeQuery = true)
+	@Query(value = "select * from article a where a.article_id=:article_id order by a.reg_time desc", nativeQuery = true)
 	Article findArticleByArticleId(int article_id);
 
-	@Query(value = "select * from article a where a.article_id=:article_id and a.email!=:email order by article_id desc", nativeQuery = true)
+	@Query(value = "select * from article a where a.article_id=:article_id and a.email!=:email order by a.reg_time desc", nativeQuery = true)
 	Article findArticleByArticleIdandEmail(int article_id, String email);
 
-	@Query(value = "select * from article a where a.email=:email order by article_id desc", nativeQuery = true)
+	@Query(value = "select * from article a where a.email=:email order by a.reg_time desc", nativeQuery = true)
 	public List<Article> findArticleByEmail(String email);
 
 	@Query(value = "select image from article a where a.article_id=:article_id", nativeQuery = true)
 	String findImgByArticleId(int article_id);
 
-	@Query(value = "select article_id from article a where a.email=:email", nativeQuery = true)
+	@Query(value = "select article_id from article a where a.email=:email order by a.reg_time desc", nativeQuery = true)
 	List<Integer> findArticleIdByEmail(String email);
 
-	@Query(value="select * from article a where a.article_id in (select distinct article_id from articletag t where t.tag_id in (select tag_id from favtag f where f.email=:email)) and a.email!=:email order by a.article_id desc"
-			, nativeQuery = true, countQuery = "select count(*) from article a where a.article_id in (select distinct article_id from articletag t where tag_id in (select tag_id from favtag f where f.email=:email)) and a.email!=:email order by a.article_id desc" )
+	@Query(value="select * from article a where a.article_id in (select distinct article_id from articletag t where t.tag_id in (select tag_id from favtag f where f.email=:email)) and a.email!=:email order by a.reg_time desc"
+			, nativeQuery = true, countQuery = "select count(*) from article a where a.article_id in (select distinct article_id from articletag t where tag_id in (select tag_id from favtag)) and a.email!=:email order by a.reg_time desc" )
 	Page<Article> findArticlesByTag(Pageable pageable, String email);
 
-	@Query(value="select * from article a where a.email in (select `to_user` from `following` f where f.from_user = :email) and a.email!=:email order by a.article_id desc"
-			, nativeQuery = true, countQuery = "select count(*) from article a where a.email in (select `to_user` from `following` f where f.from_user = :email) and a.email!=:email")
+	@Query(value="select * from article a where a.email in (select `to_user` from `following` f where f.from_user = :email) and a.email!=:email order by a.reg_time desc"
+			, nativeQuery = true, countQuery = "select count(*) from article a where a.email in (select `to_user` from `following` f where f.from_user = :email) and a.email!=:email order by a.reg_time desc")
 	Page<Article> findArticleByFollow(Pageable pageable, String email);
 	
 	@Query(value="select article_id from article a where article_id in ( " + 

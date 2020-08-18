@@ -19,4 +19,8 @@ public interface NoticeRepo extends JpaRepository<Notice, String>{
 
 	@Query(value="delete from notice where article_id=:articleid", nativeQuery=true)
 	public void deleteNoticeByArticleId(int articleid);
+
+	@Query(value="delete from notice where comment_id=:comment_id", nativeQuery=true)
+	void deleteByComment_ID(int comment_id);
+
 }
