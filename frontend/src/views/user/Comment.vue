@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col" style="width: 100%; padding-bottom: 0px;">
         <br>
-        <v-card
+        <v-card 
           max-width="550"
           class="mx-auto"
         >
@@ -14,7 +14,7 @@
           <v-list-item-content style="padding-top: 0px; padding-bottom: 0px;">
             <v-list-item-title style="font-size:0.8rem;">{{ article.writer }}</v-list-item-title>
             <v-list-item-subtitle>
-              <span style="white-space: normal;">{{ article.content }}</span> &dash;
+              <span style="color: black; white-space: normal;">{{ article.content }}</span> &dash;
               <span style="font-size:0.7rem;">{{ timeForToday(article.reg_time) }}</span> &emsp;
             </v-list-item-subtitle>
           </v-list-item-content>
@@ -26,7 +26,7 @@
         <!-- <v-col sm=11 style="padding-top: 2px;"> -->
         <div class="col-10" style="padding-top: 2px;">
           <v-text-field
-            label=" 댓글"
+            label="댓글"
             single-line
             v-model="userComment"
             @keypress.enter="addComment"
@@ -55,9 +55,9 @@
           </v-list-item-avatar>
 
           <v-list-item-content style="padding-top: 0px; padding-bottom: 0px;">
-            <v-list-item-title style="font-size:0.8rem; font-weight:bold;">{{ comment.nickname }}</v-list-item-title>
+            <v-list-item-title style="font-size:0.8rem;">{{ comment.nickname }}</v-list-item-title>
             <v-list-item-subtitle>
-              <span style="white-space: normal;">{{ comment.content }}</span> &dash;
+              <span style="color : black; font-weight:bold; white-space: normal;">{{ comment.content }}</span> &dash;
               <span style="font-size:0.7rem;">{{ timeForToday(comment.reg_time) }}</span> &emsp;
               <span><button v-show="email === comment.email" @click="commentDelete(index)" style="width: 35px; height: 25px; background: crimson; border-radius: 6px;">삭제</button></span>
             </v-list-item-subtitle>
@@ -241,6 +241,11 @@ export default {
 .wrapC {
   margin-bottom: 65px;
 }
+
+[v-clock] ::before {
+  content: '로딩중';
+}
+
  /* td {
    padding-top: 5px;
  } */
