@@ -1,12 +1,11 @@
 <template>
   <v-card
     class="mx-auto"
-    max-width="580"
+    max-width="550"
     tile
-    dark
   >
     <v-list rounded>
-      <v-list-item-group v-model="item" color="primary">
+      <v-list-item-group color="primary">
         <v-list-item
           v-for="(item, i) in topsearchtags"
           :key="i"
@@ -31,9 +30,7 @@
 
 <script>
 import axios from 'axios'
-import defaultProfile from "../../assets/images/profile_default.png"
 import { base } from "@/components/common/BaseURL.vue"
-import BottomNav from "@/components/common/BottomNav"
 
 export default {
   name: 'SearchStats',
@@ -43,7 +40,7 @@ export default {
     }
   },
   created() {
-    axios.get(base + 'tugether/searchstats', {
+    axios.get(base + '/tugether/searchstats', {
       headers: {
         "jwt-auth-token": localStorage.getItem("token")
       }

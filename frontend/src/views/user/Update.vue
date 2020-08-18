@@ -169,13 +169,12 @@ export default {
       for(let key of formdata.entries()){
         console.log(`${key}`)
       }
-       axios.post(base + '/tugether/articleupdate',
-       formdata,
+       axios.post(base + '/tugether/articleupdate',formdata,
         {
-            headers:{
-              "jwt-auth-token": localStorage.getItem("token"),
-              "Content-Type" : 'multipart/form-data; charset=utf-8'
-            }
+          headers:{
+            "jwt-auth-token": localStorage.getItem("token"),
+            "Content-Type" : 'multipart/form-data; charset=utf-8'
+          }
         },
         )
        .then(res=>{

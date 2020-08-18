@@ -163,12 +163,36 @@ export default {
             articles: [],
             scraps: [],
             clicked: false,
-            email: ""
+            email: "",
+            tag: true,
+            from: '',
+            to: '',
         }
     },
     watch: {
       myText: function() {
         this.checkForm();
+      },
+
+      clicked() {
+        console.log("from : "+this.from +" \t to : "+this.to)
+        axios.get(base + '/tugether/mypage/articles', {
+          headers: {
+            "jwt-auth-token": localStorage.getItem("token"),
+          }
+        })
+        .then(response => {
+          this.articles = response.data.articles;
+          this.scraps = response.data.scraps;
+          this.clicked=false;
+          console.log('clciked:', this.articles)
+        })
+        .catch(err =>{
+            console.log("no watch")
+        })
+        .finally(()=>{
+            this.clicked=false;
+        })
       }
     },
     created() {
@@ -208,6 +232,7 @@ export default {
                     console.log(res.data)
                     this.articles = res.data.articles;
                     this.scraps = res.data.scraps;
+                    console.log('scraps:', this.scraps)
                 })
                 .catch((err) => {
                     console.log("created axios get ARTICLES AND SCRAPS error")
@@ -256,8 +281,11 @@ export default {
             }
           })
           .then(response => {
-            this.articles[index] = response.data.article;
-            console.log('clicedLikeBtn:', this.articles[index])
+            
+            // this.articles[index] = response.data.article;
+            // this.scraps[index] = response.data.article;
+            // console.log('clicedLikeBtn:', this.articles[index])
+            
             // this.clicked = true;
           })
           .catch(err => {
@@ -343,10 +371,6 @@ export default {
       width: 15px;
       height: 15px;
     }
-    .feed-card > img {
-      max-height: 225px;
-      width: 100%;
-    }
     .title {
       text-overflow: ellipsis;
     }
@@ -354,5 +378,8 @@ export default {
       font-size: 95%;
       color: navy;
       cursor: pointer;
+    }
+    .container {
+      margin-bottom: 50px;
     }
 </style>
