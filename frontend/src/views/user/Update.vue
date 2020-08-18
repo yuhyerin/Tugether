@@ -96,9 +96,11 @@ export default {
     // 초기 수정폼에 글내용 불러오기 
     axios
       .get(base + '/tugether/articleloading',{
+          params: {
+            "article_id": this.$route.params.article_id
+          },
           headers: {
             "jwt-auth-token": localStorage.getItem("token"), // 토큰 보내기
-            "article_id": this.$route.params.article_id
           },
         })
       .then(res => {
@@ -169,13 +171,12 @@ export default {
       for(let key of formdata.entries()){
         console.log(`${key}`)
       }
-       axios.post(base + '/tugether/articleupdate',
-       formdata,
+       axios.post(base + '/tugether/articleupdate',formdata,
         {
-            headers:{
-              "jwt-auth-token": localStorage.getItem("token"),
-              "Content-Type" : 'multipart/form-data; charset=utf-8'
-            }
+          headers:{
+            "jwt-auth-token": localStorage.getItem("token"),
+            "Content-Type" : 'multipart/form-data; charset=utf-8'
+          }
         },
         )
        .then(res=>{
