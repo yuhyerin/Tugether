@@ -71,7 +71,7 @@
                             </v-btn>
                             <v-spacer></v-spacer>
                             <v-btn icon>
-                              <v-icon class="mr-1" @click="clickedScrapBtn(index)">mdi-bookmark</v-icon>
+                              <v-icon class="mr-1" @click="scrapMsg(1)">mdi-bookmark</v-icon>
                               <span class="subheading mr-5">{{ article.scrap_cnt }}회</span>
                             </v-btn>
                           </v-card-actions>
@@ -120,8 +120,8 @@
                           </v-btn>
                           <v-spacer></v-spacer>
                           <v-btn icon>
-                            <v-icon class="mr-1" @click="clickedScrapBtn(index)">mdi-bookmark</v-icon>
-                            <span class="subheading mr-5" @click="clickedScrapBtn(index)">{{ scrap.scrap_cnt }}회</span>
+                            <v-icon class="mr-1" @click="scrapMsg(2)">mdi-bookmark</v-icon>
+                            <span class="subheading mr-5">{{ scrap.scrap_cnt }}회</span>
                           </v-btn>
                         </v-card-actions>
                       </v-card>
@@ -278,20 +278,11 @@ export default {
             console.log('clickLikeBtn FAIL!!!')
           })
         },
-
-        clickedLikeScrapBtn(index) { 
-          this.clicked = true;
-          axios.get(base + '/tugether/mainfeed/like', {
-            params: {
-              "article_id": this.scraps[index].article_id,
-            },
-            headers: { 
-              "jwt-auth-token": localStorage.getItem("token"),
-            }
-          })
-          .catch(err => {
-            console.log('clickLikeBtn FAIL!!!')
-          })
+        // 마이페이지에서 스크랩 기능은 사용하지 않음
+        scrapMsg(num) {
+            var msg = "";
+            msg = (num == 1) ? "자신의 게시물은 스크랩할 수 없습니다." : "이미 스크랩한 게시물입니다." ;
+            alert(msg);
         },
         // 댓글 보기 기능
         clickedCommentBtnArticle(index) {
