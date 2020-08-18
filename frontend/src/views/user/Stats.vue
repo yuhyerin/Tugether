@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapB" style="margin-bottom: 50px;">
+  <div class="wrapB">
     <br>
       <div>
         <h3>인기검색</h3>

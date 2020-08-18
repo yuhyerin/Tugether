@@ -2,6 +2,7 @@ package com.web.curation.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -89,9 +90,9 @@ public class StatsController {
 		String email = Userinfo.get("email").toString();
 
 		// 게시글에 가장 많이달린 태그들 
-		ArrayList<Article> toplikeyarticles = statsService.getTopLikeyArticle();
+		List<Article> toplikeyarticles = statsService.getTopLikeyArticle(email );
 		resultMap.put("toplikeyarticles", toplikeyarticles);
-				
+		System.out.println("/likeySTATS : "+toplikeyarticles.toString());		
 		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 
 	}
