@@ -77,6 +77,22 @@ public class MyPageController {
 	
 	}
 	
+	@GetMapping("/mypage/articles")
+	public List<FrontArticle> getAfterMainFeed(@RequestParam boolean my, HttpServletRequest request){
+		System.out.println("Controller입장 : MAINFEED from to GET");
+		String email = 
+				((Map<String, Object>)jwtService.getDecodeToken(request.getHeader("jwt-auth-token"))
+				.getBody().get("AuthenticationResponse")).get("email").toString();
+		List<FrontArticle> result = null;
+		if(my) {
+			result = myPageService.findArticles(email);
+		} else {
+			result = myPageService.findScraps(email);
+		}
+		System.out.println("FROMTOcontroller result : " + result.toString());
+		return result;
+	}
+	
 	@GetMapping("/changepw")
 	@ApiOperation(value="비밀번호확인")
 	public ResponseEntity<Map<String, Object>> checkPW(HttpServletRequest request) {
