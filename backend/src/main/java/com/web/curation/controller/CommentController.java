@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.web.curation.dto.BasicResponse;
@@ -47,13 +48,15 @@ public class CommentController {
    
    @GetMapping("/mainfeed/comment")
    @ApiOperation(value = "댓글페이지")
-   public ResponseEntity<Map<String,Object>> commentPage(HttpServletRequest request) {
+   public ResponseEntity<Map<String,Object>> commentPage(@RequestParam("article_id")Integer article_id,HttpServletRequest request) {
       Map<String, Object> resultMap = new HashMap<String, Object>();
       String token = request.getHeader("jwt-auth-token");   //토큰 가져와서
       Jws<Claims> claims = jwtService.getDecodeToken(token);   //복호화해서
       Map<String, Object> Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
       String email = Userinfo.get("email").toString();
-      int article_id = Integer.parseInt((String)request.getHeader("article_id"));
+//      System.out.println(request.getHeader("article_id"));
+//      int article_id = Integer.parseInt(request.getHeader("article_id"));
+//      int article_id = Integer.parseInt(articleid);
       System.out.println("article_id : "+article_id);
       FrontArticle article = commentService.findArticle(email, article_id);
       System.out.println(article.toString());
@@ -87,11 +90,12 @@ public class CommentController {
    
    @GetMapping("/mainfeed/deleteComment")
    @ApiOperation(value="댓글삭제")
-   public ResponseEntity<Map<String,Object>> deleteComment(HttpServletRequest request) {
+   public ResponseEntity<Map<String,Object>> deleteComment(@RequestParam("comment_id")Integer comment_id, HttpServletRequest request) {
 	   Map<String, Object> resultMap = new HashMap<String, Object>();
 	   // comment_id 삭제 -> article_tb에서 article_id comment_cnt-1
 	   
-	   commentService.deleteComment(Integer.parseInt(request.getHeader("comment_id")));
+//	   commentService.deleteComment(Integer.parseInt(request.getHeader("comment_id")));
+	   commentService.deleteComment(comment_id);
 	   return new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.OK);
    }
 }

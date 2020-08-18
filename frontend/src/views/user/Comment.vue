@@ -96,11 +96,11 @@ export default {
       console.log("clickclick")
       axios.get(base + '/tugether/mainfeed/comment',
       {
-        params: {
-          "article_id": this.$route.params.article_id
+        params:{
+          "article_id": parseInt(this.$route.params.article_id)
         },
         headers: { 
-          "jwt-auth-token": localStorage.getItem("token")
+          "jwt-auth-token": localStorage.getItem("token"),
         }
       })
       .then(res => {
@@ -118,7 +118,7 @@ export default {
   },
   // 따로 commit으로 함수 실행시키는게 아니라 computed에 안적어도 동작에는 문제없는듯
   // computed:{
-  //   ...mapState(["token", "email"]),
+  //   ...mapState(["token", "email"]), //store 공동 저장소에 있는 token 사용하기 위해 선언.
   //   ...mapActions(["getToken", "getEmail"])
   // },
   methods: {
@@ -152,7 +152,7 @@ export default {
       axios.get(base + '/tugether/mainfeed/deleteComment',  
         {
           params: {
-            "comment_id": this.comments[index].comment_id
+            "comment_id": parseInt(this.comments[index].comment_id)
           },
           headers: {
             "jwt-auth-token": localStorage.getItem("token")
