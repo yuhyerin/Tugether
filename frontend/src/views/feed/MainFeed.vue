@@ -33,17 +33,17 @@
                         <v-btn icon>
                           <v-icon class="mr-1 ml-5" v-show="!article.like" @click="clickedLikeBtn(index)">mdi-heart</v-icon>
                           <v-icon class="mr-1 ml-5" v-show="article.like" @click="clickedLikeBtn(index)" style="color: red;">mdi-heart</v-icon>
-                          <span class="subheading mr-2">{{ article.like_cnt }}명</span>
+                          <span class="subheading mr-2" @click="clickedLikeBtn(index)">{{ article.like_cnt }}명</span>
                         </v-btn>
                         <v-spacer></v-spacer>
                         <v-btn icon>
                           <v-icon class="mr-1" @click="clickedCommentBtn(article, index)">mdi-message-text</v-icon>
-                          <span class="subheading mr-2">{{ article.comment_cnt }}개</span>
+                          <span class="subheading mr-2" @click="clickedCommentBtn(article, index)">{{ article.comment_cnt }}개</span>
                         </v-btn>
                         <v-spacer></v-spacer>
                         <v-btn icon>
                           <v-icon class="mr-1" @click="clickedScrapBtn(index)">mdi-bookmark</v-icon>
-                          <span class="subheading mr-5">{{ article.scrap_cnt }}회</span>
+                          <span class="subheading mr-5" @click="clickedScrapBtn(index)">{{ article.scrap_cnt }}회</span>
                         </v-btn>
                       </v-card-actions>
                       <!-- <p class="subheading mr-2 ml-2" style="color: gray">00님 외 {{ article.like_cnt }}명이 좋아합니다.</p> -->
@@ -85,17 +85,17 @@
                         <v-btn icon>
                           <v-icon class="mr-1 ml-5" v-show="!article.like" @click="clickedLikeBtn(index)">mdi-heart</v-icon>
                           <v-icon class="mr-1 ml-5" v-show="article.like" @click="clickedLikeBtn(index)" style="color: red;">mdi-heart</v-icon>
-                          <span class="subheading mr-2">{{ article.like_cnt }}명</span>
+                          <span class="subheading mr-2" @click="clickedLikeBtn(index)">{{ article.like_cnt }}명</span>
                         </v-btn>
                         <v-spacer></v-spacer>
                         <v-btn icon>
                           <v-icon class="mr-1" @click="clickedCommentBtn(article, index)">mdi-message-text</v-icon>
-                          <span class="subheading mr-2">{{ article.comment_cnt }}개</span>
+                          <span class="subheading mr-2" @click="clickedCommentBtn(article, index)">{{ article.comment_cnt }}개</span>
                         </v-btn>
                         <v-spacer></v-spacer>
                         <v-btn icon>
                           <v-icon class="mr-1" @click="clickedScrapBtn(index)">mdi-bookmark</v-icon>
-                          <span class="subheading mr-5">{{ article.scrap_cnt }}회</span>
+                          <span class="subheading mr-5" @click="clickedScrapBtn(index)">{{ article.scrap_cnt }}회</span>
                         </v-btn>
                       </v-card-actions>
                     </v-card>
@@ -231,14 +231,14 @@ export default {
 
     logout(){
       Vue.GoogleAuth.then(auth2=>{
-                console.log(auth2.isSignedIn.get());
-                console.log(auth2.currentUser.get());
-                console.log(JSON.stringify(auth2.currentUser.get().getAuthResponse()));
-                console.log(JSON.stringify(auth2.currentUser.get().getAuthResponse(true).id_token));
-                auth2.signOut().then(function(){
-                    console.log("로그아웃 되었습니다!");
-                });
-                auth2.disconnect();
+        console.log(auth2.isSignedIn.get());
+        console.log(auth2.currentUser.get());
+        console.log(JSON.stringify(auth2.currentUser.get().getAuthResponse()));
+        console.log(JSON.stringify(auth2.currentUser.get().getAuthResponse(true).id_token));
+        auth2.signOut().then(function(){
+            console.log("로그아웃 되었습니다!");
+        });
+        auth2.disconnect();
       })
       this.$store.commit('logout');
       localStorage.clear();
@@ -304,7 +304,6 @@ export default {
       .catch(err => {
         console.log('clickLikeBtn FAIL!!!')
       })
-
     },
 
     clickedCommentBtn(articles, index) {

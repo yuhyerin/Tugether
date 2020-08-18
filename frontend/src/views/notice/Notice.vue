@@ -1,5 +1,5 @@
 <template>
-<!-- <div id="notice">
+<div id="notice">
   <v-notice id="inspire">
     <v-card max-width="344" class="mx-auto" v-for="(notice, index) in notices" :key="notice.id" style="margin-bottom:10px; margin-top:10px;">
       <v-list-item>
@@ -14,8 +14,8 @@
     </v-card>
   </v-notice>
   <BottomNav/> 
-</div> -->
-  <div class="wrapC">
+</div>
+  <!-- <div class="wrapC">
     <div class="notice">
       <div class="media" v-for="(notice, index) in notices" :key="notice.id">
         <v-avatar size="50px" @click="moveUserpage(notice.notice_from)" class="mr-3" style="hover"><img :src="`https://i3b303.p.ssafy.io/profileimages/${notice.profile_photo}`"></v-avatar>
@@ -32,7 +32,7 @@
     </infinite-loading>  
     <BottomNav/>
   </div>
-</template>
+</template> -->
 
 <script>
 import axios from 'axios'
