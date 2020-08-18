@@ -1,7 +1,6 @@
 <template>
   <div class="container">
     <div id="mainfeed">
-      <h1>뉴스피드({{ this.feed }})</h1>
       <a @click="logout" style="color:blue">로그아웃</a>
       <br>
       <v-tabs grow style="padding-bottom: 10px;">

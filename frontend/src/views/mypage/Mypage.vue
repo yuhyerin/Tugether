@@ -62,17 +62,17 @@
                             <v-btn icon>
                               <v-icon class="mr-1 ml-5" v-show="!article.like" @click="clickedLikeBtn(index)">mdi-heart</v-icon>
                               <v-icon class="mr-1 ml-5" v-show="article.like" @click="clickedLikeBtn(index)" style="color: red;">mdi-heart</v-icon>
-                              <span class="subheading mr-2">{{ article.like_cnt }}명</span>
+                              <span class="subheading mr-2" @click="clickedLikeBtn(index)">{{ article.like_cnt }}명</span>
                             </v-btn>
                             <v-spacer></v-spacer>
                             <v-btn icon>
-                              <v-icon class="mr-1" @click="clickedCommentBtn(article, index)">mdi-message-text</v-icon>
-                              <span class="subheading mr-2">{{ article.comment_cnt }}개</span>
+                              <v-icon class="mr-1" @click="clickedCommentBtnArticle(article, index)">mdi-message-text</v-icon>
+                              <span class="subheading mr-2" @click="clickedCommentBtnArticle(article, index)">{{ article.comment_cnt }}개</span>
                             </v-btn>
                             <v-spacer></v-spacer>
                             <v-btn icon>
                               <v-icon class="mr-1" @click="clickedScrapBtn(index)">mdi-bookmark</v-icon>
-                              <span class="subheading mr-5">{{ article.scrap_cnt }}회</span>
+                              <span class="subheading mr-5" @click="clickedScrapBtn(index)">{{ article.scrap_cnt }}회</span>
                             </v-btn>
                           </v-card-actions>
                         </v-card>
@@ -112,17 +112,17 @@
                             <v-btn icon>
                               <v-icon class="mr-1 ml-5" v-show="!scrap.like" @click="clickedLikeBtn(index)">mdi-heart</v-icon>
                               <v-icon class="mr-1 ml-5" v-show="scrap.like" @click="clickedLikeBtn(index)" style="color: red;">mdi-heart</v-icon>
-                              <span class="subheading mr-2">{{ scrap.like_cnt }}명</span>
+                              <span class="subheading mr-2" @click="clickedLikeBtn(index)">{{ scrap.like_cnt }}명</span>
                             </v-btn>
                             <v-spacer></v-spacer>
                             <v-btn icon>
-                              <v-icon class="mr-1" @click="clickedCommentBtn(scrap, index)">mdi-message-text</v-icon>
-                              <span class="subheading mr-2">{{ scrap.comment_cnt }}개</span>
+                              <v-icon class="mr-1" @click="clickedCommentBtnScrap(scrap, index)">mdi-message-text</v-icon>
+                              <span class="subheading mr-2" @click="clickedCommentBtnScrap(scrap, index)">{{ scrap.comment_cnt }}개</span>
                             </v-btn>
                             <v-spacer></v-spacer>
                             <v-btn icon>
                               <v-icon class="mr-1" @click="clickedScrapBtn(index)">mdi-bookmark</v-icon>
-                              <span class="subheading mr-5">{{ scrap.scrap_cnt }}회</span>
+                              <span class="subheading mr-5" @click="clickedScrapBtn(index)">{{ scrap.scrap_cnt }}회</span>
                             </v-btn>
                           </v-card-actions>
                         </v-card>
