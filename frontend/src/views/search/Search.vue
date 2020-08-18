@@ -116,7 +116,8 @@ export default {
             ],
             msg_tag: "",
             msg_nickname: "",
-            email: ""
+            email: "",
+            clicked: false
         }
     },
     methods: {
@@ -215,7 +216,7 @@ export default {
                 });
             }
         },
-        // 좋아요 기능 (url?)
+        // 좋아요 기능
         clickedLikeBtn(index) { 
           this.clicked = true;
           axios.get(base + '/tugether/mainfeed/like', {
@@ -226,21 +227,16 @@ export default {
               "jwt-auth-token": localStorage.getItem("token"),
             }
           })
-          .then(response => {
-            this.articles[index] = response.data.article;
-            console.log('clicedLikeBtn:', this.articles[index])
-            // this.clicked = true;
-          })
           .catch(err => {
             console.log('clickLikeBtn FAIL!!!')
           })
         },
         // 댓글 보기 기능
-        clickedCommentBtnArticle(articles, index) {
+        clickedCommentBtnArticle(index) {
             this.$router.push({
                 name: 'Comment',
                 params: {
-                  "article_id": this.articles[index].article_id
+                  "article_id": parseInt(this.articles[index].article_id)
                 }
             })
         },
@@ -248,7 +244,7 @@ export default {
             this.$router.push({
                 name: 'Comment',
                 params: {
-                  "article_id": this.scraps[index].article_id
+                  "article_id": parseInt(this.scraps[index].article_id)
                 }
             })
         },
