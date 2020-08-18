@@ -78,19 +78,18 @@ public class MyPageController {
 	}
 	
 	@GetMapping("/mypage/articles")
-	public List<FrontArticle> getAfterMainFeed(@RequestParam boolean my, HttpServletRequest request){
-		System.out.println("Controller입장 : mypage GET ARTICLES");
+	public ResponseEntity<Map<String,Object>> getAfterMainFeed(HttpServletRequest request){
+		Map<String, Object> resultMap = new HashMap<String, Object>();
 		String email = 
 				((Map<String, Object>)jwtService.getDecodeToken(request.getHeader("jwt-auth-token"))
 				.getBody().get("AuthenticationResponse")).get("email").toString();
-		List<FrontArticle> result = null;
-		if(my) {
-			result = myPageService.findArticles(email);
-		} else {
-			result = myPageService.findScraps(email);
-		}
-		System.out.println("result : " + result.toString());
-		return result;
+		List<FrontArticle> articles = myPageService.findArticles(email);
+		resultMap.put("articles",articles);
+		System.out.println("articles: "+articles.toString());
+		List<FrontArticle> scraps = myPageService.findScraps(email);
+		resultMap.put("scraps",scraps);
+		System.out.println("scraps: "+scraps.toString());
+		return new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.OK);
 	}
 	
 	@GetMapping("/changepw")
