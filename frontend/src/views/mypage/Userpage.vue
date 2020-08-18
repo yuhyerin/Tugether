@@ -39,7 +39,7 @@
                 <v-container>
                   <v-row dense class="pt-0">
                     <v-col cols="12" v-for="(article, index) in articles" :key="article.id" :articles="articles">
-                      <v-mainfeed id="inspire">
+                      <!-- <v-mainfeed id="inspire"> -->
                         <v-card max-width="344" class="mx-auto">
                           <!-- 프로필이미지, 작성자, 시간(며칠전..), 유튜브 url -->
                           <v-list-item>
@@ -78,7 +78,7 @@
                             </v-btn>
                           </v-card-actions>
                         </v-card>
-                      </v-mainfeed>
+                      <!-- </v-mainfeed> -->
                     </v-col>
                   </v-row>
                 </v-container>
@@ -90,7 +90,7 @@
               <v-container>
                   <v-row dense class="pt-0">
                     <v-col cols="12" v-for="(scrap, index) in scraps" :key="index" :scraps="scraps" style="text-align: left;">
-                      <v-mainfeed id="inspire">
+                      <!-- <v-mainfeed id="inspire"> -->
                         <v-card max-width="344" class="mx-auto">
                           <!-- 프로필이미지, 작성자, 시간(며칠전..), 유튜브 url -->
                           <v-list-item>
@@ -128,7 +128,7 @@
                             </v-btn>
                           </v-card-actions>
                         </v-card>
-                      </v-mainfeed>
+                      <!-- </v-mainfeed> -->
                     </v-col>
                   </v-row>
                 </v-container>
