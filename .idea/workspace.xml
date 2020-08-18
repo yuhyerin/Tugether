@@ -3,17 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="16bb7f1f-a40c-4dbc-aae9-39dd947f4e08" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/.classpath" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.classpath" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/.settings/org.eclipse.core.resources.prefs" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.settings/org.eclipse.core.resources.prefs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/web/curation/controller/ArticleUpdateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/web/curation/controller/ArticleUpdateController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/web/curation/controller/ArticleWriteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/web/curation/controller/ArticleWriteController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/web/curation/controller/CommentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/web/curation/controller/CommentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/web/curation/jwt/interceptor/JwtInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/web/curation/jwt/interceptor/JwtInterceptor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/target/classes/com/web/curation/controller/ArticleUpdateController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/web/curation/controller/ArticleUpdateController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/web/curation/controller/ArticleWriteController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/web/curation/controller/ArticleWriteController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/views/user/Comment.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/user/Comment.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/user/Update.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/user/Update.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +52,7 @@
       <option name="presentableId" value="Default" />
       <updated>1596513281244</updated>
       <workItem from="1596513282407" duration="13431000" />
-      <workItem from="1597547274805" duration="12689000" />
+      <workItem from="1597547274805" duration="14656000" />
     </task>
     <servers />
   </component>

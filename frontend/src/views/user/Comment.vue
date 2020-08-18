@@ -97,7 +97,7 @@ export default {
       axios.get(base + '/tugether/mainfeed/comment',
       {
         params:{
-          "article_id": this.$route.params.article_id
+          "article_id": parseInt(this.$route.params.article_id)
         },
         headers: { 
           "jwt-auth-token": localStorage.getItem("token"),
@@ -152,7 +152,7 @@ export default {
       axios.get(base + '/tugether/mainfeed/deleteComment',  
         {
           params: {
-            "comment_id": this.comments[index].comment_id
+            "comment_id": parseInt(this.comments[index].comment_id)
           },
           headers: {
             "jwt-auth-token": localStorage.getItem("token")

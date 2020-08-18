@@ -97,7 +97,7 @@ export default {
     axios
       .get(base + '/tugether/articleloading',{
           params: {
-            "article_id" : this.$route.params.article_id
+            "article_id" : parseInt(this.$route.params.article_id)
           },
           headers: {
               "jwt-auth-token": localStorage.getItem("token")
