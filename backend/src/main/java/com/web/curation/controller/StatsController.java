@@ -92,7 +92,6 @@ public class StatsController {
 		// 게시글에 가장 많이달린 태그들 
 		List<Article> toplikeyarticles = statsService.getTopLikeyArticle(email );
 		resultMap.put("toplikeyarticles", toplikeyarticles);
-		System.out.println("/likeySTATS : "+toplikeyarticles.toString());		
 		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 
 	}
