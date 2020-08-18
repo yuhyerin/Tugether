@@ -96,5 +96,13 @@ public class CommentServiceImpl implements CommentService{
 		
 		return feedService.makeFront(email , article_id);
 	}
+
+
+
+
+	@Override
+	public void deleteCommentByArticleId(int article_id) {
+		commentRepo.deleteCommentByArticleId(article_id);
+	}
 	
 }

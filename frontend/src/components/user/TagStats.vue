@@ -1,8 +1,9 @@
 <script>
 //Importing Bar class from the vue-chartjs wrapper
+import VueCharts from 'vue-chartjs'
 import { Bar } from 'vue-chartjs'
-import axios from 'axios'
 import { base } from "@/components/common/BaseURL.vue"
+import axios from 'axios'
 //Exporting this so it can be used in other components
 export default {
   extends: Bar,
@@ -17,7 +18,7 @@ export default {
             backgroundColor: ['rgba(255,0,0,1)', 'rgba(255,0,0,0.8)', 'rgba(255,0,0,0.6)', 'rgba(255,0,0,0.4)', 'rgba(255,0,0,0.2)'],
             pointBackgroundColor: 'black',
             borderWidth: 1,
-            pointBorderColor: '#249EBF',
+            pointBorderColor: 'black',
             //Data to be represented on y-axis
             data: []
           }
@@ -48,18 +49,20 @@ export default {
       }
     }
   },
+  //renderChart function renders the chart with the datacollection and options object.
   mounted() {
-    //renderChart function renders the chart with the datacollection and options object.
     this.renderChart(this.datacollection, this.options)
   },
-created() {
-    axios.get(base + 'tugether/articletagstats', {
+  created() {
+    axios.get(base + '/tugether/articletagstats', {
       headers: {
         "jwt-auth-token": localStorage.getItem("token")
       }
     })
     .then(response => {
       console.log(response.data.toparticletags)
+      console.log(response.data.toparticletags[0].tag_name)
+      console.log(response.data.toparticletags[0].article_cnt)
       this.datacollection.labels = [
         response.data.toparticletags[0].tag_name,
         response.data.toparticletags[1].tag_name,
@@ -67,12 +70,12 @@ created() {
         response.data.toparticletags[3].tag_name,
         response.data.toparticletags[4].tag_name,
       ]
-      this.datacollection.datatsets.data = [
-        response.data.toparticletags[0].search_cnt,
-        response.data.toparticletags[1].search_cnt,
-        response.data.toparticletags[2].search_cnt,
-        response.data.toparticletags[3].search_cnt,
-        response.data.toparticletags[4].search_cnt,
+      this.datacollection.datasets.data = [
+        response.data.toparticletags[0].article_cnt,
+        response.data.toparticletags[1].article_cnt,
+        response.data.toparticletags[2].article_cnt,
+        response.data.toparticletags[3].article_cnt,
+        response.data.toparticletags[4].article_cnt,
       ]
     })
     .catch(error => {

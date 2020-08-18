@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.web.curation.dto.BasicResponse;
 import com.web.curation.dto.profile.Profile;
 import com.web.curation.jwt.service.JwtService;
+import com.web.curation.service.articlewrite.ArticleUpdateService;
 import com.web.curation.service.profile.ProfileService;
 import com.web.curation.service.tag.FavtagService;
 import com.web.curation.service.tag.TagService;
@@ -50,15 +51,14 @@ public class ProfileController {
 	
 	@Autowired
 	private ProfileService profileSerivce;
-
 	@Autowired
 	private TagService tagService;
-	
 	@Autowired
 	private FavtagService favtagService;
-
 	@Autowired
 	private JwtService jwtService;
+	@Autowired
+	private ArticleUpdateService articleUpdateService;
 	
 
 	@GetMapping("/profile")
@@ -115,6 +115,10 @@ public class ProfileController {
 			profile.setEmail(email);
 			profile.setNickname(nickname);
 			
+			/** 2. Article테이블에서 writer 업데이트  */
+			articleUpdateService.updateArticleWriter(email,nickname);
+			
+			/** 3. Profile테이블 업데이트 */
 			if(mFile==null) { // 프로필사진을 변경하지 않은 경우 
 				// 이메일로 해당 유저 프로필 수정하기 
 				profileSerivce.updateProfile(profile);

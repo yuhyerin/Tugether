@@ -136,7 +136,6 @@ export default {
       }
       console.log("보낼때 데이터 뭐야??")
       console.log(this.favTags)
-      console.log("이거토큰맞지??? "+ this.$store.state.token)
      
       axios.post(`${SERVER_URL}/tugether/favtag`, 
       {
@@ -144,12 +143,11 @@ export default {
       },
       {
           headers:{
-            "jwt-auth-token": this.$store.state.token
+            "jwt-auth-token": localStorage.getItem("token")
           }
       }
       )
       .then((response) => {
-        console.log("크하하 결과다!!!"+ response.data.status)
         this.$router.push('/mainfeed')
 
       })
