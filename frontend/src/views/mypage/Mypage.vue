@@ -66,7 +66,7 @@
                             </v-btn>
                             <v-spacer></v-spacer>
                             <v-btn icon>
-                              <v-icon class="mr-1" @click="clickedCommentBtn(article, index)">mdi-message-text</v-icon>
+                              <v-icon class="mr-1" @click="clickedCommentBtnArticle(index)">mdi-message-text</v-icon>
                               <span class="subheading mr-2">{{ article.comment_cnt }}개</span>
                             </v-btn>
                             <v-spacer></v-spacer>
@@ -314,11 +314,11 @@ export default {
           })
         },
         // 댓글 보기 기능
-        clickedCommentBtnArticle(articles, index) {
+        clickedCommentBtnArticle(index) {
             this.$router.push({
                 name: 'Comment',
                 params: {
-                  "article_id": this.articles[index].article_id
+                  "article_id": parseInt(this.articles[index].article_id)
                 }
             })
         },
@@ -326,7 +326,7 @@ export default {
             this.$router.push({
                 name: 'Comment',
                 params: {
-                  "article_id": this.scraps[index].article_id
+                  "article_id": parseInt(this.scraps[index].article_id)
                 }
             })
         },
