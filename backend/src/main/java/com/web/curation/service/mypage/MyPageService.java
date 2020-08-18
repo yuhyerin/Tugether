@@ -7,9 +7,12 @@ import com.web.curation.dto.article.FrontArticle;
 
 public interface MyPageService {
 	
-	//1. 내 게시글 가져오기
-	List<FrontArticle> findArticles(String email); 
-	//2. 스크랩한 게시글 가져오기
+	//1. 유저 게시글 가져오기
+	List<FrontArticle> findArticles(String userEmail, String email); 
+	//2. 유저 스크랩한 게시글 가져오기
+	List<FrontArticle> findScraps(String userEmail, String email);
+	
+	List<FrontArticle> findArticles(String email);
 	List<FrontArticle> findScraps(String email);
 	
 	//3. 팔로우 확인
