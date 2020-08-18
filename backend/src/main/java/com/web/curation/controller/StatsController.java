@@ -90,7 +90,7 @@ public class StatsController {
 		String email = Userinfo.get("email").toString();
 
 		// 게시글에 가장 많이달린 태그들 
-		List<Article> toplikeyarticles = statsService.getTopLikeyArticle(email );
+		List<Article> toplikeyarticles = statsService.getTopLikeyArticle(email);
 		resultMap.put("toplikeyarticles", toplikeyarticles);
 		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 
