@@ -76,7 +76,7 @@ public class MyPageController {
          return new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.OK);
    
    }
-   
+   //clicked
    @GetMapping("/mypage/articles")
    public ResponseEntity<Map<String,Object>> getAfterMainFeed(HttpServletRequest request){
       Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -135,10 +135,10 @@ public class MyPageController {
             (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
       String email = Userinfo.get("email").toString();
       // 1. 게시글 가져오기
-      List<FrontArticle> articles=myPageService.findArticles(userEmail); 
+      List<FrontArticle> articles=myPageService.findArticles(userEmail, email); 
       resultMap.put("articles", articles);
       //2. 스크랩한 게시글 가져오기
-      List<FrontArticle> scraps = myPageService.findScraps(userEmail);
+      List<FrontArticle> scraps = myPageService.findScraps(userEmail, email);
       resultMap.put("scraps", scraps);
       //3. 프로필 가져오기
       Profile profile = profileService.getProfile(userEmail);
@@ -146,6 +146,8 @@ public class MyPageController {
       boolean follow = myPageService.findFollow(userEmail, email);
       resultMap.put("follow", follow);
       
+      System.out.println("articles : "+ articles.toString());
+      System.out.println("scraps : "+ scraps.toString());
       List<String> favtags = myPageService.findFavTags(userEmail);
       resultMap.put("favtags", favtags);
       return new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.OK);
