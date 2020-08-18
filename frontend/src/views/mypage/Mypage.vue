@@ -163,12 +163,43 @@ export default {
             articles: [],
             scraps: [],
             clicked: false,
-            email: ""
+            email: "",
+            tag: true,
+            from: '',
+            to: '',
         }
     },
     watch: {
       myText: function() {
         this.checkForm();
+      },
+
+      clicked() {
+        console.log("from : "+this.from +" \t to : "+this.to)
+        axios.get(base + '/tugether/mainfeed/fromto', {
+          params: {
+            "tag": this.tag,
+            "from": this.from,
+            "to": this.to,
+          },
+          headers: {
+            "jwt-auth-token": localStorage.getItem("token"),
+          }
+        })
+        .then(response => {
+          console.log('click this.from', this.from)
+          console.log('click this.to', this.to)
+          console.log('clicked:', response.data)
+          this.articles = response.data
+          console.log('articles:', this.articles)
+          this.clicked=false;
+        })
+        .catch(err =>{
+            console.log("no watch")
+        })
+        .finally(()=>{
+            this.clicked=false;
+        })
       }
     },
     created() {
@@ -208,6 +239,8 @@ export default {
                     console.log(res.data)
                     this.articles = res.data.articles;
                     this.scraps = res.data.scraps;
+                    this.from = this.articles[0].article_id;
+                    this.to = this.articles[this.articles.length-1].article_id;
                 })
                 .catch((err) => {
                     console.log("created axios get ARTICLES AND SCRAPS error")
@@ -359,5 +392,8 @@ export default {
       font-size: 95%;
       color: navy;
       cursor: pointer;
+    }
+    .container {
+      margin-bottom: 50px;
     }
 </style>

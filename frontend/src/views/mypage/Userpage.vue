@@ -335,4 +335,7 @@ export default {
       color: navy;
       cursor: pointer;
     }
+    .container {
+      margin-bottom: 50px;
+    }
 </style>
