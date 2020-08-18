@@ -182,8 +182,6 @@ export default {
           this.articles = response.data.articles;
           this.scraps = response.data.scraps;
           this.clicked=false;
-          console.log('clicked articels:', this.articles)
-          console.log('clicked scraps:' ,this.scraps)
         })
         .catch(err =>{
             console.log("no watch")
@@ -265,25 +263,16 @@ export default {
                 // console.log("삭제 실패")
             });
         },
-        // 좋아요 기능 (url?)
+        // 좋아요 기능
         clickedLikeBtn(index) { 
           this.clicked = true;
           axios.get(base + '/tugether/mainfeed/like', {
             params: {
               "article_id": this.articles[index].article_id,
-              // "scrap_id": this.scraps[index].article_id,
             },
             headers: { 
               "jwt-auth-token": localStorage.getItem("token"),
             }
-          })
-          .then(response => {
-            
-            // this.articles[index] = response.data.article;
-            // this.scraps[index] = response.data.article;
-            // console.log('clicedLikeBtn:', this.articles[index])
-            
-            // this.clicked = true;
           })
           .catch(err => {
             console.log('clickLikeBtn FAIL!!!')
@@ -295,19 +284,10 @@ export default {
           axios.get(base + '/tugether/mainfeed/like', {
             params: {
               "article_id": this.scraps[index].article_id,
-              // "scrap_id": this.scraps[index].article_id,
             },
             headers: { 
               "jwt-auth-token": localStorage.getItem("token"),
             }
-          })
-          .then(response => {
-            
-            // this.articles[index] = response.data.article;
-            // this.scraps[index] = response.data.article;
-            // console.log('clicedLikeBtn:', this.articles[index])
-            
-            // this.clicked = true;
           })
           .catch(err => {
             console.log('clickLikeBtn FAIL!!!')

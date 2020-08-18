@@ -64,17 +64,17 @@
                             <v-btn icon>
                               <v-icon class="mr-1 ml-5" v-show="!article.like" @click="clickedLikeBtn(index)">mdi-heart</v-icon>
                               <v-icon class="mr-1 ml-5" v-show="article.like" @click="clickedLikeBtn(index)" style="color: red;">mdi-heart</v-icon>
-                              <span class="subheading mr-2">{{ article.like_cnt }}명</span>
+                              <span class="subheading mr-2" @click="clickedLikeBtn(index)">{{ article.like_cnt }}명</span>
                             </v-btn>
                             <v-spacer></v-spacer>
                             <v-btn icon>
                               <v-icon class="mr-1" @click="clickedCommentBtn(article, index)">mdi-message-text</v-icon>
-                              <span class="subheading mr-2">{{ article.comment_cnt }}개</span>
+                              <span class="subheading mr-2" @click="clickedCommentBtn(article, index)">{{ article.comment_cnt }}개</span>
                             </v-btn>
                             <v-spacer></v-spacer>
                             <v-btn icon>
                               <v-icon class="mr-1" @click="clickedScrapBtn(index)">mdi-bookmark</v-icon>
-                              <span class="subheading mr-5">{{ article.scrap_cnt }}회</span>
+                              <span class="subheading mr-5" @click="clickedScrapBtn(index)">{{ article.scrap_cnt }}회</span>
                             </v-btn>
                           </v-card-actions>
                         </v-card>
@@ -112,19 +112,19 @@
                           </v-chip-group>
                           <v-card-actions>
                             <v-btn icon>
-                              <v-icon class="mr-1 ml-5" v-show="!scrap.like" @click="clickedLikeBtn(index)">mdi-heart</v-icon>
-                              <v-icon class="mr-1 ml-5" v-show="scrap.like" @click="clickedLikeBtn(index)" style="color: red;">mdi-heart</v-icon>
-                              <span class="subheading mr-2">{{ scrap.like_cnt }}명</span>
+                              <v-icon class="mr-1 ml-5" v-show="!scrap.like" @click="clickedLikeScrapBtn(index)">mdi-heart</v-icon>
+                              <v-icon class="mr-1 ml-5" v-show="scrap.like" @click="clickedLikeScrapBtn(index)" style="color: red;">mdi-heart</v-icon>
+                              <span class="subheading mr-2" @click="clickedLikeScrapBtn(index)">{{ scrap.like_cnt }}명</span>
                             </v-btn>
                             <v-spacer></v-spacer>
                             <v-btn icon>
                               <v-icon class="mr-1" @click="clickedCommentBtn(scrap, index)">mdi-message-text</v-icon>
-                              <span class="subheading mr-2">{{ scrap.comment_cnt }}개</span>
+                              <span class="subheading mr-2" @click="clickedCommentBtn(scrap, index)">{{ scrap.comment_cnt }}개</span>
                             </v-btn>
                             <v-spacer></v-spacer>
                             <v-btn icon>
                               <v-icon class="mr-1" @click="clickedScrapBtn(index)">mdi-bookmark</v-icon>
-                              <span class="subheading mr-5">{{ scrap.scrap_cnt }}회</span>
+                              <span class="subheading mr-5" @click="clickedScrapBtn(index)">{{ scrap.scrap_cnt }}회</span>
                             </v-btn>
                           </v-card-actions>
                         </v-card>
@@ -161,6 +161,31 @@ export default {
             email: "",
             clicked: false
         }
+    },
+    watch: {
+      clicked() {
+        axios.get(base + '/tugether/userpage', {
+          params:{
+            "userEmail": localStorage.getItem("userEmail")
+          },
+          headers: {
+            "jwt-auth-token": localStorage.getItem("token"),
+          }
+        })
+        .then(response => {
+          this.articles = response.data.articles;
+          this.scraps = response.data.scraps;
+          this.clicked=false;
+          console.log('clicked articels:', this.articles)
+          console.log('clicked scraps:' ,this.scraps)
+        })
+        .catch(err =>{
+            console.log("no watch")
+        })
+        .finally(()=>{
+            this.clicked=false;
+        })
+      }
     },
     created() {
         this.refresh();
@@ -239,23 +264,34 @@ export default {
                 });
             } // if
         },
-        // 좋아요 기능 (url?)
+        // 좋아요 기능
         clickedLikeBtn(index) { 
-            this.clicked = true;
-            axios.get(base + '/tugether/mainfeed/like', {
-              headers: { 
-                "jwt-auth-token": localStorage.getItem("token"),
-                "article_id": this.articles[index].article_id
-              }
-            })
-            .then(response => {
-                this.articles[index] = response.data.article;
-                console.log(this.articles)
-                this.clicked = true;
-            })
-            .catch(err => {
-                console.log('실패함')
-            })
+          this.clicked = true;
+          axios.get(base + '/tugether/mainfeed/like', {
+            params: {
+              "article_id": this.articles[index].article_id,
+            },
+            headers: { 
+              "jwt-auth-token": localStorage.getItem("token"),
+            }
+          })
+          .catch(err => {
+            console.log('clickLikeBtn FAIL!!!')
+          })
+        },
+        clickedLikeScrapBtn(index) { 
+          this.clicked = true;
+          axios.get(base + '/tugether/mainfeed/like', {
+            params: {
+              "article_id": this.scraps[index].article_id,
+            },
+            headers: { 
+              "jwt-auth-token": localStorage.getItem("token"),
+            }
+          })
+          .catch(err => {
+            console.log('clickLikeBtn FAIL!!!')
+          })
         },
         // 댓글 보기 기능
         clickedCommentBtnArticle(articles, index) {
