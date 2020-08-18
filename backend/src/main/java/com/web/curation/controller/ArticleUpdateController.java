@@ -74,7 +74,7 @@ public class ArticleUpdateController {
 
 	@ApiOperation(value = "게시글 내용 가져오기")
 	@GetMapping("/articleloading")
-	public ResponseEntity<Map<String, Object>> getArticle(HttpServletRequest request) {
+	public ResponseEntity<Map<String, Object>> getArticle(@RequestParam int article_id, HttpServletRequest request) {
 
 		String token = request.getHeader("jwt-auth-token");
 		Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -84,7 +84,8 @@ public class ArticleUpdateController {
 		String email = Userinfo.get("email").toString();
 
 		// 게시글번호 보내서 내용 가져오기
-		int article_id = Integer.parseInt(request.getHeader("article_id"));
+//		int article_id = Integer.parseInt(request.getHeader("article_id"));
+		
 		Article article = articleUpdateService.getArticle(article_id);
 		resultMap.put("article", article);
 		ArrayList<String> favtaglist = articleUpdateService.getArticleTag(article_id);
