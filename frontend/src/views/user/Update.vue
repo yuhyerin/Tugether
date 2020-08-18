@@ -96,9 +96,12 @@ export default {
     // 초기 수정폼에 글내용 불러오기 
     axios
       .get(base + '/tugether/articleloading',{
+          params: {
+            "article_id" : parseInt(this.$route.params.article_id)
+          },
           headers: {
-            "jwt-auth-token": localStorage.getItem("token"), // 토큰 보내기
-            "article_id": this.$route.params.article_id
+              "jwt-auth-token": localStorage.getItem("token")
+              
           },
         })
       .then(res => {
