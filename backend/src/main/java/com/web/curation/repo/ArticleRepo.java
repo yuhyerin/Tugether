@@ -19,6 +19,7 @@ public interface ArticleRepo extends JpaRepository<Article, String> {
 	@Query(value = "select * from article a where a.article_id=:article_id and a.email!=:email order by a.reg_time desc", nativeQuery = true)
 	Article findArticleByArticleIdandEmail(int article_id, String email);
 
+	//내 게시글
 	@Query(value = "select * from article a where a.email=:email order by a.reg_time desc", nativeQuery = true)
 	public List<Article> findArticleByEmail(String email);
 

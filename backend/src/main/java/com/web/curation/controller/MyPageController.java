@@ -65,7 +65,7 @@ public class MyPageController {
 			String email = Userinfo.get("email").toString();
 			//1. 내 게시글 가져오기
 			List<FrontArticle> articles = myPageService.findArticles(email); 
-			System.out.println("articles : "+articles.toString());
+//			System.out.println("articles : "+articles.toString());
 			//2. 스크랩한 게시글 가져오기
 			List<FrontArticle> scraps = myPageService.findScraps(email);
 			System.out.println("scraps : "+scraps.toString());
@@ -75,6 +75,22 @@ public class MyPageController {
 			
 			return new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.OK);
 	
+	}
+	
+	@GetMapping("/mypage/articles")
+	public List<FrontArticle> getAfterMainFeed(@RequestParam boolean my, HttpServletRequest request){
+		System.out.println("Controller입장 : MAINFEED from to GET");
+		String email = 
+				((Map<String, Object>)jwtService.getDecodeToken(request.getHeader("jwt-auth-token"))
+				.getBody().get("AuthenticationResponse")).get("email").toString();
+		List<FrontArticle> result = null;
+		if(my) {
+			result = myPageService.findArticles(email);
+		} else {
+			result = myPageService.findScraps(email);
+		}
+		System.out.println("FROMTOcontroller result : " + result.toString());
+		return result;
 	}
 	
 	@GetMapping("/changepw")

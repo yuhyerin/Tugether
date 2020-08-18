@@ -13,7 +13,7 @@ public interface ScrapRepo extends JpaRepository<Scrap, String> {
 	@Query(value="select * from scrap s where s.email=:email and s.article_id=:article_id", nativeQuery = true)
 	public Optional<Scrap> findScrap(String email, int article_id);
 	
-	@Query(value="select article_id from scrap s where s.email=:email order by uid desc", nativeQuery = true)
+	@Query(value="select article_id from scrap s where s.email=:email order by reg_time desc", nativeQuery = true)
 	public List<Integer> findArticleidByEmail(String email);
 
 	@Query(value="delete from scrap where article_id=:articleid", nativeQuery = true)

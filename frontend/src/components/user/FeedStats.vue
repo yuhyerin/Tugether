@@ -2,7 +2,6 @@
   <div class="container">
     <v-row dense class="pt-0">
       <v-col cols="12"  v-for="(article, index) in articles" :key="article.id" :articles="articles">
-        <v-mainfeed id="inspire">
           <v-card max-width="344" class="mx-auto" outlined>
             <v-list-item>
               <v-list-item-avatar class="mr-2" size="40px" @click="moveUserpage(article.email)" style="cursor:pointer"><img :src="`https://i3b303.p.ssafy.io/articleimages/${article.profile_photo}`"></v-list-item-avatar>
@@ -39,18 +38,14 @@
               </v-btn>
             </v-card-actions>
           </v-card>
-        </v-mainfeed>
       </v-col>
     </v-row>
-    <BottomNav/>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-import defaultProfile from "../../assets/images/profile_default.png"
 import { base } from "@/components/common/BaseURL.vue"
-import BottomNav from "@/components/common/BottomNav"
 
 export default {
   name: 'FeedStats',
@@ -59,11 +54,7 @@ export default {
       email: '',
       articles: [],
       clicked: false,
-      defaultProfile,
     }
-  },
-  components:{
-    BottomNav,
   },
   methods: {
     timeForToday(value) {
@@ -165,7 +156,7 @@ export default {
     },
   },
   created() {
-    axios.get(base + 'tugether/likeystats', {
+    axios.get(base + '/tugether/likeystats', {
       headers: {
         "jwt-auth-token": localStorage.getItem("token")
       }
