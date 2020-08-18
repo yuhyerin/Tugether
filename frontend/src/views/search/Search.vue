@@ -6,7 +6,7 @@
                 <select v-model="test" style="border: 1px solid black;">
                     <option value="">검색어 분류</option>
                     <option value="tag">태그</option>
-                    <option value="user">사용자</option>
+                    <option value="nickname">닉네임</option>
                 </select>
                 value: {{ test }}
                 <div style="margin-top: -55px;">
@@ -22,6 +22,9 @@
                 작성자 {{ article.writer }}
                 글내용 {{ article.content }}
             </div>
+
+            <!--닉네임 기반 사용자 검색 결과-->
+
 
             <!--네비게이션 바-->
             <BottomNav/>
@@ -46,14 +49,15 @@ export default {
             keyword: "",
             articles: [],
             searchList: [],
+            userList: [],
             options: [
                 {
                     value: "tag",
                     title: "태그"
                 },
                 {
-                    value: "user",
-                    title: "사용자"
+                    value: "nickname",
+                    title: "닉네임"
                 }
             ]
         }
@@ -77,12 +81,11 @@ export default {
         },
         // 태그 기반 검색 기능
         searchTag() {
-            console.log(localStorage.getItem("token"))
             axios
                 .post(base + '/tugether/search/tag', {
                     "keyword": this.keyword,
                     headers:{
-                         "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
+                        "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
                     }
                 })
                 .then((res) => {
@@ -110,6 +113,13 @@ export default {
                 .catch((err) => {
                     console.log("searchUser function error")
                 })
+        }
+    },
+    computed: {
+        ...mapState(["token"]), //store 공동 저장소에 있는 token 사용하기 위해 선언
+        ...mapActions(["getToken"]),
+        current() {
+            return this.list.find(el => el.id === this.currentId) || {}
         }
     }
 }
