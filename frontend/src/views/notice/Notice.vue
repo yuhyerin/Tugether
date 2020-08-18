@@ -31,20 +31,20 @@
       <div slot="no-more" style="color: rgb(102, 102, 102); font-size: 14px; padding: 10px 0px;">목록의 끝입니다 :)</div>
     </infinite-loading>  
     <BottomNav/>
-  </div>
-</template> -->
+  </div>-->
+</template>
 
 <script>
 import axios from 'axios'
 import { base } from "@/components/common/BaseURL.vue";
 import BottomNav from "@/components/common/BottomNav";
-import InfiniteLoading from 'vue-infinite-loading';
+// import InfiniteLoading from 'vue-infinite-loading';
 
 export default {
   name: 'Notice',
   components: { 
     BottomNav,
-    InfiniteLoading,
+    // InfiniteLoading,
   },
   data() {
     return {

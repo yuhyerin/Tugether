@@ -241,21 +241,23 @@ export default {
         },
         // 좋아요 기능 (url?)
         clickedLikeBtn(index) { 
-            this.clicked = true;
-            axios.get(base + '/tugether/mainfeed/like', {
-              headers: { 
-                "jwt-auth-token": localStorage.getItem("token"),
-                "article_id": this.articles[index].article_id
-              }
-            })
-            .then(response => {
-                this.articles[index] = response.data.article;
-                console.log(this.articles)
-                this.clicked = true;
-            })
-            .catch(err => {
-                console.log('실패함')
-            })
+          this.clicked = true;
+          axios.get(base + '/tugether/mainfeed/like', {
+            params: {
+              "article_id": this.articles[index].article_id,
+            },
+            headers: { 
+              "jwt-auth-token": localStorage.getItem("token"),
+            }
+          })
+          .then(response => {
+            this.articles[index] = response.data.article;
+            console.log('clicedLikeBtn:', this.articles[index])
+            // this.clicked = true;
+          })
+          .catch(err => {
+            console.log('clickLikeBtn FAIL!!!')
+          })
         },
         // 댓글 보기 기능
         clickedCommentBtnArticle(articles, index) {
