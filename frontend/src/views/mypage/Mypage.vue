@@ -68,7 +68,7 @@
                             </v-btn>
                             <v-spacer></v-spacer>
                             <v-btn icon>
-                              <v-icon class="mr-1" @click="clickedCommentBtn(article, index)">mdi-message-text</v-icon>
+                              <v-icon class="mr-1" @click="clickedCommentBtnArticle(article, index)">mdi-message-text</v-icon>
                               <span class="subheading mr-2">{{ article.comment_cnt }}개</span>
                             </v-btn>
                             <v-spacer></v-spacer>
@@ -125,7 +125,7 @@
                             </v-btn>
                             <v-spacer></v-spacer>
                             <v-btn icon>
-                              <v-icon class="mr-1" @click="clickedCommentBtn(scrap, index)">mdi-message-text</v-icon>
+                              <v-icon class="mr-1" @click="clickedCommentBtnScrap(scrap, index)">mdi-message-text</v-icon>
                               <span class="subheading mr-2">{{ scrap.comment_cnt }}개</span>
                             </v-btn>
                             <v-spacer></v-spacer>
