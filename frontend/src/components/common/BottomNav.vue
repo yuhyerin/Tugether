@@ -19,7 +19,7 @@
       
       <v-btn @click="sendToNotice">
         <span>Alarm</span>
-        <v-icon style="color: red; padding-top: 20px;">mdi-heart</v-icon>
+        <v-icon style="color: red; padding-top: 20px;">mdi-bell</v-icon>
       </v-btn>
 
       <v-btn @click="senToStatPage">

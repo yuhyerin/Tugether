@@ -19,6 +19,7 @@ public interface ArticleRepo extends JpaRepository<Article, String> {
 	@Query(value = "select * from article a where a.article_id=:article_id and a.email!=:email order by a.reg_time desc", nativeQuery = true)
 	Article findArticleByArticleIdandEmail(int article_id, String email);
 
+	//내 게시글
 	@Query(value = "select * from article a where a.email=:email order by a.reg_time desc", nativeQuery = true)
 	public List<Article> findArticleByEmail(String email);
 
@@ -46,9 +47,9 @@ public interface ArticleRepo extends JpaRepository<Article, String> {
 	List<Integer> findArticleIdByEmailFromToFollow(String email, int from, int to);
 	
 	// search by Tag
-	@Query(value="select distinct article_id from article a where a.article_id in ( " + 
-			"select article_id from articletag ta where ta.tag_id in ( " + 
-			"(select tag_id from tag t where t.tag_name like concat('%',':keyword','%')) ) ) and a.email!=:email order by reg_time desc;", nativeQuery=true)
-	List<Integer> findArticleByTagNameForSearch(String email, String keyword);
+	@Query(value="select distinct article_id from article a where a.article_id in " + 
+			"( select article_id from articletag ta where ta.tag_id in " + 
+			"( select tag_id from tag t where t.tag_name like concat('%',:keyword,'%') ) ) order by reg_time desc", nativeQuery=true)
+	List<Integer> findArticleByTagNameForSearch(String keyword);
 	
 }

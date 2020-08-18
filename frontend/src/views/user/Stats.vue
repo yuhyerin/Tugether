@@ -95,11 +95,11 @@ export default {
         response.data.topsearchtags[4].tag_name,
       ]
       this.searchData = [
-        response.data.topsearchtags[0].article_cnt,
-        response.data.topsearchtags[1].article_cnt,
-        response.data.topsearchtags[2].article_cnt,
-        response.data.topsearchtags[3].article_cnt,
-        response.data.topsearchtags[4].article_cnt,
+        response.data.topsearchtags[0].search_cnt,
+        response.data.topsearchtags[1].search_cnt,
+        response.data.topsearchtags[2].search_cnt,
+        response.data.topsearchtags[3].search_cnt,
+        response.data.topsearchtags[4].search_cnt,
       ]
       })
       .catch(error => {

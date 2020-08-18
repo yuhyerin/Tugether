@@ -32,7 +32,7 @@
                 <v-container>
                   <v-row dense class="pt-0">
                     <v-col cols="12" v-for="(article, index) in articles" :key="article.id" :articles="articles">
-                      <v-mainfeed id="inspire">
+                      <!-- <v-mainfeed id="inspire"> -->
                         <v-card max-width="344" class="mx-auto">
                           <!-- 프로필이미지, 작성자, 시간(며칠전..), 유튜브 url -->
                           <v-list-item>
@@ -66,7 +66,7 @@
                             </v-btn>
                             <v-spacer></v-spacer>
                             <v-btn icon>
-                              <v-icon class="mr-1" @click="clickedCommentBtn(article, index)">mdi-message-text</v-icon>
+                              <v-icon class="mr-1" @click="clickedCommentBtnArticle(index)">mdi-message-text</v-icon>
                               <span class="subheading mr-2">{{ article.comment_cnt }}개</span>
                             </v-btn>
                             <v-spacer></v-spacer>
@@ -76,7 +76,7 @@
                             </v-btn>
                           </v-card-actions>
                         </v-card>
-                      </v-mainfeed>
+                      <!-- </v-mainfeed> -->
                     </v-col>
                   </v-row>
                 </v-container>
@@ -88,45 +88,43 @@
               <v-container>
                   <v-row dense class="pt-0">
                     <v-col cols="12" v-for="(scrap, index) in scraps" :key="index" :scraps="scraps" style="text-align: left;">
-                      <v-mainfeed id="inspire">
-                        <v-card max-width="344" class="mx-auto">
-                          <!-- 프로필이미지, 작성자, 시간(며칠전..), 유튜브 url -->
-                          <v-list-item>
-                            <v-list-item-avatar class="mr-2" @click="moveUserpage(scrap.email)" size="40px" style="cursor:pointer"><img :src="`https://i3b303.p.ssafy.io/profileimages/${scrap.profile_photo}`"></v-list-item-avatar>
-                            <v-list-item-content>
-                              <v-list-item-title class="headline" @click="moveUserpage(scrap.email)" style="cursor:pointer; text-align:left;">{{ scrap.writer }}</v-list-item-title>
-                              <v-list-item-subtitle style="font-size:0.8rem; text-align:left;">{{ timeForToday(scrap.reg_time) }}</v-list-item-subtitle>
-                            </v-list-item-content>
-                            <v-spacer></v-spacer>
-                            <a :href="scrap.link" v-if="scrap.link" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:25px; height:25px;"></a>
-                          </v-list-item>
-                          <!-- 이미지, 내용, 태그 -->
-                          <v-img :src="`https://i3b303.p.ssafy.io/articleimages/${scrap.image}`" height="194"></v-img>
-                          <v-card-text class="pb-0" style="color:black; text-align:left;">{{ scrap.content }}</v-card-text>
-                          <v-chip-group column>
-                            <span v-for="tag in scrap.tag_name" :key="tag.name">
-                              <v-chip class="ml-2 mr-0" style="cursor:default; font-weight:bold;">#{{ tag }}</v-chip>
-                              </span>
-                          </v-chip-group>
-                          <v-card-actions>
-                            <v-btn icon>
-                              <v-icon class="mr-1 ml-5" v-show="!scrap.like" @click="clickedLikeBtn(index)">mdi-heart</v-icon>
-                              <v-icon class="mr-1 ml-5" v-show="scrap.like" @click="clickedLikeBtn(index)" style="color: red;">mdi-heart</v-icon>
-                              <span class="subheading mr-2">{{ scrap.like_cnt }}명</span>
-                            </v-btn>
-                            <v-spacer></v-spacer>
-                            <v-btn icon>
-                              <v-icon class="mr-1" @click="clickedCommentBtn(scrap, index)">mdi-message-text</v-icon>
-                              <span class="subheading mr-2">{{ scrap.comment_cnt }}개</span>
-                            </v-btn>
-                            <v-spacer></v-spacer>
-                            <v-btn icon>
-                              <v-icon class="mr-1" @click="clickedScrapBtn(index)">mdi-bookmark</v-icon>
-                              <span class="subheading mr-5">{{ scrap.scrap_cnt }}회</span>
-                            </v-btn>
-                          </v-card-actions>
-                        </v-card>
-                      </v-mainfeed>
+                      <v-card max-width="344" class="mx-auto">
+                        <!-- 프로필이미지, 작성자, 시간(며칠전..), 유튜브 url -->
+                        <v-list-item>
+                          <v-list-item-avatar class="mr-2" @click="moveUserpage(scrap.email)" size="40px" style="cursor:pointer"><img :src="`https://i3b303.p.ssafy.io/profileimages/${scrap.profile_photo}`"></v-list-item-avatar>
+                          <v-list-item-content>
+                            <v-list-item-title class="headline" @click="moveUserpage(scrap.email)" style="cursor:pointer; text-align:left;">{{ scrap.writer }}</v-list-item-title>
+                            <v-list-item-subtitle style="font-size:0.8rem; text-align:left;">{{ timeForToday(scrap.reg_time) }}</v-list-item-subtitle>
+                          </v-list-item-content>
+                          <v-spacer></v-spacer>
+                          <a :href="scrap.link" v-if="scrap.link" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:25px; height:25px;"></a>
+                        </v-list-item>
+                        <!-- 이미지, 내용, 태그 -->
+                        <v-img :src="`https://i3b303.p.ssafy.io/articleimages/${scrap.image}`" height="194"></v-img>
+                        <v-card-text class="pb-0" style="color:black; text-align:left;">{{ scrap.content }}</v-card-text>
+                        <v-chip-group column>
+                          <span v-for="tag in scrap.tag_name" :key="tag.name">
+                            <v-chip class="ml-2 mr-0" style="cursor:default; font-weight:bold;">#{{ tag }}</v-chip>
+                            </span>
+                        </v-chip-group>
+                        <v-card-actions>
+                          <v-btn icon>
+                            <v-icon class="mr-1 ml-5" v-show="!scrap.like" @click="clickedLikeScrapBtn(index)">mdi-heart</v-icon>
+                            <v-icon class="mr-1 ml-5" v-show="scrap.like" @click="clickedLikeScrapBtn(index)" style="color: red;">mdi-heart</v-icon>
+                            <span class="subheading mr-2" @click="clickedLikeScrapBtn(index)">{{ scrap.like_cnt }}명</span>
+                          </v-btn>
+                          <v-spacer></v-spacer>
+                          <v-btn icon>
+                            <v-icon class="mr-1" @click="clickedCommentBtnScrap(scrap, index)">mdi-message-text</v-icon>
+                            <span class="subheading mr-2" @click="clickedCommentBtnScrap(scrap, index)">{{ scrap.comment_cnt }}개</span>
+                          </v-btn>
+                          <v-spacer></v-spacer>
+                          <v-btn icon>
+                            <v-icon class="mr-1" @click="clickedScrapBtn(index)">mdi-bookmark</v-icon>
+                            <span class="subheading mr-5" @click="clickedScrapBtn(index)">{{ scrap.scrap_cnt }}회</span>
+                          </v-btn>
+                        </v-card-actions>
+                      </v-card>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -163,12 +161,34 @@ export default {
             articles: [],
             scraps: [],
             clicked: false,
-            email: ""
+            email: "",
+            tag: true,
+            from: '',
+            to: '',
         }
     },
     watch: {
       myText: function() {
         this.checkForm();
+      },
+
+      clicked() {
+        axios.get(base + '/tugether/mypage/articles', {
+          headers: {
+            "jwt-auth-token": localStorage.getItem("token"),
+          }
+        })
+        .then(response => {
+          this.articles = response.data.articles;
+          this.scraps = response.data.scraps;
+          this.clicked=false;
+        })
+        .catch(err =>{
+            console.log("no watch")
+        })
+        .finally(()=>{
+            this.clicked=false;
+        })
       }
     },
     created() {
@@ -205,7 +225,6 @@ export default {
                     }
                 })
                 .then((res) => {
-                    console.log(res.data)
                     this.articles = res.data.articles;
                     this.scraps = res.data.scraps;
                 })
@@ -244,7 +263,7 @@ export default {
                 // console.log("삭제 실패")
             });
         },
-        // 좋아요 기능 (url?)
+        // 좋아요 기능
         clickedLikeBtn(index) { 
           this.clicked = true;
           axios.get(base + '/tugether/mainfeed/like', {
@@ -255,21 +274,31 @@ export default {
               "jwt-auth-token": localStorage.getItem("token"),
             }
           })
-          .then(response => {
-            this.articles[index] = response.data.article;
-            console.log('clicedLikeBtn:', this.articles[index])
-            // this.clicked = true;
+          .catch(err => {
+            console.log('clickLikeBtn FAIL!!!')
+          })
+        },
+
+        clickedLikeScrapBtn(index) { 
+          this.clicked = true;
+          axios.get(base + '/tugether/mainfeed/like', {
+            params: {
+              "article_id": this.scraps[index].article_id,
+            },
+            headers: { 
+              "jwt-auth-token": localStorage.getItem("token"),
+            }
           })
           .catch(err => {
             console.log('clickLikeBtn FAIL!!!')
           })
         },
         // 댓글 보기 기능
-        clickedCommentBtnArticle(articles, index) {
+        clickedCommentBtnArticle(index) {
             this.$router.push({
                 name: 'Comment',
                 params: {
-                  "article_id": this.articles[index].article_id
+                  "article_id": parseInt(this.articles[index].article_id)
                 }
             })
         },
@@ -277,7 +306,7 @@ export default {
             this.$router.push({
                 name: 'Comment',
                 params: {
-                  "article_id": this.scraps[index].article_id
+                  "article_id": parseInt(this.scraps[index].article_id)
                 }
             })
         },
@@ -338,19 +367,10 @@ export default {
         width: 25%;
         height: 35px;
     }
-    /* 관심태그 리스트 */
-    /* #favtags{
-        background-color: red;
-        color: white;
-    } */
     /* 게시글 크기 조절 */
     .link {
       width: 15px;
       height: 15px;
-    }
-    .feed-card > img {
-      max-height: 225px;
-      width: 100%;
     }
     .title {
       text-overflow: ellipsis;
@@ -359,5 +379,8 @@ export default {
       font-size: 95%;
       color: navy;
       cursor: pointer;
+    }
+    .container {
+      margin-bottom: 50px;
     }
 </style>
