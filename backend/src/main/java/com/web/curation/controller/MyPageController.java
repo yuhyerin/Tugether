@@ -65,7 +65,7 @@ public class MyPageController {
 			String email = Userinfo.get("email").toString();
 			//1. 내 게시글 가져오기
 			List<FrontArticle> articles = myPageService.findArticles(email); 
-			System.out.println("articles : "+articles.toString());
+//			System.out.println("articles : "+articles.toString());
 			//2. 스크랩한 게시글 가져오기
 			List<FrontArticle> scraps = myPageService.findScraps(email);
 			System.out.println("scraps : "+scraps.toString());
