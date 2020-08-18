@@ -107,9 +107,9 @@
                         </v-chip-group>
                         <v-card-actions>
                           <v-btn icon>
-                            <v-icon class="mr-1 ml-5" v-show="!scrap.like" @click="clickedLikeBtn(index)">mdi-heart</v-icon>
-                            <v-icon class="mr-1 ml-5" v-show="scrap.like" @click="clickedLikeBtn(index)" style="color: red;">mdi-heart</v-icon>
-                            <span class="subheading mr-2" @click="clickedLikeBtn(index)">{{ scrap.like_cnt }}명</span>
+                            <v-icon class="mr-1 ml-5" v-show="!scrap.like" @click="clickedLikeScrapBtn(index)">mdi-heart</v-icon>
+                            <v-icon class="mr-1 ml-5" v-show="scrap.like" @click="clickedLikeScrapBtn(index)" style="color: red;">mdi-heart</v-icon>
+                            <span class="subheading mr-2" @click="clickedLikeScrapBtn(index)">{{ scrap.like_cnt }}명</span>
                           </v-btn>
                           <v-spacer></v-spacer>
                           <v-btn icon>
@@ -171,7 +171,6 @@ export default {
       },
 
       clicked() {
-        console.log("from : "+this.from +" \t to : "+this.to)
         axios.get(base + '/tugether/mypage/articles', {
           headers: {
             "jwt-auth-token": localStorage.getItem("token"),
@@ -181,7 +180,8 @@ export default {
           this.articles = response.data.articles;
           this.scraps = response.data.scraps;
           this.clicked=false;
-          console.log('clciked:', this.articles)
+          console.log('clicked articels:', this.articles)
+          console.log('clicked scraps:' ,this.scraps)
         })
         .catch(err =>{
             console.log("no watch")
@@ -225,10 +225,8 @@ export default {
                     }
                 })
                 .then((res) => {
-                    console.log(res.data)
                     this.articles = res.data.articles;
                     this.scraps = res.data.scraps;
-                    console.log('scraps:', this.scraps)
                 })
                 .catch((err) => {
                     console.log("created axios get ARTICLES AND SCRAPS error")
@@ -271,6 +269,31 @@ export default {
           axios.get(base + '/tugether/mainfeed/like', {
             params: {
               "article_id": this.articles[index].article_id,
+              // "scrap_id": this.scraps[index].article_id,
+            },
+            headers: { 
+              "jwt-auth-token": localStorage.getItem("token"),
+            }
+          })
+          .then(response => {
+            
+            // this.articles[index] = response.data.article;
+            // this.scraps[index] = response.data.article;
+            // console.log('clicedLikeBtn:', this.articles[index])
+            
+            // this.clicked = true;
+          })
+          .catch(err => {
+            console.log('clickLikeBtn FAIL!!!')
+          })
+        },
+
+        clickedLikeScrapBtn(index) { 
+          this.clicked = true;
+          axios.get(base + '/tugether/mainfeed/like', {
+            params: {
+              "article_id": this.scraps[index].article_id,
+              // "scrap_id": this.scraps[index].article_id,
             },
             headers: { 
               "jwt-auth-token": localStorage.getItem("token"),
