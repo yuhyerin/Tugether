@@ -4,9 +4,9 @@
     <v-list-item>
       <v-list-item-avatar @click="moveUserpage(notice.notice_from)" class="mr-3" style="hover"><img :src="`https://i3b303.p.ssafy.io/profileimages/${notice.profile_photo}`"></v-list-item-avatar>
       <v-list-item-content>
-        <v-list-item-title class="headline" v-if="notice.notice_type == 1" @click="moveArticleDetail(notice, index)" style="font-size:1em;"><span class="nickname">{{ notice.from_nickname }}</span>님이 회원님의 게시글에 댓글을 남겼습니다.</v-list-item-title>
-        <v-list-item-title class="headline" v-if="notice.notice_type == 2" @click="moveArticleDetail(notice, index)"><span class="nickname">{{ notice.from_nickname }}</span>님이 회원님의 게시글을 좋아합니다.</v-list-item-title>
-        <v-list-item-title class="headline" v-if="notice.notice_type == 3" @click="moveUserpage(notice.notice_from)"><span class="nickname">{{ notice.from_nickname }}</span>님이 회원님을 팔로우하기 시작했습니다.</v-list-item-title>
+        <v-list-item-title class="headline" v-if="notice.notice_type == 1" @click="moveArticleDetail(notice, index)" style="font-size:0.8rem;"><span class="nickname">{{ notice.from_nickname }}</span>님이 회원님의 게시글에 댓글을 남겼습니다.</v-list-item-title>
+        <v-list-item-title class="headline" v-if="notice.notice_type == 2" @click="moveArticleDetail(notice, index)" style="font-size:0.8rem;"><span class="nickname">{{ notice.from_nickname }}</span>님이 회원님의 게시글을 좋아합니다.</v-list-item-title>
+        <v-list-item-title class="headline" v-if="notice.notice_type == 3" @click="moveUserpage(notice.notice_from)" style="font-size:0.8rem;"><span class="nickname">{{ notice.from_nickname }}</span>님이 회원님을 팔로우하기 시작했습니다.</v-list-item-title>
         <v-list-item-subtitle class="date" style="font-size: 10px;">{{ timeForToday(notice.reg_time) }}</v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
@@ -29,7 +29,7 @@
       <div slot="no-more" style="color: rgb(102, 102, 102); font-size: 14px; padding: 10px 0px;">목록의 끝입니다 :)</div>
     </infinite-loading>  
     <BottomNav/>
-  </div>-->
+  </div> -->
 </template>
 
 <script>

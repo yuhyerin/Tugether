@@ -1,73 +1,84 @@
 <template>
     <div class="wrapC" style="text-align: center;">
         <div class="search">
-            <!-- <h1 style="font-size: 30px;">검색</h1> -->
             <div class="container">
                 <select v-model="category" style="border: 1px solid black;">
                     <option value="">검색어 분류</option>
                     <option value="tag">태그</option>
                     <option value="nickname">닉네임</option>
                 </select>
-                value: {{ category }}
                 <!--선택한 카테고리에 따라 버튼 기능 다르게 부여함-->
                 <div style="margin-top: -55px;">
                     <input type="text" v-model="keyword" id="search_bar" placeholder="검색어를 입력하세요" autofocus>
-                    <button class="button" v-if="category===''" @click="selectPlz" @keyup.enter="selectPlz">검색</button>
-                    <button class="button" v-if="category==='tag'" @click="searchTag" @keyup.enter="searchTag">검색</button>
-                    <button class="button" v-if="category==='nickname'" @click="searchUser" @keyup.enter="searchUser">검색</button>
+                    <button class="button" v-if="category===''" @click="selectPlz">검색</button>
+                    <button class="button" v-if="category==='tag'" @click="searchTag">검색</button>
+                    <button class="button" v-if="category==='nickname'" @click="searchUser">검색</button>
                 </div>
+                <!-- <button class="button" @click="searchTagList">드롭다운</button> -->
 
                 <!--태그 기반 게시글 검색 결과-->
-                <div>
-                    <h2>{{ msg }}</h2>
+                <div v-show="category==='tag'">
+                    <div style="margin: -8px 0 12px 0;">
+                        <!--안내메시지 출력-->
+                        <h3>{{ msg_tag }}</h3>
+                    </div>
+                    <v-row dense class="pt-0" v-show="category==='tag'">
+                        <v-col cols="12" v-for="(article, index) in articles" :key="index" :articles="articles">
+                            <v-card max-width="344" class="mx-auto">
+                            <!-- 프로필이미지, 작성자, 시간(며칠전..), 유튜브 url -->
+                            <v-list-item>
+                                <v-list-item-avatar class="mr-2" size="40px" @click="moveUserpage(article.email)" style="cursor:pointer"><img :src="`https://i3b303.p.ssafy.io/profileimages/${article.profile_photo}`"></v-list-item-avatar>
+                                <v-list-item-content>
+                                <v-list-item-title class="headline" @click="moveUserpage(article.email)" style="cursor:pointer; text-align:left;">{{ article.writer }}</v-list-item-title>
+                                <v-list-item-subtitle style="font-size:0.8rem; text-align:left;">{{ timeForToday(article.reg_time) }}</v-list-item-subtitle>
+                                </v-list-item-content>
+                                <v-spacer></v-spacer>
+                                <a :href="article.link" v-if="article.link" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:25px; height:25px;"></a>
+                            </v-list-item>
+                            <!-- 이미지, 내용, 태그 -->
+                            <v-img :src="`https://i3b303.p.ssafy.io/articleimages/${article.image}`" height="194"></v-img>
+                            <v-card-text class="pb-0" style="color:black; text-align:left;">{{ article.content }}</v-card-text>
+                            <v-chip-group column>
+                                <span v-for="tag in article.tag_name" :key="tag.name">
+                                <v-chip class="ml-2 mr-0" style="cursor:default; font-weight:bold;">#{{ tag }}</v-chip>
+                                </span>
+                            </v-chip-group>
+                            <v-card-actions>
+                                <v-btn icon>
+                                <v-icon class="mr-1 ml-5" v-show="!article.like" @click="clickedLikeBtn(index)">mdi-heart</v-icon>
+                                <v-icon class="mr-1 ml-5" v-show="article.like" @click="clickedLikeBtn(index)" style="color: red;">mdi-heart</v-icon>
+                                <span class="subheading mr-2">{{ article.like_cnt }}명</span>
+                                </v-btn>
+                                <v-spacer></v-spacer>
+                                <v-btn icon>
+                                <v-icon class="mr-1" @click="clickedCommentBtn(article, index)">mdi-message-text</v-icon>
+                                <span class="subheading mr-2">{{ article.comment_cnt }}개</span>
+                                </v-btn>
+                                <v-spacer></v-spacer>
+                                <v-btn icon>
+                                <v-icon class="mr-1" @click="clickedScrapBtn(index)">mdi-bookmark</v-icon>
+                                <span class="subheading mr-5">{{ article.scrap_cnt }}회</span>
+                                </v-btn>
+                            </v-card-actions>
+                            </v-card>
+                        </v-col>
+                    </v-row>
+                </div>
+            
+            <!--닉네임 기반 사용자 검색 결과-->
+            <div v-show="category==='nickname'">
+                <div style="margin: -8px 0 12px 0;" >
+                    <h3>{{ msg_nickname }}</h3>
                 </div>
 
-                  <v-row dense class="pt-0">
-                    <v-col cols="12" v-for="(article, index) in articles" :key="index" :articles="articles">
-                        <v-card max-width="344" class="mx-auto">
-                          <!-- 프로필이미지, 작성자, 시간(며칠전..), 유튜브 url -->
-                          <v-list-item>
-                            <v-list-item-avatar class="mr-2" size="40px" style="cursor:pointer"><img :src="`https://i3b303.p.ssafy.io/profileimages/${article.profile_photo}`"></v-list-item-avatar>
-                            <v-list-item-content>
-                              <v-list-item-title class="headline" style="cursor:pointer; text-align:left;">{{ article.writer }}</v-list-item-title>
-                              <v-list-item-subtitle style="font-size:0.8rem; text-align:left;">{{ timeForToday(article.reg_time) }}</v-list-item-subtitle>
-                            </v-list-item-content>
-                            <v-spacer></v-spacer>
-                            <a :href="article.link" v-if="article.link" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:25px; height:25px;"></a>
-                          </v-list-item>
-                          <!-- 이미지, 내용, 태그 -->
-                          <v-img :src="`https://i3b303.p.ssafy.io/articleimages/${article.image}`" height="194"></v-img>
-                          <v-card-text class="pb-0" style="color:black; text-align:left;">{{ article.content }}</v-card-text>
-                          <v-chip-group column>
-                            <span v-for="tag in article.tag_name" :key="tag.name">
-                              <v-chip class="ml-2 mr-0" style="cursor:default; font-weight:bold;">#{{ tag }}</v-chip>
-                              </span>
-                          </v-chip-group>
-                          <v-card-actions>
-                            <v-btn icon>
-                              <v-icon class="mr-1 ml-5" v-show="!article.like" @click="clickedLikeBtn(index)">mdi-heart</v-icon>
-                              <v-icon class="mr-1 ml-5" v-show="article.like" @click="clickedLikeBtn(index)" style="color: red;">mdi-heart</v-icon>
-                              <span class="subheading mr-2">{{ article.like_cnt }}명</span>
-                            </v-btn>
-                            <v-spacer></v-spacer>
-                            <v-btn icon>
-                              <v-icon class="mr-1" @click="clickedCommentBtn(article, index)">mdi-message-text</v-icon>
-                              <span class="subheading mr-2">{{ article.comment_cnt }}개</span>
-                            </v-btn>
-                            <v-spacer></v-spacer>
-                            <v-btn icon>
-                              <v-icon class="mr-1" @click="clickedScrapBtn(index)">mdi-bookmark</v-icon>
-                              <span class="subheading mr-5">{{ article.scrap_cnt }}회</span>
-                            </v-btn>
-                          </v-card-actions>
-                        </v-card>
-                    </v-col>
-                  </v-row>
+                <div v-for="(user, index) in userList" :key="index" style="text-align: left; margin-top: 10px;">
+                    <v-avatar><img :src="`https://i3b303.p.ssafy.io/profileimages/${user.profile_photo}`" alt="image"  @click="moveUserpage(user.email)"></v-avatar>
+                    <button @click="moveUserpage(user.email)"><strong style="font-size: 15px; padding-left: 10px;">{{ user.nickname }}</strong></button>
+                </div>
             </div>
 
-            <!--닉네임 기반 사용자 검색 결과-->
-
-
+            <!--container-->
+            </div>
 
             <!--네비게이션 바-->
             <BottomNav/>
@@ -103,7 +114,10 @@ export default {
                     title: "닉네임"
                 }
             ],
-            msg: ""
+            msg_tag: "",
+            msg_nickname: "",
+            email: "",
+            clicked: false
         }
     },
     methods: {
@@ -115,21 +129,28 @@ export default {
             axios
                 .get(base + '/tugether/search/tag', {
                     params:{
-                    "keyword": this.keyword
+                        "keyword": this.keyword
                     },
                     headers:{
-                         "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
+                        "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
                     }
                 })
                 .then((res) => {
                     console.log(res.data)
+                    this.searchList = res.data.list;
                 })
                 .err((err) => {
                     console.log("searchTagList function error")
                 })
         },
-        // 태그 기반 검색 기능
+        // 태그 기반 검색 기능 (해당 키워드가 포함된 모든 글을 출력함)
         searchTag() {
+            // 검색어를 입력하지 않았을 경우 메소드 종료
+            if(this.keyword.length == 0) {
+                alert("검색어를 입력해주세요!😊");
+                return;
+            }
+            // 검색어를 정상적으로 입력했을 경우 기능 동작
             axios
                 .post(base + '/tugether/search/tag',
                 { "keyword": this.keyword },
@@ -142,20 +163,23 @@ export default {
                     this.articles = res.data.articles;
                     // 검색결과가 없을 경우 안내메세지 출력
                     if(this.articles.length == 0) {
-                        this.msg = "검색결과가 없습니다.";
-                    } else {
-                        // this.msg = "'" + this.keyword + "'" + "으로 검색한 결과입니다.";
-                        this.msg = "";
+                        this.msg_tag = "검색결과가 없습니다.";
+                    } else { // 검색결과가 있을 경우 몇 건의 결과가 있는지 출력
+                        this.msg_tag = this.articles.length + "건의 검색결과가 있습니다.";
                     }
-                    // this.keyword = ""; // 검색창 초기화
                 })
                 .catch((err) => {
                     console.log("searchTag function error")
                 })
         },
-        // 사용자 검색 기능 (키워드 포함)
+        // 사용자 검색 기능 (해당 키워드가 포함된 모든 사용자를 출력함)
         searchUser() {
-            alert("테스트!")
+            // 검색어를 입력하지 않았을 경우 메소드 종료
+            if(this.keyword.length == 0) {
+                alert("검색어를 입력해주세요!😊");
+                return;
+            }
+            // 검색어를 정상적으로 입력했을 경우 기능 동작
             axios
                 .get(base + '/tugether/search/user',
                 {
@@ -163,18 +187,36 @@ export default {
                         "keyword" : this.keyword
                     },
                     headers:{
-                         "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
+                        "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
                     }
                 })
                 .then((res) => {
-                    console.log(res.data)
-                    this.searchList = res.data.list;
+                    this.userList = res.data.searchList;
+                    // 검색결과가 없을 경우 안내메세지 출력
+                    if(this.userList.length == 0) {
+                        this.msg_nickname = "검색결과가 없습니다.";
+                    } else { // 검색결과가 있을 경우 몇 건의 결과가 있는지 출력
+                        this.msg_nickname = this.userList.length + "건의 검색결과가 있습니다.";
+                    }
                 })
                 .catch((err) => {
                     console.log("searchUser function error")
                 })
         },
-        // 좋아요 기능 (url?)
+        // 유저페이지로 이동
+        moveUserpage(email) {
+            this.email = email;
+            // 만약 다른 사용자의 글이라면 해당 사용자의 유저페이지로 이동
+            if (this.email !== localStorage.getItem("email")) {
+                localStorage.setItem("userEmail", this.email);
+                this.$router.push("/userpage");
+            } else { // 내 글이라면 마이페이지로 이동
+                this.$router.push({
+                    name: "Mypage",
+                });
+            }
+        },
+        // 좋아요 기능
         clickedLikeBtn(index) { 
           this.clicked = true;
           axios.get(base + '/tugether/mainfeed/like', {
@@ -185,21 +227,16 @@ export default {
               "jwt-auth-token": localStorage.getItem("token"),
             }
           })
-          .then(response => {
-            this.articles[index] = response.data.article;
-            console.log('clicedLikeBtn:', this.articles[index])
-            // this.clicked = true;
-          })
           .catch(err => {
             console.log('clickLikeBtn FAIL!!!')
           })
         },
         // 댓글 보기 기능
-        clickedCommentBtnArticle(articles, index) {
+        clickedCommentBtnArticle(index) {
             this.$router.push({
                 name: 'Comment',
                 params: {
-                  "article_id": this.articles[index].article_id
+                  "article_id": parseInt(this.articles[index].article_id)
                 }
             })
         },
@@ -207,7 +244,7 @@ export default {
             this.$router.push({
                 name: 'Comment',
                 params: {
-                  "article_id": this.scraps[index].article_id
+                  "article_id": parseInt(this.scraps[index].article_id)
                 }
             })
         },
@@ -244,5 +281,8 @@ export default {
     #search_bar{
         float: left;
         width: 70%;
+    }
+    .container {
+      margin-bottom: 50px;
     }
 </style>

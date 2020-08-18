@@ -68,8 +68,8 @@
                             </v-btn>
                             <v-spacer></v-spacer>
                             <v-btn icon>
-                              <v-icon class="mr-1" @click="clickedCommentBtn(article, index)">mdi-message-text</v-icon>
-                              <span class="subheading mr-2" @click="clickedCommentBtn(article, index)">{{ article.comment_cnt }}개</span>
+                              <v-icon class="mr-1" @click="clickedCommentBtnArticle(article, index)">mdi-message-text</v-icon>
+                              <span class="subheading mr-2" @click="clickedCommentBtnArticle(article, index)">{{ article.comment_cnt }}개</span>
                             </v-btn>
                             <v-spacer></v-spacer>
                             <v-btn icon>
@@ -118,8 +118,8 @@
                             </v-btn>
                             <v-spacer></v-spacer>
                             <v-btn icon>
-                              <v-icon class="mr-1" @click="clickedCommentBtn(scrap, index)">mdi-message-text</v-icon>
-                              <span class="subheading mr-2" @click="clickedCommentBtn(scrap, index)">{{ scrap.comment_cnt }}개</span>
+                              <v-icon class="mr-1" @click="clickedCommentBtnScrap(scrap, index)">mdi-message-text</v-icon>
+                              <span class="subheading mr-2" @click="clickedCommentBtnScrap(scrap, index)">{{ scrap.comment_cnt }}개</span>
                             </v-btn>
                             <v-spacer></v-spacer>
                             <v-btn icon>
@@ -342,7 +342,48 @@ export default {
         if (betweenTimeDay < 365) return `${betweenTimeDay}일 전`;
 
         return `${Math.floor(betweenTimeDay / 365)}년 전`;
+        },
+
+        clickedScrapBtn(index) {
+      // 스크랩 여부 확인
+      axios.get(base + '/tugether/mainfeed/scrap', {
+        params: {
+          "article_id": this.articles[index].article_id,
+        },
+        headers: {
+          "jwt-auth-token": localStorage.getItem("token"),
         }
+      })
+      .then(response => {
+        if (response.data.scrapcheck) {
+          alert('이미 스크랩한 게시물입니다.')
+        } 
+        else {
+          // confirm창 띄우기
+          var answer = confirm('스크랩 하시겠습니까?')
+            // if 확인이면 axios.post
+            if(answer==true){
+              axios.post(base + '/tugether/mainfeed/scrap', {
+                "article_id": this.articles[index].article_id,
+              },
+              {
+                headers: {
+                  "jwt-auth-token": localStorage.getItem("token"),
+                }
+              })
+              .then(response => {
+                this.articles[index] = response.data.article;
+                console.log(response.data)
+              })
+            }
+            // else면
+        }
+        this.clicked = true;
+      })
+      .catch(err => {
+        console.log('스크랩 실패')
+      })
+    },
     }
 }
 </script>

@@ -34,24 +34,24 @@
                   <v-card-text class="pb-0">{{ article.content }}</v-card-text>
                   <v-chip-group column>
                     <span v-for="tag in article.tag_name" :key="tag.name">
-                      <v-chip class="ml-2 mr-0" outlined pill style="cursor:default;">#{{ tag }}</v-chip>
+                      <v-chip class="ml-2 mr-0" style="cursor:default;">#{{ tag }}</v-chip>
                       </span>
                   </v-chip-group>
                   <v-card-actions>
                     <v-btn icon>
                       <v-icon class="mr-1 ml-5" v-show="!article.like" @click="clickedLikeBtn(index)">mdi-heart</v-icon>
                       <v-icon class="mr-1 ml-5" v-show="article.like" @click="clickedLikeBtn(index)" style="color: red;">mdi-heart</v-icon>
-                      <span class="subheading mr-2">{{ article.like_cnt }}명</span>
+                      <span class="subheading mr-2" @click="clickedLikeBtn(index)">{{ article.like_cnt }}명</span>
                     </v-btn>
                     <v-spacer></v-spacer>
                     <v-btn icon>
-                      <v-icon class="mr-1" @click="clickedCommentBtn(article, index)">mdi-message-text</v-icon>
-                      <span class="subheading mr-2">{{ article.comment_cnt }}개</span>
+                      <v-icon class="mr-1" @click="clickedCommentBtn(index)">mdi-message-text</v-icon>
+                      <span class="subheading mr-2 " @click="clickedCommentBtn(index)">{{ article.comment_cnt }}개</span>
                     </v-btn>
                     <v-spacer></v-spacer>
                     <v-btn icon>
                       <v-icon class="mr-1" @click="clickedScrapBtn(index)">mdi-bookmark</v-icon>
-                      <span class="subheading mr-5">{{ article.scrap_cnt }}회</span>
+                      <span class="subheading mr-5" @click="clickedScrapBtn(index)">{{ article.scrap_cnt }}회</span>
                     </v-btn>
                   </v-card-actions>
                 </v-card>
@@ -115,6 +115,27 @@ export default {
       clicked: false,
     }
   },
+  watch:{
+    clicked(){
+      console.log('clickcccccc')
+      axios.get(base + '/tugether/likeystats', {
+      headers: {
+        "jwt-auth-token": localStorage.getItem("token")
+      }
+    })
+    .then(response => {
+      console.log(response.data.toplikeyarticles)
+      this.articles = response.data.toplikeyarticles
+    })
+    .catch(error => {
+      console.log(error)
+    })
+    .finally(()=>{
+          this.clicked=false;
+      })  
+    }
+  },
+
   methods: {
     timeForToday(value) {
       const today = new Date();
@@ -135,7 +156,7 @@ export default {
     },
 
     clickedLikeBtn(index) { 
-      // this.clicked = true;
+      this.clicked = true;
       axios.get(base + '/tugether/mainfeed/like', {
         params: {
           "article_id": this.articles[index].article_id,
@@ -147,15 +168,14 @@ export default {
       .then(response => {
         this.articles[index] = response.data.article;
         console.log('clicedLikeBtn:', this.articles[index])
-        this.clicked = true;
+        // this.clicked = true;
       })
       .catch(err => {
         console.log('clickLikeBtn FAIL!!!')
       })
-
     },
 
-    clickedCommentBtn(articles, index) {
+    clickedCommentBtn(index) {
       this.$router.push({
         name: 'Comment',
         params: {

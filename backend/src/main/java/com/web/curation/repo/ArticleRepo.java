@@ -52,4 +52,9 @@ public interface ArticleRepo extends JpaRepository<Article, String> {
 			"( select tag_id from tag t where t.tag_name like concat('%',:keyword,'%') ) ) order by reg_time desc", nativeQuery=true)
 	List<Integer> findArticleByTagNameForSearch(String keyword);
 	
+	@Query(value="select distinct article_id from article a where a.article_id in " + 
+			"( select article_id from articletag ta where ta.tag_id in " + 
+			"( select tag_id from tag t where t.tag_name =:keyword ) ) order by reg_time desc", nativeQuery=true)
+	List<Integer> findArticleIDByTagNameForSearch(String keyword);
+	
 }
