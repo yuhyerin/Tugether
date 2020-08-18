@@ -91,6 +91,8 @@ export default new Vuex.Store({
                         console.log("관심태그 선택여부 조회 실패 :( ")
                     });
 
+                }).catch(e=>{
+                    alert("일반회원으로 등록된 사용자입니다 :) ");
                 })
             })
            
@@ -116,9 +118,15 @@ export default new Vuex.Store({
             axios.post(base + '/account/signin',
                 signinObj)
                 .then(res=>{
-                    localStorage.setItem("token", res.headers["jwt-auth-token"])
-                    localStorage.setItem("email", res.data.data.email)
-                   
+                    
+                        console.log("구글회원유무 ");
+                        console.log(res.data.isgoogle);
+                        if(res.data.isgoogle){
+                            alert("구글로그인 연동 회원입니다 :) ");
+                            return;
+                        }
+                        localStorage.setItem("token", res.headers["jwt-auth-token"])
+                        localStorage.setItem("email", res.data.data.email)
                         //임시 비밀번호로 로그인 했으면 => 비밀번호 변경페이지로 이동 
                         if (res.data.data.temp==1 && res.data.status) { 
                             state.message = res.data.data.email;
@@ -132,21 +140,15 @@ export default new Vuex.Store({
 
                             state.token =  res.headers["jwt-auth-token"];
                             state.nickname = res.data.data.nickname;
-                            alert("임시비밀번호 상태라 비밀번호 변경 페이지로 이동합니다.")
+                            alert("임시비밀번호로 설정되어 있어서 비밀번호 변경 페이지로 이동합니다.")
                             router.push("/passwordchange")
                             return
                         }
                         else if(res.data.status) { // 임시비밀번호 로그인 안했으면 
                             console.log(res.data.status)
-                            console.log("얘 임시비밀번호로 로그인한애야?? "+res.data.data.temp)
-                            console.log("임시비밀번호 로그인을 안했으면! ")
                             state.token = res.headers["jwt-auth-token"];
                             state.email = res.data.data.email;
                             state.nickname = res.data.data.nickname;
-                            console.log(state.email);
-                            console.log(state.message);
-                            console.log(state.nickname);
-                            console.log("토큰: "+state.token);
                     
                             commit("loginSuccess") //Actions에서는 mutations의 함수를 호출하여 state값을 바꾼다.
                             alert("로그인 성공! 환영합니다 :)");
@@ -165,17 +167,15 @@ export default new Vuex.Store({
                                 console.log(res.data.status) //undefined ...? 
 
                                 if(res.data.status){ //관심태그 설정한 놈 
-                                    console.log("관심태그 설정했는지 체크하고 돌아왔습니다! (설정했음) ")
                                     router.push("/mainfeed");
 
                                 }else{ //안한놈 
-                                    console.log("관심태그 설정했는지 체크하고 돌아왔습니다! (설정안했음) ")
                                     router.push("/select");
                                 }
                                 
                             })
                             .catch(e=>{
-                                console.log("정보조회 실패")
+                                console.log("관심태그를 설정한 회원인지 조회를 실패하였습니다.")
                                 
                             });
 
@@ -187,13 +187,14 @@ export default new Vuex.Store({
                 })
                 .catch(e=>{
                     console.log(e)
-                    alert("store.js: 이메일과 비밀번호를 확인해 주세요");
+                    alert("이메일과 비밀번호를 확인해 주세요 :)");
                     state.email = "";
                     state.password=""
                     
-                });
+                }
+            );
 
 
-            }
+        }
     }
 })

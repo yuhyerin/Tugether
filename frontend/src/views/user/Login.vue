@@ -59,15 +59,17 @@
       </div>
       <div class="add-option">
         <hr>
-        <br>
-        <div class="wrap">
+        <div class="google-login-btn">
+        <GoogleLogin :params="params" :renderParams="renderParams" :onSuccess="googlelogin" style="float: right;">구글로 로그인 </GoogleLogin>
+      </div>
+        <div class="wrap" style="margin-top: 10px;">
           <router-link to="/user/join" class="btn--text">가입하기</router-link>
           <br>
           <router-link to="/passwordfind" class="btn--text">비밀번호 찾기</router-link>
         </div>
-        <!-- <GoogleLogin :params="params" :renderParams="renderParams" :onSuccess="googlelogin">Login</GoogleLogin> -->
         <!-- <Button @click="googlelogout()">Logout</Button> -->
       </div>
+      
     </div>
     <BottomNav />
   </div>
@@ -78,7 +80,7 @@
   background-color: red;
 }
 </style>
-
+<script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
 <script>
 
 import "../../components/css/user.scss";
@@ -92,13 +94,15 @@ import { mapState, mapActions} from "vuex"
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
 import BottomNav from "@/components/common/BottomNav";
 import GoogleLogin from 'vue-google-login';
+import GoogleLoginButton from "../../components/user/snsLogin/Google.vue";
 
 const storage = window.sessionStorage;
 
 export default {
   name: 'Login',
   components:{
-    // GoogleLogin,
+    GoogleLogin,
+    GoogleLoginButton,
   },
 
   data: () => {
@@ -123,10 +127,13 @@ export default {
           client_id: "963926899908-ncql9skkc6bkmifvg9bhc9jv2asecrcd.apps.googleusercontent.com"
       },
       renderParams: {
-          width: 250,
-          height: 50,
-          longtitle: true
+          scope: 'profile email',
+          width: 40,
+          height: 40,
+          longtitle: true,
+          theme: 'light',
       },
+      // renderParams: GoogleLoginButton
     };
   },
   created() {
@@ -156,7 +163,6 @@ export default {
   },
   methods: {
     ...mapActions(["login", "googlelogin", "googlelogout", "googletoken"]), // store.js의 Actions에 정의한 함수를 쓰기 위해서 선언해준다.
-
     
     signOut(){
           // var auth2 = gapi.auth2.getAuthInstance();
@@ -259,5 +265,4 @@ export default {
   },
 };
 </script>
-
 
