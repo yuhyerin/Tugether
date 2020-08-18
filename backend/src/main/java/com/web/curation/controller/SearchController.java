@@ -49,7 +49,7 @@ public class SearchController {
 	@GetMapping("/tag")
 	@ApiOperation(value = "키워드 포함 태그이름 검색")
 	public ResponseEntity<Map<String, Object>> searchByTag(@RequestParam String keyword, HttpServletRequest request) {
-
+		System.out.println("GET mapping 키워드 포함 태그이름 검색 DROP DOWN");
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 /*
 		String token = request.getHeader("jwt-auth-token");
@@ -58,19 +58,19 @@ public class SearchController {
 		Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
 		String email = Userinfo.get("email").toString();
 */
+		System.out.println("keyword : ?"+keyword);
 		List<String> list = searchService.findTagNamesByTag(keyword);
 		resultMap.put("searchList",list);
+		System.out.println("result : "+list.toString());
 		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 	}
 
 	@PostMapping("/tag")
 	@ApiOperation(value = "태그검색")	//검색버튼 클릭 시 
 	public ResponseEntity<Map<String, Object>> searchByTagName(@RequestBody Map<String, Object> map,
-			HttpServletResponse response) {
-
+			HttpServletRequest request) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-
-		String token = response.getHeader("jwt-auth-token");
+		String token = request.getHeader("jwt-auth-token");
 		Jws<Claims> claims = jwtService.getDecodeToken(token);
 		Map<String, Object> Userinfo = new HashMap<String, Object>();
 		Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
@@ -78,8 +78,8 @@ public class SearchController {
 		
 		String keyword = (String)map.get("keyword");
 		List<FrontArticle> articles = searchService.findArticlesByTagName(email, keyword);
-		System.out.println("result : " + articles.toString());
 		resultMap.put("articles", articles);
+		System.out.println("result : " + articles.toString());
 		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 	} 
 	

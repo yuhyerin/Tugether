@@ -67,7 +67,9 @@ export default {
         searchTagList() {
             axios
                 .get(base + '/tugether/search/tag', {
-                    "keyword": this.keyword,
+                    params:{
+                    "keyword": this.keyword
+                    },
                     headers:{
                          "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
                     }
@@ -82,8 +84,9 @@ export default {
         // 태그 기반 검색 기능
         searchTag() {
             axios
-                .post(base + '/tugether/search/tag', {
-                    "keyword": this.keyword,
+                .post(base + '/tugether/search/tag', 
+                    { "keyword": this.keyword },
+                    {
                     headers:{
                         "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
                     }
@@ -100,8 +103,10 @@ export default {
         searchUser() {
             axios
                 .get(base + '/tugether/search/user',
-                { "keyword": this.keyword },
                 {
+                    params:{
+                        "keyword" : this.keyword
+                    },
                     headers:{
                          "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
                     }
