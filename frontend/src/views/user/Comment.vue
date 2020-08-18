@@ -96,9 +96,11 @@ export default {
       console.log("clickclick")
       axios.get(base + '/tugether/mainfeed/comment',
       {
+        params:{
+          "article_id": this.$route.params.article_id
+        },
         headers: { 
           "jwt-auth-token": localStorage.getItem("token"),
-          "article_id": this.$route.params.article_id
         }
       })
       .then(res => {
@@ -115,10 +117,10 @@ export default {
     }
   },
   // 따로 commit으로 함수 실행시키는게 아니라 computed에 안적어도 동작에는 문제없는듯
-  computed:{
-    ...mapState(["token", "email"]), //store 공동 저장소에 있는 token 사용하기 위해 선언.
-    ...mapActions(["getToken", "getEmail"])
-  },
+  // computed:{
+  //   ...mapState(["token", "email"]), //store 공동 저장소에 있는 token 사용하기 위해 선언.
+  //   ...mapActions(["getToken", "getEmail"])
+  // },
   methods: {
     addComment() {
       this.clicked = true;
@@ -211,13 +213,14 @@ export default {
     // console.log(this.email)
     console.log('article_id : '+this.$route.params.article_id)
     // console.log("comment.vue : " + this.$route.params.article_id)
-    axios.get(base + '/tugether/mainfeed/comment',
-      {
-        headers: { 
-          "jwt-auth-token": localStorage.getItem("token"),
-          "article_id": this.$route.params.article_id
-        }
-      })
+    axios.get(base + '/tugether/mainfeed/comment',{
+          params: {
+          "article_id": this.$route.params.article_id,
+          },
+          headers: {
+            "jwt-auth-token": localStorage.getItem("token"),
+          }
+        })
       .then(res => {
         this.comments = res.data.comments;
         this.article = res.data.article;
