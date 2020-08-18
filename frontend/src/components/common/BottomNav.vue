@@ -7,7 +7,7 @@
         <v-icon style="color: black; padding-top: 20px;">home</v-icon>
       </v-btn>
 
-      <v-btn value="search">
+      <v-btn value="search" @click="sendToSearchPage">
         <span>Search</span>
         <v-icon style="color: red; padding-top: 20px;">mdi-magnify</v-icon>
       </v-btn>
@@ -22,7 +22,7 @@
         <v-icon style="color: red; padding-top: 20px;">mdi-bell</v-icon>
       </v-btn>
 
-      <v-btn>
+      <v-btn @click="senToStatPage">
         <span>Stats</span>
         <v-icon style="color: black; padding-top: 20px;">mdi-chart-bar</v-icon>
       </v-btn>
@@ -43,6 +43,12 @@ export default {
     sendToNotice () {
         this.$router.push('/notice')
     },
+    senToStatPage () {
+        this.$router.push('/stats')
+    },
+    sendToSearchPage () {
+        this.$router.push('/search')
+    }
   }
 }
 </script>

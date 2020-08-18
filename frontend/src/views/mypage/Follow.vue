@@ -8,8 +8,8 @@
             <v-tab style="font-weight: bold;">팔로워 {{follower_cnt}}명</v-tab>
             <v-tab-item class="follow_item" style="padding-top: 15px;">
                 <div v-for="(user, index) in followerList" :key="index" style="text-align: left;">
-                    <v-avatar><img :src="`https://i3b303.p.ssafy.io/profileimages/${user.profile_photo}`" alt="image"></v-avatar>
-                    <!--닉네임을 클릭하면 해당 유저의 페이지로 이동-->
+                    <!--프로필사진 또는 닉네임을 클릭하면 해당 유저의 페이지로 이동-->
+                    <v-avatar><img :src="`https://i3b303.p.ssafy.io/profileimages/${user.profile_photo}`" alt="image"  @click="moveUserpage(user.email)"></v-avatar>
                     <button @click="moveUserpage(user.email)"><strong style="font-size: 15px; padding-left: 10px;">{{ user.nickname }}</strong></button>
                     <!--내가 팔로우하고 있지 않은 사용자라면 '팔로우' 버튼 활성화-->
                     <span v-if="!user.follow">
@@ -25,8 +25,8 @@
             <v-tab style="font-weight: bold;">팔로잉 {{following_cnt}}명</v-tab>
             <v-tab-item class="follow_item" style="padding-top: 15px;">
                <div v-for="(user, index) in followingList" :key="index" style="text-align: left;">
-                    <v-avatar><img :src="`https://i3b303.p.ssafy.io/profileimages/${user.profile_photo}`" alt="image"></v-avatar>
-                    <!--닉네임을 클릭하면 해당 유저의 페이지로 이동-->
+                    <!--프로필사진 또는 닉네임을 클릭하면 해당 유저의 페이지로 이동-->
+                    <v-avatar><img :src="`https://i3b303.p.ssafy.io/profileimages/${user.profile_photo}`" alt="image" @click="moveUserpage(user.email)"></v-avatar>
                     <button @click="moveUserpage(user.email)"><strong style="font-size: 15px; padding-left: 10px;">{{ user.nickname }}</strong></button>
                     <!--내가 팔로우하고 있는 사용자이므로 '팔로잉' 버튼 활성화-->
                     <span>
@@ -138,7 +138,6 @@ export default {
         moveUserpage(email){
             this.email = email;
             localStorage.setItem("userEmail", this.email)
-            // console.log(this.email)
             this.$router.push({
                 name: 'Userpage'
             })

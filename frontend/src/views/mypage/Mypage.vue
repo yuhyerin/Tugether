@@ -19,10 +19,8 @@
         </div>
         <!--저장된 관심태그 목록 보여주기-->
         <div style="margin-top: 10px;">
-            <!-- <strong>관심태그</strong><br> -->
             <span v-for="tags in favtags" :key=tags>
                 <v-chip style="color: white; background-color: red;">#{{ tags }}</v-chip>
-                <!-- <v-chip>#{{ tags }}</v-chip> -->
             </span>
         </div>
 
@@ -84,8 +82,6 @@
                 </v-container>
               </v-tab-item>
 
-                      
-            
             <!--내가 스크랩한 글-->
             <v-tab style="font-weight: bold;">스크랩한 글</v-tab>
             <v-tab-item style="padding-top: 15px;">
@@ -96,17 +92,12 @@
                         <v-card max-width="344" class="mx-auto">
                           <!-- 프로필이미지, 작성자, 시간(며칠전..), 유튜브 url -->
                           <v-list-item>
-                            <v-list-item-avatar class="mr-2" size="40px" style="cursor:pointer"><img :src="`https://i3b303.p.ssafy.io/profileimages/${scrap.profile_photo}`"></v-list-item-avatar>
+                            <v-list-item-avatar class="mr-2" @click="moveUserpage(scrap.email)" size="40px" style="cursor:pointer"><img :src="`https://i3b303.p.ssafy.io/profileimages/${scrap.profile_photo}`"></v-list-item-avatar>
                             <v-list-item-content>
                               <v-list-item-title class="headline" @click="moveUserpage(scrap.email)" style="cursor:pointer; text-align:left;">{{ scrap.writer }}</v-list-item-title>
                               <v-list-item-subtitle style="font-size:0.8rem; text-align:left;">{{ timeForToday(scrap.reg_time) }}</v-list-item-subtitle>
                             </v-list-item-content>
                             <v-spacer></v-spacer>
-                            <!--글 수정, 삭제 기능-->
-                            <div style="display: inline-block; float: right;">
-                              <span class="article_function" @click="clickedEditBtn(index)" style="margin-right: 5px;">수정</span>
-                              <span class="article_function" @click="clickedDeleteBtn(index)">삭제</span>
-                            </div>
                             <a :href="scrap.link" v-if="scrap.link" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:25px; height:25px;"></a>
                           </v-list-item>
                           <!-- 이미지, 내용, 태그 -->

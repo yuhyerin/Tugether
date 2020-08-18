@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.web.curation.dto.follow.Follow;
+import com.web.curation.dto.notice.Notice;
 import com.web.curation.dto.profile.Profile;
 import com.web.curation.repo.FollowingRepo;
+import com.web.curation.repo.NoticeRepo;
 import com.web.curation.repo.ProfileRepo;
 
 @Service
@@ -18,6 +20,8 @@ public class FollowServiceImpl implements FollowService{
 	private FollowingRepo followRepo;
 	@Autowired
 	private ProfileRepo profileRepo;
+	@Autowired
+	private NoticeRepo noticeRepo;
 	
 	/*
 	 * private String profile_photo;
@@ -71,6 +75,10 @@ public class FollowServiceImpl implements FollowService{
 		profileRepo.countPlusFollowingCnt(from_email);
 		// 3. to_email 유저의 Profile테이블에서 follower_cnt + 1
 		profileRepo.countPlusFollowerCnt(to_email);
+		if(!from_email.equals(to_email)) {
+			Notice n = Notice.builder().notice_from(from_email).notice_to(to_email).notice_type(3).build();
+			noticeRepo.save(n);
+		}
 		
 	}
 

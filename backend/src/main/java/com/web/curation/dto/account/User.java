@@ -31,6 +31,8 @@ public class User {
 
     @Column(name="signup_date", insertable = false)
     private Date signup_date;
+    
+    @Column(name="nickname")
     private String nickname;
     
     @Column(name="gender", nullable = false)

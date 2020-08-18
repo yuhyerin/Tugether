@@ -55,16 +55,21 @@ public class NoticeServiceImpl implements NoticeService {
 			fn.setArticle_id(notice.getArticle_id());
 			fn.setImg(img);
 			break;
-		case 3:
+		case 3:	// 팔로우
 			profile_photo = profileRepo.findProfilePhoto(notice.getNotice_from());
 			img = articleRepo.findImgByArticleId(notice.getArticle_id());
-			fn.setImg(img);
+//			fn.setImg(img);
 			fn.setNotice_from(notice.getNotice_from());
 			fn.setFrom_nickname(profileRepo.findNicknameByEmail(notice.getNotice_from()));
 			fn.setProfile_photo(profile_photo);
 			break;
 		}
 		return fn;
+	}
+
+	@Override
+	public void deleteNoticeByArticleId(int articleid) {
+		noticeRepo.deleteNoticeByArticleId(articleid);
 	}
 
 }

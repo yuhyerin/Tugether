@@ -36,5 +36,8 @@ public interface ArticleWriteRepo extends JpaRepository<Article, String>{
 	@Query(value="delete from article where article_id= :article_id",nativeQuery=true)
 	void deleteArticle(int article_id);
 
+	@Query(value="update article a set a.writer = :nickname where a.email = :email",nativeQuery = true)
+	void updateArticleWriter(String email, String nickname);
+
 }
 
