@@ -53,7 +53,7 @@ public class CommentController {
       Jws<Claims> claims = jwtService.getDecodeToken(token);   //복호화해서
       Map<String, Object> Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
       String email = Userinfo.get("email").toString();
-      int article_id = Integer.parseInt(request.getHeader("article_id"));
+      int article_id = Integer.parseInt((String)request.getHeader("article_id"));
       System.out.println("article_id : "+article_id);
       FrontArticle article = commentService.findArticle(email, article_id);
       System.out.println(article.toString());
