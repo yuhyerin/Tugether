@@ -151,9 +151,11 @@ export default {
       console.log(localStorage.getItem("token"))
       axios.get(base + '/tugether/mainfeed/deleteComment',  
         {
-          headers: {
-            "jwt-auth-token": localStorage.getItem("token"),
+          params: {
             "comment_id": this.comments[index].comment_id
+          },
+          headers: {
+            "jwt-auth-token": localStorage.getItem("token")
           }
         })
         .then(response => {
@@ -213,14 +215,15 @@ export default {
     // console.log(this.email)
     console.log('article_id : '+this.$route.params.article_id)
     // console.log("comment.vue : " + this.$route.params.article_id)
-    axios.get(base + '/tugether/mainfeed/comment',{
-          params: {
-          "article_id": this.$route.params.article_id,
-          },
-          headers: {
-            "jwt-auth-token": localStorage.getItem("token"),
-          }
-        })
+    axios.get(base + '/tugether/mainfeed/comment',
+      {
+        params: {
+          "article_id": this.$route.params.article_id
+        },
+        headers: { 
+          "jwt-auth-token": localStorage.getItem("token")
+        }
+      })
       .then(res => {
         this.comments = res.data.comments;
         this.article = res.data.article;

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -63,17 +65,18 @@ public class SearchController {
 
 	@PostMapping("/tag")
 	@ApiOperation(value = "태그검색")	//검색버튼 클릭 시 
-	public ResponseEntity<Map<String, Object>> searchByTagName(@RequestParam String keyword,
-			HttpServletRequest request) {
+	public ResponseEntity<Map<String, Object>> searchByTagName(@RequestBody Map<String, Object> map,
+			HttpServletResponse response) {
 
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 
-		String token = request.getHeader("jwt-auth-token");
+		String token = response.getHeader("jwt-auth-token");
 		Jws<Claims> claims = jwtService.getDecodeToken(token);
 		Map<String, Object> Userinfo = new HashMap<String, Object>();
 		Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
 		String email = Userinfo.get("email").toString();
-
+		
+		String keyword = (String)map.get("keyword");
 		List<FrontArticle> articles = searchService.findArticlesByTagName(email, keyword);
 		System.out.println("result : " + articles.toString());
 		resultMap.put("articles", articles);
