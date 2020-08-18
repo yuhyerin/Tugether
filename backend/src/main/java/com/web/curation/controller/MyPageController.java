@@ -79,7 +79,7 @@ public class MyPageController {
 	
 	@GetMapping("/mypage/articles")
 	public List<FrontArticle> getAfterMainFeed(@RequestParam boolean my, HttpServletRequest request){
-		System.out.println("Controller입장 : MAINFEED from to GET");
+		System.out.println("Controller입장 : mypage GET ARTICLES");
 		String email = 
 				((Map<String, Object>)jwtService.getDecodeToken(request.getHeader("jwt-auth-token"))
 				.getBody().get("AuthenticationResponse")).get("email").toString();
@@ -89,7 +89,7 @@ public class MyPageController {
 		} else {
 			result = myPageService.findScraps(email);
 		}
-		System.out.println("FROMTOcontroller result : " + result.toString());
+		System.out.println("result : " + result.toString());
 		return result;
 	}
 	
