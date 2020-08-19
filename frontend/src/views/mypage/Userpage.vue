@@ -385,7 +385,6 @@ export default {
 
         // 유저페이지의 스크랩한 글 스크랩
         clickedScrapBtnScrap(index) {
-          // if(this.scraps[index].email==)
           axios.get(base + '/tugether/mainfeed/scrap', {
             params: {
               "article_id": this.scraps[index].article_id,
