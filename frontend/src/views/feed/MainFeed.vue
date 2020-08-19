@@ -42,7 +42,7 @@
                       </v-btn>
                       <v-spacer></v-spacer>
                       <v-btn icon>
-                        <v-icon class="mr-1" @click="clickedScrapBtn(index)">mdi-bookmark</v-icon>
+                        <v-icon class="mr-1" @click="clickedScrapBtnScrap(index)">mdi-bookmark</v-icon>
                         <span class="subheading mr-5" @click="clickedScrapBtn(index)">{{ article.scrap_cnt }}회</span>
                       </v-btn>
                     </v-card-actions>
@@ -92,7 +92,7 @@
                       </v-btn>
                       <v-spacer></v-spacer>
                       <v-btn icon>
-                        <v-icon class="mr-1" @click="clickedScrapBtn(index)">mdi-bookmark</v-icon>
+                        <v-icon class="mr-1" @click="clickedScrapBtnScrap(index)">mdi-bookmark</v-icon> 
                         <span class="subheading mr-5" @click="clickedScrapBtn(index)">{{ article.scrap_cnt }}회</span>
                       </v-btn>
                     </v-card-actions>
