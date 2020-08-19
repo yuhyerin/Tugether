@@ -9,15 +9,18 @@
                     <option value="nickname">닉네임</option>
                 </select> -->
                 <!--검색어 분류: radio button-->
-                <input type="radio" id="tag" value="tag" v-model="category" style="left: 115px; float: left;">
-                <label for="tag" style="margin: 15px 30px 0 0; font-weight: bold;">태그</label>&nbsp;
-                <input type="radio" id="nickname" value="nickname" v-model="category" style="left: 174px; float: right;">
-                <label for="nickname" style="font-weight: bold;">닉네임</label>
-                <br>
+                <div style="width: 100%; margin-left: 26%; display: inline-block; margin: -90px 0 -50px 26%;">
+                    <v-radio-group v-model="category" row>
+                        <v-radio id="tag" value="tag" style="float: left;"></v-radio>
+                        <label for="tag" style="font-weight: bold; float: right; margin: 3px 15px 0 -10px;">태그</label>&nbsp;
+                        <v-radio id="nickname" value="nickname" style="float: left;"></v-radio>
+                        <label for="nickname" style="font-weight: bold; float: right; margin: 3px 10px 0 -10px">닉네임</label>
+                    </v-radio-group>
+                </div>
                 <!--선택한 카테고리에 따라 버튼 기능 다르게 부여함-->
                 <div style="margin-top: -65px;">
                     <input type="text" v-model="keyword" id="search_bar" placeholder="검색어를 입력하세요" autofocus onFocus="this.value='';">
-                    <button class="button" v-if="category===''" @click="selectPlz">검색</button>
+                    <!-- <button class="button" v-if="category===''" @click="selectPlz">검색</button> -->
                     <button class="button" v-if="category==='tag'" @click="searchTag" @change="searchTagList">검색</button>
                     <button class="button" v-if="category==='nickname'" @click="searchUser">검색</button>
                 </div>

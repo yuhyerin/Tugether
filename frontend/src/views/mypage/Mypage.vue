@@ -280,7 +280,7 @@ export default {
             )
             .then((res) => {
               alert("스크랩한 게시글이 삭제 되었습니다.");
-              this.refresh(); // 글 삭제 후 내 게시글 리스트를 새로고침 하기 위함
+              this.refresh(); // 글 삭제 후 스크랩한 글 리스트를 새로고침 하기 위함
             })
             .catch((err) => {
               alert("스크랩한 게시글 삭제 실패!");
