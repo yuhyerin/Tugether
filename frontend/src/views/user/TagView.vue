@@ -16,9 +16,7 @@ import axios from 'axios'
 import TagList from '@/components/user/TagList'
 import store from '@/vuex/store'
 import { mapState, mapActions } from "vuex";
-
-const SERVER_URL = 'http://localhost:8080'
-
+import { base } from "@/components/common/BaseURL.vue"
 export default {
   name: 'TagView',
   components: {
@@ -127,7 +125,7 @@ export default {
       console.log("보낼때 데이터 뭐야??")
       console.log(this.favTags)
      
-      axios.post(`${SERVER_URL}/tugether/favtag`, 
+      axios.post(base+'/tugether/favtag', 
       {
         taglist: this.favTags,
       },

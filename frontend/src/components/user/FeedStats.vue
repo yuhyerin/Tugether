@@ -30,7 +30,8 @@
                     <v-spacer></v-spacer>
                     <a :href="article.link" v-if="article.link" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:25px; height:25px;"></a>
                   </v-list-item>
-                  <v-img :src="`https://i3b303.p.ssafy.io/articleimages/${article.image}`" height="194"></v-img>
+                  <iframe v-if="article.image == null && article.link != '' " class="embed-responsive-item" :src="`https://www.youtube.com/embed/${getLink(article.link)}`" style="width:100%"></iframe>
+                  <v-img v-if="article.image != null " :src="`https://i3b303.p.ssafy.io/articleimages/${article.image}`" height="194"></v-img>
                   <v-card-text class="pb-0">{{ article.content }}</v-card-text>
                   <v-chip-group column>
                     <span v-for="tag in article.tag_name" :key="tag.name">
@@ -137,6 +138,49 @@ export default {
   },
 
   methods: {
+
+    // 유튜브링크에서 키값 꺼내기 
+    getLink(articlelink){
+          
+          var subValue = 'watch?v=';
+          var subValue2 = 'youtu.be/'
+          var iValue = articlelink.indexOf(subValue); 
+          var iValue2 = articlelink.indexOf(subValue2);
+          // 부분 문자열이 대상 문자열 안에 있는지 없는지 확인하기 위해서는 반환되는 값이 -1 인지 살펴보면 됨
+          if (iValue != -1) { 
+            // https://www.youtube.com/watch?v=hPmS4C08-zA
+            // iValue = 24 
+            var startidx = iValue + subValue.length
+            var endidx = articlelink.indexOf('t=');
+            if(endidx != -1){ // 시작시간이 걸려있으면, 
+              var front = articlelink.substring(startidx, endidx - 1);
+              var back = articlelink.substring(endidx+2, articlelink.length)
+              var result = front+'?start='+back;
+              return result;
+              
+            }else{
+              return articlelink.substring(startidx, articlelink.length)
+            } 
+            
+          }else if(iValue2 != -1){
+            // https://youtu.be/Hnn1Om5PVKA?t=36
+            var startidx2 = iValue2 + subValue2.length
+            var endidx2 = articlelink.indexOf('t=');
+            if(endidx2 != -1){ // 시작시간이 걸려있으면, 
+              var front2 = articlelink.substring(startidx2, endidx2 - 1);
+              var back2 = articlelink.substring(endidx2+2, articlelink.length)
+              var result2 = front2+'?start='+back2;
+              return result2;
+              
+            }else{
+              return articlelink.substring(startidx2, articlelink.length)
+            } 
+
+          }else{
+            console.log('찾고자 하는 영상 URL이 없습니다. ');
+          }
+
+    },
     timeForToday(value) {
       const today = new Date();
       const timeValue = new Date(value);
