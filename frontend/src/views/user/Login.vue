@@ -1,6 +1,5 @@
 <template>
   <div class="user" id="login">
-
     <menu></menu>
     <div class="wrapC">
       <br>
@@ -20,6 +19,7 @@
           v-bind:class="{error : error.email, complete:!error.email&&email.length!==0}"
           @keyup.enter="Login"
           id="email"
+          ref="email"
           placeholder="이메일을 입력하세요."
           type="text"
         />
@@ -33,45 +33,40 @@
           :type="passwordType"
           v-bind:class="{error : error.password, complete:!error.password&&password.length!==0}"
           id="password"
+          ref="password"
           @keyup.enter="Login"
           placeholder="비밀번호를 입력하세요."
         />
         <label for="password">비밀번호</label>
         <!--비밀번호 입력 시 아이콘을 누르면 입력타입을 변경해준다.(text, password)-->
         <span class="eye_icon" @click="showPW"><i class="far fa-eye fa-lg"></i></span>
-        <!-- <div class="error-text" v-if="error.password">{{error.password}}</div> -->
       </div>
-      
-        <button
-          v-show="!isLogin"
-          class="btn btn--back btn--login"
-          @click="login({email, password})"
-          :disabled="!isSubmit"
-          :class="{disabled : !isSubmit}"
-        >로그인</button>
-      
 
-      <div v-show="isLogin">
+      <button
+          class="btn btn--back btn--login"
+          @click="checkHandler(email, password)"
+          style="color: white;"
+        >로그인</button>
+
+      <!-- <div v-show="isLogin">
         <h2> 로그인 되었습니다 :) </h2>
-      </div>
+      </div> -->
 
       <div class="sns-login">
       </div>
       <div class="add-option">
         <hr>
-        <div class="google-login-btn">
-        <GoogleLogin :params="params" :renderParams="renderParams" :onSuccess="googlelogin" style="float: right;">구글로 로그인 </GoogleLogin>
-      </div>
-        <div class="wrap" style="margin-top: 10px;">
+        <br>
+        <div class="wrap">
           <router-link to="/user/join" class="btn--text">가입하기</router-link>
           <br>
           <router-link to="/passwordfind" class="btn--text">비밀번호 찾기</router-link>
         </div>
+      <div class="g-signin2" data-onsuccess="onSignIn"></div>
+        <!-- <GoogleLogin :params="params" :renderParams="renderParams" :onSuccess="googlelogin">Login</GoogleLogin> -->
         <!-- <Button @click="googlelogout()">Logout</Button> -->
       </div>
-      
     </div>
-    <BottomNav />
   </div>
 </template>
 
@@ -80,7 +75,7 @@
   background-color: red;
 }
 </style>
-<script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
+
 <script>
 
 import "../../components/css/user.scss";
@@ -92,17 +87,14 @@ import store from "../../vuex/store"
 import * as axios from 'axios';
 import { mapState, mapActions} from "vuex"
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
-import BottomNav from "@/components/common/BottomNav";
 import GoogleLogin from 'vue-google-login';
-import GoogleLoginButton from "../../components/user/snsLogin/Google.vue";
 
 const storage = window.sessionStorage;
 
 export default {
   name: 'Login',
   components:{
-    GoogleLogin,
-    GoogleLoginButton,
+    // GoogleLogin,
   },
 
   data: () => {
@@ -127,13 +119,10 @@ export default {
           client_id: "963926899908-ncql9skkc6bkmifvg9bhc9jv2asecrcd.apps.googleusercontent.com"
       },
       renderParams: {
-          scope: 'profile email',
-          width: 40,
-          height: 40,
-          longtitle: true,
-          theme: 'light',
+          width: 250,
+          height: 50,
+          longtitle: true
       },
-      // renderParams: GoogleLoginButton
     };
   },
   created() {
@@ -163,12 +152,25 @@ export default {
   },
   methods: {
     ...mapActions(["login", "googlelogin", "googlelogout", "googletoken"]), // store.js의 Actions에 정의한 함수를 쓰기 위해서 선언해준다.
+
     
     signOut(){
           // var auth2 = gapi.auth2.getAuthInstance();
           // auth2.signOut().then(function () {
           // console.log('User signed out.');
           // });
+    },
+    // 사용자가 입력하지 않은 칸이 있을 경우 포커스 이동 & 회원 정보가 일치할 경우에만 로그인 가능
+    checkHandler(email, password) {
+      let err = true;
+      let msg = "";
+      !this.email && ((msg = "이메일을 입력해주세요!"),(err = false),this.$refs.email.focus());
+      err && !this.password && ((msg = "비밀번호를 입력해주세요!"),(err = false),this.$refs.password.focus());
+      if (!err) {
+        alert(msg);
+      } else {
+        this.login({email, password});
+      }
     },
 
     checkForm() {
@@ -266,3 +268,5 @@ export default {
 };
 </script>
 
+<style scoped>
+</style>

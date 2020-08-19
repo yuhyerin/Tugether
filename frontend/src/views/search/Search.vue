@@ -13,20 +13,20 @@
                 </div>
                 <!--선택한 카테고리에 따라 버튼 기능 다르게 부여함-->
                 <div v-show="category==='tag'" style="margin-top: -65px;">
-                    <input type="text" v-model="keyword" id="search_bar" placeholder="검색어를 입력하세요" autofocus onFocus="this.value='';"
-                        @keyup.enter="searchTag">
+                    <input type="text" v-model="keyword" id="search_bar1" placeholder="검색어를 입력하세요"
+                        autofocus onFocus="this.value='';" @keyup.enter="searchTag">
                     <button class="button" v-if="category==='tag'" @click="searchTag">검색</button>
                 </div>
                 <div v-show="category==='nickname'" style="margin-top: -65px;">
-                    <input type="text" v-model="keyword" id="search_bar" placeholder="검색어를 입력하세요" autofocus onFocus="this.value='';"
-                        @keyup.enter="searchUser">
+                    <input type="text" v-model="keyword" id="search_bar2" placeholder="검색어를 입력하세요"
+                        autofocus onFocus="this.value='';" @keyup.enter="searchUser">
                     <button class="button" v-if="category==='nickname'" @click="searchUser">검색</button>
                 </div>
                 <!-- <button class="button" @click="searchTagList">드롭다운</button> -->
 
                 <!--태그 기반 게시글 검색 결과-->
                 <div v-show="category==='tag'" class="result">
-                    <div style="margin: -8px 0 12px 0;">
+                    <div style="margin: -50px 0 12px 0;">
                         <!--안내메시지 출력-->
                         <h3>{{ msg_tag }}</h3>
                     </div>
@@ -75,7 +75,7 @@
             
             <!--닉네임 기반 사용자 검색 결과-->
             <div v-show="category==='nickname'" class="result">
-                <div style="margin: -8px 0 12px 0;" >
+                <div style="margin: -50px 0 12px 0;" >
                     <h3>{{ msg_nickname }}</h3>
                 </div>
 
