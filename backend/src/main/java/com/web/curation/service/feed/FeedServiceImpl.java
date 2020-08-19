@@ -146,7 +146,7 @@ public class FeedServiceImpl implements FeedService {
 	public FrontArticle scrap(String email, int article_id) {
 
 		Article a = articleRepo.findArticleByArticleId(article_id);
-
+		
 		if (!scrapRepo.findScrap(email, article_id).isPresent()) {
 			scrapRepo.save(Scrap.builder().article_id(article_id).email(email).build());
 			int scrap_cnt = a.getScrap_cnt() + 1;
@@ -191,7 +191,6 @@ public class FeedServiceImpl implements FeedService {
 				.reg_time(now.getReg_time()).image(now.getImage()).profile_photo(profile_photo)
 				.content(now.getContent()).link(now.getLink()).like_cnt(now.getLike_cnt()).like(like)
 				.comment_cnt(now.getComment_cnt()).scrap_cnt(now.getScrap_cnt()).tag_name(temp).build();
-
 		return ar;
 	}
 

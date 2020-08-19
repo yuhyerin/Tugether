@@ -1,7 +1,8 @@
 <template>
   <div class="container">
+    <div class="wrapB" style="text-align: center;">
     <div id="mainfeed">
-      <a @click="logout" style="color:blue">로그아웃</a>
+            <a @click="logout" style="color:blue">로그아웃</a>
       <br>
       <v-tabs grow style="padding-bottom: 10px;">
         <v-tab style="font-weight: bold;" @click="getTagData">태그</v-tab>
@@ -103,7 +104,8 @@
               <v-icon dark>mdi-chevron-up</v-icon>
             </v-btn>
           </v-tab-item>
-      </v-tabs>            
+      </v-tabs>
+      </div>            
       <infinite-loading @infinite="infiniteHandler" :identifier="tag" spinner="circles">
         <div slot="no-more" style="color: rgb(102, 102, 102); font-size: 14px; padding: 10px 0px;">목록의 끝입니다 :)</div>
       </infinite-loading>  
@@ -153,7 +155,6 @@ export default {
 
   watch:{
     clicked(){
-      console.log("from : "+this.from +" \t to : "+this.to)
       axios.get(base + '/tugether/mainfeed/fromto', {
         params: {
           "tag": this.tag,
@@ -165,11 +166,7 @@ export default {
         }
       })
       .then(response => {
-        console.log('click this.from', this.from)
-        console.log('click this.to', this.to)
-        console.log('clicked:', response.data)
         this.articles = response.data
-        console.log('articles:', this.articles)
         this.clicked=false;
       })
       .catch(err =>{
@@ -190,7 +187,6 @@ export default {
     // 무한스크롤이 동작할 때 수행할 메소드
     infiniteHandler($state) {
       const EACH_LEN = 2
-      console.log('__BOTTOM__')
       axios.get(base+'/tugether/mainfeed', { 
         params: {
           "limit": this.limit,
@@ -210,9 +206,6 @@ export default {
             this.limit += 1;
             this.from = this.articles[0].article_id,
             this.to = this.articles[this.articles.length-1].article_id
-            console.log('this.from', this.from)
-            console.log('this.to', this.to)
-            console.log('infi articles:' , this.articles)
             $state.loaded(); // 데이터 로드가 전부 수행되었다는 것을 알려줌, 다음 리퀘스트가 있을 때까지 대기 상태
             if(response.data.length / EACH_LEN < 1) {
               $state.complete() // 더이상 불러올 데이터가 없을 때 사용, 이후에는 데이터가 없다는 메시지를 표시하고 더이상 무한스크롤 작업 X
@@ -224,7 +217,7 @@ export default {
         })
       }, 500)
       .catch(err => {
-        console.log('AFTERDATA NO!!')
+        console.log('DATA NO!!')
       })
     },
 

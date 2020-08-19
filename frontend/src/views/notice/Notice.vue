@@ -53,28 +53,6 @@ export default {
     }
   },
   methods: {
-    getMonday(d) {
-      d = new Date(d);
-      var day = d.getDay(),
-      diff = d.getDate() - day + (day == 0 ? -6:1); // adjust when day is sunday
-      return new Date(d.setDate(diff));
-      
-    },
-
-    // timeClass() {
-    //   const date = new Date();
-    //   if (type === 'day') {
-    //     regStart = formatDate(date)
-    //     regEnd = formatDate(new Date(date.valueOf() + 1000 * 3600 * 24))
-    //     console.log(regStart, regEnd)
-    //   } else if (type === 'week') { // 이번주 월요일 ~ 일요일
-    //     regStart = new Date(date.getFullYear(), date.getMonth(), 1)
-    //     regEnd = new Date(date.getFullYear(), date.getMonth()+1, 0)
-    //   } else if (type === 'month') { // 이번달 1일 ~ 31일
-    //     regStart = formatDate(date)
-    //     regEnd = formatDate(new Date(date.valueOf() + 1000 * 3600 * 24 * 31))
-    //   }
-    // },
     timeForToday(value) {
       const today = new Date();
       const timeValue = new Date(value);
@@ -119,12 +97,11 @@ export default {
       }
     })
     .then(response => {
-      console.log('알림 호출')
       this.notices = response.data.notices;
       console.log(this.notices)
     })
     .catch(err =>{
-        console.log("알림 안와")
+        console.log("알림 안옴")
     })
   }
 }
