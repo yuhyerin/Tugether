@@ -2,12 +2,6 @@
     <div class="wrapC" style="text-align: center;">
         <div class="search">
             <div class="container">
-                <!--검색어 분류: select box-->
-                <!-- <select v-model="category" style="border: 1px solid black;">
-                    <option value="">검색어 분류</option>
-                    <option value="tag">태그</option>
-                    <option value="nickname">닉네임</option>
-                </select> -->
                 <!--검색어 분류: radio button-->
                 <div style="width: 100%; margin-left: 26%; display: inline-block; margin: -90px 0 -50px 26%;">
                     <v-radio-group v-model="category" row>
@@ -18,10 +12,14 @@
                     </v-radio-group>
                 </div>
                 <!--선택한 카테고리에 따라 버튼 기능 다르게 부여함-->
-                <div style="margin-top: -65px;">
-                    <input type="text" v-model="keyword" id="search_bar" placeholder="검색어를 입력하세요" autofocus onFocus="this.value='';">
-                    <!-- <button class="button" v-if="category===''" @click="selectPlz">검색</button> -->
-                    <button class="button" v-if="category==='tag'" @click="searchTag" @input="searchTagList">검색</button>
+                <div v-show="category==='tag'" style="margin-top: -65px;">
+                    <input type="text" v-model="keyword" id="search_bar" placeholder="검색어를 입력하세요" autofocus onFocus="this.value='';"
+                        @keyup.enter="searchTag">
+                    <button class="button" v-if="category==='tag'" @click="searchTag">검색</button>
+                </div>
+                <div v-show="category==='nickname'" style="margin-top: -65px;">
+                    <input type="text" v-model="keyword" id="search_bar" placeholder="검색어를 입력하세요" autofocus onFocus="this.value='';"
+                        @keyup.enter="searchUser">
                     <button class="button" v-if="category==='nickname'" @click="searchUser">검색</button>
                 </div>
                 <!-- <button class="button" @click="searchTagList">드롭다운</button> -->
@@ -141,9 +139,6 @@ export default {
         // }
     },
     methods: {
-        // selectPlz() {
-        //     alert("검색어 분류를 선택해주세요!😊");
-        // },
         // 태그 기반 검색: 유사검색어 드롭 다운
         searchTagList() {
             axios
@@ -181,7 +176,6 @@ export default {
                 })
                 .then((res) => {
                     this.articles = res.data.articles;
-
                     // 검색결과가 없을 경우 안내메세지 출력
                     if(this.articles.length == 0) {
                         this.msg_tag = "검색결과가 없습니다.";
