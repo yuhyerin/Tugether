@@ -25,7 +25,7 @@
                 <!-- <button class="button" @click="searchTagList">드롭다운</button> -->
 
                 <!--태그 기반 게시글 검색 결과-->
-                <div v-show="category==='tag'">
+                <div v-show="category==='tag'" class="result">
                     <div style="margin: -8px 0 12px 0;">
                         <!--안내메시지 출력-->
                         <h3>{{ msg_tag }}</h3>
@@ -74,7 +74,7 @@
                 </div>
             
             <!--닉네임 기반 사용자 검색 결과-->
-            <div v-show="category==='nickname'">
+            <div v-show="category==='nickname'" class="result">
                 <div style="margin: -8px 0 12px 0;" >
                     <h3>{{ msg_nickname }}</h3>
                 </div>
@@ -332,7 +332,7 @@ export default {
         float: left;
         width: 70%;
     }
-    .container {
+    .result {
       margin-bottom: 50px;
     }
     select {
