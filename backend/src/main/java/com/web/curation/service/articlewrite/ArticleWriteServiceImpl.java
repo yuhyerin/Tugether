@@ -27,9 +27,9 @@ public class ArticleWriteServiceImpl implements ArticleWriteService{
 	@Autowired
 	ArticleWriteTagRepo articleWriteTagRepo;
 	
-	// Article 테이블에 insert 하고 article_id 반환.
+	// Article 테이블에 insert 하고 article_id 반환. - 이미지등록함 
 	@Override
-	public int addArticle(Article article) {
+	public int addArticlewithImage(Article article) {
 		
 		int article_id = 1;
 		try {
@@ -40,6 +40,27 @@ public class ArticleWriteServiceImpl implements ArticleWriteService{
 			String link = article.getLink();
 			articleWriteRepo.insertArticle(email, writer, image, content, link);
 			article_id = articleWriteRepo.findArticleByImage(image);
+			
+		}catch(IllegalArgumentException e) {
+			e.printStackTrace();
+		}
+		
+		return article_id;
+		
+	}
+	
+	// Article 테이블에 insert 하고 article_id 반환. - 이미지X
+	@Override
+	public int addArticle(Article article) {
+		
+		int article_id = 1;
+		try {
+			String email = article.getEmail();
+			String writer = article.getWriter();
+			String content = article.getContent();
+			String link = article.getLink();
+			articleWriteRepo.insertArticlenoImage(email, writer, content, link);
+			article_id = articleWriteRepo.findArticleByEmailAndLink(email, link);
 			
 		}catch(IllegalArgumentException e) {
 			e.printStackTrace();
