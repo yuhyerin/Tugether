@@ -47,8 +47,9 @@
                             <v-img :src="`https://i3b303.p.ssafy.io/articleimages/${article.image}`" height="194"></v-img>
                             <v-card-text class="pb-0" style="color:black; text-align:left;">{{ article.content }}</v-card-text>
                             <v-chip-group column>
-                                <span v-for="tag in article.tag_name" :key="tag.name">
-                                <v-chip class="ml-2 mr-0" style="cursor:default; font-weight:bold;">#{{ tag }}</v-chip>
+                                <span v-for="(tag, index2) in article.tag_name" :key="index2">
+                                    <v-chip class="ml-2 mr-0" style="cursor:default; font-weight:bold;"
+                                        @click="tagSearch(index, index2)">#{{ tag }}</v-chip>
                                 </span>
                             </v-chip-group>
                             </v-card>
@@ -110,12 +111,27 @@ export default {
             email: ""
         }
     },
+    // created() {
+    //     if(this.keyword === "") {
+    //         return;
+    //     } else {
+    //         this.keyword = this.$route.params.keyword
+    //         this.searchTag();
+    //     }
+    // },
     watch: {
         // keyword: function() {
         //     this.searchTagList;
         // }
     },
     methods: {
+        // v-chip에서 태그를 클릭했을 때 해당 태그명을 키워드로 한 태그 기반 검색 기능 수행
+        tagSearch(index, index2){
+            this.keyword = this.articles[index].tag_name[index2];
+            alert(this.keyword + " 키워드로 검색합니다.");
+            this.searchTag();
+            scroll(0,0); // 페이지의 최상단으로 이동
+        },
         // 태그 기반 검색: 유사검색어 드롭 다운
         searchTagList() {
             axios
@@ -138,7 +154,7 @@ export default {
         // 태그 기반 검색 기능
         searchTag() {
             // 검색어를 입력하지 않았을 경우 메소드 종료
-            if(this.keyword.length == 0) {
+            if(this.keyword === "") {
                 alert("검색어를 입력해주세요!😊");
                 return;
             }
@@ -167,7 +183,7 @@ export default {
         // 사용자 검색 기능 (해당 키워드가 포함된 모든 사용자를 출력함)
         searchUser() {
             // 검색어를 입력하지 않았을 경우 메소드 종료
-            if(this.keyword.length == 0) {
+            if(this.keyword === "") {
                 alert("검색어를 입력해주세요!😊");
                 return;
             }

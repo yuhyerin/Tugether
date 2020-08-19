@@ -54,8 +54,10 @@
                           <v-img :src="`https://i3b303.p.ssafy.io/articleimages/${article.image}`" height="194"></v-img>
                           <v-card-text class="pb-0" style="color:black; text-align:left;">{{ article.content }}</v-card-text>
                           <v-chip-group column>
-                            <span v-for="tag in article.tag_name" :key="tag.name">
+                            <span v-for="(tag, index2) in article.tag_name" :key="index2">
                               <v-chip class="ml-2 mr-0" style="cursor:default; font-weight:bold;">#{{ tag }}</v-chip>
+                              <!-- <v-chip class="ml-2 mr-0" style="cursor:default; font-weight:bold;"
+                                @click="tagSearch_Article(index, index2)">#{{ tag }}</v-chip> -->
                               </span>
                           </v-chip-group>
                           <v-card-actions>
@@ -107,8 +109,10 @@
                         <v-img :src="`https://i3b303.p.ssafy.io/articleimages/${scrap.image}`" height="194"></v-img>
                         <v-card-text class="pb-0" style="color:black; text-align:left;">{{ scrap.content }}</v-card-text>
                         <v-chip-group column>
-                          <span v-for="tag in scrap.tag_name" :key="tag.name">
+                          <span v-for="(tag, index2) in scrap.tag_name" :key="index2">
                             <v-chip class="ml-2 mr-0" style="cursor:default; font-weight:bold;">#{{ tag }}</v-chip>
+                            <!-- <v-chip class="ml-2 mr-0" style="cursor:default; font-weight:bold;"
+                             @click="tagSearch_Scrap(index, index2)">#{{ tag }}</v-chip> -->
                             </span>
                         </v-chip-group>
                         <v-card-actions>
@@ -169,6 +173,7 @@ export default {
             tag: true,
             from: '',
             to: '',
+            keyword: ""
         }
     },
     watch: {
@@ -199,6 +204,19 @@ export default {
         this.refresh();
     },
     methods: {
+        // tagSearch_Article(index, index2) {
+        //   this.keyword = this.articles[index].tag_name[index2];
+        //   this.$router.push({
+        //     name: 'Search',
+        //     params: {
+        //       keyword: this.keyword
+        //     }
+        //   }) 
+        // },
+        // tagSearch_Scrap(index, index2) {
+        //   this.keyword = this.scraps[index].tag_name[index2];
+        //   alert(this.keyword)
+        // },
         refresh() {
             // 프로필 띄우기
             axios
