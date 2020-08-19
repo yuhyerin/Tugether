@@ -52,24 +52,24 @@
         <h2> 로그인 되었습니다 :) </h2>
       </div> -->
 
-      <div class="sns-login">
-      </div>
       <div class="add-option">
         <hr>
-        <br>
-        <div class="wrap">
+        <div class="google-login-btn">
+          <GoogleLogin :params="params" :renderParams="renderParams" :onSuccess="googlelogin" style="float: right;">구글로 로그인 </GoogleLogin>
+        </div>
+        <div class="wrap" style="margin-top: 10px;">
           <router-link to="/user/join" class="btn--text">가입하기</router-link>
           <br>
           <router-link to="/passwordfind" class="btn--text">비밀번호 찾기</router-link>
         </div>
-      <div class="g-signin2" data-onsuccess="onSignIn"></div>
+        <!-- <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
         <!-- <GoogleLogin :params="params" :renderParams="renderParams" :onSuccess="googlelogin">Login</GoogleLogin> -->
         <!-- <Button @click="googlelogout()">Logout</Button> -->
       </div>
     </div>
   </div>
 </template>
-
+<script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
 <style>
 #test{
   background-color: red;
@@ -88,13 +88,15 @@ import * as axios from 'axios';
 import { mapState, mapActions} from "vuex"
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
 import GoogleLogin from 'vue-google-login';
+import GoogleLoginButton from "../../components/user/snsLogin/Google.vue";
 
 const storage = window.sessionStorage;
 
 export default {
   name: 'Login',
   components:{
-    // GoogleLogin,
+    GoogleLogin,
+    GoogleLoginButton,
   },
 
   data: () => {
@@ -119,9 +121,10 @@ export default {
           client_id: "963926899908-ncql9skkc6bkmifvg9bhc9jv2asecrcd.apps.googleusercontent.com"
       },
       renderParams: {
-          width: 250,
-          height: 50,
-          longtitle: true
+          width: 40,
+          height: 40,
+          longtitle: true,
+          theme:'light'
       },
     };
   },
