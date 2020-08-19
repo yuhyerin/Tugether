@@ -17,8 +17,9 @@
                         <v-list-item-subtitle style="font-size:0.8rem;">{{ timeForToday(article.reg_time) }}</v-list-item-subtitle>
                       </v-list-item-content>
                       <v-spacer></v-spacer>
-                      <a :href="article.link" v-if="article.link" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:25px; height:25px;"></a>
+                      <a :href="article.link" v-if="article.link" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:35px; height:35px;"></a>
                     </v-list-item>
+                   
                     <v-img :src="`https://i3b303.p.ssafy.io/articleimages/${article.image}`" height="194"></v-img>
                     <v-card-text class="pb-0" style="color:black">{{ article.content }}</v-card-text>
                     <v-chip-group column>
@@ -69,7 +70,7 @@
                         <v-list-item-subtitle style="font-size:0.8rem;">{{ timeForToday(article.reg_time) }}</v-list-item-subtitle>
                       </v-list-item-content>
                       <v-spacer></v-spacer>
-                      <a :href="article.link" v-if="article.link" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:25px; height:25px;"></a>
+                      <a :href="article.link" v-if="article.link" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:35px; height:35px;"></a>
                     </v-list-item>
                     <v-img :src="`https://i3b303.p.ssafy.io/articleimages/${article.image}`" height="194"></v-img>
                     <v-card-text class="pb-0" style="color:black">{{ article.content }}</v-card-text>
