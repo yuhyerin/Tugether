@@ -115,9 +115,7 @@ public class FeedController {
 		Map<String, Object> Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
 		String email = Userinfo.get("email").toString();
 		
-		boolean flag = feedService.checkScrap(email, article_id);
-		resultMap.put("scrapcheck", flag);
-//		System.out.println("return : "+flag);
+		resultMap = feedService.checkScrap(email, article_id);
 		return new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.OK);
 	}
 	

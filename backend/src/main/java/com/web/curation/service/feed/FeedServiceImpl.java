@@ -1,7 +1,9 @@
 package com.web.curation.service.feed;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
@@ -138,8 +140,11 @@ public class FeedServiceImpl implements FeedService {
 	}
 
 	@Override
-	public boolean checkScrap(String email, int article_id) {
-		return scrapRepo.findScrap(email, article_id).isPresent();
+	public Map<String, Object> checkScrap(String email, int article_id) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("scrapcheck", scrapRepo.findScrap(email, article_id).isPresent());
+		resultMap.put("mycheck",email.equals(articleRepo.findArticleByArticleId(article_id).getEmail()));
+		return  resultMap;
 	}
 
 	@Override
@@ -186,11 +191,13 @@ public class FeedServiceImpl implements FeedService {
 		}
 
 		boolean like = likeRepo.findLike(article_id, email).isPresent();
+		boolean scrap = scrapRepo.findScrap(email, article_id).isPresent();
 		String profile_photo = profileRepo.findProfilePhotoByEmail(email);
 		FrontArticle ar = FrontArticle.builder().article_id(article_id).email(now.getEmail()).writer(now.getWriter())
 				.reg_time(now.getReg_time()).image(now.getImage()).profile_photo(profile_photo)
 				.content(now.getContent()).link(now.getLink()).like_cnt(now.getLike_cnt()).like(like)
-				.comment_cnt(now.getComment_cnt()).scrap_cnt(now.getScrap_cnt()).tag_name(temp).build();
+				.comment_cnt(now.getComment_cnt()).scrap_cnt(now.getScrap_cnt()).tag_name(temp)
+				.scrap(scrap).build();
 
 		return ar;
 	}
