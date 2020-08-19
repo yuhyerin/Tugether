@@ -122,8 +122,6 @@ export default {
           this.favTags.push(i)    
         }
       }
-      console.log("보낼때 데이터 뭐야??")
-      console.log(this.favTags)
      
       axios.post(base+'/tugether/favtag', 
       {

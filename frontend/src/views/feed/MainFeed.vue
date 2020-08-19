@@ -17,7 +17,7 @@
                         <v-list-item-subtitle style="font-size:0.8rem;">{{ timeForToday(article.reg_time) }}</v-list-item-subtitle>
                       </v-list-item-content>
                       <v-spacer></v-spacer>
-                      <a :href="article.link" v-if="article.link" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:25px; height:25px;"></a>
+                      <a :href="article.link" v-if="article.link" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:35px; height:35px;"></a>
                     </v-list-item>
                     <iframe v-if="article.image == null && article.link != '' " class="embed-responsive-item" :src="`https://www.youtube.com/embed/${getLink(article.link)}`" style="width:100%"></iframe>
                     <v-img v-if="article.image != null " :src="`https://i3b303.p.ssafy.io/articleimages/${article.image}`" height="194"></v-img>
@@ -70,7 +70,7 @@
                         <v-list-item-subtitle style="font-size:0.8rem;">{{ timeForToday(article.reg_time) }}</v-list-item-subtitle>
                       </v-list-item-content>
                       <v-spacer></v-spacer>
-                      <a :href="article.link" v-if="article.link" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:25px; height:25px;"></a>
+                      <a :href="article.link" v-if="article.link" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:35px; height:35px;"></a>
                     </v-list-item>
                     <iframe v-if="article.image == null && article.link != '' " class="embed-responsive-item" :src="`https://www.youtube.com/embed/${getLink(article.link)}`" style="width:100%"></iframe>
                     <v-img v-if="article.image != null " :src="`https://i3b303.p.ssafy.io/articleimages/${article.image}`" height="194"></v-img>
@@ -156,7 +156,6 @@ export default {
 
   watch:{
     clicked(){
-      console.log("from : "+this.from +" \t to : "+this.to)
       axios.get(base + '/tugether/mainfeed/fromto', {
         params: {
           "tag": this.tag,
@@ -269,10 +268,6 @@ export default {
 
     logout(){
       Vue.GoogleAuth.then(auth2=>{
-        console.log(auth2.isSignedIn.get());
-        console.log(auth2.currentUser.get());
-        console.log(JSON.stringify(auth2.currentUser.get().getAuthResponse()));
-        console.log(JSON.stringify(auth2.currentUser.get().getAuthResponse(true).id_token));
         auth2.signOut().then(function(){
             console.log("로그아웃 되었습니다!");
         });
@@ -336,7 +331,6 @@ export default {
       })
       .then(response => {
         this.articles[index] = response.data.article;
-        console.log('clicedLikeBtn:', this.articles[index])
         // this.clicked = true;
       })
       .catch(err => {
@@ -382,7 +376,6 @@ export default {
               })
               .then(response => {
                 this.articles[index] = response.data.article;
-                console.log(response.data)
               })
             }
             // else면
@@ -397,7 +390,6 @@ export default {
     moveUserpage(email) {
       this.email = email;
       localStorage.setItem("userEmail", this.email);
-      console.log(this.email)
       this.$router.push({
         name: 'Userpage'
       })
