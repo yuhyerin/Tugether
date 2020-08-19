@@ -2,7 +2,7 @@
   <v-app>
     <v-carousel
       cycle
-      height="450"
+      height="500"
       hide-delimiter-background
       show-arrows-on-hover
       light
@@ -34,7 +34,7 @@
                   <v-card-text class="pb-0">{{ article.content }}</v-card-text>
                   <v-chip-group column>
                     <span v-for="tag in article.tag_name" :key="tag.name">
-                      <v-chip class="ml-2 mr-0" style="cursor:default;">#{{ tag }}</v-chip>
+                      <v-chip class="ml-2 mr-0" style="cursor:default; font-weight:bold;">#{{ tag }}</v-chip>
                       </span>
                   </v-chip-group>
                   <v-card-actions>
@@ -185,7 +185,6 @@ export default {
     },
 
     clickedScrapBtn(index) {
-      // 스크랩 여부 확인
       axios.get(base + '/tugether/mainfeed/scrap', {
         params: {
           "article_id": this.articles[index].article_id,
@@ -195,7 +194,10 @@ export default {
         }
       })
       .then(response => {
-        if (response.data.scrapcheck) {
+        if(response.data.mycheck) {
+          alert('자신의 게시물은 스크랩할 수 없습니다.')
+        }
+        else if(response.data.scrapcheck) {
           alert('이미 스크랩한 게시물입니다.')
         } 
         else {
@@ -212,8 +214,7 @@ export default {
                 }
               })
               .then(response => {
-                this.articles[index] = response.data.article;
-                console.log(response.data)
+                this.articels[index] = response.data.article;
               })
             }
             // else면

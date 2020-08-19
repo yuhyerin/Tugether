@@ -47,17 +47,17 @@
                                 <v-btn icon>
                                 <v-icon class="mr-1 ml-5" v-show="!article.like" @click="clickedLikeBtn(index)">mdi-heart</v-icon>
                                 <v-icon class="mr-1 ml-5" v-show="article.like" @click="clickedLikeBtn(index)" style="color: red;">mdi-heart</v-icon>
-                                <span class="subheading mr-2">{{ article.like_cnt }}명</span>
+                                <span class="subheading mr-2" @click="clickedLikeBtn(index)">{{ article.like_cnt }}명</span>
                                 </v-btn>
                                 <v-spacer></v-spacer>
                                 <v-btn icon>
                                 <v-icon class="mr-1" @click="clickedCommentBtn(article, index)">mdi-message-text</v-icon>
-                                <span class="subheading mr-2">{{ article.comment_cnt }}개</span>
+                                <span class="subheading mr-2" @click="clickedCommentBtn(article, index)">{{ article.comment_cnt }}개</span>
                                 </v-btn>
                                 <v-spacer></v-spacer>
                                 <v-btn icon>
                                 <v-icon class="mr-1" @click="clickedScrapBtn(index)">mdi-bookmark</v-icon>
-                                <span class="subheading mr-5">{{ article.scrap_cnt }}회</span>
+                                <span class="subheading mr-5" @click="clickedScrapBtn(index)">{{ article.scrap_cnt }}회</span>
                                 </v-btn>
                             </v-card-actions>
                             </v-card>
@@ -120,6 +120,13 @@ export default {
             clicked: false
         }
     },
+    watch: {
+      clicked() {
+        console.log('clickedHERE')
+        this.searchTag();
+        this.clicked=false;
+      } 
+    },
     methods: {
         selectPlz() {
             alert("검색어 분류를 선택해주세요!😊");
@@ -161,6 +168,7 @@ export default {
                 })
                 .then((res) => {
                     this.articles = res.data.articles;
+
                     // 검색결과가 없을 경우 안내메세지 출력
                     if(this.articles.length == 0) {
                         this.msg_tag = "검색결과가 없습니다.";
@@ -232,20 +240,55 @@ export default {
           })
         },
         // 댓글 보기 기능
-        clickedCommentBtnArticle(index) {
+        clickedCommentBtn(articles, index) {
             this.$router.push({
                 name: 'Comment',
                 params: {
-                  "article_id": parseInt(this.articles[index].article_id)
+                article_id: this.articles[index].article_id
                 }
             })
         },
-        clickedCommentBtnScrap(scraps, index) {
-            this.$router.push({
-                name: 'Comment',
+        clickedScrapBtn(index) {
+            // 스크랩 여부 확인
+            axios.get(base + '/tugether/mainfeed/scrap', {
                 params: {
-                  "article_id": parseInt(this.scraps[index].article_id)
+                "article_id": this.articles[index].article_id,
+                },
+                headers: {
+                "jwt-auth-token": localStorage.getItem("token"),
                 }
+            })
+            .then(response => {
+                if(response.data.mycheck) {
+                    alert('자신의 게시물은 스크랩할 수 없습니다.')
+                }
+                else if(response.data.scrapcheck) {
+                    alert('이미 스크랩한 게시물입니다.')
+                } 
+                else {
+                // confirm창 띄우기
+                var answer = confirm('스크랩 하시겠습니까?')
+                    // if 확인이면 axios.post
+                    if(answer==true){
+                    axios.post(base + '/tugether/mainfeed/scrap', {
+                        "article_id": this.articles[index].article_id,
+                    },
+                    {
+                        headers: {
+                        "jwt-auth-token": localStorage.getItem("token"),
+                        }
+                    })
+                    .then(response => {
+                        this.articles[index] = response.data.article;
+                        console.log(response.data)
+                    })
+                    }
+                    // else면
+                }
+                this.clicked = true;
+            })
+            .catch(err => {
+                console.log('스크랩 실패')
             })
         },
         // 시간 체크

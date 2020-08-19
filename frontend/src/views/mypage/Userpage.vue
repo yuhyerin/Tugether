@@ -73,7 +73,7 @@
                             </v-btn>
                             <v-spacer></v-spacer>
                             <v-btn icon>
-                              <v-icon class="mr-1" @click="clickedScrapBtnArticle(index)">mdi-bookmark</v-icon>
+                              <v-icon class="mr-1" @click="clickedScrapBtnScrap(index)">mdi-bookmark</v-icon>
                               <span class="subheading mr-5" @click="clickedScrapBtnArticle(index)">{{ article.scrap_cnt }}회</span>
                             </v-btn>
                           </v-card-actions>
@@ -176,8 +176,6 @@ export default {
           this.articles = response.data.articles;
           this.scraps = response.data.scraps;
           this.clicked=false;
-          console.log('clicked articels:', this.articles)
-          console.log('clicked scraps:' ,this.scraps)
         })
         .catch(err =>{
             console.log("no watch")
@@ -387,7 +385,6 @@ export default {
 
         // 유저페이지의 스크랩한 글 스크랩
         clickedScrapBtnScrap(index) {
-          // if(this.scraps[index].email==)
           axios.get(base + '/tugether/mainfeed/scrap', {
             params: {
               "article_id": this.scraps[index].article_id,
@@ -397,7 +394,10 @@ export default {
             }
           })
           .then(response => {
-            if (response.data.scrapcheck) {
+            if(response.data.mycheck) {
+              alert('자신의 게시물은 스크랩할 수 없습니다.')
+            }
+            else if(response.data.scrapcheck) {
               alert('이미 스크랩한 게시물입니다.')
             } 
             else {
@@ -406,7 +406,7 @@ export default {
                 // if 확인이면 axios.post
                 if(answer==true){
                   axios.post(base + '/tugether/mainfeed/scrap', {
-                    "article_id": this.articles[index].article_id,
+                    "article_id": this.scraps[index].article_id,
                   },
                   {
                     headers: {
@@ -415,7 +415,7 @@ export default {
                   })
                   .then(response => {
                     this.scraps[index] = response.data.article;
-                    console.log('userpage scrap', response.data)
+                    console.log('userpage scrap:', response.data)
                   })
                 }
                 // else면

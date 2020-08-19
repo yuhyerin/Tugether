@@ -76,7 +76,8 @@ public class SearchServiceImpl implements SearchService {
 		for (int j = 0; j < taglist.size(); j++) {
 			temp[j] = tagRepo.findTagNameByTagId(taglist.get(j)); // 태그테이블에서 태그아이디로 태그네임 찾아서 배열 저장
 		}
-
+		if(article_id == 39)
+			System.out.println(now.getLike_cnt());
 		boolean like = likeRepo.findLike(article_id, email).isPresent();
 		boolean scrap = scrapRepo.findScrap(email, article_id).isPresent();
 		String profile_photo = profileRepo.findProfilePhotoByEmail(email);

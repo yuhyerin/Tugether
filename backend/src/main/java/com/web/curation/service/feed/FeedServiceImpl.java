@@ -132,9 +132,12 @@ public class FeedServiceImpl implements FeedService {
 
 //		int like_cnt = likeRepo.findLikeByArticleId(article_id).size(); // 게시글의 좋아요 갯수
 		Article temp = articleRepo.findArticleByArticleId(article_id);
+		System.out.println("너의 likeCNT는  BEFORE? " + temp.getLike_cnt());
 		temp.setLike_cnt(likeRepo.findLikeByArticleId(article_id).size());
+		System.out.println("너의 likeCNT는  AFTER? " + temp.getLike_cnt());
 //		System.out.println(article_id + "의 likeCNT 는  ? "+temp.getLike_cnt());
 		articleRepo.save(temp); // article테이블 업데이트
+		System.out.println("너의 likeCNT는  save AFTER? " + articleRepo.findArticleByArticleId(article_id).getLike_cnt());
 //		System.out.println("like 했니 ? "+likeRepo.findLike(article_id, email).isPresent());
 		return makeFront(email, article_id);
 	}
