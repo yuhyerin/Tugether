@@ -36,7 +36,7 @@ public class TagServiceImpl implements TagService{
 				System.out.println("TagServiceImpl - 해당태그는 태그테이블에 존재하지 않아요.");
 				tagRepo.addTag(favtaglist.get(i),1);
 				int tag_id = tagRepo.findTagIdByTagName(favtaglist.get(i)).get();
-				
+				favtagIdlist.add(tag_id);
 			}
 			
 			

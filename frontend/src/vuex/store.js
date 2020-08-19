@@ -56,7 +56,7 @@ export default new Vuex.Store({
     }, 
     actions:{ //actions는 비즈니스 로직 
         
-        googlelogin(googleUser) {
+        googlelogin({state, commit},googleUser) {
            
             Vue.GoogleAuth.then(auth2=>{
                 // console.log(auth2.isSignedIn.get());
@@ -67,6 +67,7 @@ export default new Vuex.Store({
                     localStorage.setItem("googletoken", googletoken);
                     localStorage.setItem("token", res.headers["jwt-auth-token"])
                     localStorage.setItem("email", res.data.data.email)
+                    state.nickname = res.data.data.nickname;
                     console.log("구글로 로그인하였습니다.");
 
                     //관심태그를 설정한 회원인지 체크한다. 

@@ -44,8 +44,8 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/tugether")
 public class ProfileController {
 
-//	@Value("${window.profile.upload.directory}")
-	@Value("${ubuntu.profile.upload.directory}")
+	@Value("${window.profile.upload.directory}")
+//	@Value("${ubuntu.profile.upload.directory}")
 	String upload_FILE_PATH;
 	
 	@Autowired
