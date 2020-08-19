@@ -260,7 +260,7 @@ export default {
             .then((res) => {
                 alert("게시글이 삭제 되었습니다.");
                 // console.log("삭제 성공")
-                this.refresh(); // 글 삭제 후 내 게시글 리스트를 새로고침 하기 위함
+                this.refresh(); // 글 삭제 후 스크랩한 글 리스트를 새로고침 하기 위함
             })
             .catch((err) => {
                 alert("게시글 삭제 실패!");
@@ -271,7 +271,7 @@ export default {
         deleteScrap(index){
           axios
             .post(base + '/tugether/scrapdelete', 
-              { "scrap_id" : this.scraps[index].scrap_id },
+              { "article_id" : this.scraps[index].article_id },
               {
                 headers:{
                   "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
