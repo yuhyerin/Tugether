@@ -19,7 +19,7 @@
       
       <v-btn @click="sendToNotice">
         <span>Alarm</span>
-        <v-icon style="color: red; padding-top: 20px;">mdi-heart</v-icon>
+        <v-icon style="color: red; padding-top: 20px;">mdi-bell</v-icon>
       </v-btn>
 
       <v-btn @click="senToStatPage">
@@ -47,7 +47,8 @@ export default {
         this.$router.push('/stats')
     },
     sendToSearchPage () {
-        this.$router.push('/search')
+        scroll(0,0); // 페이지 최상단으로 이동
+        this.$router.push('/search');
     }
   }
 }

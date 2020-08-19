@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,8 +44,8 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/tugether")
 public class ProfileController {
 
-//	@Value("${ubuntu.profile.upload.directory}")
-	@Value("${window.profile.upload.directory}")
+//	@Value("${window.profile.upload.directory}")
+	@Value("${ubuntu.profile.upload.directory}")
 	String upload_FILE_PATH;
 	
 	@Autowired
