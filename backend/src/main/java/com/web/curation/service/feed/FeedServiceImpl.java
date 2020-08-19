@@ -112,13 +112,13 @@ public class FeedServiceImpl implements FeedService {
 	@Override // 좋아요 클릭 시
 	public FrontArticle updateLike(int article_id, String email) {
 		Article a = articleRepo.findArticleByArticleId(article_id);
-
 		// 1. likey테이블에서 좋아요 여부 확인
 		if (likeRepo.findLike(article_id, email).isPresent()) { // 좋아요 한 적 있음
+//			System.out.println("article_id : "+article_id + "email : "+email);
 			likeRepo.deleteLikey(email, article_id);
+//			System.out.println("여기 들어오면 지워야돼");
 			if (!email.equals(a.getEmail()))
 				noticeRepo.deleteNotice(email, article_id);
-
 		} else { // 좋아요 한 적 없음
 			likeRepo.save(Likey.builder().article_id(article_id).email(email).build());
 			if (!email.equals(a.getEmail())) {
@@ -128,11 +128,12 @@ public class FeedServiceImpl implements FeedService {
 			}
 		}
 
-		int like_cnt = likeRepo.findLikeByArticleId(article_id).size(); // 게시글의 좋아요 갯수
+//		int like_cnt = likeRepo.findLikeByArticleId(article_id).size(); // 게시글의 좋아요 갯수
 		Article temp = articleRepo.findArticleByArticleId(article_id);
-		temp.setLike_cnt(like_cnt);
+		temp.setLike_cnt(likeRepo.findLikeByArticleId(article_id).size());
+//		System.out.println(article_id + "의 likeCNT 는  ? "+temp.getLike_cnt());
 		articleRepo.save(temp); // article테이블 업데이트
-
+//		System.out.println("like 했니 ? "+likeRepo.findLike(article_id, email).isPresent());
 		return makeFront(email, article_id);
 	}
 
@@ -158,9 +159,9 @@ public class FeedServiceImpl implements FeedService {
 	@Override
 	public List<FrontArticle> findArticleListByTag(String email, int from, int to) {
 		List<FrontArticle> result = new ArrayList<FrontArticle>();
-		List<Integer> temp = articleRepo.findArticleIdByEmailFromToTag(email, from, to);
+		List<Article> temp = articleRepo.findArticleByEmailFromToTag(email, from, to);
 		for (int l = 0; l < temp.size(); l++)
-			result.add(makeFront(email, temp.get(l)));
+			result.add(makeFront(temp.get(l).getEmail(), temp.get(l).getArticle_id()));
 		return result;
 	}
 
@@ -206,7 +207,7 @@ public class FeedServiceImpl implements FeedService {
 		List<Article> list = articleRepo.findArticlesByTag(pageRequest, email).stream().collect(Collectors.toList());
 		List<FrontArticle> result = new ArrayList<FrontArticle>();
 		for (int i = 0; i < list.size(); i++)
-			result.add(makeFront(email, list.get(i).getArticle_id()));
+			result.add(makeFront(list.get(i).getEmail(), list.get(i).getArticle_id()));
 		return result;
 	}
 
@@ -219,7 +220,7 @@ public class FeedServiceImpl implements FeedService {
 		List<Article> list = articleRepo.findArticleByFollow(pageRequest, email).stream().collect(Collectors.toList());
 		List<FrontArticle> result = new ArrayList<FrontArticle>();
 		for (int i = 0; i < list.size(); i++)
-			result.add(makeFront(email, list.get(i).getArticle_id()));
+			result.add(makeFront(list.get(i).getEmail(), list.get(i).getArticle_id()));
 		return result;
 	}
 

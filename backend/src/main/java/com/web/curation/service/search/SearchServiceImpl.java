@@ -41,7 +41,7 @@ public class SearchServiceImpl implements SearchService {
 
 	@Override	// 얘가 피드용
 	public List<FrontArticle> findArticlesByTagName(String email, String keyword) {
-		List<Integer> temp = articleRepo.findArticleByTagNameForSearch(email, keyword);
+		List<Integer> temp = articleRepo.findArticleIDByTagNameForSearch(keyword);
 		List<FrontArticle> result = new ArrayList<FrontArticle>();
 		for(int i=0;i<temp.size();i++) {
 			result.add(makeFront(email, temp.get(i)));
@@ -49,6 +49,7 @@ public class SearchServiceImpl implements SearchService {
 		Optional<Tag> t = tagRepo.findTagByTagName(keyword);
 		if(t.isPresent()) {
 			Tag test = t.get();
+			System.out.println("test : "+test.toString());
 			test.setSearch_cnt(test.getSearch_cnt()+1);
 			tagRepo.save(test);
 		}
@@ -61,35 +62,11 @@ public class SearchServiceImpl implements SearchService {
 		return list;
 	}
 	
-//	@Override
-//	public List<FrontArticle> findArticlesByNickname(String email, String keyword) {
-//		List<String> list = profileRepo.findNicknamesByNickname(keyword);
-//		List<String> emails = new ArrayList<>();
-//		for(int i=0;i<list.size();i++) {
-//			List<String> temp = profileRepo.findEmailByNickname(list.get(i));
-//			for(int j=0;j<temp.size();j++) {
-//				if(emails.contains(temp.get(j)))
-//					continue;
-//				emails.add(temp.get(j));
-//			}
-//		}
-//		List<FrontArticle> result = new ArrayList<>();
-//		//이메일로 아티클데려옴
-//		TreeSet<Integer> articleIDs = new TreeSet<>();
-//		for(int i=0;i<emails.size();i++) {
-//			List<Integer> temp = articleRepo.findArticleIdByEmail(emails.get(i));
-//			for(int j=0;j<temp.size();j++)
-//				articleIDs.add(temp.get(j));
-//		}
-//		while(articleIDs.size()>0)
-//			result.add(makeFront(email, articleIDs.pollLast()));
-//		return result;
-//	}
-	
 	@Override // email = like 체크 / article_id = 태그리스트
 	public FrontArticle makeFront(String email, int article_id) {
 
 		Article now = articleRepo.findArticleByArticleId(article_id);
+		System.out.println("now : "+now.toString());
 		List<Integer> taglist = articletagRepo.findTagIdByArticleId(now.getArticle_id()); // 아티클태그케이블에서 태그 가져와야 프론트에 줄 수
 																							// 있음
 		String[] temp = new String[taglist.size()]; // 태그 리스트를 태그 배열로 만들거임

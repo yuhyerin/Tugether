@@ -1,6 +1,7 @@
 package com.web.curation.service.stats;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.web.curation.dto.article.Article;
 import com.web.curation.dto.tag.Tag;
@@ -14,6 +15,7 @@ public interface StatsService {
 	ArrayList<Tag> getTopArticleTag();
 
 	// 좋아요가 가장많이 달린 게시글 리스트
-	ArrayList<Article> getTopLikeyArticle();
+	List<Article> getTopLikeyArticle(String email);
+	
 
 }

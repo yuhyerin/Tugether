@@ -39,7 +39,7 @@
                 <v-container>
                   <v-row dense class="pt-0">
                     <v-col cols="12" v-for="(article, index) in articles" :key="article.id" :articles="articles">
-                      <v-mainfeed id="inspire">
+                      <!-- <v-mainfeed id="inspire"> -->
                         <v-card max-width="344" class="mx-auto">
                           <!-- 프로필이미지, 작성자, 시간(며칠전..), 유튜브 url -->
                           <v-list-item>
@@ -64,21 +64,21 @@
                             <v-btn icon>
                               <v-icon class="mr-1 ml-5" v-show="!article.like" @click="clickedLikeBtn(index)">mdi-heart</v-icon>
                               <v-icon class="mr-1 ml-5" v-show="article.like" @click="clickedLikeBtn(index)" style="color: red;">mdi-heart</v-icon>
-                              <span class="subheading mr-2">{{ article.like_cnt }}명</span>
+                              <span class="subheading mr-2" @click="clickedLikeBtn(index)">{{ article.like_cnt }}명</span>
                             </v-btn>
                             <v-spacer></v-spacer>
                             <v-btn icon>
-                              <v-icon class="mr-1" @click="clickedCommentBtn(article, index)">mdi-message-text</v-icon>
-                              <span class="subheading mr-2">{{ article.comment_cnt }}개</span>
+                              <v-icon class="mr-1" @click="clickedCommentBtnArticle(article, index)">mdi-message-text</v-icon>
+                              <span class="subheading mr-2" @click="clickedCommentBtnArticle(article, index)">{{ article.comment_cnt }}개</span>
                             </v-btn>
                             <v-spacer></v-spacer>
                             <v-btn icon>
                               <v-icon class="mr-1" @click="clickedScrapBtn(index)">mdi-bookmark</v-icon>
-                              <span class="subheading mr-5">{{ article.scrap_cnt }}회</span>
+                              <span class="subheading mr-5" @click="clickedScrapBtn(index)">{{ article.scrap_cnt }}회</span>
                             </v-btn>
                           </v-card-actions>
                         </v-card>
-                      </v-mainfeed>
+                      <!-- </v-mainfeed> -->
                     </v-col>
                   </v-row>
                 </v-container>
@@ -90,7 +90,7 @@
               <v-container>
                   <v-row dense class="pt-0">
                     <v-col cols="12" v-for="(scrap, index) in scraps" :key="index" :scraps="scraps" style="text-align: left;">
-                      <v-mainfeed id="inspire">
+                      <!-- <v-mainfeed id="inspire"> -->
                         <v-card max-width="344" class="mx-auto">
                           <!-- 프로필이미지, 작성자, 시간(며칠전..), 유튜브 url -->
                           <v-list-item>
@@ -112,23 +112,23 @@
                           </v-chip-group>
                           <v-card-actions>
                             <v-btn icon>
-                              <v-icon class="mr-1 ml-5" v-show="!scrap.like" @click="clickedLikeBtn(index)">mdi-heart</v-icon>
-                              <v-icon class="mr-1 ml-5" v-show="scrap.like" @click="clickedLikeBtn(index)" style="color: red;">mdi-heart</v-icon>
-                              <span class="subheading mr-2">{{ scrap.like_cnt }}명</span>
+                              <v-icon class="mr-1 ml-5" v-show="!scrap.like" @click="clickedLikeScrapBtn(index)">mdi-heart</v-icon>
+                              <v-icon class="mr-1 ml-5" v-show="scrap.like" @click="clickedLikeScrapBtn(index)" style="color: red;">mdi-heart</v-icon>
+                              <span class="subheading mr-2" @click="clickedLikeScrapBtn(index)">{{ scrap.like_cnt }}명</span>
                             </v-btn>
                             <v-spacer></v-spacer>
                             <v-btn icon>
-                              <v-icon class="mr-1" @click="clickedCommentBtn(scrap, index)">mdi-message-text</v-icon>
-                              <span class="subheading mr-2">{{ scrap.comment_cnt }}개</span>
+                              <v-icon class="mr-1" @click="clickedCommentBtnScrap(scrap, index)">mdi-message-text</v-icon>
+                              <span class="subheading mr-2" @click="clickedCommentBtnScrap(scrap, index)">{{ scrap.comment_cnt }}개</span>
                             </v-btn>
                             <v-spacer></v-spacer>
                             <v-btn icon>
                               <v-icon class="mr-1" @click="clickedScrapBtn(index)">mdi-bookmark</v-icon>
-                              <span class="subheading mr-5">{{ scrap.scrap_cnt }}회</span>
+                              <span class="subheading mr-5" @click="clickedScrapBtn(index)">{{ scrap.scrap_cnt }}회</span>
                             </v-btn>
                           </v-card-actions>
                         </v-card>
-                      </v-mainfeed>
+                      <!-- </v-mainfeed> -->
                     </v-col>
                   </v-row>
                 </v-container>
@@ -161,6 +161,31 @@ export default {
             email: "",
             clicked: false
         }
+    },
+    watch: {
+      clicked() {
+        axios.get(base + '/tugether/userpage', {
+          params:{
+            "userEmail": localStorage.getItem("userEmail")
+          },
+          headers: {
+            "jwt-auth-token": localStorage.getItem("token"),
+          }
+        })
+        .then(response => {
+          this.articles = response.data.articles;
+          this.scraps = response.data.scraps;
+          this.clicked=false;
+          console.log('clicked articels:', this.articles)
+          console.log('clicked scraps:' ,this.scraps)
+        })
+        .catch(err =>{
+            console.log("no watch")
+        })
+        .finally(()=>{
+            this.clicked=false;
+        })
+      }
     },
     created() {
         this.refresh();
@@ -239,23 +264,34 @@ export default {
                 });
             } // if
         },
-        // 좋아요 기능 (url?)
+        // 좋아요 기능
         clickedLikeBtn(index) { 
-            this.clicked = true;
-            axios.get(base + '/tugether/mainfeed/like', {
-              headers: { 
-                "jwt-auth-token": localStorage.getItem("token"),
-                "article_id": this.articles[index].article_id
-              }
-            })
-            .then(response => {
-                this.articles[index] = response.data.article;
-                console.log(this.articles)
-                this.clicked = true;
-            })
-            .catch(err => {
-                console.log('실패함')
-            })
+          this.clicked = true;
+          axios.get(base + '/tugether/mainfeed/like', {
+            params: {
+              "article_id": this.articles[index].article_id,
+            },
+            headers: { 
+              "jwt-auth-token": localStorage.getItem("token"),
+            }
+          })
+          .catch(err => {
+            console.log('clickLikeBtn FAIL!!!')
+          })
+        },
+        clickedLikeScrapBtn(index) { 
+          this.clicked = true;
+          axios.get(base + '/tugether/mainfeed/like', {
+            params: {
+              "article_id": this.scraps[index].article_id,
+            },
+            headers: { 
+              "jwt-auth-token": localStorage.getItem("token"),
+            }
+          })
+          .catch(err => {
+            console.log('clickLikeBtn FAIL!!!')
+          })
         },
         // 댓글 보기 기능
         clickedCommentBtnArticle(articles, index) {
@@ -306,7 +342,48 @@ export default {
         if (betweenTimeDay < 365) return `${betweenTimeDay}일 전`;
 
         return `${Math.floor(betweenTimeDay / 365)}년 전`;
+        },
+
+        clickedScrapBtn(index) {
+      // 스크랩 여부 확인
+      axios.get(base + '/tugether/mainfeed/scrap', {
+        params: {
+          "article_id": this.articles[index].article_id,
+        },
+        headers: {
+          "jwt-auth-token": localStorage.getItem("token"),
         }
+      })
+      .then(response => {
+        if (response.data.scrapcheck) {
+          alert('이미 스크랩한 게시물입니다.')
+        } 
+        else {
+          // confirm창 띄우기
+          var answer = confirm('스크랩 하시겠습니까?')
+            // if 확인이면 axios.post
+            if(answer==true){
+              axios.post(base + '/tugether/mainfeed/scrap', {
+                "article_id": this.articles[index].article_id,
+              },
+              {
+                headers: {
+                  "jwt-auth-token": localStorage.getItem("token"),
+                }
+              })
+              .then(response => {
+                this.articles[index] = response.data.article;
+                console.log(response.data)
+              })
+            }
+            // else면
+        }
+        this.clicked = true;
+      })
+      .catch(err => {
+        console.log('스크랩 실패')
+      })
+    },
     }
 }
 </script>
@@ -334,5 +411,8 @@ export default {
       font-size: 95%;
       color: navy;
       cursor: pointer;
+    }
+    .container {
+      margin-bottom: 50px;
     }
 </style>

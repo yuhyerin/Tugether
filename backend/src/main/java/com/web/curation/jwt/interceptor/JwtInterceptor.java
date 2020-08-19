@@ -35,9 +35,8 @@ public class JwtInterceptor implements HandlerInterceptor{
 		}else {
 			// request의 Header에서 jwt-auth_token으로 넘어온 녀석을 찾아본다.
 			String token = request.getHeader("jwt-auth-token");
-			
 			System.out.println("요청 시 헤더에 담아서 보낸 토큰 입니다.  jwt-auth-token: "+token);
-			
+	
 			if(jwtService.checkValid(token)) { //유효한 토큰이면 진행, 아니면 예외발생 
 				return true;
 			}else {

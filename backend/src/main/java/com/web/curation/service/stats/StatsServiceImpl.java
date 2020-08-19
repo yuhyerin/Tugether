@@ -1,6 +1,7 @@
 package com.web.curation.service.stats;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,8 @@ import com.web.curation.dto.article.Article;
 import com.web.curation.dto.tag.Tag;
 import com.web.curation.repo.StatsArticleRepo;
 import com.web.curation.repo.StatsTagRepo;
+import com.web.curation.service.mypage.MyPageService;
+
 
 @Service
 public class StatsServiceImpl implements StatsService{
@@ -17,6 +20,8 @@ public class StatsServiceImpl implements StatsService{
 	private StatsTagRepo statsTagRepo;
 	@Autowired
 	private StatsArticleRepo statsArticleRepo;
+	@Autowired
+	private MyPageService myPageService;
 	
 	@Override
 	public ArrayList<Tag> getTopSearchKeyword() {
@@ -31,10 +36,12 @@ public class StatsServiceImpl implements StatsService{
 	}
 
 	@Override
-	public ArrayList<Article> getTopLikeyArticle() {
-		ArrayList<Article> articlelist = statsArticleRepo.getTopLikeyArticle();
-		return articlelist;
+	public List<Article> getTopLikeyArticle(String email) {
+		return statsArticleRepo.getTopLikeyArticle();
 	}
+	
+	
+
 	
 	
 }

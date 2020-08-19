@@ -12,6 +12,7 @@ import com.web.curation.repo.ArticleRepo;
 import com.web.curation.repo.ArticleTagRepo;
 import com.web.curation.repo.FavtagRepo;
 import com.web.curation.repo.FollowingRepo;
+import com.web.curation.repo.LikeyRepo;
 import com.web.curation.repo.ProfileRepo;
 import com.web.curation.repo.ScrapRepo;
 import com.web.curation.repo.TagRepo;
@@ -33,7 +34,31 @@ public class MyPageServiceImpl implements MyPageService {
 	private FavtagRepo favtagRepo;
 	@Autowired
 	private ProfileRepo profileRepo;
+	@Autowired
+	private LikeyRepo likeRepo;
 	
+	
+	@Override
+	public List<FrontArticle> findArticles(String userEmail, String email) {
+		List<Article> list = articleRepo.findArticleByEmail(userEmail);
+		List<FrontArticle> result = new ArrayList<>();
+		for(int i=0;i<list.size();i++) {
+			result.add(makeFront(email, list.get(i).getArticle_id()));
+		}
+		return result;
+	}
+
+	@Override
+	public List<FrontArticle> findScraps(String userEmail, String email) {
+		List<Integer> articleIDs = scrapRepo.findArticleidByEmail(userEmail);	//이메일로 아티클아이디찾아옴
+		List<FrontArticle> result = new ArrayList<>();
+		for(int i=0;i<articleIDs.size();i++) {
+			result.add(makeFront(email, articleIDs.get(i)));
+		}
+//		for(int l=0;l<articleIDs.size();l++)
+//			articles.add(articleRepo.findArticleByArticleId(articleIDs.get(l)).get(0)); 
+		return result;
+	}
 	@Override
 	public List<FrontArticle> findArticles(String email) {
 		List<Article> list = articleRepo.findArticleByEmail(email);
@@ -43,7 +68,7 @@ public class MyPageServiceImpl implements MyPageService {
 		}
 		return result;
 	}
-
+	
 	@Override
 	public List<FrontArticle> findScraps(String email) {
 		List<Integer> articleIDs = scrapRepo.findArticleidByEmail(email);	//이메일로 아티클아이디찾아옴
@@ -74,7 +99,7 @@ public class MyPageServiceImpl implements MyPageService {
 		}
 
 		String profile_photo = profileRepo.findProfilePhoto(now.getEmail());
-		
+		boolean like = likeRepo.findLike(article_id, email).isPresent();
 		FrontArticle ar = FrontArticle.builder()
 				.article_id(article_id)
 				.profile_photo(profile_photo)
@@ -84,13 +109,13 @@ public class MyPageServiceImpl implements MyPageService {
 				.reg_time(now.getReg_time())
 				.image(now.getImage())
 				.content(now.getContent())
+				.like(like)
 				.link(now.getLink())
 				.like_cnt(now.getLike_cnt())
 				.comment_cnt(now.getComment_cnt())
 				.scrap_cnt(now.getScrap_cnt())
 				.tag_name(temp)
 				.build();
-				
 		return ar;
 	}
 
