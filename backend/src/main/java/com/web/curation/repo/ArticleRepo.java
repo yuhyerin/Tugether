@@ -37,10 +37,10 @@ public interface ArticleRepo extends JpaRepository<Article, String> {
 			, nativeQuery = true, countQuery = "select count(*) from article a where a.email in (select `to_user` from `following` f where f.from_user = :email) and a.email!=:email order by a.reg_time desc")
 	Page<Article> findArticleByFollow(Pageable pageable, String email);
 	
-	@Query(value="select article_id from article a where article_id in ( " + 
+	@Query(value="select * from article a where article_id in ( " + 
 			"select distinct article_id from articletag ta where ta.tag_id in " + 
 			"(select tag_id from favtag f where f.email = :email) ) and a.article_id >=:to and a.article_id <=:from and a.email!=:email order by reg_time desc", nativeQuery = true)
-	List<Integer> findArticleIdByEmailFromToTag(String email, int from, int to);
+	List<Article> findArticleByEmailFromToTag(String email, int from, int to);
 	
 	@Query(value="select article_id from article a where a.email in ( " + 
 			"select `to_user` from `following` f where f.from_user = :email ) and a.article_id >=:to and a.article_id <=:from and a.email!=:email order by reg_time desc", nativeQuery=true)
