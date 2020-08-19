@@ -6,7 +6,8 @@
       <p style="color: gray">맞춤화된 피드 추천을 받으세요.({{this.count}}/3)</p>
     </div>
     <TagList @checked="onChecked" :tagList="tagList" />
-    <button class="btn-bottom" @click="submitFavTag" :style="btnFunc">시작하기</button>
+    <button v-show="count==0" class="btn-bottom" @click="msg" :style="btnFunc">시작하기</button>
+    <button v-show="count!=0" class="btn-bottom" @click="submitFavTag" :style="btnFunc">시작하기</button>
   </div>
 </template>
 
@@ -84,6 +85,9 @@ export default {
     ...mapActions(["getToken"]),
   },
   methods: {
+    msg(){
+      alert("관심태그를 선택해주세요!");
+    },
     onChecked(tag) {
       tag.isSelected = !tag.isSelected
       if (this.count > 2) {
@@ -97,18 +101,9 @@ export default {
         }
       } else {
           if (tag.isSelected) {
-            // this.selectedTags = [...this.selectedTags, tag]
-            // this.selectedTags.push(tag.content)
-            // this.selectedTags.splice(tag.id, 0, tag.content)
             this.selectedTags[tag.id] = tag.content
             this.count += 1
         } else {
-            // this.selectedTags.pop(tag.content)
-            // var index = this.selectedTags.findIndex(function(item) {
-            //   return item.id === tag
-            //   console.log(item)
-            // })
-            // this.selectedTags.splice(index, 1)
             this.selectedTags[tag.id] = 0
             this.count -= 1
           }
@@ -118,8 +113,6 @@ export default {
           this.btnFunc.backgroundColor = "gray"
         }  
       }
-      // const parseselectedTags = JSON.parse(JSON.stringify(this.selectedTags))
-      // console.log(parseselectedTags)
     },
 
     
@@ -128,10 +121,7 @@ export default {
       let parsefavTags;
       for (i=1; i<10; i++) {
         if(this.selectedTags[i] !== 0) {
-          this.favTags.push(i)
-          // parsefavTags = JSON.parse(JSON.stringify(this.favTags))
-
-          
+          this.favTags.push(i)    
         }
       }
       console.log("보낼때 데이터 뭐야??")
