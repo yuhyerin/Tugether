@@ -338,9 +338,9 @@ input[type="radio"] {
   display: inline-block;
 }
 .button{
-        background: black;
-        color: white;
-        width: 25%;
-        height: 35px;
-    }
+  background: black;
+  color: white;
+  width: 25%;
+  height: 35px;
+}
 </style>

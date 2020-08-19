@@ -1,5 +1,5 @@
 <template>
-<div id="notice" style="margin-bottom: 65px;">
+<div id="notice" style="margin-bottom: 65px; margin-top:20px;">
   <v-card max-width="344" class="mx-auto" v-for="(notice, index) in notices" :key="notice.id" style="margin-bottom:10px; margin-top:10px;">
     <v-list-item class="noticeitem">
       <v-list-item-avatar @click="moveUserpage(notice.notice_from)" class="mr-3" style="cursor:pointer;"><img :src="`https://i3b303.p.ssafy.io/profileimages/${notice.profile_photo}`"></v-list-item-avatar>
