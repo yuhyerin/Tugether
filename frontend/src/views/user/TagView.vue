@@ -6,7 +6,8 @@
       <p style="color: gray">맞춤화된 피드 추천을 받으세요.({{this.count}}/3)</p>
     </div>
     <TagList @checked="onChecked" :tagList="tagList" />
-    <button class="btn-bottom" @click="submitFavTag" :style="btnFunc">시작하기</button>
+    <button v-show="count==0" class="btn-bottom" @click="msg" :style="btnFunc">시작하기</button>
+    <button v-show="count!=0" class="btn-bottom" @click="submitFavTag" :style="btnFunc">시작하기</button>
   </div>
 </template>
 
@@ -14,8 +15,9 @@
 import axios from 'axios'
 import TagList from '@/components/user/TagList'
 import store from '@/vuex/store'
-import { base } from "@/components/common/BaseURL.vue"; // baseURL
 import { mapState, mapActions } from "vuex";
+
+const SERVER_URL = 'http://localhost:8080'
 
 export default {
   name: 'TagView',
@@ -83,6 +85,9 @@ export default {
     ...mapActions(["getToken"]),
   },
   methods: {
+    msg(){
+      alert("관심태그를 선택해주세요!");
+    },
     onChecked(tag) {
       tag.isSelected = !tag.isSelected
       if (this.count > 2) {
@@ -116,13 +121,13 @@ export default {
       let parsefavTags;
       for (i=1; i<10; i++) {
         if(this.selectedTags[i] !== 0) {
-          this.favTags.push(i)
+          this.favTags.push(i)    
         }
       }
       console.log("보낼때 데이터 뭐야??")
       console.log(this.favTags)
      
-      axios.post( base + '/tugether/favtag', 
+      axios.post(`${SERVER_URL}/tugether/favtag`, 
       {
         taglist: this.favTags,
       },

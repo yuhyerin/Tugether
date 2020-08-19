@@ -1,7 +1,9 @@
 package com.web.curation.service.feed;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
@@ -130,23 +132,29 @@ public class FeedServiceImpl implements FeedService {
 
 //		int like_cnt = likeRepo.findLikeByArticleId(article_id).size(); // 게시글의 좋아요 갯수
 		Article temp = articleRepo.findArticleByArticleId(article_id);
+		System.out.println("너의 likeCNT는  BEFORE? " + temp.getLike_cnt());
 		temp.setLike_cnt(likeRepo.findLikeByArticleId(article_id).size());
+		System.out.println("너의 likeCNT는  AFTER? " + temp.getLike_cnt());
 //		System.out.println(article_id + "의 likeCNT 는  ? "+temp.getLike_cnt());
 		articleRepo.save(temp); // article테이블 업데이트
+		System.out.println("너의 likeCNT는  save AFTER? " + articleRepo.findArticleByArticleId(article_id).getLike_cnt());
 //		System.out.println("like 했니 ? "+likeRepo.findLike(article_id, email).isPresent());
 		return makeFront(email, article_id);
 	}
 
 	@Override
-	public boolean checkScrap(String email, int article_id) {
-		return scrapRepo.findScrap(email, article_id).isPresent();
+	public Map<String, Object> checkScrap(String email, int article_id) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("scrapcheck", scrapRepo.findScrap(email, article_id).isPresent());
+		resultMap.put("mycheck",email.equals(articleRepo.findArticleByArticleId(article_id).getEmail()));
+		return  resultMap;
 	}
 
 	@Override
 	public FrontArticle scrap(String email, int article_id) {
 
 		Article a = articleRepo.findArticleByArticleId(article_id);
-
+		
 		if (!scrapRepo.findScrap(email, article_id).isPresent()) {
 			scrapRepo.save(Scrap.builder().article_id(article_id).email(email).build());
 			int scrap_cnt = a.getScrap_cnt() + 1;
@@ -161,7 +169,7 @@ public class FeedServiceImpl implements FeedService {
 		List<FrontArticle> result = new ArrayList<FrontArticle>();
 		List<Article> temp = articleRepo.findArticleByEmailFromToTag(email, from, to);
 		for (int l = 0; l < temp.size(); l++)
-			result.add(makeFront(temp.get(l).getEmail(), temp.get(l).getArticle_id()));
+			result.add(makeFront(email, temp.get(l).getArticle_id()));
 		return result;
 	}
 
@@ -186,11 +194,13 @@ public class FeedServiceImpl implements FeedService {
 		}
 
 		boolean like = likeRepo.findLike(article_id, email).isPresent();
-		String profile_photo = profileRepo.findProfilePhotoByEmail(email);
+		boolean scrap = scrapRepo.findScrap(email, article_id).isPresent();
+		String profile_photo = profileRepo.findProfilePhotoByEmail(now.getEmail());
 		FrontArticle ar = FrontArticle.builder().article_id(article_id).email(now.getEmail()).writer(now.getWriter())
 				.reg_time(now.getReg_time()).image(now.getImage()).profile_photo(profile_photo)
 				.content(now.getContent()).link(now.getLink()).like_cnt(now.getLike_cnt()).like(like)
-				.comment_cnt(now.getComment_cnt()).scrap_cnt(now.getScrap_cnt()).tag_name(temp).build();
+				.comment_cnt(now.getComment_cnt()).scrap_cnt(now.getScrap_cnt()).tag_name(temp)
+				.scrap(scrap).build();
 
 		return ar;
 	}

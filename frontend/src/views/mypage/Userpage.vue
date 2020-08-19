@@ -73,8 +73,8 @@
                             </v-btn>
                             <v-spacer></v-spacer>
                             <v-btn icon>
-                              <v-icon class="mr-1" @click="clickedScrapBtn(index)">mdi-bookmark</v-icon>
-                              <span class="subheading mr-5" @click="clickedScrapBtn(index)">{{ article.scrap_cnt }}회</span>
+                              <v-icon class="mr-1" @click="clickedScrapBtnScrap(index)">mdi-bookmark</v-icon>
+                              <span class="subheading mr-5" @click="clickedScrapBtnArticle(index)">{{ article.scrap_cnt }}회</span>
                             </v-btn>
                           </v-card-actions>
                         </v-card>
@@ -123,8 +123,8 @@
                             </v-btn>
                             <v-spacer></v-spacer>
                             <v-btn icon>
-                              <v-icon class="mr-1" @click="clickedScrapBtn(index)">mdi-bookmark</v-icon>
-                              <span class="subheading mr-5" @click="clickedScrapBtn(index)">{{ scrap.scrap_cnt }}회</span>
+                              <v-icon class="mr-1" @click="clickedScrapBtnScrap(index)">mdi-bookmark</v-icon>
+                              <span class="subheading mr-5" @click="clickedScrapBtnScrap(index)">{{ scrap.scrap_cnt }}회</span>
                             </v-btn>
                           </v-card-actions>
                         </v-card>
@@ -176,8 +176,6 @@ export default {
           this.articles = response.data.articles;
           this.scraps = response.data.scraps;
           this.clicked=false;
-          console.log('clicked articels:', this.articles)
-          console.log('clicked scraps:' ,this.scraps)
         })
         .catch(err =>{
             console.log("no watch")
@@ -327,63 +325,107 @@ export default {
         },
         // 시간 체크
         timeForToday(value) {
-        const today = new Date();
-        const timeValue = new Date(value);
+          const today = new Date();
+          const timeValue = new Date(value);
 
-        const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
+          const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
 
-        if (betweenTime < 1) return '방금 전';
-        if (betweenTime < 60) return `${betweenTime}분 전`;
+          if (betweenTime < 1) return '방금 전';
+          if (betweenTime < 60) return `${betweenTime}분 전`;
 
-        const betweenTimeHour = Math.floor(betweenTime / 60);
-        if (betweenTimeHour < 24) return `${betweenTimeHour}시간 전`;
+          const betweenTimeHour = Math.floor(betweenTime / 60);
+          if (betweenTimeHour < 24) return `${betweenTimeHour}시간 전`;
 
-        const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
-        if (betweenTimeDay < 365) return `${betweenTimeDay}일 전`;
+          const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+          if (betweenTimeDay < 365) return `${betweenTimeDay}일 전`;
 
-        return `${Math.floor(betweenTimeDay / 365)}년 전`;
+          return `${Math.floor(betweenTimeDay / 365)}년 전`;
         },
 
-        clickedScrapBtn(index) {
-      // 스크랩 여부 확인
-      axios.get(base + '/tugether/mainfeed/scrap', {
-        params: {
-          "article_id": this.articles[index].article_id,
-        },
-        headers: {
-          "jwt-auth-token": localStorage.getItem("token"),
-        }
-      })
-      .then(response => {
-        if (response.data.scrapcheck) {
-          alert('이미 스크랩한 게시물입니다.')
-        } 
-        else {
-          // confirm창 띄우기
-          var answer = confirm('스크랩 하시겠습니까?')
-            // if 확인이면 axios.post
-            if(answer==true){
-              axios.post(base + '/tugether/mainfeed/scrap', {
-                "article_id": this.articles[index].article_id,
-              },
-              {
-                headers: {
-                  "jwt-auth-token": localStorage.getItem("token"),
-                }
-              })
-              .then(response => {
-                this.articles[index] = response.data.article;
-                console.log(response.data)
-              })
+        // 유저페이지의 내 게시글(유저가 쓴 게시글) 스크랩
+        clickedScrapBtnArticle(index) {
+          axios.get(base + '/tugether/mainfeed/scrap', {
+            params: {
+              "article_id": this.articles[index].article_id,
+            },
+            headers: {
+              "jwt-auth-token": localStorage.getItem("token"),
             }
-            // else면
-        }
-        this.clicked = true;
-      })
-      .catch(err => {
-        console.log('스크랩 실패')
-      })
-    },
+          })
+          .then(response => {
+            if (response.data.scrapcheck) {
+              alert('이미 스크랩한 게시물입니다.')
+            } 
+            else {
+              // confirm창 띄우기
+              var answer = confirm('스크랩 하시겠습니까?')
+                // if 확인이면 axios.post
+                if(answer==true){
+                  axios.post(base + '/tugether/mainfeed/scrap', {
+                    "article_id": this.articles[index].article_id,
+                  },
+                  {
+                    headers: {
+                      "jwt-auth-token": localStorage.getItem("token"),
+                    }
+                  })
+                  .then(response => {
+                    this.articles[index] = response.data.article;
+                    console.log(response.data)
+                  })
+                }
+                // else면
+            }
+            this.clicked = true;
+          })
+          .catch(err => {
+            console.log('스크랩 실패')
+          })
+        },
+
+        // 유저페이지의 스크랩한 글 스크랩
+        clickedScrapBtnScrap(index) {
+          axios.get(base + '/tugether/mainfeed/scrap', {
+            params: {
+              "article_id": this.scraps[index].article_id,
+            },
+            headers: {
+              "jwt-auth-token": localStorage.getItem("token"),
+            }
+          })
+          .then(response => {
+            if(response.data.mycheck) {
+              alert('자신의 게시물은 스크랩할 수 없습니다.')
+            }
+            else if(response.data.scrapcheck) {
+              alert('이미 스크랩한 게시물입니다.')
+            } 
+            else {
+              // confirm창 띄우기
+              var answer = confirm('스크랩 하시겠습니까?')
+                // if 확인이면 axios.post
+                if(answer==true){
+                  axios.post(base + '/tugether/mainfeed/scrap', {
+                    "article_id": this.scraps[index].article_id,
+                  },
+                  {
+                    headers: {
+                      "jwt-auth-token": localStorage.getItem("token"),
+                    }
+                  })
+                  .then(response => {
+                    this.scraps[index] = response.data.article;
+                    console.log('userpage scrap:', response.data)
+                  })
+                }
+                // else면
+            }
+            this.clicked = true;
+          })
+          .catch(err => {
+            console.log('스크랩 실패')
+          })
+        },
     }
 }
 </script>

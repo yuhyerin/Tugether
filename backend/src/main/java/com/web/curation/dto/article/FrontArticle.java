@@ -26,6 +26,7 @@ public class FrontArticle {
 	private int comment_cnt; // 게시글의 댓글 수
 	private int scrap_cnt;
 	private String[] tag_name; // 게시글에 달린 태그들
+	private boolean scrap;
 	
 
 }

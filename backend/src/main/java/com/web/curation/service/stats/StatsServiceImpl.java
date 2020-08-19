@@ -20,8 +20,6 @@ public class StatsServiceImpl implements StatsService{
 	private StatsTagRepo statsTagRepo;
 	@Autowired
 	private StatsArticleRepo statsArticleRepo;
-	@Autowired
-	private MyPageService myPageService;
 	
 	@Override
 	public ArrayList<Tag> getTopSearchKeyword() {
