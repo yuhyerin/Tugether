@@ -1,6 +1,5 @@
 <template>
   <div class="user" id="login">
-
     <menu></menu>
     <div class="wrapC">
       <br>
@@ -65,6 +64,7 @@
           <br>
           <router-link to="/passwordfind" class="btn--text">비밀번호 찾기</router-link>
         </div>
+      <div class="g-signin2" data-onsuccess="onSignIn"></div>
         <!-- <GoogleLogin :params="params" :renderParams="renderParams" :onSuccess="googlelogin">Login</GoogleLogin> -->
         <!-- <Button @click="googlelogout()">Logout</Button> -->
       </div>

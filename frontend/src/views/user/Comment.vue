@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapC" style="height: 800px;">
+  <div class="wrapC">
     <div class="row">
       <div class="col" style="width: 100%; padding-bottom: 0px;">
         <br>

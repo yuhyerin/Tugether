@@ -171,7 +171,7 @@ export default {
       for(let key of formdata.entries()){
         console.log(`${key}`)
       }
-       axios.post(base + '/tugether/articleupdate',formdata,
+       axios.post(base + '/tugether/articleupdate', formdata,
         {
           headers:{
             "jwt-auth-token": localStorage.getItem("token"),
