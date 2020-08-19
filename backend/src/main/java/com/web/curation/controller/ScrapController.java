@@ -53,10 +53,10 @@ public class ScrapController {
 		Map<String, Object> Userinfo = new HashMap<String, Object>();
 		Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
 		String email = Userinfo.get("email").toString(); // 이메일
-		int scrap_id = Integer.parseInt(map.get("scrap_id"));
+		int article_id = Integer.parseInt(map.get("article_id"));
 		
 		/** scrap테이블에서 삭제 */
-		scrapService.deleteScrapByScrapId(scrap_id);
+		scrapService.deleteScrapByArticleIdAndEmail(email, article_id);
 		status = HttpStatus.OK;
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 
