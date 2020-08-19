@@ -51,23 +51,6 @@
                                 <v-chip class="ml-2 mr-0" style="cursor:default; font-weight:bold;">#{{ tag }}</v-chip>
                                 </span>
                             </v-chip-group>
-                            <v-card-actions>
-                                <v-btn icon>
-                                <v-icon class="mr-1 ml-5" v-show="!article.like" @click="clickedLikeBtn(index)">mdi-heart</v-icon>
-                                <v-icon class="mr-1 ml-5" v-show="article.like" @click="clickedLikeBtn(index)" style="color: red;">mdi-heart</v-icon>
-                                <span class="subheading mr-2" @click="clickedLikeBtn(index)">{{ article.like_cnt }}명</span>
-                                </v-btn>
-                                <v-spacer></v-spacer>
-                                <v-btn icon>
-                                <v-icon class="mr-1" @click="clickedCommentBtn(article, index)">mdi-message-text</v-icon>
-                                <span class="subheading mr-2" @click="clickedCommentBtn(article, index)">{{ article.comment_cnt }}개</span>
-                                </v-btn>
-                                <v-spacer></v-spacer>
-                                <v-btn icon>
-                                <v-icon class="mr-1" @click="clickedScrapBtn(index)">mdi-bookmark</v-icon>
-                                <span class="subheading mr-5" @click="clickedScrapBtn(index)">{{ article.scrap_cnt }}회</span>
-                                </v-btn>
-                            </v-card-actions>
                             </v-card>
                         </v-col>
                     </v-row>
@@ -124,16 +107,10 @@ export default {
             ],
             msg_tag: "",
             msg_nickname: "",
-            email: "",
-            clicked: false
+            email: ""
         }
     },
     watch: {
-        clicked() {
-            console.log('clickedHERE')
-            this.searchTag();
-            this.clicked=false;
-        },
         // keyword: function() {
         //     this.searchTagList;
         // }
@@ -231,73 +208,6 @@ export default {
                 });
             }
         },
-        // 좋아요 기능
-        clickedLikeBtn(index) { 
-          this.clicked = true;
-          axios.get(base + '/tugether/mainfeed/like', {
-            params: {
-              "article_id": this.articles[index].article_id,
-            },
-            headers: { 
-              "jwt-auth-token": localStorage.getItem("token"),
-            }
-          })
-          .catch(err => {
-            console.log('clickLikeBtn FAIL!!!')
-          })
-        },
-        // 댓글 보기 기능
-        clickedCommentBtn(articles, index) {
-            this.$router.push({
-                name: 'Comment',
-                params: {
-                article_id: this.articles[index].article_id
-                }
-            })
-        },
-        clickedScrapBtn(index) {
-            // 스크랩 여부 확인
-            axios.get(base + '/tugether/mainfeed/scrap', {
-                params: {
-                "article_id": this.articles[index].article_id,
-                },
-                headers: {
-                "jwt-auth-token": localStorage.getItem("token"),
-                }
-            })
-            .then(response => {
-                if(response.data.mycheck) {
-                    alert('자신의 게시물은 스크랩할 수 없습니다.')
-                }
-                else if(response.data.scrapcheck) {
-                    alert('이미 스크랩한 게시물입니다.')
-                } 
-                else {
-                // confirm창 띄우기
-                var answer = confirm('스크랩 하시겠습니까?')
-                    // if 확인이면 axios.post
-                    if(answer==true){
-                    axios.post(base + '/tugether/mainfeed/scrap', {
-                        "article_id": this.articles[index].article_id,
-                    },
-                    {
-                        headers: {
-                        "jwt-auth-token": localStorage.getItem("token"),
-                        }
-                    })
-                    .then(response => {
-                        this.articles[index] = response.data.article;
-                        console.log(response.data)
-                    })
-                    }
-                    // else면
-                }
-                this.clicked = true;
-            })
-            .catch(err => {
-                console.log('스크랩 실패')
-            })
-        },
         // 시간 체크
         timeForToday(value) {
         const today = new Date();
@@ -316,7 +226,7 @@ export default {
 
         return `${Math.floor(betweenTimeDay / 365)}년 전`;
         }
-    },
+    }
 }
 </script>
 
