@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.web.curation.dto.tag.Tag;
 import com.web.curation.repo.FavtagRepo;
 import com.web.curation.repo.TagRepo;
 

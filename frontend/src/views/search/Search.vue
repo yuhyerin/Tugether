@@ -2,16 +2,24 @@
     <div class="wrapC" style="text-align: center;">
         <div class="search">
             <div class="container">
-                <select v-model="category" style="border: 1px solid black;">
-                    <option value="">검색어 분류</option>
-                    <option value="tag">태그</option>
-                    <option value="nickname">닉네임</option>
-                </select>
+                <!--검색어 분류: radio button-->
+                <div style="width: 100%; margin-left: 26%; display: inline-block; margin: -90px 0 -50px 26%;">
+                    <v-radio-group v-model="category" row>
+                        <v-radio id="tag" value="tag" style="float: left;"></v-radio>
+                        <label for="tag" style="font-weight: bold; float: right; margin: 3px 15px 0 -10px;">태그</label>&nbsp;
+                        <v-radio id="nickname" value="nickname" style="float: left;"></v-radio>
+                        <label for="nickname" style="font-weight: bold; float: right; margin: 3px 10px 0 -10px">닉네임</label>
+                    </v-radio-group>
+                </div>
                 <!--선택한 카테고리에 따라 버튼 기능 다르게 부여함-->
-                <div style="margin-top: -55px;">
-                    <input type="text" v-model="keyword" id="search_bar" placeholder="검색어를 입력하세요" autofocus>
-                    <button class="button" v-if="category===''" @click="selectPlz">검색</button>
+                <div v-show="category==='tag'" style="margin-top: -65px;">
+                    <input type="text" v-model="keyword" id="search_bar" placeholder="검색어를 입력하세요" autofocus onFocus="this.value='';"
+                        @keyup.enter="searchTag">
                     <button class="button" v-if="category==='tag'" @click="searchTag">검색</button>
+                </div>
+                <div v-show="category==='nickname'" style="margin-top: -65px;">
+                    <input type="text" v-model="keyword" id="search_bar" placeholder="검색어를 입력하세요" autofocus onFocus="this.value='';"
+                        @keyup.enter="searchUser">
                     <button class="button" v-if="category==='nickname'" @click="searchUser">검색</button>
                 </div>
                 <!-- <button class="button" @click="searchTagList">드롭다운</button> -->
@@ -47,17 +55,17 @@
                                 <v-btn icon>
                                 <v-icon class="mr-1 ml-5" v-show="!article.like" @click="clickedLikeBtn(index)">mdi-heart</v-icon>
                                 <v-icon class="mr-1 ml-5" v-show="article.like" @click="clickedLikeBtn(index)" style="color: red;">mdi-heart</v-icon>
-                                <span class="subheading mr-2">{{ article.like_cnt }}명</span>
+                                <span class="subheading mr-2" @click="clickedLikeBtn(index)">{{ article.like_cnt }}명</span>
                                 </v-btn>
                                 <v-spacer></v-spacer>
                                 <v-btn icon>
                                 <v-icon class="mr-1" @click="clickedCommentBtn(article, index)">mdi-message-text</v-icon>
-                                <span class="subheading mr-2">{{ article.comment_cnt }}개</span>
+                                <span class="subheading mr-2" @click="clickedCommentBtn(article, index)">{{ article.comment_cnt }}개</span>
                                 </v-btn>
                                 <v-spacer></v-spacer>
                                 <v-btn icon>
                                 <v-icon class="mr-1" @click="clickedScrapBtn(index)">mdi-bookmark</v-icon>
-                                <span class="subheading mr-5">{{ article.scrap_cnt }}회</span>
+                                <span class="subheading mr-5" @click="clickedScrapBtn(index)">{{ article.scrap_cnt }}회</span>
                                 </v-btn>
                             </v-card-actions>
                             </v-card>
@@ -99,7 +107,7 @@ export default {
     },
     data: () => {
         return {
-            category: "",
+            category: "tag",
             keyword: "",
             articles: [],
             searchList: [],
@@ -120,10 +128,17 @@ export default {
             clicked: false
         }
     },
-    methods: {
-        selectPlz() {
-            alert("검색어 분류를 선택해주세요!😊");
+    watch: {
+        clicked() {
+            console.log('clickedHERE')
+            this.searchTag();
+            this.clicked=false;
         },
+        // keyword: function() {
+        //     this.searchTagList;
+        // }
+    },
+    methods: {
         // 태그 기반 검색: 유사검색어 드롭 다운
         searchTagList() {
             axios
@@ -137,13 +152,13 @@ export default {
                 })
                 .then((res) => {
                     console.log(res.data)
-                    this.searchList = res.data.list;
+                    this.searchList = res.data.searchList;
                 })
-                .err((err) => {
+                .catch((err) => {
                     console.log("searchTagList function error")
                 })
         },
-        // 태그 기반 검색 기능 (해당 키워드가 포함된 모든 글을 출력함)
+        // 태그 기반 검색 기능
         searchTag() {
             // 검색어를 입력하지 않았을 경우 메소드 종료
             if(this.keyword.length == 0) {
@@ -232,20 +247,55 @@ export default {
           })
         },
         // 댓글 보기 기능
-        clickedCommentBtnArticle(index) {
+        clickedCommentBtn(articles, index) {
             this.$router.push({
                 name: 'Comment',
                 params: {
-                  "article_id": parseInt(this.articles[index].article_id)
+                article_id: this.articles[index].article_id
                 }
             })
         },
-        clickedCommentBtnScrap(scraps, index) {
-            this.$router.push({
-                name: 'Comment',
+        clickedScrapBtn(index) {
+            // 스크랩 여부 확인
+            axios.get(base + '/tugether/mainfeed/scrap', {
                 params: {
-                  "article_id": parseInt(this.scraps[index].article_id)
+                "article_id": this.articles[index].article_id,
+                },
+                headers: {
+                "jwt-auth-token": localStorage.getItem("token"),
                 }
+            })
+            .then(response => {
+                if(response.data.mycheck) {
+                    alert('자신의 게시물은 스크랩할 수 없습니다.')
+                }
+                else if(response.data.scrapcheck) {
+                    alert('이미 스크랩한 게시물입니다.')
+                } 
+                else {
+                // confirm창 띄우기
+                var answer = confirm('스크랩 하시겠습니까?')
+                    // if 확인이면 axios.post
+                    if(answer==true){
+                    axios.post(base + '/tugether/mainfeed/scrap', {
+                        "article_id": this.articles[index].article_id,
+                    },
+                    {
+                        headers: {
+                        "jwt-auth-token": localStorage.getItem("token"),
+                        }
+                    })
+                    .then(response => {
+                        this.articles[index] = response.data.article;
+                        console.log(response.data)
+                    })
+                    }
+                    // else면
+                }
+                this.clicked = true;
+            })
+            .catch(err => {
+                console.log('스크랩 실패')
             })
         },
         // 시간 체크
@@ -284,5 +334,15 @@ export default {
     }
     .container {
       margin-bottom: 50px;
+    }
+    select {
+    -webkit-appearance: button;
+    transition: ease-in-out 1000000s;
+    }
+    input[type="radio"] {
+    -webkit-appearance: radio;
+    }
+    input[type="radio"] {
+    -webkit-appearance: radio;
     }
 </style>

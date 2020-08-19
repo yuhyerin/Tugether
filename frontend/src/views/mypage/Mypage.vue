@@ -62,17 +62,17 @@
                             <v-btn icon>
                               <v-icon class="mr-1 ml-5" v-show="!article.like" @click="clickedLikeBtn(index)">mdi-heart</v-icon>
                               <v-icon class="mr-1 ml-5" v-show="article.like" @click="clickedLikeBtn(index)" style="color: red;">mdi-heart</v-icon>
-                              <span class="subheading mr-2">{{ article.like_cnt }}명</span>
+                              <span class="subheading mr-2" @click="clickedLikeBtn(index)">{{ article.like_cnt }}명</span>
                             </v-btn>
                             <v-spacer></v-spacer>
                             <v-btn icon>
                               <v-icon class="mr-1" @click="clickedCommentBtnArticle(index)">mdi-message-text</v-icon>
-                              <span class="subheading mr-2">{{ article.comment_cnt }}개</span>
+                              <span class="subheading mr-2" @click="clickedCommentBtnArticle(index)">{{ article.comment_cnt }}개</span>
                             </v-btn>
                             <v-spacer></v-spacer>
                             <v-btn icon>
                               <v-icon class="mr-1" @click="scrapMsg(1)">mdi-bookmark</v-icon>
-                              <span class="subheading mr-5">{{ article.scrap_cnt }}회</span>
+                              <span class="subheading mr-5" @click="scrapMsg(1)">{{ article.scrap_cnt }}회</span>
                             </v-btn>
                           </v-card-actions>
                         </v-card>
@@ -98,6 +98,10 @@
                           </v-list-item-content>
                           <v-spacer></v-spacer>
                           <a :href="scrap.link" v-if="scrap.link" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:25px; height:25px;"></a>
+                        <!--스크랩 삭제 기능-->
+                        <div style="display: inline-block; float: right;">
+                          <span class="article_function" @click="deleteScrap(index)">삭제</span>
+                        </div>
                         </v-list-item>
                         <!-- 이미지, 내용, 태그 -->
                         <v-img :src="`https://i3b303.p.ssafy.io/articleimages/${scrap.image}`" height="194"></v-img>
@@ -121,7 +125,7 @@
                           <v-spacer></v-spacer>
                           <v-btn icon>
                             <v-icon class="mr-1" @click="scrapMsg(2)">mdi-bookmark</v-icon>
-                            <span class="subheading mr-5">{{ scrap.scrap_cnt }}회</span>
+                            <span class="subheading mr-5" @click="scrapMsg(2)">{{ scrap.scrap_cnt }}회</span>
                           </v-btn>
                         </v-card-actions>
                       </v-card>
@@ -256,12 +260,32 @@ export default {
             .then((res) => {
                 alert("게시글이 삭제 되었습니다.");
                 // console.log("삭제 성공")
-                this.refresh(); // 글 삭제 후 내 게시글 리스트를 새로고침 하기 위함
+                this.refresh(); // 글 삭제 후 스크랩한 글 리스트를 새로고침 하기 위함
             })
             .catch((err) => {
                 alert("게시글 삭제 실패!");
                 // console.log("삭제 실패")
             });
+        },
+        // 스크랩한 게시글 삭제
+        deleteScrap(index){
+          axios
+            .post(base + '/tugether/scrapdelete', 
+              { "article_id" : this.scraps[index].article_id },
+              {
+                headers:{
+                  "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
+                }
+              },
+            )
+            .then((res) => {
+              alert("스크랩한 게시글이 삭제 되었습니다.");
+              this.refresh(); // 글 삭제 후 스크랩한 글 리스트를 새로고침 하기 위함
+            })
+            .catch((err) => {
+              alert("스크랩한 게시글 삭제 실패!");
+              console.log("deleteScrap function error")
+            })
         },
         // 좋아요 기능
         clickedLikeBtn(index) { 
