@@ -20,4 +20,7 @@ public interface UserRepo extends JpaRepository<User, String> {
 	@Query(value="update user set nickname = :nickname where email= :email ",nativeQuery=true)
 	void updateUserNickname(String email, String nickname);
 
+	@Query(value="select * from user u where u.email= :email and u.password is null",nativeQuery=true)
+	User findGoogleUserByPassword(String email);
+
 }
