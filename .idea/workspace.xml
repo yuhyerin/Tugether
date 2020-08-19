@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="16bb7f1f-a40c-4dbc-aae9-39dd947f4e08" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/web/curation/repo/ScrapRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/web/curation/repo/ScrapRepo.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +47,7 @@
       <option name="presentableId" value="Default" />
       <updated>1596513281244</updated>
       <workItem from="1596513282407" duration="13431000" />
-      <workItem from="1597547274805" duration="21182000" />
+      <workItem from="1597547274805" duration="21231000" />
     </task>
     <servers />
   </component>
