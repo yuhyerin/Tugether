@@ -2,7 +2,7 @@
   <v-app>
     <v-carousel
       cycle
-      height="450"
+      height="500"
       hide-delimiter-background
       show-arrows-on-hover
       light
@@ -20,7 +20,7 @@
           >
             <!-- <div class="display-3">{{ article }} Slide</div> -->
             <!-- <v-col cols="12"  v-for="(article, index) in articles" :key="article.id" :articles="articles"> -->
-                <v-card max-width="344" class="mx-auto" outlined>
+                <v-card max-width="344" class="mx-auto">
                   <v-list-item>
                     <v-list-item-avatar class="mr-2" size="40px" @click="moveUserpage(article.email)" style="cursor:pointer"><button style="background: red; color: white; width: 30px; height: 30px;">{{ index + 1 }}위</button></v-list-item-avatar>
                     <v-list-item-content>
