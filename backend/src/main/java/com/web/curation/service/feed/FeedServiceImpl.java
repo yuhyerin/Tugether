@@ -166,7 +166,7 @@ public class FeedServiceImpl implements FeedService {
 		List<FrontArticle> result = new ArrayList<FrontArticle>();
 		List<Article> temp = articleRepo.findArticleByEmailFromToTag(email, from, to);
 		for (int l = 0; l < temp.size(); l++)
-			result.add(makeFront(temp.get(l).getEmail(), temp.get(l).getArticle_id()));
+			result.add(makeFront(email, temp.get(l).getArticle_id()));
 		return result;
 	}
 
@@ -192,7 +192,7 @@ public class FeedServiceImpl implements FeedService {
 
 		boolean like = likeRepo.findLike(article_id, email).isPresent();
 		boolean scrap = scrapRepo.findScrap(email, article_id).isPresent();
-		String profile_photo = profileRepo.findProfilePhotoByEmail(email);
+		String profile_photo = profileRepo.findProfilePhotoByEmail(now.getEmail());
 		FrontArticle ar = FrontArticle.builder().article_id(article_id).email(now.getEmail()).writer(now.getWriter())
 				.reg_time(now.getReg_time()).image(now.getImage()).profile_photo(profile_photo)
 				.content(now.getContent()).link(now.getLink()).like_cnt(now.getLike_cnt()).like(like)
