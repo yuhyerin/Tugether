@@ -16,4 +16,11 @@ public class ScrapServiceImpl implements ScrapService{
 		scrapRepo.deleteScrapByArticleId(articleid);
 	}
 
+	@Override
+	public void deleteScrapByArticleIdAndEmail(String email, int article_id) {
+		scrapRepo.deleteScrapByArticleIdAndEmail(email, article_id);
+	}
+
+
+
 }

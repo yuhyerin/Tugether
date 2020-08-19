@@ -42,5 +42,13 @@ public class LoginService {
 		}
 		return user;
 	}
+
+	public boolean isGoogle(String email) {
+		if(userRepo.findGoogleUserByPassword(email) == null) { 
+			return false;
+		}
+		// 해당회원이 비번이 null이라면 -> 소셜로그인회원 
+		return true;
+	}
 	
 }
