@@ -155,7 +155,6 @@ export default {
 
   watch:{
     clicked(){
-      console.log("from : "+this.from +" \t to : "+this.to)
       axios.get(base + '/tugether/mainfeed/fromto', {
         params: {
           "tag": this.tag,
@@ -224,10 +223,6 @@ export default {
 
     logout(){
       Vue.GoogleAuth.then(auth2=>{
-        console.log(auth2.isSignedIn.get());
-        console.log(auth2.currentUser.get());
-        console.log(JSON.stringify(auth2.currentUser.get().getAuthResponse()));
-        console.log(JSON.stringify(auth2.currentUser.get().getAuthResponse(true).id_token));
         auth2.signOut().then(function(){
             console.log("로그아웃 되었습니다!");
         });
@@ -291,7 +286,6 @@ export default {
       })
       .then(response => {
         this.articles[index] = response.data.article;
-        console.log('clicedLikeBtn:', this.articles[index])
         // this.clicked = true;
       })
       .catch(err => {
@@ -337,7 +331,6 @@ export default {
               })
               .then(response => {
                 this.articles[index] = response.data.article;
-                console.log(response.data)
               })
             }
             // else면
@@ -352,7 +345,6 @@ export default {
     moveUserpage(email) {
       this.email = email;
       localStorage.setItem("userEmail", this.email);
-      console.log(this.email)
       this.$router.push({
         name: 'Userpage'
       })

@@ -11,7 +11,6 @@
 
 <script>
 import store from "../../vuex/store"
-const SERVER_URL = 'http://localhost:8080'
 
 export default {
   name: 'TagList',
@@ -25,12 +24,6 @@ export default {
 </script>
 
 <style>
-  /* .welcome {
-    text-align: center;
-    font-family: Arial, Helvetica;
-    font-weight: bold;
-    margin-top: 17px;
-  } */
   .tag {
     width: 90px;
     border: none;
