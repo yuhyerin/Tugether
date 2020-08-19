@@ -21,10 +21,10 @@
                 <div style="margin-top: -65px;">
                     <input type="text" v-model="keyword" id="search_bar" placeholder="검색어를 입력하세요" autofocus onFocus="this.value='';">
                     <!-- <button class="button" v-if="category===''" @click="selectPlz">검색</button> -->
-                    <button class="button" v-if="category==='tag'" @click="searchTag" @change="searchTagList">검색</button>
+                    <button class="button" v-if="category==='tag'" @click="searchTag" @input="searchTagList">검색</button>
                     <button class="button" v-if="category==='nickname'" @click="searchUser">검색</button>
                 </div>
-                <!-- <button class="button" @click="searchTagList">드롭다운</button> -->
+                <button class="button" @click="searchTagList">드롭다운</button>
 
                 <!--태그 기반 게시글 검색 결과-->
                 <div v-show="category==='tag'">
@@ -130,13 +130,17 @@ export default {
             clicked: false
         }
     },
+    // watch: {
+    //     keyword: function() {
+    //         this.searchTagList;
+    //     }
+    // },
     methods: {
         // selectPlz() {
         //     alert("검색어 분류를 선택해주세요!😊");
         // },
         // 태그 기반 검색: 유사검색어 드롭 다운
         searchTagList() {
-            alert("테스트!")
             axios
                 .get(base + '/tugether/search/tag', {
                     params:{
@@ -150,7 +154,7 @@ export default {
                     console.log(res.data)
                     this.searchList = res.data.searchList;
                 })
-                .err((err) => {
+                .catch((err) => {
                     console.log("searchTagList function error")
                 })
         },
