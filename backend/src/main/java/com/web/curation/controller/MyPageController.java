@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.web.curation.dto.BasicResponse;
 import com.web.curation.dto.account.User;
-import com.web.curation.dto.article.Article;
 import com.web.curation.dto.article.FrontArticle;
 import com.web.curation.dto.profile.Profile;
 import com.web.curation.jwt.service.JwtService;

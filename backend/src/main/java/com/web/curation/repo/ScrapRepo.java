@@ -19,4 +19,7 @@ public interface ScrapRepo extends JpaRepository<Scrap, String> {
 	@Query(value="delete from scrap where article_id=:articleid", nativeQuery = true)
 	public void deleteScrapByArticleId(int articleid);
 
+	@Query(value="delete from scrap where uid=:scrap_id", nativeQuery = true)
+	public void deleteScrapByScrapId(int scrap_id);
+
 }

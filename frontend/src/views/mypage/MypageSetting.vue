@@ -169,7 +169,11 @@ export default {
         },
         // 페이지 이동
         moveConfirmPW() {
-            this.$router.push("/mypage/mypagepasswordconfirm");
+            if(localStorage.getItem("googletoken")){
+                alert("구글로그인 회원은 비밀번호 변경기능이 제한됩니다 :) ")
+            }else{
+                this.$router.push("/mypage/mypagepasswordconfirm");
+            }
         },
         moveMypage() {
             this.$router.push("/mypage");

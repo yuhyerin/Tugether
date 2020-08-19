@@ -94,6 +94,14 @@ public class AccountController {
 
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
+		// 로그인한 아이디가 구글연동 회원인가? 
+		if(loginService.isGoogle(user.getEmail())) {
+			resultMap.put("isgoogle", true);
+			status = HttpStatus.ACCEPTED;
+			return new ResponseEntity<Map<String, Object>>(resultMap, status);
+		}else {
+			System.out.println("소셜로그인 회원 아닙니다.");
+		}
 		try {
 			AuthenticationResponse loginUser = loginService.login(user.getEmail(), user.getPassword());
 			System.out.println("로그인 할 수 있는 사용자 입니다! " + loginUser);
@@ -145,12 +153,11 @@ public class AccountController {
 				// Get profile information from payload
 				String email = payload.getEmail();
 				boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
-				String name = (String) payload.get("name");
+				String nickname = (String) payload.get("name");
 				String pictureUrl = (String) payload.get("picture");
 				String locale = (String) payload.get("locale");
 				String familyName = (String) payload.get("family_name");
 				String givenName = (String) payload.get("given_name");
-				
 				
 				/**
 				 * 1. DB에서 해당 이메일이 있는지 없는지 조회한다. 
@@ -159,21 +166,15 @@ public class AccountController {
 				 */
 				User tmpuser = loginService.isPresentEmail(email);
 				if(tmpuser==null) { //존재하지 않으면 회원가입
-					User newuser = User.builder().email(email).password("임시비밀번호").nickname(name).birth_year(1995).gender('M').temp(true).build();
-//					User newuser = new User();
-//					newuser.setEmail(email);
-//					newuser.setPassword("임시비밀번호");
-//					newuser.setNickname(name);
-//					newuser.setBirth_year(1995);
-//					newuser.setGender('M');
-//					newuser.setTemp(true);
+//					User newuser = User.builder().email(email).password("임시비밀번호").nickname(nickname).birth_year(1995).gender('M').temp(true).build();
+					User newuser = User.builder().email(email).nickname(nickname).temp(true).build();
 					signupService.save(newuser);
 				}
 				// 이미 존재하는 회원이면
 				User existuser= loginService.isPresentEmail(email);
 				
 				try {
-					AuthenticationResponse loginUser = loginService.login(existuser.getEmail(), existuser.getPassword());
+					AuthenticationResponse loginUser = loginService.login(existuser.getEmail(), null);
 					loginUser.setTemp(false);
 					System.out.println("로그인 할 수 있는 사용자 입니다! " + loginUser);
 					// 로그인 성공 했다면, 토큰을 생성한다.
