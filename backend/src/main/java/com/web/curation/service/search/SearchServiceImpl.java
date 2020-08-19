@@ -65,7 +65,7 @@ public class SearchServiceImpl implements SearchService {
 		return list;
 	}
 
-	@Override // email = like 체크 / article_id = 태그리스트
+	@Override 
 	public FrontArticle makeFront(String email, int article_id) {
 
 		Article now = articleRepo.findArticleByArticleId(article_id);
@@ -76,11 +76,11 @@ public class SearchServiceImpl implements SearchService {
 		for (int j = 0; j < taglist.size(); j++) {
 			temp[j] = tagRepo.findTagNameByTagId(taglist.get(j)); // 태그테이블에서 태그아이디로 태그네임 찾아서 배열 저장
 		}
-		if(article_id == 39)
-			System.out.println(now.getLike_cnt());
+//		if(article_id == 39)
+//			System.out.println(now.getLike_cnt());
 		boolean like = likeRepo.findLike(article_id, email).isPresent();
 		boolean scrap = scrapRepo.findScrap(email, article_id).isPresent();
-		String profile_photo = profileRepo.findProfilePhotoByEmail(email);
+		String profile_photo = profileRepo.findProfilePhotoByEmail(now.getEmail());
 		FrontArticle ar = FrontArticle.builder().article_id(article_id).email(now.getEmail()).writer(now.getWriter())
 				.reg_time(now.getReg_time()).image(now.getImage()).profile_photo(profile_photo)
 				.content(now.getContent()).link(now.getLink()).like_cnt(now.getLike_cnt()).like(like)
