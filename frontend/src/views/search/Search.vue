@@ -2,16 +2,23 @@
     <div class="wrapC" style="text-align: center;">
         <div class="search">
             <div class="container">
-                <select v-model="category" style="border: 1px solid black;">
+                <!--검색어 분류: select box-->
+                <!-- <select v-model="category" style="border: 1px solid black;">
                     <option value="">검색어 분류</option>
                     <option value="tag">태그</option>
                     <option value="nickname">닉네임</option>
-                </select>
+                </select> -->
+                <!--검색어 분류: radio button-->
+                <input type="radio" id="tag" value="tag" v-model="category" style="left: 115px; float: left;">
+                <label for="tag" style="margin: 15px 30px 0 0; font-weight: bold;">태그</label>&nbsp;
+                <input type="radio" id="nickname" value="nickname" v-model="category" style="left: 174px; float: right;">
+                <label for="nickname" style="font-weight: bold;">닉네임</label>
+                <br>
                 <!--선택한 카테고리에 따라 버튼 기능 다르게 부여함-->
-                <div style="margin-top: -55px;">
-                    <input type="text" v-model="keyword" id="search_bar" placeholder="검색어를 입력하세요" autofocus>
+                <div style="margin-top: -65px;">
+                    <input type="text" v-model="keyword" id="search_bar" placeholder="검색어를 입력하세요" autofocus onFocus="this.value='';">
                     <button class="button" v-if="category===''" @click="selectPlz">검색</button>
-                    <button class="button" v-if="category==='tag'" @click="searchTag">검색</button>
+                    <button class="button" v-if="category==='tag'" @click="searchTag" @change="searchTagList">검색</button>
                     <button class="button" v-if="category==='nickname'" @click="searchUser">검색</button>
                 </div>
                 <!-- <button class="button" @click="searchTagList">드롭다운</button> -->
@@ -99,7 +106,7 @@ export default {
     },
     data: () => {
         return {
-            category: "",
+            category: "tag",
             keyword: "",
             articles: [],
             searchList: [],
@@ -121,11 +128,12 @@ export default {
         }
     },
     methods: {
-        selectPlz() {
-            alert("검색어 분류를 선택해주세요!😊");
-        },
+        // selectPlz() {
+        //     alert("검색어 분류를 선택해주세요!😊");
+        // },
         // 태그 기반 검색: 유사검색어 드롭 다운
         searchTagList() {
+            alert("테스트!")
             axios
                 .get(base + '/tugether/search/tag', {
                     params:{
@@ -137,13 +145,13 @@ export default {
                 })
                 .then((res) => {
                     console.log(res.data)
-                    this.searchList = res.data.list;
+                    this.searchList = res.data.searchList;
                 })
                 .err((err) => {
                     console.log("searchTagList function error")
                 })
         },
-        // 태그 기반 검색 기능 (해당 키워드가 포함된 모든 글을 출력함)
+        // 태그 기반 검색 기능
         searchTag() {
             // 검색어를 입력하지 않았을 경우 메소드 종료
             if(this.keyword.length == 0) {
@@ -284,5 +292,15 @@ export default {
     }
     .container {
       margin-bottom: 50px;
+    }
+    select {
+    -webkit-appearance: button;
+    transition: ease-in-out 1000000s;
+    }
+    input[type="radio"] {
+    -webkit-appearance: radio;
+    }
+    input[type="radio"] {
+    -webkit-appearance: radio;
     }
 </style>
