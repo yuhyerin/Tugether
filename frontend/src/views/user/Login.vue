@@ -8,8 +8,8 @@
       </h1>
 
       <div class="embed-responsive embed-responsive-16by9">
-        <img src="https://i3b303.p.ssafy.io/profileimages/tugether.png">
-        <!-- <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/ozMBCFd7fFM?autoplay=1" allow="autoplay" allowfullscreen></iframe> -->
+        <!-- <img src="https://i3b303.p.ssafy.io/profileimages/튜게더로고.png" style="width:400px; height:400px;"> -->
+        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/ozMBCFd7fFM?autoplay=1" allow="autoplay" allowfullscreen></iframe>
       </div>
       <br>
       <div class="input-with-label" v-show="!isLogin">
