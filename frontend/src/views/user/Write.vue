@@ -107,7 +107,7 @@ export default {
 
       const formdata = new FormData();
       if( this.selectedFile == null & (this.urlLink == null || this.urlLink == "") ){ // 두개다 작성 안한경우 
-        alert("이미지나 링크중 하나는 작성해 주세요 :) ");
+        alert("이미지나 링크 중 하나는 작성해 주세요 :) ");
         return;
       }else if(this.selectedFile != null){ // 파일은 등록한 경우
         
