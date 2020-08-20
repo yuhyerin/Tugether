@@ -2,22 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="16bb7f1f-a40c-4dbc-aae9-39dd947f4e08" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/src/main/resources/static/img/article/cherry.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/resources/static/img/article/cherry2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/resources/static/img/article/펭수.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/web/curation/config/WebConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/web/curation/controller/ArticleWriteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/web/curation/controller/ArticleWriteController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/web/curation/controller/ProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/web/curation/controller/ProfileController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/web/curation/service/articlewrite/ArticleWriteService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/web/curation/service/articlewrite/ArticleWriteService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/web/curation/service/articlewrite/ArticleWriteServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/web/curation/service/articlewrite/ArticleWriteServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/feed/IndexFeed.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/feed/IndexFeed.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/user/Join.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/user/Join.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/user/PasswordChange.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/user/PasswordChange.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/user/PasswordFind.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/user/PasswordFind.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/user/TagView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/user/TagView.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/user/Write.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/user/Write.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/vuex/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/vuex/store.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/common/BaseURL.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/common/BaseURL.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/feed/MainFeed.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/feed/MainFeed.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/mypage/Mypage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/mypage/Mypage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/mypage/Userpage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/mypage/Userpage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/search/Search.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/search/Search.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/user/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/user/Login.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,6 +53,7 @@
       <option name="presentableId" value="Default" />
       <updated>1596513281244</updated>
       <workItem from="1596513282407" duration="13431000" />
+      <workItem from="1597547274805" duration="25139000" />
     </task>
     <servers />
   </component>

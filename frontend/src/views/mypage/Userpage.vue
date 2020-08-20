@@ -6,12 +6,14 @@
         <!--프로필 영역-->
         <div id="profile" style="margin-top: 20px;">
             <!--프로필 사진-->
-            <v-avatar size="150px"><img :src= "`https://i3b303.p.ssafy.io/profileimages/${profile.profile_photo}`" alt="image"></v-avatar><br>
+            <v-avatar size="130px" style="margin-bottom: 8px;"><img :src= "`https://i3b303.p.ssafy.io/profileimages/${profile.profile_photo}`" alt="image"></v-avatar><br>
             <!--닉네임, 게시글 수, 팔로잉 수, 팔로워 수-->
             <strong style="font-size: 20px;">{{ profile.nickname }}</strong><br>
-            게시글 <strong style="color: red; margin-right: 5px;">{{ profile.article_cnt }}</strong>
-            팔로워 <strong style="color: red; cursor: pointer; margin-right: 5px;">{{ profile.follower_cnt }}</strong>
-            팔로잉 <strong style="color: red; cursor: pointer;">{{ profile.following_cnt }}</strong>
+            <div style="font-size: 15px;">
+              게시글 <strong style="color: red; margin-right: 5px;">{{ profile.article_cnt }}</strong>
+              팔로워 <strong style="color: red; cursor: pointer; margin-right: 5px;">{{ profile.follower_cnt }}</strong>
+              팔로잉 <strong style="color: red; cursor: pointer;">{{ profile.following_cnt }}</strong>
+            </div>
         </div>
         <!--나와 상대 유저의 팔로우 관계에 따라 다른 버튼이 보인다.-->
         <div v-if="follow"> <!--true-->
@@ -24,239 +26,118 @@
         </div>
         <!--유저의 관심태그 목록 보여주기-->
         <div id="favtags" style="margin-top: 10px;">
-            <strong>관심태그 </strong>
             <span id="tags_test" v-for="tags in favtags" :key=tags>
-                #{{ tags }}&nbsp;
+                <v-chip style="color: white; background-color: red;">#{{ tags }}</v-chip>
             </span>
         </div>
 
         <!--탭(유저 게시글 & 유저가 스크랩한 글)-->
         <!--유저 게시글-->
           <v-tabs grow style="margin-top: 10px;">
-            <v-tab style="font-weight: bold;">내 게시글</v-tab>
+            <v-tab style="font-weight: bold;">게시글</v-tab>
               <v-tab-item style="padding-top: 15px;">
-                  <div class="wrapC" v-for="(article, index) in articles" :key="index" :articles="articles" style="text-align: left;">
-                    <div class="feed-item">
-                      <!-- 프로필이미지, 작성자, 시간(며칠전..), 태그 -->
-                      <div class="top">
-                        <!--실제 프로필 사진 띄울 것-->
-                        <div class="profile-image" :style="{'background-image': 'url('+defaultProfile+')'}"></div>
-                        <div class="user-info">
-                          <div class="user-name">
-                            <strong>{{ article.writer }}</strong> <!--마이페이지니까 본인이 작성한 글 닉네임 눌러도 아무 일 없는걸로..-->
-                          </div>
-                          <p class="date">{{ timeForToday(article.reg_time) }}</p>
-                        </div>
-                        <div class="content">
-                          <span v-for="tag in article.tag_name" :key="tag.name">
-                            #{{ tag }}
-                          </span>
-                        </div>
-                      </div>
-                      <!-- 이미지, 내용, 유튜브 url, 작성날짜 -->
-                      <div class="feed-card">
-                        <img :src= "`https://i3b303.p.ssafy.io/articleimages/${article.image}`" alt="image">
-                        <div class="contentsWrap">
-                          <h4 class="title">{{ article.content }}</h4>
-                          <div class="wrap">
-                            <div class="url">
-                              <a :href="article.link" v-if="article.link" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:25px; height:25px;"></a>
-                            </div>
-                            <p class="date">{{article.reg_time.slice(0, 10)}}</p>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- 좋아요, 댓글,  -->
-                      <div class="btn-group wrap">
-                        <div class="like likeScrap">
-                          <svg v-show="article.like" 
-                            class="svg-inline--fa fa-heart fa-w-16 icon full"
-                            aria-hidden="true"
-                            data-prefix="fas"
-                            data-icon="heart"
-                            role="img"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 512 512"
-                            data-fa-i2svg
-                          >
-                            <path
-                              fill="red"
-                              d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"
-                            />
-                          </svg>
-                            
-                          <svg v-show="!article.like"
-                            class="svg-inline--fa fa-heart fa-w-16 icon empty"
-                            aria-hidden="true"
-                            data-prefix="far"
-                            data-icon="heart"
-                            role="img"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 512 512"
-                            data-fa-i2svg
-                          >
-                            <path
-                              fill="gray"
-                              d="M458.4 64.3C400.6 15.7 311.3 23 256 79.3 200.7 23 111.4 15.6 53.6 64.3-21.6 127.6-10.6 230.8 43 285.5l175.4 178.7c10 10.2 23.4 15.9 37.6 15.9 14.3 0 27.6-5.6 37.6-15.8L469 285.6c53.5-54.7 64.7-157.9-10.6-221.3zm-23.6 187.5L259.4 430.5c-2.4 2.4-4.4 2.4-6.8 0L77.2 251.8c-36.5-37.2-43.9-107.6 7.3-150.7 38.9-32.7 98.9-27.8 136.5 10.5l35 35.7 35-35.7c37.8-38.5 97.8-43.2 136.5-10.6 51.1 43.1 43.5 113.9 7.3 150.8z"
-                            />
-                          </svg>
-                          <span class="like-cnt" v-if="article.like_cnt !== 0">{{ article.like_cnt }}명이 좋아합니다.</span>
-                        </div>
-                        <div class="comment">
-                          <svg
-                            class="svg-inline--fa fa-comment-alt fa-w-16 icon"
-                            aria-hidden="true"
-                            data-prefix="far"
-                            data-icon="comment-alt"
-                            role="img"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 512 512"
-                            data-fa-i2svg
-                          >
-                            <path
-                              fill="currentColor"
-                              d="M448 0H64C28.7 0 0 28.7 0 64v288c0 35.3 28.7 64 64 64h96v84c0 7.1 5.8 12 12 12 2.4 0 4.9-.7 7.1-2.4L304 416h144c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64zm16 352c0 8.8-7.2 16-16 16H288l-12.8 9.6L208 428v-60H64c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16h384c8.8 0 16 7.2 16 16v288z"
-                            />
-                          </svg>
-                          <!-- {{ cntComment }} -->
-                        </div>
-                        <div class="scrap">
-                          <svg
-                            class="svg-inline--fa fa-share-alt fa-w-14 icon"
-                            aria-hidden="true"
-                            data-prefix="far"
-                            data-icon="share-alt"
-                            role="img"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 448 512"
-                            data-fa-i2svg
-                          >
-                            <path
-                              fill="currentColor"
-                              d="M352 320c-22.608 0-43.387 7.819-59.79 20.895l-102.486-64.054a96.551 96.551 0 0 0 0-41.683l102.486-64.054C308.613 184.181 329.392 192 352 192c53.019 0 96-42.981 96-96S405.019 0 352 0s-96 42.981-96 96c0 7.158.79 14.13 2.276 20.841L155.79 180.895C139.387 167.819 118.608 160 96 160c-53.019 0-96 42.981-96 96s42.981 96 96 96c22.608 0 43.387-7.819 59.79-20.895l102.486 64.054A96.301 96.301 0 0 0 256 416c0 53.019 42.981 96 96 96s96-42.981 96-96-42.981-96-96-96z"
-                            />
-                          </svg>
-                          <span class="scrap-cnt" v-if="article.scrap_cnt !== 0">{{ article.scrap_cnt }}회</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </v-tab-item>
-            
+                <v-container>
+                  <v-row dense class="pt-0">
+                    <v-col cols="12" v-for="(article, index) in articles" :key="article.id" :articles="articles">
+                      <!-- <v-mainfeed id="inspire"> -->
+                        <v-card max-width="344" class="mx-auto">
+                          <!-- 프로필이미지, 작성자, 시간(며칠전..), 유튜브 url -->
+                          <v-list-item>
+                            <v-list-item-avatar class="mr-2" size="40px" style="cursor:pointer"><img :src="`https://i3b303.p.ssafy.io/profileimages/${article.profile_photo}`"></v-list-item-avatar>
+                            <v-list-item-content>
+                              <!-- 이미 유저페이지이므로 해당 유저의 글에서 닉네임을 눌러도 아무 일도 일어나지 않음.-->
+                              <v-list-item-title class="headline" style="cursor:pointer; text-align:left;">{{ article.writer }}</v-list-item-title>
+                              <v-list-item-subtitle style="font-size:0.8rem; text-align:left;">{{ timeForToday(article.reg_time) }}</v-list-item-subtitle>
+                            </v-list-item-content>
+                            <v-spacer></v-spacer>
+                            <a :href="article.link" v-show="article.link!='null'" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:35px; height:35px;"></a>
+                          </v-list-item>
+                          <!-- 이미지, 내용, 태그 -->
+                          <iframe v-if="article.image == null && article.link != '' " class="embed-responsive-item" :src="`https://www.youtube.com/embed/${getLink(article.link)}`" allowfullscreen style="width:100%; height:200px"></iframe>
+                          <v-img v-if="article.image != null " :src="`https://i3b303.p.ssafy.io/articleimages/${article.image}`" max-height="230"></v-img>
+                          <v-card-text class="pb-0" style="color:black; text-align:left;">{{ article.content }}</v-card-text>
+                          <v-chip-group column>
+                            <span v-for="tag in article.tag_name" :key="tag.name">
+                              <v-chip class="ml-2 mr-0" style="cursor:default; font-weight:bold;">#{{ tag }}</v-chip>
+                              </span>
+                          </v-chip-group>
+                          <v-card-actions>
+                            <v-btn icon>
+                              <v-icon class="mr-1 ml-5" v-show="!article.like" @click="clickedLikeBtn(index)">mdi-heart</v-icon>
+                              <v-icon class="mr-1 ml-5" v-show="article.like" @click="clickedLikeBtn(index)" style="color: red;">mdi-heart</v-icon>
+                              <span class="subheading mr-2" @click="clickedLikeBtn(index)">{{ article.like_cnt }}명</span>
+                            </v-btn>
+                            <v-spacer></v-spacer>
+                            <v-btn icon>
+                              <v-icon class="mr-1" @click="clickedCommentBtnArticle(article, index)">mdi-message-text</v-icon>
+                              <span class="subheading mr-2" @click="clickedCommentBtnArticle(article, index)">{{ article.comment_cnt }}개</span>
+                            </v-btn>
+                            <v-spacer></v-spacer>
+                            <v-btn icon>
+                              <v-icon class="mr-1" @click="clickedScrapBtnScrap(index)">mdi-bookmark</v-icon>
+                              <span class="subheading mr-5" @click="clickedScrapBtnArticle(index)">{{ article.scrap_cnt }}회</span>
+                            </v-btn>
+                          </v-card-actions>
+                        </v-card>
+                      <!-- </v-mainfeed> -->
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-tab-item>
+
             <!--유저가 스크랩한 글-->
             <v-tab style="font-weight: bold;">스크랩한 글</v-tab>
             <v-tab-item style="padding-top: 15px;">
-                 <div class="wrapC" v-for="(scrap, index) in scraps" :key="index" :scraps="scraps" style="text-align: left;">
-                    <div class="feed-item">
-                      <!-- 프로필이미지, 작성자, 시간(며칠전..), 태그 -->
-                      <div class="top">
-                        <!--실제 프로필 사진 띄울 것-->
-                        <div class="profile-image" :style="{'background-image': 'url('+defaultProfile+')'}"></div>
-                        <div class="user-info">
-                          <div class="user-name">
-                            <button>{{ scrap.writer }}</button>
-                          </div>
-                          <p class="date">{{ timeForToday(scrap.reg_time) }}</p>
-                        </div>
-                        <div class="content">
-                          <span v-for="tag in scrap.tag_name" :key="tag.name">
-                            #{{ tag }}
-                          </span>
-                        </div>
-                      </div>
-                      <!-- 이미지, 내용, 유튜브 url, 작성날짜 -->
-                      <div class="feed-card">
-                        <img :src= "`https://i3b303.p.ssafy.io/articleimages/${scrap.image}`" alt="image">
-                        <div class="contentsWrap">
-                          <h4 class="title">{{ scrap.content }}</h4>
-                          <div class="wrap">
-                            <div class="url">
-                              <a :href="scrap.link" v-if="scrap.link" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:25px; height:25px;"></a>
-                            </div>
-                            <p class="date">{{scrap.reg_time.slice(0, 10)}}</p>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- 좋아요, 댓글,  -->
-                      <div class="btn-group wrap">
-                        <div class="like likeScrap">
-                          <svg v-show="scrap.like" 
-                            class="svg-inline--fa fa-heart fa-w-16 icon full"
-                            aria-hidden="true"
-                            data-prefix="fas"
-                            data-icon="heart"
-                            role="img"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 512 512"
-                            data-fa-i2svg
-                          >
-                            <path
-                              fill="red"
-                              d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"
-                            />
-                          </svg>
-                            
-                          <svg v-show="!scrap.like"
-                            class="svg-inline--fa fa-heart fa-w-16 icon empty"
-                            aria-hidden="true"
-                            data-prefix="far"
-                            data-icon="heart"
-                            role="img"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 512 512"
-                            data-fa-i2svg
-                          >
-                            <path
-                              fill="gray"
-                              d="M458.4 64.3C400.6 15.7 311.3 23 256 79.3 200.7 23 111.4 15.6 53.6 64.3-21.6 127.6-10.6 230.8 43 285.5l175.4 178.7c10 10.2 23.4 15.9 37.6 15.9 14.3 0 27.6-5.6 37.6-15.8L469 285.6c53.5-54.7 64.7-157.9-10.6-221.3zm-23.6 187.5L259.4 430.5c-2.4 2.4-4.4 2.4-6.8 0L77.2 251.8c-36.5-37.2-43.9-107.6 7.3-150.7 38.9-32.7 98.9-27.8 136.5 10.5l35 35.7 35-35.7c37.8-38.5 97.8-43.2 136.5-10.6 51.1 43.1 43.5 113.9 7.3 150.8z"
-                            />
-                          </svg>
-                          <span class="like-cnt" v-if="scrap.like_cnt !== 0">{{ scrap.like_cnt }}명이 좋아합니다.</span>
-                        </div>
-                        <div class="comment">
-                          <svg
-                            class="svg-inline--fa fa-comment-alt fa-w-16 icon"
-                            aria-hidden="true"
-                            data-prefix="far"
-                            data-icon="comment-alt"
-                            role="img"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 512 512"
-                            data-fa-i2svg
-                          >
-                            <path
-                              fill="currentColor"
-                              d="M448 0H64C28.7 0 0 28.7 0 64v288c0 35.3 28.7 64 64 64h96v84c0 7.1 5.8 12 12 12 2.4 0 4.9-.7 7.1-2.4L304 416h144c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64zm16 352c0 8.8-7.2 16-16 16H288l-12.8 9.6L208 428v-60H64c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16h384c8.8 0 16 7.2 16 16v288z"
-                            />
-                          </svg>
-                          <!-- {{ cntComment }} -->
-                        </div>
-                        <div class="scrap">
-                          <svg
-                            class="svg-inline--fa fa-share-alt fa-w-14 icon"
-                            aria-hidden="true"
-                            data-prefix="far"
-                            data-icon="share-alt"
-                            role="img"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 448 512"
-                            data-fa-i2svg
-                          >
-                            <path
-                              fill="currentColor"
-                              d="M352 320c-22.608 0-43.387 7.819-59.79 20.895l-102.486-64.054a96.551 96.551 0 0 0 0-41.683l102.486-64.054C308.613 184.181 329.392 192 352 192c53.019 0 96-42.981 96-96S405.019 0 352 0s-96 42.981-96 96c0 7.158.79 14.13 2.276 20.841L155.79 180.895C139.387 167.819 118.608 160 96 160c-53.019 0-96 42.981-96 96s42.981 96 96 96c22.608 0 43.387-7.819 59.79-20.895l102.486 64.054A96.301 96.301 0 0 0 256 416c0 53.019 42.981 96 96 96s96-42.981 96-96-42.981-96-96-96z"
-                            />
-                          </svg>
-                          <span class="scrap-cnt" v-if="scrap.scrap_cnt !== 0">{{ scrap.scrap_cnt }}회</span>
-                        </div>
-                      </div>
-                    </div>
-                 </div>
-            </v-tab-item>
-        </v-tabs>
-
-        <!--네비게이션 바-->
-        <BottomNav/>
+              <v-container>
+                  <v-row dense class="pt-0">
+                    <v-col cols="12" v-for="(scrap, index) in scraps" :key="index" :scraps="scraps" style="text-align: left;">
+                      <!-- <v-mainfeed id="inspire"> -->
+                        <v-card max-width="344" class="mx-auto">
+                          <!-- 프로필이미지, 작성자, 시간(며칠전..), 유튜브 url -->
+                          <v-list-item>
+                            <v-list-item-avatar class="mr-2" @click="moveUserpage(scrap.email)" size="40px" style="cursor:pointer"><img :src="`https://i3b303.p.ssafy.io/profileimages/${scrap.profile_photo}`"></v-list-item-avatar>
+                            <v-list-item-content>
+                              <v-list-item-title class="headline" @click="moveUserpage(scrap.email)" style="cursor:pointer; text-align:left;">{{ scrap.writer }}</v-list-item-title>
+                              <v-list-item-subtitle style="font-size:0.8rem; text-align:left;">{{ timeForToday(scrap.reg_time) }}</v-list-item-subtitle>
+                            </v-list-item-content>
+                            <v-spacer></v-spacer>
+                            <a :href="scrap.link" v-show="scrap.link!='null'" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:35px; height:35px;"></a>
+                          </v-list-item>
+                          <!-- 이미지, 내용, 태그 -->
+                          <iframe v-if="scrap.image == null && scrap.link != '' " class="embed-responsive-item" :src="`https://www.youtube.com/embed/${getLink(scrap.link)}`" allowfullscreen style="width:100%; height:200px"></iframe>
+                          <v-img v-if="scrap.image != null " :src="`https://i3b303.p.ssafy.io/articleimages/${scrap.image}`" max-height="230"></v-img>
+                          <v-card-text class="pb-0" style="color:black; text-align:left;">{{ scrap.content }}</v-card-text>
+                          <v-chip-group column>
+                            <span v-for="tag in scrap.tag_name" :key="tag.name">
+                              <v-chip class="ml-2 mr-0" style="cursor:default; font-weight:bold;">#{{ tag }}</v-chip>
+                              </span>
+                          </v-chip-group>
+                          <v-card-actions>
+                            <v-btn icon>
+                              <v-icon class="mr-1 ml-5" v-show="!scrap.like" @click="clickedLikeScrapBtn(index)">mdi-heart</v-icon>
+                              <v-icon class="mr-1 ml-5" v-show="scrap.like" @click="clickedLikeScrapBtn(index)" style="color: red;">mdi-heart</v-icon>
+                              <span class="subheading mr-2" @click="clickedLikeScrapBtn(index)">{{ scrap.like_cnt }}명</span>
+                            </v-btn>
+                            <v-spacer></v-spacer>
+                            <v-btn icon>
+                              <v-icon class="mr-1" @click="clickedCommentBtnScrap(scrap, index)">mdi-message-text</v-icon>
+                              <span class="subheading mr-2" @click="clickedCommentBtnScrap(scrap, index)">{{ scrap.comment_cnt }}개</span>
+                            </v-btn>
+                            <v-spacer></v-spacer>
+                            <v-btn icon>
+                              <v-icon class="mr-1" @click="clickedScrapBtnScrap(index)">mdi-bookmark</v-icon>
+                              <span class="subheading mr-5" @click="clickedScrapBtnScrap(index)">{{ scrap.scrap_cnt }}회</span>
+                            </v-btn>
+                          </v-card-actions>
+                        </v-card>
+                      <!-- </v-mainfeed> -->
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-tab-item>
+          </v-tabs>
+          <!--네비게이션 바-->
+          <BottomNav/>
       </div>
   </div>
 </template>
@@ -267,7 +148,6 @@ import store from '@/vuex/store';
 import { mapState, mapActions, mapMutations } from "vuex";
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
 import BottomNav from "@/components/common/BottomNav";
-import defaultProfile from "../../assets/images/profile_default.png";
 
 export default {
     components:{
@@ -275,19 +155,86 @@ export default {
     },
     data: () => {
         return {
-            // userEmail: "",
             follow: "",
             favtags: [],
-            articles: '',
+            articles: "",
             profile: '',
-            scraps: '',
-            defaultProfile
+            scraps: "",
+            email: "",
+            clicked: false
         }
+    },
+    watch: {
+      clicked() {
+        axios.get(base + '/tugether/userpage', {
+          params:{
+            "userEmail": localStorage.getItem("userEmail")
+          },
+          headers: {
+            "jwt-auth-token": localStorage.getItem("token"),
+          }
+        })
+        .then(response => {
+          this.articles = response.data.articles;
+          this.scraps = response.data.scraps;
+          this.clicked=false;
+        })
+        .catch(err =>{
+            console.log("no watch")
+        })
+        .finally(()=>{
+            this.clicked=false;
+        })
+      }
     },
     created() {
         this.refresh();
     },
     methods: {
+
+            // 유튜브링크에서 키값 꺼내기 
+    getLink(articlelink){
+          
+          var subValue = 'watch?v=';
+          var subValue2 = 'youtu.be/'
+          var iValue = articlelink.indexOf(subValue); 
+          var iValue2 = articlelink.indexOf(subValue2);
+          // 부분 문자열이 대상 문자열 안에 있는지 없는지 확인하기 위해서는 반환되는 값이 -1 인지 살펴보면 됨
+          if (iValue != -1) { 
+            // https://www.youtube.com/watch?v=hPmS4C08-zA
+            // iValue = 24 
+            var startidx = iValue + subValue.length
+            var endidx = articlelink.indexOf('t=');
+            if(endidx != -1){ // 시작시간이 걸려있으면, 
+              var front = articlelink.substring(startidx, endidx - 1);
+              var back = articlelink.substring(endidx+2, articlelink.length)
+              var result = front+'?start='+back;
+              return result;
+              
+            }else{
+              return articlelink.substring(startidx, articlelink.length)
+            } 
+            
+          }else if(iValue2 != -1){
+            // https://youtu.be/Hnn1Om5PVKA?t=36
+            var startidx2 = iValue2 + subValue2.length
+            var endidx2 = articlelink.indexOf('t=');
+            if(endidx2 != -1){ // 시작시간이 걸려있으면, 
+              var front2 = articlelink.substring(startidx2, endidx2 - 1);
+              var back2 = articlelink.substring(endidx2+2, articlelink.length)
+              var result2 = front2+'?start='+back2;
+              return result2;
+              
+            }else{
+              return articlelink.substring(startidx2, articlelink.length)
+            } 
+
+          }else{
+            console.log('찾고자 하는 영상 URL이 없습니다. ');
+          }
+
+    },
+
         refresh() {
           axios
               .get(base + '/tugether/userpage', 
@@ -300,14 +247,14 @@ export default {
                   }
               })
               .then((res) => {
-                  console.log(res.data)
+                  // console.log(res.data)
                   // 프로필 띄우기
                   this.profile = res.data.profile;
                   this.follow = res.data.follow;
                   this.favtags = res.data.favtags;
                   // 유저의 게시글, 스크랩한 글 목록 가져오기
                   this.articles = res.data.articles;
-                  this.scraps = res.data.scrap;
+                  this.scraps = res.data.scraps;
               })
               .catch((err) => {
                   console.log("created axios get PROFILE and ARTICLES, SCRAPS error")
@@ -361,24 +308,170 @@ export default {
                 });
             } // if
         },
+        // 좋아요 기능
+        clickedLikeBtn(index) { 
+          this.clicked = true;
+          axios.get(base + '/tugether/mainfeed/like', {
+            params: {
+              "article_id": this.articles[index].article_id,
+            },
+            headers: { 
+              "jwt-auth-token": localStorage.getItem("token"),
+            }
+          })
+          .catch(err => {
+            console.log('clickLikeBtn FAIL!!!')
+          })
+        },
+        clickedLikeScrapBtn(index) { 
+          this.clicked = true;
+          axios.get(base + '/tugether/mainfeed/like', {
+            params: {
+              "article_id": this.scraps[index].article_id,
+            },
+            headers: { 
+              "jwt-auth-token": localStorage.getItem("token"),
+            }
+          })
+          .catch(err => {
+            console.log('clickLikeBtn FAIL!!!')
+          })
+        },
+        // 댓글 보기 기능
+        clickedCommentBtnArticle(articles, index) {
+            this.$router.push({
+                name: 'Comment',
+                params: {
+                  "article_id": this.articles[index].article_id
+                }
+            })
+        },
+        clickedCommentBtnScrap(scraps, index) {
+            this.$router.push({
+                name: 'Comment',
+                params: {
+                  "article_id": this.scraps[index].article_id
+                }
+            })
+        },
+        // 유저페이지로 이동
+        moveUserpage(email) {
+          this.email = email;
+          if (this.email !== localStorage.getItem("email")) {
+                localStorage.setItem("userEmail", this.email);
+                this.$router.go(this.$router.currentRoute); // 현재 경로와 중복되므로 이를 사용해 다른 사용자의 데이터로 업데이트 해준다.
+                scroll(0, 0); // 페이지의 최상단으로 이동
+            }
+            // 만약 해당 유저가 내 글을 스크랩 했을 경우는 닉네임(또는 프로필사진)을 눌렀을 때 마이페이지로 이동한다.
+            else {
+              this.$router.push({
+                name: 'Mypage'
+              })
+            }
+        },
         // 시간 체크
         timeForToday(value) {
-        const today = new Date();
-        const timeValue = new Date(value);
+          const today = new Date();
+          const timeValue = new Date(value);
 
-        const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
+          const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
 
-        if (betweenTime < 1) return '방금 전';
-        if (betweenTime < 60) return `${betweenTime}분 전`;
+          if (betweenTime < 1) return '방금 전';
+          if (betweenTime < 60) return `${betweenTime}분 전`;
 
-        const betweenTimeHour = Math.floor(betweenTime / 60);
-        if (betweenTimeHour < 24) return `${betweenTimeHour}시간 전`;
+          const betweenTimeHour = Math.floor(betweenTime / 60);
+          if (betweenTimeHour < 24) return `${betweenTimeHour}시간 전`;
 
-        const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
-        if (betweenTimeDay < 365) return `${betweenTimeDay}일 전`;
+          const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+          if (betweenTimeDay < 365) return `${betweenTimeDay}일 전`;
 
-        return `${Math.floor(betweenTimeDay / 365)}년 전`;
-        }
+          return `${Math.floor(betweenTimeDay / 365)}년 전`;
+        },
+
+        // 유저페이지의 내 게시글(유저가 쓴 게시글) 스크랩
+        clickedScrapBtnArticle(index) {
+          axios.get(base + '/tugether/mainfeed/scrap', {
+            params: {
+              "article_id": this.articles[index].article_id,
+            },
+            headers: {
+              "jwt-auth-token": localStorage.getItem("token"),
+            }
+          })
+          .then(response => {
+            if (response.data.scrapcheck) {
+              alert('이미 스크랩한 게시물입니다.')
+            } 
+            else {
+              // confirm창 띄우기
+              var answer = confirm('스크랩 하시겠습니까?')
+                // if 확인이면 axios.post
+                if(answer==true){
+                  axios.post(base + '/tugether/mainfeed/scrap', {
+                    "article_id": this.articles[index].article_id,
+                  },
+                  {
+                    headers: {
+                      "jwt-auth-token": localStorage.getItem("token"),
+                    }
+                  })
+                  .then(response => {
+                    this.articles[index] = response.data.article;
+                    console.log(response.data)
+                  })
+                }
+                // else면
+            }
+            this.clicked = true;
+          })
+          .catch(err => {
+            console.log('스크랩 실패')
+          })
+        },
+
+        // 유저페이지의 스크랩한 글 스크랩
+        clickedScrapBtnScrap(index) {
+          axios.get(base + '/tugether/mainfeed/scrap', {
+            params: {
+              "article_id": this.scraps[index].article_id,
+            },
+            headers: {
+              "jwt-auth-token": localStorage.getItem("token"),
+            }
+          })
+          .then(response => {
+            if(response.data.mycheck) {
+              alert('자신의 게시물은 스크랩할 수 없습니다.')
+            }
+            else if(response.data.scrapcheck) {
+              alert('이미 스크랩한 게시물입니다.')
+            } 
+            else {
+              // confirm창 띄우기
+              var answer = confirm('스크랩 하시겠습니까?')
+                // if 확인이면 axios.post
+                if(answer==true){
+                  axios.post(base + '/tugether/mainfeed/scrap', {
+                    "article_id": this.scraps[index].article_id,
+                  },
+                  {
+                    headers: {
+                      "jwt-auth-token": localStorage.getItem("token"),
+                    }
+                  })
+                  .then(response => {
+                    this.scraps[index] = response.data.article;
+                    console.log('userpage scrap:', response.data)
+                  })
+                }
+                // else면
+            }
+            this.clicked = true;
+          })
+          .catch(err => {
+            console.log('스크랩 실패')
+          })
+        },
     }
 }
 </script>
@@ -389,11 +482,6 @@ export default {
         color: white;
         width: 25%;
         height: 35px;
-    }
-    /* 관심태그 리스트 */
-    #tags_test{
-        color: white;
-        background-color: red;
     }
     /* 게시글 크기 조절 */
     .link {
@@ -411,5 +499,8 @@ export default {
       font-size: 95%;
       color: navy;
       cursor: pointer;
+    }
+    .container {
+      margin-bottom: 50px;
     }
 </style>

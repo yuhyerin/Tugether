@@ -41,8 +41,8 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/tugether")
 public class ArticleWriteController {
 
-//	@Value("${ubuntu.article.upload.directory}")
 	@Value("${window.article.upload.directory}")
+//	@Value("${ubuntu.article.upload.directory}")
 	String upload_FILE_PATH;
 
 	@Autowired
@@ -62,8 +62,10 @@ public class ArticleWriteController {
 	 */
 	@ApiOperation(value = "게시글 작성")
 	@PostMapping("/articlewrite")
-	public ResponseEntity<Map<String, Object>> addArticle(@RequestParam("articleimg") MultipartFile mFile,
-			@RequestParam("contents") String contents, @RequestParam("link") String link,
+	public ResponseEntity<Map<String, Object>> addArticle(
+			@RequestParam(name = "articleimg", required = false) MultipartFile mFile,
+			@RequestParam("contents") String contents, 
+			@RequestParam("link") String link,
 			@RequestParam("taglist") ArrayList<String> taglist, HttpServletRequest request) {
 
 		Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -74,39 +76,44 @@ public class ArticleWriteController {
 		Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
 		String email = Userinfo.get("email").toString(); // 이메일
 		String writer = Userinfo.get("nickname").toString(); // 닉네임
-
-		// 사진이름 = 작성자이메일 + 파일명
-		String articleimg = email + mFile.getOriginalFilename();
+		int article_id;
 		Article article = new Article();
 		article.setEmail(email);
 		article.setWriter(writer);
 		article.setContent(contents);
-		article.setImage(articleimg);
 		article.setLink(link);
 		article.setLike_cnt(0);
 		article.setScrap_cnt(0);
+		
+		if (mFile == null) {
+			System.out.println("ArticleWrite - No image");
+			/** 1. article테이블에 article 추가 - 이미지X */
+			article_id = articleWriteService.addArticle(article);
+			
+		} else {
+			System.out.println("ArticleWrite - Add image");
+			String articleimg = mFile.getOriginalFilename();
+			article.setImage(email+articleimg);
+			/** 1. article테이블에 article 추가 - 이미지O */
+			article_id = articleWriteService.addArticlewithImage(article);
+			// 이미지 파일 업로드
+			try {
+				// 파일업로드 할때 => 경로 + (작성자 이메일 + 파일명)
+				mFile.transferTo(new File(upload_FILE_PATH + email + articleimg));
+				System.out.println("파일을 업로드 했습니다.");
 
-		// 이미지 파일 업로드
-		try {
-			// 파일업로드 할때 => 경로 + (작성자 이메일 + 파일명)
-			mFile.transferTo(new File(upload_FILE_PATH + articleimg));
-			status = HttpStatus.OK;
-			System.out.println("파일을 업로드 했습니다.");
-
-		} catch (IllegalStateException | IOException e) {
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-			e.printStackTrace();
+			} catch (IllegalStateException | IOException e) {
+				status = HttpStatus.INTERNAL_SERVER_ERROR;
+				e.printStackTrace();
+			}
 		}
-
-		/** 1. article테이블에 article 추가 */
-		int article_id = articleWriteService.addArticle(article);
-
+		
 		/** 2. articletag 테이블에 등록한 태그들 추가 (없는태그는 tag테이블에도 추가해줌, article_cnt도하나 증가) */
 		articleWriteService.addArticleTag(article_id, taglist);
 
 		/** 3. profile테이블에 article_cnt 하나 증가 */
 		profileService.countPlusArticleCnt(email);
-		
+		status = HttpStatus.OK;
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 
 	}

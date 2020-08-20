@@ -28,8 +28,8 @@ public interface ProfileRepo extends JpaRepository<Profile, String>{
 	@Query(value="select profile_photo from profile p where p.email=:email", nativeQuery=true)
 	String findProfilePhotoByEmail(String email);
 	
-	@Query(value="select nickname from profile p where p.nickname like CONCAT('%',:keyword,'%')")
-	List<String> findNicknamesByNickname(String keyword);
+	@Query(value="select distinct * from `profile` p where p.nickname like concat('%',:keyword,'%') and p.email!=:email", nativeQuery = true)
+	List<Profile> findUserByNickname(String keyword, String email);
 	
 	@Query(value="select email from profile p where p.nickname like  CONCAT('%',:nickname,'%')")
 	List<String> findEmailByNickname(String nickname);

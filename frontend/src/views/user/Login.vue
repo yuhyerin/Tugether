@@ -1,6 +1,5 @@
 <template>
   <div class="user" id="login">
-
     <menu></menu>
     <div class="wrapC">
       <br>
@@ -9,6 +8,7 @@
       </h1>
 
       <div class="embed-responsive embed-responsive-16by9">
+        <!-- <img src="https://i3b303.p.ssafy.io/profileimages/튜게더로고.png" style="width:400px; height:400px;"> -->
         <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/ozMBCFd7fFM?autoplay=1" allow="autoplay" allowfullscreen></iframe>
       </div>
       <br>
@@ -20,6 +20,7 @@
           v-bind:class="{error : error.email, complete:!error.email&&email.length!==0}"
           @keyup.enter="Login"
           id="email"
+          ref="email"
           placeholder="이메일을 입력하세요."
           type="text"
         />
@@ -33,45 +34,43 @@
           :type="passwordType"
           v-bind:class="{error : error.password, complete:!error.password&&password.length!==0}"
           id="password"
+          ref="password"
           @keyup.enter="Login"
           placeholder="비밀번호를 입력하세요."
         />
         <label for="password">비밀번호</label>
         <!--비밀번호 입력 시 아이콘을 누르면 입력타입을 변경해준다.(text, password)-->
         <span class="eye_icon" @click="showPW"><i class="far fa-eye fa-lg"></i></span>
-        <!-- <div class="error-text" v-if="error.password">{{error.password}}</div> -->
       </div>
-      
-        <button
-          v-show="!isLogin"
+
+      <button
           class="btn btn--back btn--login"
-          @click="login({email, password})"
-          :disabled="!isSubmit"
-          :class="{disabled : !isSubmit}"
+          @click="checkHandler(email, password)"
+          style="color: white;"
         >로그인</button>
-      
 
-      <div v-show="isLogin">
+      <!-- <div v-show="isLogin">
         <h2> 로그인 되었습니다 :) </h2>
-      </div>
+      </div> -->
 
-      <div class="sns-login">
-      </div>
       <div class="add-option">
         <hr>
-        <br>
-        <div class="wrap">
+        <div class="google-login-btn">
+          <GoogleLogin :params="params" :renderParams="renderParams" :onSuccess="googlelogin" style="float: right;">구글로 로그인 </GoogleLogin>
+        </div>
+        <div class="wrap" style="margin-top: 10px;">
           <router-link to="/user/join" class="btn--text">가입하기</router-link>
           <br>
           <router-link to="/passwordfind" class="btn--text">비밀번호 찾기</router-link>
-
         </div>
+        <!-- <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
+        <!-- <GoogleLogin :params="params" :renderParams="renderParams" :onSuccess="googlelogin">Login</GoogleLogin> -->
+        <!-- <Button @click="googlelogout()">Logout</Button> -->
       </div>
     </div>
-    <BottomNav />
   </div>
 </template>
-
+<script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
 <style>
 #test{
   background-color: red;
@@ -89,14 +88,16 @@ import store from "../../vuex/store"
 import * as axios from 'axios';
 import { mapState, mapActions} from "vuex"
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
-import BottomNav from "@/components/common/BottomNav";
+import GoogleLogin from 'vue-google-login';
+import GoogleLoginButton from "../../components/user/snsLogin/Google.vue";
 
 const storage = window.sessionStorage;
 
 export default {
   name: 'Login',
-  component:{
-    BottomNav,
+  components:{
+    GoogleLogin,
+    GoogleLoginButton,
   },
 
   data: () => {
@@ -116,7 +117,16 @@ export default {
         passowrd: false
       },
       isSubmit: false,
-      component: this
+      component: this,
+      params: {
+          client_id: "963926899908-ncql9skkc6bkmifvg9bhc9jv2asecrcd.apps.googleusercontent.com"
+      },
+      renderParams: {
+          width: 40,
+          height: 40,
+          longtitle: true,
+          theme:'light'
+      },
     };
   },
   created() {
@@ -145,7 +155,27 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["login"]), // store.js의 Actions에 정의한 함수를 쓰기 위해서 선언해준다.
+    ...mapActions(["login", "googlelogin", "googlelogout", "googletoken"]), // store.js의 Actions에 정의한 함수를 쓰기 위해서 선언해준다.
+
+    
+    signOut(){
+          // var auth2 = gapi.auth2.getAuthInstance();
+          // auth2.signOut().then(function () {
+          // console.log('User signed out.');
+          // });
+    },
+    // 사용자가 입력하지 않은 칸이 있을 경우 포커스 이동 & 회원 정보가 일치할 경우에만 로그인 가능
+    checkHandler(email, password) {
+      let err = true;
+      let msg = "";
+      !this.email && ((msg = "이메일을 입력해주세요!"),(err = false),this.$refs.email.focus());
+      err && !this.password && ((msg = "비밀번호를 입력해주세요!"),(err = false),this.$refs.password.focus());
+      if (!err) {
+        alert(msg);
+      } else {
+        this.login({email, password});
+      }
+    },
 
     checkForm() {
       if (this.email.length >= 0 && !EmailValidator.validate(this.email))
@@ -175,66 +205,20 @@ export default {
       }
     },
     
-    onLogin() {
-      if (this.isSubmit) {
-        let { email, password } = this;
+    // onLogin() {
+    //   if (this.isSubmit) {
+    //     let { email, password } = this;
        
-        let data = {
-          email,
-          password
-        };
+    //     let data = {
+    //       email,
+    //       password
+    //     };
 
-        storage.setItem("jwt-auth-token", "");
-        storage.setItem("login_user","");
-        
+    //     //요청 후에는 버튼 비활성화
+    //     this.isSubmit = false;
 
-        // ai.post("/signin",
-        //   {email: this.email,
-        //   password: this.password
-        //   })
-        //   .then(res=>{
-        //     console.log(res.data.status) // true 
-        //     if(res.data.status){
-        //         this.message = res.data.data.email+"로 로그인 되었습니다.";
-        //         this.nickname = res.data.data.nickname;
-        //         console.log(this.message);
-        //         console.log(this.nickname);
-        //         console.log("토큰: "+res.headers["jwt-auth-token"]);
-        //         this.setInfo(
-        //           "성공",
-        //           res.headers["jwt-auth-token"],
-        //           JSON.stringify(res.data.data)
-        //         );
-        //         storage.setItem("jwt-auth-token", res.headers["jwt-auth-token"]);
-        //         storage.setItem("login_user", res.data.data.email);
-        //         store.state.login_user_token =  res.headers["jwt-auth-token"];
-        //         store.state.login_user_nickname = res.data.data.nickname;
-        //         this.isSubmit = true;
-                
-        //         alert("로그인 성공! 환영합니다 :)");
-        //         this.$router.push("/feed/main");
-        //     }else{
-        //       this.setInfo("", "", "");
-        //       this.message = "로그인해주세요.";
-        //       alert("입력정보를 확인하세요.");
-        //     }
-        //   })
-        //   .catch(e=>{
-        //     this.isSubmit=true;
-        //     alert("이메일과 비밀번호를 확인해 주세요");
-        //     this.email = "";
-        //     this.password=""
-        //     this.setInfo("실패",
-        //                 "",
-        //                 JSON.stringify(e.response || e.message));
-        // });
-
-
-        //요청 후에는 버튼 비활성화
-        this.isSubmit = false;
-
-      }
-    },
+    //   }
+    // },
     
     setInfo(status, token, info){
       this.status = status;
@@ -288,4 +272,5 @@ export default {
 };
 </script>
 
-
+<style scoped>
+</style>

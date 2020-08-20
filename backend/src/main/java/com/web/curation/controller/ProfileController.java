@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.web.curation.dto.BasicResponse;
 import com.web.curation.dto.profile.Profile;
 import com.web.curation.jwt.service.JwtService;
+import com.web.curation.service.articlewrite.ArticleUpdateService;
 import com.web.curation.service.profile.ProfileService;
 import com.web.curation.service.tag.FavtagService;
 import com.web.curation.service.tag.TagService;
@@ -44,21 +44,20 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/tugether")
 public class ProfileController {
 
-//	@Value("${ubuntu.profile.upload.directory}")
 	@Value("${window.profile.upload.directory}")
+//	@Value("${ubuntu.profile.upload.directory}")
 	String upload_FILE_PATH;
 	
 	@Autowired
 	private ProfileService profileSerivce;
-
 	@Autowired
 	private TagService tagService;
-	
 	@Autowired
 	private FavtagService favtagService;
-
 	@Autowired
 	private JwtService jwtService;
+	@Autowired
+	private ArticleUpdateService articleUpdateService;
 	
 
 	@GetMapping("/profile")
@@ -115,6 +114,10 @@ public class ProfileController {
 			profile.setEmail(email);
 			profile.setNickname(nickname);
 			
+			/** 2. Article테이블에서 writer 업데이트  */
+			articleUpdateService.updateArticleWriter(email,nickname);
+			
+			/** 3. Profile테이블 업데이트 */
 			if(mFile==null) { // 프로필사진을 변경하지 않은 경우 
 				// 이메일로 해당 유저 프로필 수정하기 
 				profileSerivce.updateProfile(profile);

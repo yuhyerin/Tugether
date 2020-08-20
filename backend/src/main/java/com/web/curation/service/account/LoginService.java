@@ -1,6 +1,8 @@
 package com.web.curation.service.account;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
@@ -29,8 +31,24 @@ public class LoginService {
 		}
 
 	}
-	
-	public String getServerInfo() {
-		return "made by 혜린 ";
+
+	public User isPresentEmail(String email) {
+		
+		User user=null;
+		try {
+			user = userRepo.findUserByEmail(email);
+		}catch (NullPointerException e) {
+			System.out.println("해당회원은 존재하지 않습니다.");
+		}
+		return user;
 	}
+
+	public boolean isGoogle(String email) {
+		if(userRepo.findGoogleUserByPassword(email) == null) { 
+			return false;
+		}
+		// 해당회원이 비번이 null이라면 -> 소셜로그인회원 
+		return true;
+	}
+	
 }

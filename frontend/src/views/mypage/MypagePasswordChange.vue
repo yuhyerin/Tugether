@@ -1,6 +1,6 @@
 <template>
-    <div class="wrapC">
-        <h1 style="padding-top: 240px;">비밀번호 변경</h1>
+    <div class="wrapC" style="margin-top: 48%;">
+        <h1>비밀번호 변경</h1>
         <!--비밀번호-->
         <div class="input-with-label">
             <label for="password">신규 비밀번호</label>
@@ -38,7 +38,7 @@ import PV from "password-validator";
 import store from '@/vuex/store';
 import { mapState, mapActions } from "vuex";
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
-import BottomNav from "@/components/common/BottomNav"
+import BottomNav from "@/components/common/BottomNav";
 
 export default {
     components:{
@@ -61,7 +61,7 @@ export default {
             error: {
                 password: false,
                 passwordConfirm: false
-            },
+            }
         }
     },
     created() {

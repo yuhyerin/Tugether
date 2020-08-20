@@ -16,4 +16,6 @@ public interface CommentService {
 	public FrontComment makeFront(Comment c);
 
 	FrontArticle findArticle(String email, int article_id);
+	
+	void deleteCommentByArticleId(int article_id);
 }

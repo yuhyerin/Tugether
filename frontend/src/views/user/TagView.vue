@@ -1,7 +1,14 @@
 <template>
   <div>
+    <div class="welcome" style="text-align:left">
+      <strong style="font-size: 30px;">관심태그 선택</strong>
+      <p style="color: gray">{{ $store.state.nickname }}님, 태그를 선택하고</p>
+      <p style="color: gray">맞춤화된 피드 추천을 받으세요.({{this.count}}/3)</p>
+    </div>
     <TagList @checked="onChecked" :tagList="tagList" />
-    <button class="btn-bottom" @click="submitFavTag" :style="btnFunc">시작하기</button>
+    <!--관심태그를 하나도 선택하지 않았을 경우 다음 페이지로 넘어갈 수 없음-->
+    <button v-show="count==0" class="btn-bottom" @click="msg" :style="btnFunc">시작하기</button>
+    <button v-show="count!=0" class="btn-bottom" @click="submitFavTag" :style="btnFunc">시작하기</button>
   </div>
 </template>
 
@@ -10,8 +17,7 @@ import axios from 'axios'
 import TagList from '@/components/user/TagList'
 import store from '@/vuex/store'
 import { mapState, mapActions } from "vuex";
-import { base } from "@/components/common/BaseURL.vue"; // baseURL
-
+import { base } from "@/components/common/BaseURL.vue"
 export default {
   name: 'TagView',
   components: {
@@ -22,47 +28,47 @@ export default {
       tagList: [
         {
           id: 1,
-          content: '일상',
+          content: '⌚ 일상',
           isSelected: false,
         },
         {
           id: 2,
-          content: '음식',
+          content: '🍔 음식',
           isSelected: false,
         },
         {
           id: 3,
-          content: '코미디',
+          content: '😆 코미디',
           isSelected: false,
         },
         {
           id: 4,
-          content: '동물',
+          content: '🐱 동물',
           isSelected: false,
         },
         {
           id: 5,
-          content: '음악',
+          content: '🎹 음악',
           isSelected: false,
         },
         {
           id: 6,
-          content: '스포츠',
+          content: '🎳 스포츠',
           isSelected: false,
         },
         {
           id: 7,
-          content: '패션',
+          content: '👕 패션',
           isSelected: false,
         },
         {
           id: 8,
-          content: '뷰티',
+          content: '💄 뷰티',
           isSelected: false,
         },
         {
           id: 9,
-          content: '게임',
+          content: '🎮 게임',
           isSelected: false,
         },
       ],
@@ -78,6 +84,9 @@ export default {
     ...mapActions(["getToken"]),
   },
   methods: {
+    msg(){
+      alert("관심태그를 선택해주세요!");
+    },
     onChecked(tag) {
       tag.isSelected = !tag.isSelected
       if (this.count > 2) {
@@ -91,18 +100,9 @@ export default {
         }
       } else {
           if (tag.isSelected) {
-            // this.selectedTags = [...this.selectedTags, tag]
-            // this.selectedTags.push(tag.content)
-            // this.selectedTags.splice(tag.id, 0, tag.content)
             this.selectedTags[tag.id] = tag.content
             this.count += 1
         } else {
-            // this.selectedTags.pop(tag.content)
-            // var index = this.selectedTags.findIndex(function(item) {
-            //   return item.id === tag
-            //   console.log(item)
-            // })
-            // this.selectedTags.splice(index, 1)
             this.selectedTags[tag.id] = 0
             this.count -= 1
           }
@@ -112,8 +112,6 @@ export default {
           this.btnFunc.backgroundColor = "gray"
         }  
       }
-      // const parseselectedTags = JSON.parse(JSON.stringify(this.selectedTags))
-      // console.log(parseselectedTags)
     },
 
     
@@ -122,28 +120,21 @@ export default {
       let parsefavTags;
       for (i=1; i<10; i++) {
         if(this.selectedTags[i] !== 0) {
-          this.favTags.push(i)
-          // parsefavTags = JSON.parse(JSON.stringify(this.favTags))
-
-          
+          this.favTags.push(i)    
         }
       }
-      console.log("보낼때 데이터 뭐야??")
-      console.log(this.favTags)
-      console.log("이거토큰맞지??? "+ this.$store.state.token)
      
-      axios.post(base+ "/tugether/favtag", 
+      axios.post(base+'/tugether/favtag', 
       {
         taglist: this.favTags,
       },
       {
           headers:{
-            "jwt-auth-token": this.$store.state.token
+            "jwt-auth-token": localStorage.getItem("token")
           }
       }
       )
       .then((response) => {
-        console.log("크하하 결과다!!!"+ response.data.status)
         this.$router.push('/mainfeed')
 
       })
@@ -169,8 +160,7 @@ export default {
     bottom: 17px;
     cursor: pointer;
   }
-  .btn-bottom:hover {
-    text-decoration: none;
-    background-color: red;
+  .welcome {
+    padding: 30px 0 0 30px;
   }
 </style>

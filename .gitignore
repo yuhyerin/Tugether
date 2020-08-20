@@ -13,15 +13,12 @@ yarn-debug.log*
 yarn-error.log*
 
 # Editor directories and files
-.idea
 .vscode
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw*
-
-
 *.class
 
 # Mobile Tools for Java (J2ME)
@@ -37,13 +34,12 @@ target/
 
 #Maven
 /target/
-*.properties
 */META-INF/*
+#Eclipse files
+#*.properties
 
 #Eclipse files
 **/.project
-**/.classpath
-**/.settings/
 blog/bin/
 **/.tern-project
 
@@ -51,7 +47,6 @@ blog/bin/
 **/*.iml
 **/.idea
 **/.gradle
-
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*

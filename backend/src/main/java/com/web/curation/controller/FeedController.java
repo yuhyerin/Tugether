@@ -54,9 +54,25 @@ public class FeedController {
 	// following테이블에서 from_user=email로 to_user 리스트 찾아와
 	// article 테이블에서 uid = email인 List<article>로 다 가져가
 	
+	@GetMapping("/mainfeed/fromto")
+	public List<FrontArticle> getAfterMainFeed(@RequestParam boolean tag, @RequestParam int from, @RequestParam int to, HttpServletRequest request){
+//		System.out.println("Controller입장 : MAINFEED from to GET");
+		String email = 
+				((Map<String, Object>)jwtService.getDecodeToken(request.getHeader("jwt-auth-token"))
+				.getBody().get("AuthenticationResponse")).get("email").toString();
+		List<FrontArticle> result = null;
+		if(tag) {
+			result = feedService.findArticleListByTag(email, from, to);
+		} else {
+			result = feedService.findArticleListByFollow(email, from, to);
+		}
+//		System.out.println("FROMTOcontroller result : " + result.toString());
+		return result;
+	}
+	
 	@GetMapping("/mainfeed")
 	public List<FrontArticle> getMainFeed(@RequestParam boolean tag, @RequestParam int limit, HttpServletRequest request){
-		System.out.println("Controller입장 : GET");
+//		System.out.println("Controller입장 : MAINFEED tag limit GET");
 		String email = 
 				((Map<String, Object>)jwtService.getDecodeToken(request.getHeader("jwt-auth-token"))
 				.getBody().get("AuthenticationResponse")).get("email").toString();
@@ -64,46 +80,44 @@ public class FeedController {
 //		System.out.println("pageNum은 ? "+limit);
 		PageRequest pageRequest = PageRequest.of(limit, 2);
 		List<FrontArticle> result;
+		
 		if(tag)
 			result = feedService.findByPageRequestTag(pageRequest, email);
 		else
 			result = feedService.findByPageRequestFollow(pageRequest, email);
+		
 		System.out.println(result.toString());
-		System.out.println(tag);
+//		System.out.println(tag);
 		return result;
 	}
 	
 	@GetMapping("/mainfeed/like")
 	@ApiOperation(value = "좋아요")
-	public ResponseEntity<Map<String,Object>> like(HttpServletRequest request) {
-
+	public ResponseEntity<Map<String,Object>> like(@RequestParam int article_id, HttpServletRequest request) {
+//		System.out.println("FEED CONTROLLER 입장");
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		String token = request.getHeader("jwt-auth-token");	//토큰 가져와서
 		Jws<Claims> claims = jwtService.getDecodeToken(token);	//복호화해서
 		Map<String, Object> Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
 		String email = Userinfo.get("email").toString();
 
-		int article_id = Integer.parseInt(request.getHeader("article_id"));
 		// 좋아요 업데이트
 		FrontArticle a = feedService.updateLike(article_id, email);
 		resultMap.put("article",a);
-		System.out.println("return : "+a.toString());
+//		System.out.println("return : "+a.toString());
 		return new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.OK);
 	}
 	
 	@GetMapping("/mainfeed/scrap")
 	@ApiOperation(value = "스크랩여부")
-	public ResponseEntity<Map<String,Object>> scrapCheck(HttpServletRequest request) {
+	public ResponseEntity<Map<String,Object>> scrapCheck(@RequestParam int article_id,HttpServletRequest request) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		String token = request.getHeader("jwt-auth-token");	//토큰 가져와서
 		Jws<Claims> claims = jwtService.getDecodeToken(token);	//복호화해서
 		Map<String, Object> Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
 		String email = Userinfo.get("email").toString();
-		int article_id = Integer.parseInt(request.getHeader("article_id"));
 		
-		boolean flag = feedService.checkScrap(email, article_id);
-		resultMap.put("scrapcheck", flag);
-		System.out.println("return : "+flag);
+		resultMap = feedService.checkScrap(email, article_id);
 		return new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.OK);
 	}
 	
@@ -120,7 +134,7 @@ public class FeedController {
 //		feedService.scrap(email, article_id);
 		FrontArticle a = feedService.scrap(email, article_id);
  		resultMap.put("article", a);
- 		System.out.println("result : "+a.toString());
+// 		System.out.println("result : "+a.toString());
 		return new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.OK);
 	}
 	

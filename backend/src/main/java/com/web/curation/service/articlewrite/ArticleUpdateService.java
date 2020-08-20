@@ -23,4 +23,7 @@ public interface ArticleUpdateService {
 
 	// 게시글 삭제
 	void deleteArticle(String email, int article_id);
+
+	// 게시글 작성자 닉네임 바꾸기
+	void updateArticleWriter(String email, String nickname);
 }
