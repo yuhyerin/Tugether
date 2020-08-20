@@ -296,7 +296,6 @@ export default {
                 .then((res) => {
                     this.articles = res.data.articles;
                     this.scraps = res.data.scraps;
-                    console.log(res.data)
                 })
                 .catch((err) => {
                     console.log("created axios get ARTICLES AND SCRAPS error")
