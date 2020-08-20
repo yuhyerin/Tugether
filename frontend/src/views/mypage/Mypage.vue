@@ -1,5 +1,7 @@
 <template>
   <div class="feed mypage">
+      <a @click="logout" style="color:gray; float:right; margin: 12px 12px 0 0;">LOGOUT</a>
+      <br>
       <div class="wrapB" style="text-align: center;">
         <!--프로필 영역-->
         <div id="profile" style="margin-top: 20px;">
@@ -53,8 +55,8 @@
                             </div>
                           </v-list-item>
                           <!-- 이미지, 내용, 태그 -->
-                          <iframe v-if="article.image == null && article.link != '' " class="embed-responsive-item" :src="`https://www.youtube.com/embed/${getLink(article.link)}`" style="width:100%"></iframe>
-                          <v-img v-if="article.image != null " :src="`https://i3b303.p.ssafy.io/articleimages/${article.image}`" height="194"></v-img>
+                          <iframe v-if="article.image == null && article.link != '' " class="embed-responsive-item" :src="`https://www.youtube.com/embed/${getLink(article.link)}`" allowfullscreen style="width:100%; height:200px"></iframe>
+                          <v-img v-if="article.image != null " :src="`https://i3b303.p.ssafy.io/articleimages/${article.image}`" max-height="230"></v-img>
                           <v-card-text class="pb-0" style="color:black; text-align:left;">{{ article.content }}</v-card-text>
                           <v-chip-group column>
                             <span v-for="(tag, index2) in article.tag_name" :key="index2">
@@ -109,8 +111,8 @@
                         </div>
                         </v-list-item>
                         <!-- 이미지, 내용, 태그 -->
-                        <iframe v-if="scrap.image == null && scrap.link != '' " class="embed-responsive-item" :src="`https://www.youtube.com/embed/${getLink(scrap.link)}`" style="width:100%"></iframe>
-                        <v-img v-if="scrap.image != null " :src="`https://i3b303.p.ssafy.io/articleimages/${scrap.image}`" height="194"></v-img>  
+                        <iframe v-if="scrap.image == null && scrap.link != '' " class="embed-responsive-item" :src="`https://www.youtube.com/embed/${getLink(scrap.link)}`" allowfullscreen style="width:100%; height:200px"></iframe>
+                        <v-img v-if="scrap.image != null " :src="`https://i3b303.p.ssafy.io/articleimages/${scrap.image}`" max-height="230"></v-img>  
                         <v-card-text class="pb-0" style="color:black; text-align:left;">{{ scrap.content }}</v-card-text>
                         <v-chip-group column>
                           <span v-for="(tag, index2) in scrap.tag_name" :key="index2">
@@ -149,6 +151,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import axios from "axios";
 import "../../components/css/feed/feed-item.scss";
 import "../../components/css/feed/newsfeed.scss";
@@ -208,6 +211,18 @@ export default {
         this.refresh();
     },
     methods: {
+      logout(){
+        Vue.GoogleAuth.then(auth2=>{
+          auth2.signOut().then(function(){
+              // console.log("로그아웃 되었습니다!");
+          });
+          auth2.disconnect();
+        })
+        this.$store.commit('logout');
+        localStorage.clear();
+        alert("로그아웃 되었습니다 bye bye :)");
+        this.$router.push("/");
+      },
         // tagSearch_Article(index, index2) {
         //   this.keyword = this.articles[index].tag_name[index2];
         //   this.$router.push({
@@ -313,6 +328,8 @@ export default {
         },
         // 게시글 삭제
         clickedDeleteBtn(index) {
+          var answer = confirm("게시글을 삭제하시겠습니까?");
+          if(answer) { // true
            axios
             .post(base + '/tugether/articledelete',
               { "article_id" : this.articles[index].article_id },
@@ -331,26 +348,30 @@ export default {
                 alert("게시글 삭제 실패!");
                 console.log("삭제 실패")
             });
+          }
         },
         // 스크랩한 게시글 삭제
         deleteScrap(index){
-          axios
-            .post(base + '/tugether/scrapdelete', 
-              { "article_id" : this.scraps[index].article_id },
-              {
-                headers:{
-                  "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
-                }
-              },
-            )
-            .then((res) => {
-              alert("스크랩한 게시글이 삭제 되었습니다.");
-              this.refresh(); // 글 삭제 후 스크랩한 글 리스트를 새로고침 하기 위함
-            })
-            .catch((err) => {
-              alert("스크랩한 게시글 삭제 실패!");
-              console.log("deleteScrap function error")
-            })
+          var answer = confirm("스크랩한 게시글을 삭제하시겠습니까?");
+          if(answer) { // true
+            axios
+              .post(base + '/tugether/scrapdelete', 
+                { "article_id" : this.scraps[index].article_id },
+                {
+                  headers:{
+                    "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
+                  }
+                },
+              )
+              .then((res) => {
+                alert("스크랩한 게시글이 삭제 되었습니다.");
+                this.refresh(); // 글 삭제 후 스크랩한 글 리스트를 새로고침 하기 위함
+              })
+              .catch((err) => {
+                alert("스크랩한 게시글 삭제 실패!");
+                console.log("deleteScrap function error")
+              })
+          }
         },
         // 좋아요 기능
         clickedLikeBtn(index) { 
@@ -416,6 +437,7 @@ export default {
         },
         moveMain() {
             this.$router.push("/mainfeed");
+            scroll(3, 3);
         },
         // 유저페이지로 이동
         moveUserpage(email) {
