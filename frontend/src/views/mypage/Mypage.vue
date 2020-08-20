@@ -367,6 +367,20 @@ export default {
             console.log('clickLikeBtn FAIL!!!')
           })
         },
+        clickedLikeScrapBtn(index) { 
+          this.clicked = true;
+          axios.get(base + '/tugether/mainfeed/like', {
+            params: {
+              "article_id": this.scraps[index].article_id,
+            },
+            headers: { 
+              "jwt-auth-token": localStorage.getItem("token"),
+            }
+          })
+          .catch(err => {
+            console.log('clickLikeBtn FAIL!!!')
+          })
+        },
         // 마이페이지에서 스크랩 기능은 사용하지 않음
         scrapMsg(num) {
             var msg = "";
