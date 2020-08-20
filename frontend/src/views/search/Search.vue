@@ -12,8 +12,6 @@
                     </v-radio-group>
                 </div>
                 <!--선택한 카테고리에 따라 버튼 기능 다르게 부여함-->
-                <div class="search_input">
-
                 <div v-show="category==='tag'" style="margin-top: -65px;">
                     <input type="text" v-model="keyword" id="search_bar1" placeholder="검색어를 입력하세요"
                         autofocus onFocus="this.value='';" @keyup.enter="searchTag">
@@ -26,11 +24,9 @@
                 </div>
                 <!-- <button class="button" @click="searchTagList">드롭다운</button> -->
 
-                </div>
-
                 <!--태그 기반 게시글 검색 결과-->
                 <div v-show="category==='tag'" class="result">
-                    <div style="margin: -80px 0 12px 0;">
+                    <div style="margin: -10px 0 12px 0;">
                         <!--안내메시지 출력-->
                         <h3>{{ msg_tag }}</h3>
                     </div>
@@ -64,7 +60,7 @@
             
             <!--닉네임 기반 사용자 검색 결과-->
             <div v-show="category==='nickname'" class="result">
-                <div style="margin: -80px 0 12px 0;" >
+                <div style="margin: -10px 0 12px 0;" >
                     <h3>{{ msg_nickname }}</h3>
                 </div>
 
@@ -298,7 +294,7 @@ export default {
     .button{
         background: black;
         color: white;
-        width: 25%;
+        width: 28%;
         height: 50px;
         float: right;
     }

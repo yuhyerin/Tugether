@@ -303,7 +303,7 @@ export default {
         },
         // 게시글 수정
         clickedEditBtn(index) {
-          console.log(this.articles[index].article_id)
+          // console.log(this.articles[index].article_id)
           this.$router.push({
             name: "Update",
             params: {
@@ -329,7 +329,7 @@ export default {
             })
             .catch((err) => {
                 alert("게시글 삭제 실패!");
-                // console.log("삭제 실패")
+                console.log("삭제 실패")
             });
         },
         // 스크랩한 게시글 삭제

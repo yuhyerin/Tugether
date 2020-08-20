@@ -54,7 +54,7 @@ export default {
     moveUserpage(user_email) {
       this.email = user_email;
       localStorage.setItem("userEmail", this.email);
-      console.log(this.email)
+      // console.log(this.email)
       this.$router.push({
         name: 'Userpage'
       })
@@ -78,7 +78,7 @@ export default {
     })
     .then(response => {
       this.notices = response.data.notices;
-      console.log(this.notices)
+      // console.log(this.notices)
     })
     .catch(err =>{
         console.log("알림 안옴")

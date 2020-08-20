@@ -269,7 +269,7 @@ export default {
     logout(){
       Vue.GoogleAuth.then(auth2=>{
         auth2.signOut().then(function(){
-            console.log("로그아웃 되었습니다!");
+            // console.log("로그아웃 되었습니다!");
         });
         auth2.disconnect();
       })

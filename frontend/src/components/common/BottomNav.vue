@@ -1,7 +1,5 @@
 <template>
-    <v-bottom-navigation
-    fixed
-    >
+    <v-bottom-navigation fixed>
       <v-btn value="home" @click="sendToHome">
         <span>Home</span>
         <v-icon style="color: black; padding-top: 20px;">home</v-icon>
