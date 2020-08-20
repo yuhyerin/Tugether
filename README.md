@@ -120,9 +120,18 @@ Tech Leader - 유혜린
 
 #### Frontend 
 
+- 1) node.js 설치
+- 2) yarn 설치
+```bash
+yarn add node-sass sass-loader
+yarn add vue-router vuex
+yarn serve --port 3000
+```
 
 #### Backend
-
+- 1) STS 설치
+- 2) JDK 설치
+- 3) MAVEN 다운로드
 
 
 
