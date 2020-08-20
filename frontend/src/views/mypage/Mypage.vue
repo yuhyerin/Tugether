@@ -102,7 +102,7 @@
                             <v-list-item-subtitle style="font-size:0.8rem; text-align:left;">{{ timeForToday(scrap.reg_time) }}</v-list-item-subtitle>
                           </v-list-item-content>
                           <v-spacer></v-spacer>
-                          <a :href="scrap.link" v-show="article.link!='null'" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:35px; height:35px;"></a>
+                          <a :href="scrap.link" v-show="scrap.link!='null'" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:35px; height:35px;"></a>
                         <!--스크랩 삭제 기능-->
                         <div style="display: inline-block; float: right;">
                           <span class="article_function" @click="deleteScrap(index)">삭제</span>
@@ -296,6 +296,7 @@ export default {
                 .then((res) => {
                     this.articles = res.data.articles;
                     this.scraps = res.data.scraps;
+                    console.log(res.data)
                 })
                 .catch((err) => {
                     console.log("created axios get ARTICLES AND SCRAPS error")
