@@ -120,7 +120,7 @@ Tech Leader - 유혜린
 
 #### :green_heart: 핵심기능
 ![기능1](/uploads/d8141753e77e8dd55822233e5c9847c2/기능1.png)
-![기능2](/uploads/aedcb4ed18f1dea9623998a57bce3180/기능2.png)
+![기능2](/uploads/7c9c1068823624bf851ea34c0e55a1ed/기능2.png)
 
 #### :blue_heart: 기술스택 & 실행방법
 
