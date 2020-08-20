@@ -67,12 +67,9 @@ export default {
       imageUrl: null,
       selectedFile: null,
       myText: "",
-      urlLink: "",
+      urlLink: null,
       tagList: [],
       tagNameList: [],
-      // error: {
-      //   myText: false
-      // }
     }
   },
   watch: {
@@ -89,11 +86,6 @@ export default {
       if (this.myText.length >= 300) {
         alert("300자 이하로 기재해주세요.")
       }
-    // if (this.myText.length > 300) {
-    //   this.error.myText = "300자 이하로 입력해주세요"
-    // } else {
-    //   this.error.myText = false;
-    // }
     },
     
     onRemove (tag, index) {
@@ -112,26 +104,40 @@ export default {
       this.imageUrl = URL.createObjectURL(this.selectedFile);
     },
     onUpload(){
+
       const formdata = new FormData();
-      formdata.append('articleimg', this.selectedFile); //여기서 명시한 키값은 서버에서 사용하기때문에 바꾸면 안됩니당...
-      formdata.append('contents', this.myText);
-      formdata.append('link',this.urlLink);
-      formdata.append('taglist', this.tagNameList);
-      console.log(this.tagList)
+      if( this.selectedFile == null & (this.urlLink == null || this.urlLink == "") ){ // 두개다 작성 안한경우 
+        alert("이미지나 링크중 하나는 작성해 주세요 :) ");
+        return;
+      }else if(this.selectedFile != null){ // 파일은 등록한 경우
+        
+        formdata.append('articleimg', this.selectedFile); //여기서 명시한 키값은 서버에서 사용하기때문에 바꾸면 안됩니당...
+        formdata.append('contents', this.myText);
+        formdata.append('link',this.urlLink);
+        formdata.append('taglist', this.tagNameList);
+
+
+      }else if(this.urlLink !=null){ // 링크는 등록한 경우
+         
+         formdata.append('contents', this.myText);
+         formdata.append('link',this.urlLink);
+         formdata.append('taglist', this.tagNameList);
+         
+      }
 
       // FormData 객체는 그 자체를 로깅하면 빈 객체만을 리턴한다.
       // FormData를 로깅하려면 FormData.entries()를 이용해서, key-value쌍을 뽑아야 한다.
-      for(let key of formdata.entries()){
-        console.log(`${key}`)
-      }
-       axios.post(base + '/tugether/articlewrite',
-       formdata,
-        {
-            headers:{
-              "jwt-auth-token": localStorage.getItem("token"),
-              "Content-Type" : 'multipart/form-data; charset=utf-8'
-            }
-        },
+      // for(let key of formdata.entries()){
+      //   console.log(`${key}`)
+      // }
+      axios.post(base + '/tugether/articlewrite',
+            formdata,
+            {
+                headers:{
+                  "jwt-auth-token": localStorage.getItem("token"),
+                  "Content-Type" : 'multipart/form-data; charset=utf-8'
+                }
+            },
         )
        .then(res=>{
          console.log(res);
@@ -141,6 +147,7 @@ export default {
        .catch(err=>{
          console.log(err);
        });
+       
        
     },
       moveMypage() {

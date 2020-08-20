@@ -9,6 +9,13 @@
       <change beforePath="$PROJECT_DIR$/backend/target/classes/com/web/curation/controller/ArticleWriteController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/web/curation/controller/ArticleWriteController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/target/classes/com/web/curation/controller/ProfileController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/web/curation/controller/ProfileController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/common/BaseURL.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/common/BaseURL.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/user/FeedStats.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/user/FeedStats.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/user/TagList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/user/TagList.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/feed/MainFeed.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/feed/MainFeed.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/mypage/Mypage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/mypage/Mypage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/mypage/Userpage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/mypage/Userpage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/search/Search.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/search/Search.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/user/TagView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/user/TagView.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,7 +60,7 @@
       <option name="presentableId" value="Default" />
       <updated>1596513281244</updated>
       <workItem from="1596513282407" duration="13431000" />
-      <workItem from="1597547274805" duration="21941000" />
+      <workItem from="1597547274805" duration="25139000" />
     </task>
     <servers />
   </component>

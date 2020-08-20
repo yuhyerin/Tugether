@@ -15,8 +15,14 @@ public interface ArticleWriteRepo extends JpaRepository<Article, String>{
 	@Query(value="insert into article(email,writer,image,content,link) values(:email , :writer, :image, :content, :link )", nativeQuery=true)
 	void insertArticle(String email, String writer, String image, String content, String link);
 	
+	@Query(value="insert into article(email,writer,content,link) values(:email , :writer, :content, :link )", nativeQuery=true)
+	void insertArticlenoImage(String email, String writer, String content, String link);
+	
 	@Query(value="select article_id from article where image=:image order by reg_time desc limit 1", nativeQuery=true)
 	int findArticleByImage(String image);
+	
+	@Query(value="select article_id from article where email=:email and link= :link order by reg_time desc limit 1", nativeQuery=true)
+	int findArticleByEmailAndLink(String email, String link);
 	
 	@Query(value="insert into articletag(article_id, tag_id) values(:article_id , :tag_id )", nativeQuery=true)
 	void insertArticleTag(int article_id, int tag_id);
@@ -38,6 +44,7 @@ public interface ArticleWriteRepo extends JpaRepository<Article, String>{
 
 	@Query(value="update article a set a.writer = :nickname where a.email = :email",nativeQuery = true)
 	void updateArticleWriter(String email, String nickname);
+
 
 }
 
