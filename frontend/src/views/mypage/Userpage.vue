@@ -101,7 +101,7 @@
                               <v-list-item-subtitle style="font-size:0.8rem; text-align:left;">{{ timeForToday(scrap.reg_time) }}</v-list-item-subtitle>
                             </v-list-item-content>
                             <v-spacer></v-spacer>
-                            <a :href="scrap.link" v-show="article.link!='null'" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:35px; height:35px;"></a>
+                            <a :href="scrap.link" v-show="scrap.link!='null'" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:35px; height:35px;"></a>
                           </v-list-item>
                           <!-- 이미지, 내용, 태그 -->
                           <iframe v-if="scrap.image == null && scrap.link != '' " class="embed-responsive-item" :src="`https://www.youtube.com/embed/${getLink(scrap.link)}`" style="width:100%"></iframe>
