@@ -118,19 +118,10 @@ Tech Leader - 유혜린
 
 ![기술스택](/uploads/fa776d9427ac43d9bca063277d7dd9ae/기술스택.png)
 
+#### Frontend 
 
-#### 공통
 
-Gitlab, AWS
-
-#### FrontEnd
-
-Vue.js ( Component, Lifecycle, Vue-router, Vuex )
-
-#### Back-End
-
-Java(Springboot), MariaDB, Docker, JWT Token
-
+#### Backend
 
 
 
