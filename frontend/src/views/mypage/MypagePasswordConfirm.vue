@@ -1,6 +1,6 @@
 <template>
-    <div class="wrapC" >
-        <h1 style="padding-top: 240px;">비밀번호 확인</h1>
+    <div class="wrapC" style="margin-top: 48%;">
+        <h1>비밀번호 확인</h1>
         <strong>보안을 위해 현재 비밀번호를 다시 한 번 입력해주세요.</strong>
         <div class="input-with-label">
             <label for="password">비밀번호</label>
@@ -19,6 +19,8 @@
             <button class="button" :style="mybtn2" @mouseover="over2" @mouseout="out2"
                 @click="checkPW" style="width: 48%; height: 45px; float: right;">확인</button>
         </div>
+
+        <!--네비게이션바-->
         <BottomNav/>
     </div>
 </template>
@@ -66,10 +68,9 @@ export default {
                     if(data.data === "success"){
                         alert("비밀번호가 확인되었습니다.");
                         this.moveMypagePWchange(); // 비밀번호 변경 페이지로 이동
-                    }else{
+                    } else{
                         alert("비밀번호를 다시 확인해주세요. ");
                     }
-                    
                 })
                 .catch((err) => {
                     console.log("checkPW function error")

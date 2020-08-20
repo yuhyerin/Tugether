@@ -80,11 +80,13 @@ public class FeedController {
 //		System.out.println("pageNum은 ? "+limit);
 		PageRequest pageRequest = PageRequest.of(limit, 2);
 		List<FrontArticle> result;
+		
 		if(tag)
 			result = feedService.findByPageRequestTag(pageRequest, email);
 		else
 			result = feedService.findByPageRequestFollow(pageRequest, email);
-//		System.out.println(result.toString());
+		
+		System.out.println(result.toString());
 //		System.out.println(tag);
 		return result;
 	}

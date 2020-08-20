@@ -12,25 +12,21 @@
                     </v-radio-group>
                 </div>
                 <!--선택한 카테고리에 따라 버튼 기능 다르게 부여함-->
-                <div class="search_input">
-
                 <div v-show="category==='tag'" style="margin-top: -65px;">
                     <input type="text" v-model="keyword" id="search_bar1" placeholder="검색어를 입력하세요"
-                        autofocus onFocus="this.value='';" @keyup.enter="searchTag">
+                        autofocus onFocus="this.value='';" @keyup.enter="searchTag" style="border: 1px solid gray;">
                     <button class="button" v-if="category==='tag'" @click="searchTag">검색</button>
                 </div>
                 <div v-show="category==='nickname'" style="margin-top: -65px;">
                     <input type="text" v-model="keyword" id="search_bar2" placeholder="검색어를 입력하세요"
-                        autofocus onFocus="this.value='';" @keyup.enter="searchUser">
+                        autofocus onFocus="this.value='';" @keyup.enter="searchUser" style="border: 1px solid gray;">
                     <button class="button" v-if="category==='nickname'" @click="searchUser">검색</button>
                 </div>
                 <!-- <button class="button" @click="searchTagList">드롭다운</button> -->
 
-                </div>
-
                 <!--태그 기반 게시글 검색 결과-->
                 <div v-show="category==='tag'" class="result">
-                    <div style="margin: -50px 0 12px 0;">
+                    <div style="margin: -10px 0 12px 0;">
                         <!--안내메시지 출력-->
                         <h3>{{ msg_tag }}</h3>
                     </div>
@@ -45,7 +41,7 @@
                                 <v-list-item-subtitle style="font-size:0.8rem; text-align:left;">{{ timeForToday(article.reg_time) }}</v-list-item-subtitle>
                                 </v-list-item-content>
                                 <v-spacer></v-spacer>
-                                <a :href="article.link" v-if="article.link" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:35px; height:35px;"></a>
+                                <a :href="article.link" v-show="article.link!='null'" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:35px; height:35px;"></a>
                             </v-list-item>
                             <!-- 이미지, 내용, 태그 -->
                             <iframe v-if="article.image == null && article.link != '' " class="embed-responsive-item" :src="`https://www.youtube.com/embed/${getLink(article.link)}`" style="width:100%"></iframe>
@@ -64,7 +60,7 @@
             
             <!--닉네임 기반 사용자 검색 결과-->
             <div v-show="category==='nickname'" class="result">
-                <div style="margin: -50px 0 12px 0;" >
+                <div style="margin: -10px 0 12px 0;" >
                     <h3>{{ msg_nickname }}</h3>
                 </div>
 
@@ -298,7 +294,7 @@ export default {
     .button{
         background: black;
         color: white;
-        width: 25%;
+        width: 28%;
         height: 50px;
         float: right;
     }

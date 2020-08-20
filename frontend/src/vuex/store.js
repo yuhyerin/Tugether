@@ -68,7 +68,7 @@ export default new Vuex.Store({
                     localStorage.setItem("token", res.headers["jwt-auth-token"])
                     localStorage.setItem("email", res.data.data.email)
                     state.nickname = res.data.data.nickname;
-                    console.log("구글로 로그인하였습니다.");
+                    // console.log("구글로 로그인하였습니다.");
 
                     //관심태그를 설정한 회원인지 체크한다. 
                     axios.get(
@@ -81,31 +81,31 @@ export default new Vuex.Store({
                     )
                     .then(res=>{
                         if(res.data.status){ //관심태그 설정한 놈 
-                            console.log("관심태그 설정했는지 체크하고 돌아왔습니다! (설정했음) ")
+                            // console.log("관심태그 설정했는지 체크하고 돌아왔습니다! (설정했음) ")
                             router.push("/mainfeed");
                         }else{ //안한놈 
-                            console.log("관심태그 설정했는지 체크하고 돌아왔습니다! (설정안했음) ")
+                            // console.log("관심태그 설정했는지 체크하고 돌아왔습니다! (설정안했음) ")
                             router.push("/select");
                         }
                     })
                     .catch(e=>{
-                        console.log("관심태그 선택여부 조회 실패 :( ")
+                        // console.log("관심태그 선택여부 조회 실패 :( ")
                     });
 
                 }).catch(e=>{
-                    alert("일반회원으로 등록된 사용자입니다 :) ");
+                    // alert("일반회원으로 등록된 사용자입니다 :) ");
                 })
             })
            
         },
         googlelogout(){
             Vue.GoogleAuth.then(auth2=>{
-                console.log(auth2.isSignedIn.get());
-                console.log(auth2.currentUser.get());
-                console.log(JSON.stringify(auth2.currentUser.get().getAuthResponse()));
-                console.log(JSON.stringify(auth2.currentUser.get().getAuthResponse(true).id_token));
+                // console.log(auth2.isSignedIn.get());
+                // console.log(auth2.currentUser.get());
+                // console.log(JSON.stringify(auth2.currentUser.get().getAuthResponse()));
+                // console.log(JSON.stringify(auth2.currentUser.get().getAuthResponse(true).id_token));
                 auth2.signOut().then(function(){
-                    console.log("로그아웃 되었습니다!");
+                    // console.log("로그아웃 되었습니다!");
                 });
                 auth2.disconnect();
             })
@@ -120,8 +120,8 @@ export default new Vuex.Store({
                 signinObj)
                 .then(res=>{
                     
-                        console.log("구글회원유무 ");
-                        console.log(res.data.isgoogle);
+                        // console.log("구글회원유무 ");
+                        // console.log(res.data.isgoogle);
                         if(res.data.isgoogle){
                             alert("구글로그인 연동 회원입니다 :) ");
                             return;
@@ -135,18 +135,18 @@ export default new Vuex.Store({
                             state.email = state.message
 
                             state.nickname = res.data.data.nickname;
-                            console.log(state.email);
-                            console.log(state.nickname);
-                            console.log("토큰: "+res.headers["jwt-auth-token"]);
+                            // console.log(state.email);
+                            // console.log(state.nickname);
+                            // console.log("토큰: "+res.headers["jwt-auth-token"]);
 
                             state.token =  res.headers["jwt-auth-token"];
                             state.nickname = res.data.data.nickname;
-                            alert("임시비밀번호로 설정되어 있어서 비밀번호 변경 페이지로 이동합니다.")
+                            alert("임시비밀번호로 설정되어있어 비밀번호 변경 페이지로 이동합니다.")
                             router.push("/passwordchange")
                             return
                         }
                         else if(res.data.status) { // 임시비밀번호 로그인 안했으면 
-                            console.log(res.data.status)
+                            // console.log(res.data.status)
                             state.token = res.headers["jwt-auth-token"];
                             state.email = res.data.data.email;
                             state.nickname = res.data.data.nickname;
@@ -165,7 +165,7 @@ export default new Vuex.Store({
                             )
                             .then(res=>{
 
-                                console.log(res.data.status) //undefined ...? 
+                                // console.log(res.data.status) //undefined ...? 
 
                                 if(res.data.status){ //관심태그 설정한 놈 
                                     router.push("/mainfeed");
@@ -176,7 +176,7 @@ export default new Vuex.Store({
                                 
                             })
                             .catch(e=>{
-                                console.log("관심태그를 설정한 회원인지 조회를 실패하였습니다.")
+                                // console.log("관심태그를 설정한 회원인지 조회를 실패하였습니다.")
                                 
                             });
 

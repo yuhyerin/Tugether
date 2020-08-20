@@ -1,6 +1,6 @@
 <template>
-  <div class="wrapC">
-    <h1 style="text-align: center; padding-top: 240px;">🍒비밀번호 찾기🍒</h1>
+  <div class="wrapC" style="margin-top: 50%;">
+    <h1 style="text-align: center;">🍒비밀번호 찾기🍒</h1>
     <br>
     <strong>등록된 이메일로 임시비밀번호를 발송합니다.</strong>
     <div class="input-with-label">

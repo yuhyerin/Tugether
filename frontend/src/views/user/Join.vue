@@ -1,8 +1,9 @@
 <template>
-  <div class="wrapC">
+  <div class="wrapC" style="overflow: auto;">
     <br />
     <h1 style="text-align: center; margin-bottom: 5px;">🍒회원가입🍒</h1>
     <div class="form-wrap">
+
       <!--이메일-->
       <div class="row" style="height: 50px;">
         <div class="input-with-label col-4" style="margin-bottom: 0px; padding: 0px 0px 12px 12px;">
@@ -49,9 +50,11 @@
       <div class="error-text" v-if="error.password" style="color:red">{{error.password}}</div>
       <!--비밀번호 확인-->
       <div class="input-with-label">
+      <form>
         <label for="password-confirm">비밀번호 확인</label>
         <input v-model="passwordConfirm" ref="passwordConfirm" :type="passwordConfirmType" id="password-confirm" placeholder="비밀번호를 다시 한 번 입력하세요." style="width: 100%;" />
         <!--비밀번호 입력 시 아이콘을 누르면 입력타입을 변경해준다.(text, password)-->
+      </form>
         <span class="eye_icon" @click="showPW2"><i class="far fa-eye fa-lg"></i></span>
       </div>
       <!--비밀번호 일치 여부 안내문구 출력-->
@@ -184,7 +187,7 @@ export default {
       axios
         .get(base + '/account/signup/' + this.email)
         .then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
           valid = res.data.message;
           if (res.data.message) {
             alert("이메일로 인증번호를 발송하였습니다.");
@@ -202,7 +205,7 @@ export default {
     // 이메일로 발송한 인증번호 유효성 검사
     checkValid() {
       if (this.valid_Num == valid) { // 이메일로 발송한 인증번호와 사용자가 입력한 인증번호가 일치할 때
-        console.log(valid);
+        // console.log(valid);
         this.error.email = false;
         alert("인증번호가 확인되었습니다.");
       } else {
@@ -220,7 +223,7 @@ export default {
           birth_year: this.birth_year,
         })
         .then(({ data }) => {
-          console.log(data.data);
+          // console.log(data.data);
           let msg = "회원가입 시 문제가 발생했습니다.";
           if (data.data === "success") {
             msg = "회원가입이 완료되었습니다.";

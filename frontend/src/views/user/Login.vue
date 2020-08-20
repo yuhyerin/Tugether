@@ -204,20 +204,20 @@ export default {
       }
     },
     
-    onLogin() {
-      if (this.isSubmit) {
-        let { email, password } = this;
+    // onLogin() {
+    //   if (this.isSubmit) {
+    //     let { email, password } = this;
        
-        let data = {
-          email,
-          password
-        };
+    //     let data = {
+    //       email,
+    //       password
+    //     };
 
-        //요청 후에는 버튼 비활성화
-        this.isSubmit = false;
+    //     //요청 후에는 버튼 비활성화
+    //     this.isSubmit = false;
 
-      }
-    },
+    //   }
+    // },
     
     setInfo(status, token, info){
       this.status = status;

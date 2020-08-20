@@ -1,6 +1,6 @@
 <template>
     <div class="feed mypage">
-        <div class="wrapB" style="text-align: center; padding-top: 20px;">
+        <div class="wrapB" style="text-align: center; margin-top: 5%; overflow: auto;">
             <strong style="font-size: 30px; margin-bottom: 10px;">프로필 편집</strong>
 
             <!--프로필 사진-->
@@ -95,7 +95,7 @@ export default {
                 }
             })
             .then((res) => {
-                console.log(res.data);
+                // console.log(res.data);
                 this.imageUrl = 'https://i3b303.p.ssafy.io/profileimages/' + res.data.profile.profile_photo;
                 this.profile_photo = 'https://i3b303.p.ssafy.io/profileimages/' + res.data.profile.profile_photo;
                 this.nickname = res.data.profile.nickname;
@@ -134,7 +134,7 @@ export default {
             // FormData 객체는 그 자체를 로깅하면 빈 객체만을 리턴한다.
             // FormData를 로깅하려면 FormData.entries()를 이용해서, key-value쌍을 뽑아야 한다.
             for(let key of formdata.entries()){
-                console.log(`${key}`)
+                // console.log(`${key}`)
             }
             axios.post(base + '/tugether/profilechange',
             formdata,
@@ -146,7 +146,7 @@ export default {
                 },
                 )
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 alert("프로필 변경이 완료되었습니다.");
                 this.moveMypage(); // 마이페이지로 이동
             })
@@ -171,7 +171,7 @@ export default {
         moveConfirmPW() {
             if(localStorage.getItem("googletoken")){
                 alert("구글로그인 회원은 비밀번호 변경기능이 제한됩니다 :) ")
-            }else{
+            } else {
                 this.$router.push("/mypage/mypagepasswordconfirm");
             }
         },
@@ -186,7 +186,7 @@ export default {
         onAddTag(tag) {
             this.tagList = [...this.tagList, tag];
             this.tagNameList = [...this.tagNameList, tag.content];
-            console.log(this.tagList)
+            // console.log(this.tagList)
         }
     },
 }

@@ -1,5 +1,6 @@
 <template>
 <div id="notice" style="margin-bottom: 65px; margin-top:20px;">
+  <h1 v-show="notices==0" style="text-align: center; text-weight:500; margin-top:50px;">도착한 알림이 없어요 😭</h1>
   <v-card max-width="344" class="mx-auto" v-for="(notice, index) in notices" :key="notice.id" style="margin-bottom:10px; margin-top:10px;">
     <v-list-item class="noticeitem">
       <v-list-item-avatar @click="moveUserpage(notice.notice_from)" class="mr-3" style="cursor:pointer;"><img :src="`https://i3b303.p.ssafy.io/profileimages/${notice.profile_photo}`"></v-list-item-avatar>
@@ -54,7 +55,7 @@ export default {
     moveUserpage(user_email) {
       this.email = user_email;
       localStorage.setItem("userEmail", this.email);
-      console.log(this.email)
+      // console.log(this.email)
       this.$router.push({
         name: 'Userpage'
       })
@@ -78,7 +79,7 @@ export default {
     })
     .then(response => {
       this.notices = response.data.notices;
-      console.log(this.notices)
+      // console.log(this.notices)
     })
     .catch(err =>{
         console.log("알림 안옴")
