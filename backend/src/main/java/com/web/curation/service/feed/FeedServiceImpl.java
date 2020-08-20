@@ -217,7 +217,7 @@ public class FeedServiceImpl implements FeedService {
 		List<Article> list = articleRepo.findArticlesByTag(pageRequest, email).stream().collect(Collectors.toList());
 		List<FrontArticle> result = new ArrayList<FrontArticle>();
 		for (int i = 0; i < list.size(); i++)
-			result.add(makeFront(list.get(i).getEmail(), list.get(i).getArticle_id()));
+			result.add(makeFront(email, list.get(i).getArticle_id()));
 		return result;
 	}
 
@@ -230,7 +230,7 @@ public class FeedServiceImpl implements FeedService {
 		List<Article> list = articleRepo.findArticleByFollow(pageRequest, email).stream().collect(Collectors.toList());
 		List<FrontArticle> result = new ArrayList<FrontArticle>();
 		for (int i = 0; i < list.size(); i++)
-			result.add(makeFront(list.get(i).getEmail(), list.get(i).getArticle_id()));
+			result.add(makeFront(email, list.get(i).getArticle_id()));
 		return result;
 	}
 
