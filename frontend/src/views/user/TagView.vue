@@ -6,6 +6,7 @@
       <p style="color: gray">맞춤화된 피드 추천을 받으세요.({{this.count}}/3)</p>
     </div>
     <TagList @checked="onChecked" :tagList="tagList" />
+    <!--관심태그를 하나도 선택하지 않았을 경우 다음 페이지로 넘어갈 수 없음-->
     <button v-show="count==0" class="btn-bottom" @click="msg" :style="btnFunc">시작하기</button>
     <button v-show="count!=0" class="btn-bottom" @click="submitFavTag" :style="btnFunc">시작하기</button>
   </div>

@@ -247,7 +247,7 @@ export default {
                   }
               })
               .then((res) => {
-                  console.log(res.data)
+                  // console.log(res.data)
                   // 프로필 띄우기
                   this.profile = res.data.profile;
                   this.follow = res.data.follow;

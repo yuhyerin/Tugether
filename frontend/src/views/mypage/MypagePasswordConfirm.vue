@@ -1,6 +1,6 @@
 <template>
     <div class="wrapC" >
-        <h1 style="padding-top: 240px;">비밀번호 확인</h1>
+        <h1>비밀번호 확인</h1>
         <strong>보안을 위해 현재 비밀번호를 다시 한 번 입력해주세요.</strong>
         <div class="input-with-label">
             <label for="password">비밀번호</label>

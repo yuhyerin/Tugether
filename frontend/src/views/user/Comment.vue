@@ -210,10 +210,10 @@ export default {
     },
   },
   created() {
-    console.log('Comment.vue 입장')
+    // console.log('Comment.vue 입장')
     this.email = localStorage.getItem("email")
     // console.log(this.email)
-    console.log('article_id : '+this.$route.params.article_id)
+    // console.log('article_id : '+this.$route.params.article_id)
     // console.log("comment.vue : " + this.$route.params.article_id)
     axios.get(base + '/tugether/mainfeed/comment',
       {
@@ -227,8 +227,8 @@ export default {
       .then(res => {
         this.comments = res.data.comments;
         this.article = res.data.article;
-        console.log(this.article)
-        console.log(this.comments);
+        // console.log(this.article)
+        // console.log(this.comments);
       })
       .catch(err => {
         console.log('실패함')

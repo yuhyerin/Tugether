@@ -15,30 +15,32 @@
         <span> {{ myText.length }} / 300</span>
         <br>
         <br>
+
         <h3>관심태그</h3>
         <WriteInput @add-tag="onAddTag"/>
         <!-- <WriteList @delete="onRemove" @checked="onChecked" :todoList="todoList"/> -->
         <WriteList @delete="onRemove" :tagList="tagList"/>
         <br>
+
         <div>
         <h3 style="margin-top: 40px;">링크</h3>
         </div>
-        <img src="@/assets/images/paperclip.png" style="float: left; height: 30px; width: 30px;">
+        <img src="@/assets/images/paperclip.png" style="float: left; height: 30px; width: 10%;">
         <input type="text" 
           placeholder="영상을 공유하고 싶다면 링크를 달아주세요"
-          style="float: right; width: 90%; margin-left: 5px; margin-bottom: 2px; height: 40px;"
+          style="float: right; width: 88%; margin-left: 5px; margin-bottom: 2px; height: 40px;"
           v-model="urlLink" />
         
       <div style="width: 100%; display: inline-block">
         <button
           class="btn btn--back btn--login"
           @click="moveMypage"
-          style="width: 49%; height: 40px; padding-top: 0px; margin-top: 30px; margin-right: 0px; float: left;"
+          style="width: 49%; height: 40px; padding-top: 0px; margin-top: 30px; margin-right: 0px; float: left; color: white;"
           >BACK</button>
         <button
           v-on:click="onUpload"
           class="btn btn--back btn--login"
-          style="width: 49%; height: 40px; padding-top: 0px; margin-top: 30px; margin-bottom: 50px; float: right;"
+          style="width: 49%; height: 40px; padding-top: 0px; margin-top: 30px; margin-bottom: 50px; float: right; color: white;"
         >업로드</button>
       </div>
       <BottomNav/>
@@ -60,7 +62,7 @@ export default {
   components: {
     WriteList,
     WriteInput,
-    BottomNav,
+    BottomNav
   },
   data: function() {
     return {
@@ -105,11 +107,19 @@ export default {
     },
     onUpload(){
 
-      const formdata = new FormData();
-      if( this.selectedFile == null & (this.urlLink == null || this.urlLink == "") ){ // 두개다 작성 안한경우 
-        alert("이미지나 링크 중 하나는 작성해 주세요 :) ");
+      // 관심태그 리스트를 하나도 입력하지 않은 경우
+      if (this.tagList.length == 0) {
+        alert("관심태그를 1개 이상 입력해주세요!");
         return;
-      }else if(this.selectedFile != null){ // 파일은 등록한 경우
+      }
+
+      // 이미지, 링크 검사 후 글 작성 기능 동작
+      const formdata = new FormData();
+      if( this.selectedFile == null & (this.urlLink == null || this.urlLink == "") ) { // 두 개 다 작성 안한경우 
+        alert("이미지나 링크 중 하나는 작성해주세요 :) ");
+        return;
+
+      } else if(this.selectedFile != null) { // 이미지 파일을 등록한 경우
         
         formdata.append('articleimg', this.selectedFile); //여기서 명시한 키값은 서버에서 사용하기때문에 바꾸면 안됩니당...
         formdata.append('contents', this.myText);
@@ -117,7 +127,7 @@ export default {
         formdata.append('taglist', this.tagNameList);
 
 
-      }else if(this.urlLink !=null){ // 링크는 등록한 경우
+      } else if(this.urlLink !=null) { // 링크를 등록한 경우
          
          formdata.append('contents', this.myText);
          formdata.append('link',this.urlLink);
