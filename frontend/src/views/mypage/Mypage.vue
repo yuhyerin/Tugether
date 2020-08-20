@@ -1,5 +1,7 @@
 <template>
   <div class="feed mypage">
+      <a @click="logout" style="color:gray; float:right; margin: 12px 12px 0 0;">LOGOUT</a>
+      <br>
       <div class="wrapB" style="text-align: center;">
         <!--프로필 영역-->
         <div id="profile" style="margin-top: 20px;">
@@ -149,6 +151,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import axios from "axios";
 import "../../components/css/feed/feed-item.scss";
 import "../../components/css/feed/newsfeed.scss";
@@ -208,6 +211,18 @@ export default {
         this.refresh();
     },
     methods: {
+      logout(){
+        Vue.GoogleAuth.then(auth2=>{
+          auth2.signOut().then(function(){
+              // console.log("로그아웃 되었습니다!");
+          });
+          auth2.disconnect();
+        })
+        this.$store.commit('logout');
+        localStorage.clear();
+        alert("로그아웃 되었습니다 bye bye :)");
+        this.$router.push("/");
+      },
         // tagSearch_Article(index, index2) {
         //   this.keyword = this.articles[index].tag_name[index2];
         //   this.$router.push({
@@ -313,6 +328,8 @@ export default {
         },
         // 게시글 삭제
         clickedDeleteBtn(index) {
+          var answer = confirm("게시글을 삭제하시겠습니까?");
+          if(answer) { // true
            axios
             .post(base + '/tugether/articledelete',
               { "article_id" : this.articles[index].article_id },
@@ -331,26 +348,30 @@ export default {
                 alert("게시글 삭제 실패!");
                 console.log("삭제 실패")
             });
+          }
         },
         // 스크랩한 게시글 삭제
         deleteScrap(index){
-          axios
-            .post(base + '/tugether/scrapdelete', 
-              { "article_id" : this.scraps[index].article_id },
-              {
-                headers:{
-                  "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
-                }
-              },
-            )
-            .then((res) => {
-              alert("스크랩한 게시글이 삭제 되었습니다.");
-              this.refresh(); // 글 삭제 후 스크랩한 글 리스트를 새로고침 하기 위함
-            })
-            .catch((err) => {
-              alert("스크랩한 게시글 삭제 실패!");
-              console.log("deleteScrap function error")
-            })
+          var answer = confirm("스크랩한 게시글을 삭제하시겠습니까?");
+          if(answer) { // true
+            axios
+              .post(base + '/tugether/scrapdelete', 
+                { "article_id" : this.scraps[index].article_id },
+                {
+                  headers:{
+                    "jwt-auth-token": localStorage.getItem("token") // 토큰 보내기
+                  }
+                },
+              )
+              .then((res) => {
+                alert("스크랩한 게시글이 삭제 되었습니다.");
+                this.refresh(); // 글 삭제 후 스크랩한 글 리스트를 새로고침 하기 위함
+              })
+              .catch((err) => {
+                alert("스크랩한 게시글 삭제 실패!");
+                console.log("deleteScrap function error")
+              })
+          }
         },
         // 좋아요 기능
         clickedLikeBtn(index) { 
@@ -416,6 +437,7 @@ export default {
         },
         moveMain() {
             this.$router.push("/mainfeed");
+            scroll(3, 3);
         },
         // 유저페이지로 이동
         moveUserpage(email) {
