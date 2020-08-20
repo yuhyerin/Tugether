@@ -8,6 +8,12 @@
           <v-tab-item style="padding-top: 15px;">
             <v-container>
               <v-row dense class="pt-0">
+                <div>
+                  <p v-show="articles==0" style="text-align: left; text-weight:bold; font-size: 1.5rem; margin-top:50px;">해당 태그에 관한</p>
+                  <p v-show="articles==0" style="text-align: left; text-weight:bold; font-size: 1.5rem;">게시글이 없어요.</p>
+                  <p v-show="articles==0" style="text-align: left; text-weight:bold; font-size: 1.5rem;">태그를 추가하고</p>
+                  <p v-show="articles==0" style="text-align: left; text-weight:bold; font-size: 1.5rem;">맞춤 피드를 받아보세요 😆</p>
+                </div>
                 <v-col cols="12"  v-for="(article, index) in articles" :key="article.id" :articles="articles">
                   <v-card max-width="344" class="mx-auto">
                     <v-list-item>
@@ -17,7 +23,7 @@
                         <v-list-item-subtitle style="font-size:0.8rem;">{{ timeForToday(article.reg_time) }}</v-list-item-subtitle>
                       </v-list-item-content>
                       <v-spacer></v-spacer>
-                      <a :href="article.link" v-if="article.link" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:35px; height:35px;"></a>
+                      <a :href="article.link" v-show="article.link!='null'" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:35px; height:35px;"></a>
                     </v-list-item>
                     <iframe v-if="article.image == null && article.link != '' " class="embed-responsive-item" :src="`https://www.youtube.com/embed/${getLink(article.link)}`" style="width:100%"></iframe>
                     <v-img v-if="article.image != null " :src="`https://i3b303.p.ssafy.io/articleimages/${article.image}`" height="194"></v-img>
@@ -31,8 +37,8 @@
                     <!-- <v-divider class="mx-6 my-0"></v-divider> -->
                     <v-card-actions>
                       <v-btn icon>
-                        <v-icon class="mr-1 ml-5" v-show="!article.like" @click="clickedLikeBtn(index)">mdi-heart</v-icon>
-                        <v-icon class="mr-1 ml-5" v-show="article.like" @click="clickedLikeBtn(index)" style="color: red;">mdi-heart</v-icon>
+                        <v-icon class="mr-1 ml-5" v-show="article.like==false" @click="clickedLikeBtn(index)">mdi-heart</v-icon>
+                        <v-icon class="mr-1 ml-5" v-show="article.like==true" @click="clickedLikeBtn(index)" style="color: red;">mdi-heart</v-icon>
                         <span class="subheading mr-2" @click="clickedLikeBtn(index)">{{ article.like_cnt }}명</span>
                       </v-btn>
                       <v-spacer></v-spacer>
@@ -42,8 +48,7 @@
                       </v-btn>
                       <v-spacer></v-spacer>
                       <v-btn icon>
-                        <v-icon class="mr-1" v-show="!article.scrap" @click="clickedScrapBtn(index)">mdi-bookmark</v-icon>
-                        <v-icon class="mr-1" v-show="article.scrap" @click="clickedScrapBtn(index)" style="color: green;">mdi-bookmark</v-icon>
+                        <v-icon class="mr-1" @click="clickedScrapBtn(index)">mdi-bookmark</v-icon>                
                         <span class="subheading mr-5" @click="clickedScrapBtn(index)">{{ article.scrap_cnt }}회</span>
                       </v-btn>
                     </v-card-actions>
@@ -61,6 +66,11 @@
           <v-tab-item style="padding-top: 15px;">
              <v-container>
               <v-row dense class="pt-0">
+                <div>
+                  <p v-show="articles==0" style="text-align: left; text-weight:bold; font-size: 1.5rem; margin-top:50px;">팔로우가 없어요.</p>
+                  <p v-show="articles==0" style="text-align: left; text-weight:bold; font-size: 1.5rem;">팔로우하고</p>
+                  <p v-show="articles==0" style="text-align: left; text-weight:bold; font-size: 1.5rem;">피드를 받아보세요 😆</p>
+                </div>
                 <v-col cols="12"  v-for="(article, index) in articles" :key="article.id" :articles="articles">
                   <v-card max-width="344" class="mx-auto">
                     <v-list-item>
@@ -70,7 +80,7 @@
                         <v-list-item-subtitle style="font-size:0.8rem;">{{ timeForToday(article.reg_time) }}</v-list-item-subtitle>
                       </v-list-item-content>
                       <v-spacer></v-spacer>
-                      <a :href="article.link" v-if="article.link" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:35px; height:35px;"></a>
+                      <a :href="article.link" v-show="article.link!='null'" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:35px; height:35px;"></a>
                     </v-list-item>
                     <iframe v-if="article.image == null && article.link != '' " class="embed-responsive-item" :src="`https://www.youtube.com/embed/${getLink(article.link)}`" style="width:100%"></iframe>
                     <v-img v-if="article.image != null " :src="`https://i3b303.p.ssafy.io/articleimages/${article.image}`" height="194"></v-img>
@@ -251,6 +261,7 @@ export default {
             this.limit += 1;
             this.from = this.articles[0].article_id,
             this.to = this.articles[this.articles.length-1].article_id
+            console.log(this.articles)
             $state.loaded(); // 데이터 로드가 전부 수행되었다는 것을 알려줌, 다음 리퀘스트가 있을 때까지 대기 상태
             if(response.data.length / EACH_LEN < 1) {
               $state.complete() // 더이상 불러올 데이터가 없을 때 사용, 이후에는 데이터가 없다는 메시지를 표시하고 더이상 무한스크롤 작업 X
@@ -331,6 +342,7 @@ export default {
       })
       .then(response => {
         this.articles[index] = response.data.article;
+        alert(this.articles[index].like)
         // this.clicked = true;
       })
       .catch(err => {
