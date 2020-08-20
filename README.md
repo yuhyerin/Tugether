@@ -104,17 +104,25 @@ Tech Leader - 유혜린
 
 
 
-#### :heart_decoration: 개발 흐름
+#### :heart: 개발 흐름
 ```html
 6주
 1주 : 웹 기초 학습
-2주 : SPA 기본 틀 구현 & 개발환경 세팅
-3주 : API 스펙 & DB, Table 생성
+2주 : SPA 기본 틀 구현 / 개발환경 세팅
+3주 : API 스펙 / DB, Table 생성
 4주 : 서비스 개발
 5주 : 심화 개발
-6주 : UCC&PPT제작, 테스트, 배포
+6주 : UCC/PPT제작, 테스트, 배포
 ```
-#### :heart_decoration: 기술스택 & 실행방법
+
+#### :yellow_heart: ERD
+![ERD](/uploads/7db355b4ab7674f065dc0748a307c0cb/ERD.PNG)
+
+#### :green_heart: 핵심기능
+![기능1](/uploads/1324b4be6e32e8007fb00255b566377b/기능1.png)
+![기능2](/uploads/aedcb4ed18f1dea9623998a57bce3180/기능2.png)
+
+#### :blue_heart: 기술스택 & 실행방법
 
 ![기술스택](/uploads/fa776d9427ac43d9bca063277d7dd9ae/기술스택.png)
 
@@ -132,7 +140,7 @@ yarn serve --port 3000
 - 1) STS 설치
 - 2) JDK 설치
 - 3) MAVEN 다운로드
-
+<br/>
 
 
 ### 개발 Git 전략 :star:
