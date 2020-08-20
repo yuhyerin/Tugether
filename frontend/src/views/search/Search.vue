@@ -14,12 +14,12 @@
                 <!--선택한 카테고리에 따라 버튼 기능 다르게 부여함-->
                 <div v-show="category==='tag'" style="margin-top: -65px;">
                     <input type="text" v-model="keyword" id="search_bar1" placeholder="검색어를 입력하세요"
-                        autofocus onFocus="this.value='';" @keyup.enter="searchTag">
+                        autofocus onFocus="this.value='';" @keyup.enter="searchTag" style="border: 1px solid gray;">
                     <button class="button" v-if="category==='tag'" @click="searchTag">검색</button>
                 </div>
                 <div v-show="category==='nickname'" style="margin-top: -65px;">
                     <input type="text" v-model="keyword" id="search_bar2" placeholder="검색어를 입력하세요"
-                        autofocus onFocus="this.value='';" @keyup.enter="searchUser">
+                        autofocus onFocus="this.value='';" @keyup.enter="searchUser" style="border: 1px solid gray;">
                     <button class="button" v-if="category==='nickname'" @click="searchUser">검색</button>
                 </div>
                 <!-- <button class="button" @click="searchTagList">드롭다운</button> -->

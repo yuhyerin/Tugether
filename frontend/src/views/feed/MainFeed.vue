@@ -341,7 +341,6 @@ export default {
       })
       .then(response => {
         this.articles[index] = response.data.article;
-        alert(this.articles[index].like)
         // this.clicked = true;
       })
       .catch(err => {
