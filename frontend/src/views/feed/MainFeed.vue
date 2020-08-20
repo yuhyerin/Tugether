@@ -25,8 +25,8 @@
                       <v-spacer></v-spacer>
                       <a :href="article.link" v-show="article.link!='null'" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:35px; height:35px;"></a>
                     </v-list-item>
-                    <iframe v-if="article.image == null && article.link != '' " class="embed-responsive-item" :src="`https://www.youtube.com/embed/${getLink(article.link)}`" style="width:100%"></iframe>
-                    <v-img v-if="article.image != null " :src="`https://i3b303.p.ssafy.io/articleimages/${article.image}`" height="194"></v-img>
+                    <iframe v-if="article.image == null && article.link != '' " class="embed-responsive-item" :src="`https://www.youtube.com/embed/${getLink(article.link)}`" allowfullscreen style="width:100%; height:200px"></iframe>
+                    <v-img v-if="article.image != null " :src="`https://i3b303.p.ssafy.io/articleimages/${article.image}`" height="200px"></v-img>
                     <v-card-text class="pb-0" style="color:black">{{ article.content }}</v-card-text>
                     <v-chip-group column>
                       <span v-for="tag in article.tag_name" :key="tag.name">
@@ -83,7 +83,7 @@
                       <a :href="article.link" v-show="article.link!='null'" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:35px; height:35px;"></a>
                     </v-list-item>
                     <iframe v-if="article.image == null && article.link != '' " class="embed-responsive-item" :src="`https://www.youtube.com/embed/${getLink(article.link)}`" style="width:100%"></iframe>
-                    <v-img v-if="article.image != null " :src="`https://i3b303.p.ssafy.io/articleimages/${article.image}`" height="194"></v-img>
+                    <v-img v-if="article.image != null " :src="`https://i3b303.p.ssafy.io/articleimages/${article.image}`" max-height="230"></v-img>
                     <v-card-text class="pb-0" style="color:black">{{ article.content }}</v-card-text>
                     <v-chip-group column>
                       <span v-for="tag in article.tag_name" :key="tag.name">

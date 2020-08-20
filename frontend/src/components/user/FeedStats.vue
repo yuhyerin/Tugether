@@ -118,14 +118,12 @@ export default {
   },
   watch:{
     clicked(){
-      console.log('clickcccccc')
       axios.get(base + '/tugether/likeystats', {
       headers: {
         "jwt-auth-token": localStorage.getItem("token")
       }
     })
     .then(response => {
-      console.log(response.data.toplikeyarticles)
       this.articles = response.data.toplikeyarticles
     })
     .catch(error => {
@@ -211,7 +209,6 @@ export default {
       })
       .then(response => {
         this.articles[index] = response.data.article;
-        console.log('clicedLikeBtn:', this.articles[index])
         // this.clicked = true;
       })
       .catch(err => {
@@ -273,7 +270,6 @@ export default {
     moveUserpage(email) {
       this.email = email;
       localStorage.setItem("userEmail", this.email);
-      console.log(this.email)
       this.$router.push({
         name: 'Userpage'
       })
@@ -286,7 +282,6 @@ export default {
       }
     })
     .then(response => {
-      console.log(response.data.toplikeyarticles)
       this.articles = response.data.toplikeyarticles
     })
     .catch(error => {

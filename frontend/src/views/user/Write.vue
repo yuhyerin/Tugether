@@ -28,7 +28,7 @@
         <img src="@/assets/images/paperclip.png" style="float: left; height: 30px; width: 10%;">
         <input type="text" 
           placeholder="영상을 공유하고 싶다면 링크를 달아주세요"
-          style="float: right; width: 88%; margin-left: 5px; margin-bottom: 2px; height: 40px;"
+          style="float: right; width: 88%; margin-left: 5px; margin-bottom: 2px; height: 40px; border: 1px solid gray;"
           v-model="urlLink" />
         
       <div style="width: 100%; display: inline-block">

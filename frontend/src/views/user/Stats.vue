@@ -3,18 +3,21 @@
     <br>
       <div>
         <h3>인기검색</h3>
+        <h5> 현재 가장 많이 검색한 태그입니다</h5>
         <SearchStats v-if="searchLoaded" :searchLabels="searchLabels" :searchData="searchData"/>
       </div>
       <br>
       
       <div>
         <h3>인기태그</h3>
+        <h5> 게시글에 가장 많이 달린 태그 순위입니다 </h5>
         <TagStats v-if="loaded" :labels="labels" :data="data"/>
       </div>
       <br>
 
       <div>
         <h3>인기피드</h3>
+        <h5> 좋아요가 가장 많은 게시글입니다 </h5>
         <FeedStats />
       </div>
     <BottomNav />
@@ -55,9 +58,6 @@ export default {
     })
     .then(response => {
       this.loaded = true
-      console.log(response.data.toparticletags)
-      console.log(response.data.toparticletags[0].tag_name)
-      console.log(response.data.toparticletags[0].article_cnt)
       this.labels = [
         response.data.toparticletags[0].tag_name,
         response.data.toparticletags[1].tag_name,
@@ -85,7 +85,6 @@ export default {
       })
       .then(response => {
         this.searchLoaded = true
-        console.log(response.data.topsearchtags)
         this.topsearchtags = response.data.topsearchtags
         this.searchLabels = [
         response.data.topsearchtags[0].tag_name,

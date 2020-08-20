@@ -53,7 +53,7 @@
                             <a :href="article.link" v-show="article.link!='null'" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:35px; height:35px;"></a>
                           </v-list-item>
                           <!-- 이미지, 내용, 태그 -->
-                          <iframe v-if="article.image == null && article.link != '' " class="embed-responsive-item" :src="`https://www.youtube.com/embed/${getLink(article.link)}`" style="width:100%"></iframe>
+                          <iframe v-if="article.image == null && article.link != '' " class="embed-responsive-item" :src="`https://www.youtube.com/embed/${getLink(article.link)}`" allowfullscreen style="width:100%"></iframe>
                           <v-img v-if="article.image != null " :src="`https://i3b303.p.ssafy.io/articleimages/${article.image}`" height="194"></v-img>
                           <v-card-text class="pb-0" style="color:black; text-align:left;">{{ article.content }}</v-card-text>
                           <v-chip-group column>
@@ -104,7 +104,7 @@
                             <a :href="scrap.link" v-show="scrap.link!='null'" target="_blank"><img src="@/assets/images/youtube.png" alt="" style="width:35px; height:35px;"></a>
                           </v-list-item>
                           <!-- 이미지, 내용, 태그 -->
-                          <iframe v-if="scrap.image == null && scrap.link != '' " class="embed-responsive-item" :src="`https://www.youtube.com/embed/${getLink(scrap.link)}`" style="width:100%"></iframe>
+                          <iframe v-if="scrap.image == null && scrap.link != '' " class="embed-responsive-item" :src="`https://www.youtube.com/embed/${getLink(scrap.link)}`" allowfullscreen style="width:100%"></iframe>
                           <v-img v-if="scrap.image != null " :src="`https://i3b303.p.ssafy.io/articleimages/${scrap.image}`" height="194"></v-img>
                           <v-card-text class="pb-0" style="color:black; text-align:left;">{{ scrap.content }}</v-card-text>
                           <v-chip-group column>
