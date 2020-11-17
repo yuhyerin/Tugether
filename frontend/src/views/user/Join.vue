@@ -81,7 +81,7 @@
           <input type="radio" id="female" value="F" v-model="gender" style="left: -8px; height: 20px; margin: 2px 0 0 52px;" />
           <label for="female" style="padding: 3px 0 0 54px;">여성</label>
         </div>
-        <div class="col-1">
+        <div class="col-2">
           <input type="radio" id="male" value="M" v-model="gender" style="left: -10px; height: 20px; margin: 2px 0 0 60px;" />
           <label for="male" style="padding: 3px 0 0 54px;">남성</label>
         </div>
