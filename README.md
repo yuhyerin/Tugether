@@ -116,15 +116,15 @@ Tech Leader - 유혜린
 ```
 
 #### :yellow_heart: ERD
-![튜게더_기술스택](https://user-images.githubusercontent.com/37924810/106696892-0348f900-6621-11eb-84fd-53f34bee5c7c.png)
+![튜게더_ERD](https://user-images.githubusercontent.com/37924810/106696920-11971500-6621-11eb-8669-49beff7aed5e.PNG)
 
 #### :green_heart: 핵심기능
 ![튜게더_핵심기능](https://user-images.githubusercontent.com/37924810/106696908-0ba13400-6621-11eb-98a6-70c83bea2cab.png)
-
+![튜게더_핵심기능2](https://user-images.githubusercontent.com/37924810/106697107-794d6000-6621-11eb-986b-f41c491852e5.png)
 
 #### :blue_heart: 기술스택 & 실행방법
+![튜게더_기술스택](https://user-images.githubusercontent.com/37924810/106696892-0348f900-6621-11eb-84fd-53f34bee5c7c.png)
 
-![튜게더_ERD](https://user-images.githubusercontent.com/37924810/106696920-11971500-6621-11eb-8669-49beff7aed5e.PNG)
 
 #### Frontend 
 
