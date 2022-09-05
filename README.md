@@ -1,5 +1,8 @@
 ## Project  - 튜게더 :blush: (Tugether = YouTube + Together )
 
+#### [👉서비스 바로가기](https://eight-collarbone-e41.notion.site/Youtube-Together-d9ac0c5eb68e44cba52e2f5db87e6112)
+
+
 #### :heart: 팀명 - 만두 ( 팀원들끼리 똘똘 뭉치자는 의미에서 만두로 정했습니다 😚 )
 
 #### :yellow_heart: 주제 - 유튜브 영상 큐레이션 및 태그기반 유튜브 영상 공유 SNS
