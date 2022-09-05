@@ -1,0 +1,53 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/tugether?useUnicode=true&serverTimezone=Asia/Seoul
+    username: root
+    password: password
+
+  jpa:
+    database: sql-server
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: tugethertime200713@gmail.com
+    password: jgbkftydvazfxmpz
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui
+  api-docs:
+    path: /api-docs
+
+jwt:
+  expmin: 200
+  salt: MYSALT
+
+CLIENT_ID: 963926899908-ncql9skkc6bkmifvg9bhc9jv2asecrcd.apps.googleusercontent.com
+
+window:
+  article:
+    upload:
+      directory: C:/Users/multicampus/git/s03p13b303/backend/src/main/resources/static/img/article/
+  profile:
+    upload:
+      directory: C:/Users/multicampus/git/s03p13b303/backend/src/main/resources/static/img/profile/
+ubuntu:
+  article:
+    upload:
+      directory: /var/www/img/article/
+  profile:
+    upload:
+      directory: /var/www/img/profile/
