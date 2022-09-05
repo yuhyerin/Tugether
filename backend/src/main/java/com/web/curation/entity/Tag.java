@@ -1,4 +1,4 @@
-package com.web.curation.dto.tag;
+package com.web.curation.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

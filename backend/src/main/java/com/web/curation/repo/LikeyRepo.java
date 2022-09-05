@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.web.curation.dto.article.Likey;
+import com.web.curation.entity.Likey;
 
 public interface LikeyRepo extends JpaRepository<Likey, String> {
 	

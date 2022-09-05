@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.web.curation.dto.profile.Profile;
+import com.web.curation.entity.Profile;
 import com.web.curation.repo.FavtagRepo;
 import com.web.curation.repo.ProfileRepo;
 import com.web.curation.repo.TagRepo;

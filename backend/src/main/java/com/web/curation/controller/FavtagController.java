@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.web.curation.dto.BasicResponse;
-import com.web.curation.dto.tag.FavTag;
+import com.web.curation.entity.FavTag;
 import com.web.curation.jwt.service.JwtService;
 import com.web.curation.service.tag.FavtagService;
 

@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.web.curation.dto.BasicResponse;
-import com.web.curation.dto.article.Article;
+import com.web.curation.entity.Article;
 import com.web.curation.jwt.service.JwtService;
 import com.web.curation.service.articlewrite.ArticleUpdateService;
 import com.web.curation.service.articlewrite.ArticleWriteService;

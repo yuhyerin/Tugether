@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.web.curation.dto.BasicResponse;
-import com.web.curation.dto.article.Article;
-import com.web.curation.dto.tag.Tag;
+import com.web.curation.entity.Article;
+import com.web.curation.entity.Tag;
 import com.web.curation.jwt.service.JwtService;
 import com.web.curation.service.stats.StatsService;
 

@@ -32,7 +32,7 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.web.curation.dto.BasicResponse;
 import com.web.curation.dto.account.AuthenticationRequest;
 import com.web.curation.dto.account.AuthenticationResponse;
-import com.web.curation.dto.account.User;
+import com.web.curation.entity.User;
 import com.web.curation.jwt.service.JwtService;
 import com.web.curation.service.account.FindService;
 import com.web.curation.service.account.LoginService;

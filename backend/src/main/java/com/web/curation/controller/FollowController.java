@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.web.curation.dto.BasicResponse;
 import com.web.curation.dto.follow.Follow;
-import com.web.curation.dto.profile.Profile;
+import com.web.curation.entity.Profile;
 import com.web.curation.jwt.service.JwtService;
 import com.web.curation.service.follow.FollowService;
 import com.web.curation.service.profile.ProfileService;

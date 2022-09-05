@@ -13,8 +13,7 @@ import org.springframework.stereotype.Component;
 
 import com.web.curation.dto.account.AuthenticationRequest;
 import com.web.curation.dto.account.AuthenticationResponse;
-
-import com.web.curation.dto.account.User;
+import com.web.curation.entity.User;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;

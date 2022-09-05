@@ -2,7 +2,7 @@ package com.web.curation.service.profile;
 
 import java.util.ArrayList;
 
-import com.web.curation.dto.profile.Profile;
+import com.web.curation.entity.Profile;
 
 public interface ProfileService {
 

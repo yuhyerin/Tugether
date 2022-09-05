@@ -6,7 +6,8 @@ spring:
     password: password
 
   jpa:
-    database: sql-server
+    database: MYSQL
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
       ddl-auto: create
     properties:

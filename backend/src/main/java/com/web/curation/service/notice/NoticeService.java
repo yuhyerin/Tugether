@@ -3,7 +3,7 @@ package com.web.curation.service.notice;
 import java.util.List;
 
 import com.web.curation.dto.notice.FrontNotice;
-import com.web.curation.dto.notice.Notice;
+import com.web.curation.entity.Notice;
 
 public interface NoticeService {
 	

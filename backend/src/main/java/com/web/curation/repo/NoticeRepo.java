@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.web.curation.dto.notice.Notice;
+import com.web.curation.entity.Notice;
 
 @Repository
 public interface NoticeRepo extends JpaRepository<Notice, String>{

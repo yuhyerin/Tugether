@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.web.curation.dto.BasicResponse;
-import com.web.curation.dto.account.User;
 import com.web.curation.dto.article.FrontArticle;
-import com.web.curation.dto.profile.Profile;
+import com.web.curation.entity.Profile;
+import com.web.curation.entity.User;
 import com.web.curation.jwt.service.JwtService;
 import com.web.curation.service.account.FindService;
 import com.web.curation.service.mypage.MyPageService;

@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.web.curation.dto.tag.Tag;
+import com.web.curation.entity.Tag;
 
 
 @Repository

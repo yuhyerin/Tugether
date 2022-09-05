@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.web.curation.dto.tag.FavTag;
+import com.web.curation.entity.FavTag;
 
 @Repository
 @Transactional

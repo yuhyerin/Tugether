@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.web.curation.dto.article.Article;
+import com.web.curation.entity.Article;
 
 @Repository
 public interface ArticleRepo extends JpaRepository<Article, String> {

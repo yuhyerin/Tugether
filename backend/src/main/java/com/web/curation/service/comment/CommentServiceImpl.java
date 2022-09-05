@@ -6,11 +6,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.web.curation.dto.article.Article;
 import com.web.curation.dto.article.FrontArticle;
 import com.web.curation.dto.comment.Comment;
 import com.web.curation.dto.comment.FrontComment;
-import com.web.curation.dto.notice.Notice;
+import com.web.curation.entity.Article;
+import com.web.curation.entity.Notice;
 import com.web.curation.repo.ArticleRepo;
 import com.web.curation.repo.CommentRepo;
 import com.web.curation.repo.NoticeRepo;

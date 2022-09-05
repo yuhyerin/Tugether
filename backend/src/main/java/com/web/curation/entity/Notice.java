@@ -1,4 +1,4 @@
-package com.web.curation.dto.notice;
+package com.web.curation.entity;
 
 import java.time.LocalDateTime;
 

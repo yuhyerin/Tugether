@@ -2,7 +2,7 @@ package com.web.curation.service.articlewrite;
 
 import java.util.ArrayList;
 
-import com.web.curation.dto.article.Article;
+import com.web.curation.entity.Article;
 
 public interface ArticleUpdateService {
 

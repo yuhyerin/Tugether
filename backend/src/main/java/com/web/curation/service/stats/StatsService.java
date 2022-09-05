@@ -3,8 +3,8 @@ package com.web.curation.service.stats;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.web.curation.dto.article.Article;
-import com.web.curation.dto.tag.Tag;
+import com.web.curation.entity.Article;
+import com.web.curation.entity.Tag;
 
 public interface StatsService {
 

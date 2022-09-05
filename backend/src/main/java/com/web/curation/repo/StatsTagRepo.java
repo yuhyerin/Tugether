@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.web.curation.dto.tag.Tag;
+import com.web.curation.entity.Tag;
 
 
 public interface StatsTagRepo extends JpaRepository<Tag, String>{

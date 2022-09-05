@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.web.curation.dto.follow.Follow;
-import com.web.curation.dto.notice.Notice;
-import com.web.curation.dto.profile.Profile;
+import com.web.curation.entity.Notice;
+import com.web.curation.entity.Profile;
 import com.web.curation.repo.FollowingRepo;
 import com.web.curation.repo.NoticeRepo;
 import com.web.curation.repo.ProfileRepo;

@@ -6,8 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.web.curation.dto.BasicResponse;
-import com.web.curation.dto.account.User;
-import com.web.curation.dto.profile.Profile;
+import com.web.curation.entity.Profile;
+import com.web.curation.entity.User;
 import com.web.curation.repo.ProfileRepo;
 import com.web.curation.repo.UserRepo;
 

@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.web.curation.dto.article.Article;
-import com.web.curation.dto.tag.Tag;
+import com.web.curation.entity.Article;
+import com.web.curation.entity.Tag;
 import com.web.curation.repo.ArticleUpdateRepo;
 import com.web.curation.repo.ArticleWriteRepo;
 import com.web.curation.repo.ArticleWriteTagRepo;

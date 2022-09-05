@@ -17,7 +17,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import com.web.curation.dto.BasicResponse;
-import com.web.curation.dto.account.User;
+import com.web.curation.entity.User;
 import com.web.curation.repo.UserRepo;
 
 @Service

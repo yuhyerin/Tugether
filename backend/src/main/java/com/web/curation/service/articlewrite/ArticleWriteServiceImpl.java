@@ -9,8 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.web.curation.dto.BasicResponse;
-import com.web.curation.dto.article.Article;
-import com.web.curation.dto.tag.Tag;
+import com.web.curation.entity.Article;
+import com.web.curation.entity.Tag;
 import com.web.curation.repo.ArticleWriteRepo;
 import com.web.curation.repo.ArticleWriteTagRepo;
 import com.web.curation.repo.ProfileRepo;

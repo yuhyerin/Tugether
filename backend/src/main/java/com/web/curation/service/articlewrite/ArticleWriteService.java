@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
-import com.web.curation.dto.article.Article;
+import com.web.curation.entity.Article;
 
 public interface ArticleWriteService {
 

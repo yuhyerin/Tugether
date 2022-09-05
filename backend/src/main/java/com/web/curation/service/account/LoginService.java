@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 
 import com.web.curation.dto.account.AuthenticationResponse;
-import com.web.curation.dto.account.User;
+import com.web.curation.entity.User;
 import com.web.curation.repo.UserRepo;
 
 @Service

@@ -7,7 +7,7 @@ import javax.mail.MessagingException;
 import org.springframework.http.ResponseEntity;
 
 import com.web.curation.dto.BasicResponse;
-import com.web.curation.dto.account.User;
+import com.web.curation.entity.User;
 
 public interface FindService {
 	

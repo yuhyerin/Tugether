@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.web.curation.dto.notice.FrontNotice;
-import com.web.curation.dto.notice.Notice;
+import com.web.curation.entity.Notice;
 import com.web.curation.repo.ArticleRepo;
 import com.web.curation.repo.NoticeRepo;
 import com.web.curation.repo.ProfileRepo;

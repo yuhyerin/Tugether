@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.web.curation.dto.article.ArticleTag;
+import com.web.curation.entity.ArticleTag;
 
 @Repository
 public interface ArticleTagRepo extends JpaRepository<ArticleTag, String>{

@@ -1,4 +1,4 @@
-package com.web.curation.dto.article;
+package com.web.curation.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,28 +12,23 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
-
-@Entity(name="articletag")
-@Table(name="articletag")
+@Entity(name="scrap")
+@Table(name="scrap")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ArticleTag {
-	
+public class Scrap {
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)	// 얘가 auto_increment
 	private int uid;
 	
+	@Column(name="email", nullable=false)
+	private String email;
+
 	@Column(name="article_id", nullable=false)
 	private int article_id;
 	
-	@Column(name="tag_id", nullable=false)
-	private int tag_id;
 	
-	
-	
-	
-
 }

@@ -2,8 +2,8 @@ package com.web.curation.service.mypage;
 
 import java.util.List;
 
-import com.web.curation.dto.article.Article;
 import com.web.curation.dto.article.FrontArticle;
+import com.web.curation.entity.Article;
 
 public interface MyPageService {
 	

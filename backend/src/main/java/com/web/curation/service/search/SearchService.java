@@ -3,7 +3,7 @@ package com.web.curation.service.search;
 import java.util.List;
 
 import com.web.curation.dto.article.FrontArticle;
-import com.web.curation.dto.profile.Profile;
+import com.web.curation.entity.Profile;
 
 public interface SearchService {
 

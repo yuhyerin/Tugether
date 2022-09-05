@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.web.curation.dto.BasicResponse;
-import com.web.curation.dto.tag.FavTag;
+import com.web.curation.entity.FavTag;
 import com.web.curation.repo.FavtagRepo;
 import com.web.curation.repo.TagRepo;
 
