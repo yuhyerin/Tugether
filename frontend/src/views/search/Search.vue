@@ -81,8 +81,8 @@
 
 <script>
 import axios from "axios";
-import store from '@/vuex/store';
-import { mapState, mapActions, mapMutations } from "vuex";
+// import store from '@/store';
+// import { mapState, mapActions, mapMutations } from "vuex";
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
 import BottomNav from "@/components/common/BottomNav";
 

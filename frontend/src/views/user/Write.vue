@@ -49,11 +49,11 @@
 
 <script>
 import axios from 'axios'
-import store from '@/vuex/store'
+// import store from '@/store'
 import { mapState, mapActions } from "vuex"
 import WriteList from '@/components/user/WriteList'
 import WriteInput from '@/components/user/WriteInput'
-import { bus } from '@/event-bus'
+// import { bus } from '@/event-bus'
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
 import BottomNav from "@/components/common/BottomNav"
 

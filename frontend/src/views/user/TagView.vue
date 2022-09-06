@@ -15,7 +15,7 @@
 <script>
 import axios from 'axios'
 import TagList from '@/components/user/TagList'
-import store from '@/vuex/store'
+// import store from '@/store'
 import { mapState, mapActions } from "vuex";
 import { base } from "@/components/common/BaseURL.vue"
 export default {

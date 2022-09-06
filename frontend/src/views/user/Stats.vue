@@ -26,7 +26,7 @@
 
 <script>
 import axios from 'axios'
-import { Bar } from 'vue-chartjs'
+// import { Bar } from 'vue-chartjs'
 import { base } from "@/components/common/BaseURL.vue"
 import SearchStats from '@/components/user/SearchStats'
 import TagStats from '@/components/user/TagStats'

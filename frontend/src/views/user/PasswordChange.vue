@@ -45,7 +45,7 @@
 <script>
 import axios from 'axios';
 import PV from "password-validator";
-import store from '@/vuex/store';
+// import store from '@/store';
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
 
 export default {

@@ -70,8 +70,8 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
-import store from '@/vuex/store'
+// import { mapState, mapActions } from "vuex";
+// import store from '@/store'
 import { base } from "@/components/common/BaseURL.vue"
 import axios from 'axios'
 import BottomNav from "@/components/common/BottomNav"

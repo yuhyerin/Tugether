@@ -129,9 +129,9 @@
 <script>
 import Vue from 'vue'
 import axios from 'axios'
-import defaultProfile from "../../assets/images/profile_default.png";
+import defaultProfile from "@/assets/images/profile_default.png";
 import { mapState } from "vuex";
-import store from "../../vuex/store"
+import store from "@/store"
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
 import BottomNav from "@/components/common/BottomNav"
 import InfiniteLoading from 'vue-infinite-loading';
