@@ -5,10 +5,13 @@ import java.util.Map;
 import java.util.Random;
 import java.util.StringTokenizer;
 
+import javax.mail.AuthenticationFailedException;
+import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.transaction.Transactional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailSendException;
@@ -20,38 +23,58 @@ import com.web.curation.dto.BasicResponse;
 import com.web.curation.entity.User;
 import com.web.curation.repo.UserRepo;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Transactional
 @Service
+@RequiredArgsConstructor
 public class FindServiceImpl implements FindService {
 
-	@Autowired
-	private UserRepo userRepo;
-	@Autowired
-	private JavaMailSender mailSender;
-//	private static final String FROM_ADDRESS = "wjdgusgml997@gmail.com";
+	private final UserRepo userRepo;
+	private final JavaMailSender javaMailSender;
 	
+	@Value("${spring.mail.username}")
+    private String fromEmail;
+
 	@Override
-	public String sendTest(String email) throws MessagingException {
-		MimeMessage mimeMessage = mailSender.createMimeMessage();
-		StringBuilder sb = new StringBuilder();
-		String message = createpw();
-		sb.append("<h3>망두네 이메일 검사 : ");
-		sb.append(email);
-		sb.append("로 회원가입을 시도한다.</h3>");
-		sb.append("<p>망두네 인증번호 : ");
-		sb.append("<h3>"+message+"</h3>");
-		sb.append("로 인증번호를 입력해주세요.</p>");
-		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
-		helper.setText(sb.toString(), true); // Use this or above line.
-		helper.setTo(email);
-		mimeMessage.setFrom("wjdgusgml997@gmail.com");
-		mimeMessage.setSubject("망두네 회원가입");
+	public String sendCertificationNumber(String email) {
+
+		// 인증번호 생성
+		String certificationNumber = createpw();
+		
+		// 메일 내용 생성
+		StringBuilder contents = new StringBuilder();
+		contents.append("<h3>요청하신 이메일 ");
+		contents.append(email);
+		contents.append("로 회원가입을 요청하셨습니다.</h3>");
+		contents.append("<p> [인증번호] : ");
+		contents.append("<h3>" + certificationNumber + "</h3>");
+		contents.append("를 입력해주세요.</p>");
+
 		try {
-			mailSender.send(mimeMessage);
-		} catch(MailSendException e) {
-			e.printStackTrace();
-			return null;
+			MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+			mimeMessage.setSubject("[튜게더] 회원가입 인증 요청");
+			mimeMessage.setContent(contents.toString(), "text/html;charset=euc-kr");
+			mimeMessage.setFrom(fromEmail);
+			mimeMessage.setRecipients(Message.RecipientType.TO, email);
+
+			// 메일 전송
+			javaMailSender.send(mimeMessage);
+
+		} catch (AuthenticationFailedException e) {
+			log.info(e.getMessage());
+			
+		} catch (MessagingException e) {
+			log.info(e.getMessage());
+			
+		} catch (MailSendException e) {
+			log.info(e.getMessage());
+			
 		}
-		return message;
+
+		return certificationNumber;
 	}
 
 	@Override
@@ -74,7 +97,7 @@ public class FindServiceImpl implements FindService {
 
 	@Override
 	public void sendMail(String email) throws MessagingException {
-		MimeMessage mimeMessage = mailSender.createMimeMessage();
+		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
 		String tempPW = createpw();
 
@@ -86,13 +109,13 @@ public class FindServiceImpl implements FindService {
 		mimeMessage.setFrom("wjdgusgml997@gmail.com");
 		mimeMessage.setSubject("망두네 임시 비밀번호");
 		try {
-		mailSender.send(mimeMessage);
-		User u = userRepo.findUserByEmail(email);
-		u.setPassword(tempPW);
-		u.setTemp(true);
-		userRepo.save(u);
-		} catch(MailSendException e) {
-			
+			javaMailSender.send(mimeMessage);
+			User u = userRepo.findUserByEmail(email);
+			u.setPassword(tempPW);
+			u.setTemp(true);
+			userRepo.save(u);
+		} catch (MailSendException e) {
+
 		}
 		// update
 	}
@@ -109,7 +132,7 @@ public class FindServiceImpl implements FindService {
 			System.out.println(key.toString());
 			StringTokenizer st = new StringTokenizer(key.toString(), "1234567890");
 			if (st.countTokens() > 1) {
-				System.out.println(st.toString()+", "+ st.countTokens());
+				System.out.println(st.toString() + ", " + st.countTokens());
 				break;
 			}
 		}
@@ -117,33 +140,31 @@ public class FindServiceImpl implements FindService {
 	}
 
 	@Override
-	   public ResponseEntity<Map<String,Object>> changePW(User u) {
-	      Map<String, Object> resultMap = new HashMap<String, Object>();
-	      HttpStatus status = null;
-	      try {
-	         userRepo.save(u);
-	         resultMap.put("status",true);
-	         resultMap.put("data","success");
-	         resultMap.put("object",u);
-	         status = HttpStatus.ACCEPTED;
-	      } catch (IllegalArgumentException e) {
-	         status = HttpStatus.INTERNAL_SERVER_ERROR;
-	      }
-	      return new ResponseEntity<Map<String,Object>>(resultMap, status);
-	   }
+	public ResponseEntity<Map<String, Object>> changePW(User u) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		HttpStatus status = null;
+		try {
+			userRepo.save(u);
+			resultMap.put("status", true);
+			resultMap.put("data", "success");
+			resultMap.put("object", u);
+			status = HttpStatus.ACCEPTED;
+		} catch (IllegalArgumentException e) {
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
 
 	@Override
 	public User changePasswordByEmail(String email) {
 		return userRepo.findUserByEmail(email);
 	}
-	
-	@Override
-	   public boolean checkPW(String email, String password) {
-	      User u = userRepo.findUserByEmail(email);
-	      
-	      return u.getPassword().equals(password);
-	   }
 
-	
+	@Override
+	public boolean checkPW(String email, String password) {
+		User u = userRepo.findUserByEmail(email);
+
+		return u.getPassword().equals(password);
+	}
 
 }

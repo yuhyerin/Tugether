@@ -151,6 +151,13 @@
 		    <artifactId>google-http-client-gson</artifactId>
 		    <version>1.21.0</version>
 		</dependency>
+		
+		<!-- 개인정보 암호화 -->
+		<dependency>
+            <groupId>com.github.ulisesbocchio</groupId>
+            <artifactId>jasypt-spring-boot-starter</artifactId>
+            <version>3.0.3</version>
+        </dependency>
 	</dependencies>
 
 	<build>

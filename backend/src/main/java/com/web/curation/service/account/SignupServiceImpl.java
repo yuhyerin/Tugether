@@ -1,44 +1,53 @@
 package com.web.curation.service.account;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.transaction.Transactional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.web.curation.common.ResponseCode;
+import com.web.curation.controller.dto.EmailCheckDto;
 import com.web.curation.dto.BasicResponse;
 import com.web.curation.entity.Profile;
 import com.web.curation.entity.User;
+import com.web.curation.exception.user.UserAlreadyExist;
 import com.web.curation.repo.ProfileRepo;
 import com.web.curation.repo.UserRepo;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class SignupServiceImpl implements SignupService {
 
-	@Autowired
-	private UserRepo userRepo;
+	private final FindService findService;
 	
-	@Autowired
-	private ProfileRepo profileRepo;
-	
+	private final UserRepo userRepo;
 
-	@Override
-	public ResponseEntity<Object> checkEmail(String email) {
-		System.out.println("checkEmail: "+email);
-		BasicResponse result = new BasicResponse();
-		result.status = true;
-		try {
-			String test = userRepo.findEmailByEmail(email);
-			System.out.println(test);
-			result.data = "error";
-			if ("".equals(test) || test==null)
-				result.data = "success";
-		} catch (NullPointerException e) {
-			result.data = "success";
+	private final ProfileRepo profileRepo;
+
+	/**
+	 * 이메일 중복체크 및 인증번호 메일 발송
+	 * 
+	 * @param email 이메일
+	 * @return EmailCheckDto 이메일과 이메일로 전송된 인증번호
+	 */
+	public EmailCheckDto checkEmail(String email) {
+		// 이메일 중복 체크
+		boolean emailDuplicate = userRepo.existsByEmail(email);
+		if(emailDuplicate) {
+			throw new UserAlreadyExist();
 		}
-		ResponseEntity<Object> response = new ResponseEntity<>(result, HttpStatus.OK);
-		return response;
+		// 인증번호 전송
+		String certNumber = findService.sendCertificationNumber(email);
+		
+		return EmailCheckDto.builder()
+				.email(email)
+				.certNumber(certNumber)
+				.build();
 	}
-
 
 	@Override
 	public ResponseEntity<Object> findUserByEmail(String email) {
@@ -65,16 +74,16 @@ public class SignupServiceImpl implements SignupService {
 		BasicResponse result = new BasicResponse();
 
 		try {
-    		userRepo.save(user);
-    		Profile p = Profile.builder().email(user.getEmail()).profile_photo("default.png")
-    				.nickname(user.getNickname()).build();
-    		profileRepo.save(p);
-    		result.status = true;
-        	result.data = "success";
-        	response = new ResponseEntity<>(result, HttpStatus.OK);
-    	}catch(IllegalArgumentException e) {
-    		response = new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-    	}
+			userRepo.save(user);
+			Profile p = Profile.builder().email(user.getEmail()).profile_photo("default.png")
+					.nickname(user.getNickname()).build();
+			profileRepo.save(p);
+			result.status = true;
+			result.data = "success";
+			response = new ResponseEntity<>(result, HttpStatus.OK);
+		} catch (IllegalArgumentException e) {
+			response = new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
 		return response;
 	}
 

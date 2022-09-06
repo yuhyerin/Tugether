@@ -10,6 +10,8 @@ import com.web.curation.entity.User;
 @Repository
 public interface UserRepo extends JpaRepository<User, String> {
     
+	boolean existsByEmail(String email);
+	
 	@Query(value="select email from user u where u.email=:email", nativeQuery = true)
 	String findEmailByEmail(String email);
 

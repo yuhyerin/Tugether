@@ -2,8 +2,10 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/tugether?useUnicode=true&serverTimezone=Asia/Seoul
-    username: root
-    password: password
+#    username: root
+    username: ENC(3LHSUkUs3++atotvT5XG/g==)
+#    password: password
+    password: ENC(NgchLgD7tv75QZ1ANruH0DfZgEcreWLg)
 
   jpa:
     database: MYSQL
@@ -15,10 +17,12 @@ spring:
         format_sql: true
         show_sql: true
   mail:
-    host: smtp.gmail.com
+    host: smtp.naver.com
     port: 587
-    username: tugethertime200713@gmail.com
-    password: jgbkftydvazfxmpz
+#    username: hr_application@naver.com
+    username: ENC(jQELYbME5zeR1SzFMWVex/LIveRP7N2LzTfiw89fRJ+l6s7RTpiYWw==)
+#    password: test2022@
+    password: ENC(h7ELRbHhjBy7NAI9MfSIZ5xOgbXiogRg)
     properties:
       mail:
         smtp:
@@ -26,6 +30,10 @@ spring:
           starttls:
             enable: true
 
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
+      
 springdoc:
   swagger-ui:
     path: /swagger-ui
