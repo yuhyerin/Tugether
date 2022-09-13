@@ -124,7 +124,7 @@ public class ProfileController {
 				
 			}else { // 프로필사진을 변경한 경우
 				String profile_photo = mFile.getOriginalFilename();
-				profile.setProfile_photo(email+profile_photo);
+				profile.setProfilePhoto(email+profile_photo);
 				profileSerivce.updateProfilewithImage(profile);
 				
 				// 프로필사진 업로드

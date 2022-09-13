@@ -1,4 +1,4 @@
-package com.web.curation.controller.dto;
+package com.web.curation.user.controller.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmailCheckDto {
+public class SignUpDto {
 	
-	String email;
+	private String email;
 	
-	String certNumber;
+	private String nickname;
 
 }

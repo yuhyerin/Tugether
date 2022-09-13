@@ -10,7 +10,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.web.curation.dto.account.AuthenticationRequest;
 import com.web.curation.jwt.service.JwtService;
-import com.web.curation.service.account.LoginService;
+import com.web.curation.user.service.LoginService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

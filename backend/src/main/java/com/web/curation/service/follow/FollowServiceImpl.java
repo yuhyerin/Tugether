@@ -41,7 +41,7 @@ public class FollowServiceImpl implements FollowService{
 			String followerID = followerIDs.get(i);
 			boolean follow = followRepo.findOptionByFromAndTo(email, followerID).isPresent();
 			Profile p = profileRepo.findProfileByEmail(followerID);
-			Follow f = Follow.builder().profile_photo(p.getProfile_photo())
+			Follow f = Follow.builder().profile_photo(p.getProfilePhoto())
 					.nickname(p.getNickname()).email(followerID)
 					.follow(follow).build();
 			followerList.add(f);
@@ -58,7 +58,7 @@ public class FollowServiceImpl implements FollowService{
 		for(int i=0;i<followingIDs.size();i++) {
 			String followingID = followingIDs.get(i);
 			Profile p = profileRepo.findProfileByEmail(followingID);
-			Follow f = Follow.builder().profile_photo(p.getProfile_photo())
+			Follow f = Follow.builder().profile_photo(p.getProfilePhoto())
 					.nickname(p.getNickname()).email(followingID)
 					.follow(true).build();
 			followingList.add(f);

@@ -120,7 +120,7 @@ export default new Vuex.Store({
 			// 로그인 시도!
 
 			axios
-				.post(base + '/account/signin', signinObj)
+				.post(base + '/login', signinObj)
 				.then(res => {
 					// console.log("구글회원유무 ");
 					// console.log(res.data.isgoogle);

@@ -4,13 +4,14 @@ import com.web.curation.common.ResponseCode;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class TugetherException extends RuntimeException {
 
-	private ResponseCode responseCode;
+	private static final long serialVersionUID = -6110005653362559998L;
+	
+	private String message;
 
 	public TugetherException() {
 		super();
@@ -18,7 +19,7 @@ public class TugetherException extends RuntimeException {
 
 	public TugetherException(ResponseCode responseCode) {
 		super(responseCode.getMessage());
-		this.responseCode = responseCode;
+		this.message = responseCode.getMessage();
 	}
 
 }

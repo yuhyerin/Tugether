@@ -12,10 +12,19 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public enum ResponseCode {
 
+	/** 200 */
 	SUCCESS(HttpStatus.OK, 200, "OK"),
-	USER_ALREADY_EXIST(HttpStatus.CONFLICT, 409, "등록된 사용자 입니다."),
-	RESPONSE_CODE_NOT_FOUND(HttpStatus.INTERNAL_SERVER_ERROR, 999, "확인되지 않은 오류가 발생하였습니다.");
-
+	
+	/** 4xx */
+	USER_ALREADY_EXIST(HttpStatus.CONFLICT, 44090, "등록된 사용자 입니다."),
+	
+	/** 5xx */
+	MAIL_SEND_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, 55000,"메일 발송 중 에러가 발생했습니다."),
+	
+	
+	/** 999 */
+	RESPONSE_CODE_NOT_FOUND(HttpStatus.INTERNAL_SERVER_ERROR, 99999, "확인되지 않은 오류가 발생하였습니다.");
+	
 	private final HttpStatus httpStatus;
 
 	private final int code;
@@ -25,5 +34,5 @@ public enum ResponseCode {
 	public static ResponseCode getCode(int code) {
 		return Arrays.stream(values()).findFirst().orElseThrow(InvalidResponseCodeException::new);
 	}
-
+	
 }

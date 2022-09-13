@@ -1,4 +1,4 @@
-package com.web.curation.controller;
+package com.web.curation.user.controller;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -28,15 +28,17 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
-import com.web.curation.controller.dto.EmailCheckDto;
+import com.web.curation.common.TugetherResponse;
 import com.web.curation.dto.BasicResponse;
 import com.web.curation.dto.account.AuthenticationRequest;
 import com.web.curation.dto.account.AuthenticationResponse;
 import com.web.curation.entity.User;
 import com.web.curation.jwt.service.JwtService;
-import com.web.curation.service.account.FindService;
-import com.web.curation.service.account.LoginService;
-import com.web.curation.service.account.SignupService;
+import com.web.curation.user.controller.dto.EmailCheckDto;
+import com.web.curation.user.controller.dto.SignUpDto;
+import com.web.curation.user.service.FindService;
+import com.web.curation.user.service.LoginService;
+import com.web.curation.user.service.SignupService;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -52,7 +54,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @CrossOrigin(origins = { "*" })
 @RestController
-@RequestMapping("/account")
 @RequiredArgsConstructor
 public class AccountController {
 
@@ -64,21 +65,22 @@ public class AccountController {
 	@Value("${CLIENT_ID}")
 	private String CLIENT_ID;
 
-	@GetMapping("/signup/{email}")
-	@ApiOperation(value = "이메일 유효성 체크")
-	public ResponseEntity<EmailCheckDto> checkEmail(@PathVariable String email) throws MessagingException {
-		log.info("[Get] /signup/{email} " + email);
-		return new ResponseEntity<>(signupService.checkEmail(email), HttpStatus.OK);
+	@GetMapping("/accounts/{email}")
+	@ApiOperation(value = "이메일 인증 요청")
+	public TugetherResponse<EmailCheckDto> checkEmail(@PathVariable String email) {
+		log.info("[Get] /accounts/{email} " + email);
+		return TugetherResponse.createSuccess(signupService.checkEmail(email));
 	}
 
-	@PostMapping("/signup")
+	@PostMapping("/accounts")
 	@ApiOperation(value = "가입하기")
-	public Object signup(@Valid @RequestBody User request) {
-
-		return signupService.save(request);
+	public TugetherResponse<SignUpDto> signup(@Valid @RequestBody User user) {
+		log.info("[Post] /accounts ");
+		return TugetherResponse.createSuccess(signupService.save(user));
 	}
 
-	@PostMapping("/signin")
+	@PostMapping("/login")
+	@ApiOperation(value = "로그인")
 	public ResponseEntity<Map<String, Object>> signin(@RequestBody AuthenticationRequest user,
 			HttpServletResponse response) {
 

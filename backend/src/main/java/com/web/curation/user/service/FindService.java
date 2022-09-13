@@ -1,4 +1,4 @@
-package com.web.curation.service.account;
+package com.web.curation.user.service;
 
 import java.util.Map;
 

@@ -56,12 +56,12 @@ public class FollowController {
 		Profile user = profileService.getProfile(email);
 		resultMap.put("profile", user);
 		//팔로잉
-		int following_cnt = user.getFollowing_cnt();
+		int following_cnt = user.getFollowingCnt();
 		resultMap.put("following_cnt", following_cnt);
 		List<Follow> followingList = followService.findFollowingProfilesByEmail(email);
 		resultMap.put("followingList", followingList);
 		//팔로워
-		int follower_cnt = user.getFollower_cnt();
+		int follower_cnt = user.getFollowerCnt();
 		resultMap.put("follower_cnt", follower_cnt);
 		List<Follow> followerList = followService.findFollowerProfilesByEmail(email);
 		resultMap.put("followerList", followerList);

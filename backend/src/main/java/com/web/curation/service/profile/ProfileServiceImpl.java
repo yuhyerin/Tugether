@@ -8,8 +8,7 @@ import org.springframework.stereotype.Service;
 import com.web.curation.entity.Profile;
 import com.web.curation.repo.FavtagRepo;
 import com.web.curation.repo.ProfileRepo;
-import com.web.curation.repo.TagRepo;
-import com.web.curation.repo.UserRepo;
+import com.web.curation.user.repo.UserRepo;
 
 @Service
 public class ProfileServiceImpl implements ProfileService {
@@ -32,7 +31,7 @@ public class ProfileServiceImpl implements ProfileService {
 	public void updateProfilewithImage(Profile profile) {
 		String email = profile.getEmail();
 		String nickname = profile.getNickname();
-		String profile_photo = profile.getProfile_photo();
+		String profile_photo = profile.getProfilePhoto();
 		profileRepo.updateProfilewithImage(email, nickname, profile_photo);
 	}
 

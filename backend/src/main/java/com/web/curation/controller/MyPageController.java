@@ -23,9 +23,9 @@ import com.web.curation.dto.article.FrontArticle;
 import com.web.curation.entity.Profile;
 import com.web.curation.entity.User;
 import com.web.curation.jwt.service.JwtService;
-import com.web.curation.service.account.FindService;
 import com.web.curation.service.mypage.MyPageService;
 import com.web.curation.service.profile.ProfileService;
+import com.web.curation.user.service.FindService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

@@ -1,4 +1,4 @@
-package com.web.curation.service.account;
+package com.web.curation.user.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.web.curation.dto.account.AuthenticationResponse;
 import com.web.curation.entity.User;
-import com.web.curation.repo.UserRepo;
+import com.web.curation.user.repo.UserRepo;
 
 @Service
 public class LoginService {

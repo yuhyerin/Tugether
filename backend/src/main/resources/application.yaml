@@ -2,9 +2,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/tugether?useUnicode=true&serverTimezone=Asia/Seoul
-#    username: root
     username: ENC(3LHSUkUs3++atotvT5XG/g==)
-#    password: password
     password: ENC(NgchLgD7tv75QZ1ANruH0DfZgEcreWLg)
 
   jpa:
@@ -19,11 +17,10 @@ spring:
   mail:
     host: smtp.naver.com
     port: 587
-#    username: hr_application@naver.com
+
     username: ENC(jQELYbME5zeR1SzFMWVex/LIveRP7N2LzTfiw89fRJ+l6s7RTpiYWw==)
-#    password: test2022@
     password: ENC(h7ELRbHhjBy7NAI9MfSIZ5xOgbXiogRg)
-    properties:
+    properties: 
       mail:
         smtp:
           auth: true
@@ -33,7 +30,11 @@ spring:
 jasypt:
   encryptor:
     bean: jasyptStringEncryptor
-      
+
+logging.level:
+  org.hibernate.SQL: debug
+  org.hibernate.type: trace
+        
 springdoc:
   swagger-ui:
     path: /swagger-ui

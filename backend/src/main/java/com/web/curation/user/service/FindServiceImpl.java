@@ -1,11 +1,10 @@
-package com.web.curation.service.account;
+package com.web.curation.user.service;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.StringTokenizer;
 
-import javax.mail.AuthenticationFailedException;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -14,14 +13,15 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import com.web.curation.common.ResponseCode;
 import com.web.curation.dto.BasicResponse;
 import com.web.curation.entity.User;
-import com.web.curation.repo.UserRepo;
+import com.web.curation.exception.MailSendException;
+import com.web.curation.user.repo.UserRepo;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -63,17 +63,16 @@ public class FindServiceImpl implements FindService {
 			// 메일 전송
 			javaMailSender.send(mimeMessage);
 
-		} catch (AuthenticationFailedException e) {
-			log.info(e.getMessage());
-			
-		} catch (MessagingException e) {
-			log.info(e.getMessage());
-			
-		} catch (MailSendException e) {
-			log.info(e.getMessage());
-			
+		} 
+		catch (MessagingException e) {
+			/** MessagingException은 RuntimeException을 상속받지 않는 CheckedException 이다.
+			 * 따라서 반드시 try catch로 처리를 해주어야 한다. */
+			throw new MailSendException(ResponseCode.MAIL_SEND_FAIL);
 		}
-
+		/**
+		 * 하지만 AuthenticationFailedException 는 RuntimeException을 상속받는 UnCheckedException 이므로 
+		 * 따로 처리를 해주지 않아도 된다. 
+		 * */
 		return certificationNumber;
 	}
 
