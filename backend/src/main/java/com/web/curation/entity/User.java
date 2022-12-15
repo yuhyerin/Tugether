@@ -4,12 +4,16 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.web.curation.util.CipherUtil;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity(name = "user")
@@ -17,7 +21,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
+@Getter
 public class User {
 
 	@Id
@@ -38,11 +42,27 @@ public class User {
 	@Column(name = "birth_year", nullable = false)
 	private int birthYear;
 
-	@Column(name = "temp")
-	private boolean temp;
+	@Column(name = "init_pwd_status")
+	private boolean initPwdStatus; // 비밀번호 초기화 상태
 
-	public boolean getTemp() {
-		return this.temp;
+	@Enumerated(EnumType.STRING)
+	private OAuthPlatform oauthPlatform = OAuthPlatform.TUGETHER;
+
+	public void setInitPwdStatusYes() {
+		this.initPwdStatus = true;
+	}
+
+	public void setInitPwdStatusNo() {
+		this.initPwdStatus = false;
+	}
+
+	public void setOAuthPlatform(OAuthPlatform op) {
+		this.oauthPlatform = op;
+	}
+
+	// 비밀번호 암호화
+	public void setEncryptedPassword() {
+		this.password = CipherUtil.encrypt(this.password);
 	}
 
 }

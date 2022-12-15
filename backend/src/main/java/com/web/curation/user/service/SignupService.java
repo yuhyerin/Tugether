@@ -1,8 +1,8 @@
 package com.web.curation.user.service;
 
 import com.web.curation.entity.User;
-import com.web.curation.user.controller.dto.EmailCheckDto;
-import com.web.curation.user.controller.dto.SignUpDto;
+import com.web.curation.user.dto.EmailCheckDto;
+import com.web.curation.user.dto.SignUpDto;
 
 
 public interface SignupService {

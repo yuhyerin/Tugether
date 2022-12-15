@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 
 import com.web.curation.entity.Profile;
 import com.web.curation.entity.User;
-import com.web.curation.exception.user.UserAlreadyExist;
+import com.web.curation.exception.user.AlreadyExistUserException;
 import com.web.curation.repo.ProfileRepo;
-import com.web.curation.user.controller.dto.EmailCheckDto;
-import com.web.curation.user.controller.dto.SignUpDto;
+import com.web.curation.user.dto.EmailCheckDto;
+import com.web.curation.user.dto.SignUpDto;
 import com.web.curation.user.repo.UserRepo;
 
 import lombok.RequiredArgsConstructor;
@@ -35,10 +35,10 @@ public class SignupServiceImpl implements SignupService {
 		// 이메일 중복 체크
 		boolean emailDuplicate = userRepo.existsByEmail(email);
 		if(emailDuplicate) {
-			throw new UserAlreadyExist();
+			throw new AlreadyExistUserException();
 		}
 		// 인증번호 메일 발송
-		String certNumber = findService.sendCertificationNumber(email);
+		String certNumber = findService.sendCertificationNumberMail(email);
 		
 		return EmailCheckDto.builder()
 				.email(email)
@@ -60,6 +60,7 @@ public class SignupServiceImpl implements SignupService {
 	public SignUpDto save(User user) {
 		
 		// 유저
+		user.setEncryptedPassword(); // 패스워드 암호화
 		User signupUser = userRepo.save(user);
 		
 		// 프로필

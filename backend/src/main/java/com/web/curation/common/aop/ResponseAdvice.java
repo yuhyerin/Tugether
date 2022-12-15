@@ -1,5 +1,6 @@
 package com.web.curation.common.aop;
 
+import com.web.curation.exception.JwtValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -9,7 +10,7 @@ import com.web.curation.common.ResponseCode;
 import com.web.curation.common.TugetherResponse;
 import com.web.curation.exception.MailSendException;
 import com.web.curation.exception.TugetherException;
-import com.web.curation.exception.user.UserAlreadyExist;
+import com.web.curation.exception.user.AlreadyExistUserException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,14 +22,19 @@ public class ResponseAdvice {
 	 * */
 	@ExceptionHandler(RuntimeException.class)
 	ResponseEntity<TugetherResponse<?>> handleRuntimeException(RuntimeException e){
-        log.error("[" + e.getClass() + "] " + e.getMessage());
+		log.error("["+ e.getStackTrace()[0].getClassName()+"] [line :"+
+        		e.getStackTrace()[0].getLineNumber()+"] [methods name : "+
+        		e.getStackTrace()[0].getMethodName()+"] (" + e.getClass() + ") message : " + e.getMessage());
         e.printStackTrace();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(TugetherResponse.createError(ResponseCode.RESPONSE_CODE_NOT_FOUND.getMessage()));
 	}
 	
+	/** 커스텀에러 */
 	@ExceptionHandler(TugetherException.class)
 	ResponseEntity<TugetherResponse<?>> handleTugetherException(TugetherException e){
-        log.error("[" + e.getClass() + "] " + e.getMessage());
+        log.error("["+ e.getStackTrace()[0].getClassName()+"] [line :"+
+        		e.getStackTrace()[0].getLineNumber()+"] [methods name : "+
+        		e.getStackTrace()[0].getMethodName()+"] (" + e.getClass() + ") message : " + e.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(TugetherResponse.createError(e.getMessage()));
 	}
 	
@@ -56,9 +62,14 @@ public class ResponseAdvice {
 	 * UserAlreadyExist
 	 * 이미 존재하는 사용자입니다.
 	 * */
-	@ExceptionHandler(UserAlreadyExist.class)
+	@ExceptionHandler(AlreadyExistUserException.class)
     public ResponseEntity<TugetherResponse<?>> handleUserAlreadyExist(RuntimeException e) {
         return ResponseEntity.status(HttpStatus.OK).body(TugetherResponse.createError(e.getMessage()));
     }
+
+	@ExceptionHandler(JwtValidationException.class)
+	public ResponseEntity<TugetherResponse<?>> handleJwtValidationException(RuntimeException e){
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(TugetherResponse.createError(e.getMessage()));
+	}
 
 }

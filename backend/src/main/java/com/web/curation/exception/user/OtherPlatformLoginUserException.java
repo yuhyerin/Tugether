@@ -6,13 +6,13 @@ import com.web.curation.exception.TugetherException;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
-public class UserAlreadyExist extends TugetherException {
-
-	public UserAlreadyExist() {
-		super(ResponseCode.USER_ALREADY_EXIST);
+public class OtherPlatformLoginUserException extends TugetherException{
+	
+	public OtherPlatformLoginUserException() {
+		super(ResponseCode.OTHER_PLATFORM_USER);
 	}
 
-	public UserAlreadyExist(ResponseCode responseCode) {
+	public OtherPlatformLoginUserException(ResponseCode responseCode) {
 		super(responseCode);
 	}
 }

@@ -183,6 +183,8 @@ fabric.properties
 
 ### Java ###
 # Compiled class file
+backend/target/classes/**
+backend/target/classes/*.class
 *.class
 
 # Log file

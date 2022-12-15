@@ -1,6 +1,8 @@
 
 package com.web.curation.user.repo;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -15,7 +17,7 @@ public interface UserRepo extends JpaRepository<User, String> {
 	@Query(value="select email from user u where u.email=:email", nativeQuery = true)
 	String findEmailByEmail(String email);
 
-	User findUserByEmail(String email);
+	Optional<User> findUserByEmail(String email);
 	
 	User findUserByEmailAndPassword(String email, String password);
 	

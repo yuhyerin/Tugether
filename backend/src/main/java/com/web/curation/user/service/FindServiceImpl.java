@@ -2,8 +2,7 @@ package com.web.curation.user.service;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
-import java.util.StringTokenizer;
+import java.util.Optional;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -14,14 +13,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import com.web.curation.common.ResponseCode;
-import com.web.curation.dto.BasicResponse;
 import com.web.curation.entity.User;
 import com.web.curation.exception.MailSendException;
+import com.web.curation.user.dto.FindPasswordDto;
 import com.web.curation.user.repo.UserRepo;
+import com.web.curation.util.CipherUtil;
+import com.web.curation.util.RandomNumberUtil;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,16 +34,16 @@ public class FindServiceImpl implements FindService {
 
 	private final UserRepo userRepo;
 	private final JavaMailSender javaMailSender;
-	
+
 	@Value("${spring.mail.username}")
-    private String fromEmail;
+	private String fromEmail;
 
 	@Override
-	public String sendCertificationNumber(String email) {
+	public String sendCertificationNumberMail(String email) {
 
 		// 인증번호 생성
-		String certificationNumber = createpw();
-		
+		String certificationNumber = RandomNumberUtil.createRandomNumber();
+
 		// 메일 내용 생성
 		StringBuilder contents = new StringBuilder();
 		contents.append("<h3>요청하신 이메일 ");
@@ -63,79 +63,74 @@ public class FindServiceImpl implements FindService {
 			// 메일 전송
 			javaMailSender.send(mimeMessage);
 
-		} 
-		catch (MessagingException e) {
-			/** MessagingException은 RuntimeException을 상속받지 않는 CheckedException 이다.
-			 * 따라서 반드시 try catch로 처리를 해주어야 한다. */
+		} catch (MessagingException e) {
+			/**
+			 * MessagingException은 RuntimeException을 상속받지 않는 CheckedException 이다. 따라서 반드시
+			 * try catch로 처리를 해주어야 한다.
+			 */
 			throw new MailSendException(ResponseCode.MAIL_SEND_FAIL);
 		}
 		/**
-		 * 하지만 AuthenticationFailedException 는 RuntimeException을 상속받는 UnCheckedException 이므로 
-		 * 따로 처리를 해주지 않아도 된다. 
-		 * */
+		 * 하지만 AuthenticationFailedException 는 RuntimeException을 상속받는 UnCheckedException
+		 * 이므로 따로 처리를 해주지 않아도 된다.
+		 */
 		return certificationNumber;
 	}
 
 	@Override
-	public ResponseEntity<Object> findUserByEmail(String email) throws MessagingException {
+	public FindPasswordDto findPassword(String email) {
 
-		ResponseEntity<Object> response = null;
-		BasicResponse result = new BasicResponse();
-		result.object = email;
-		User u = userRepo.findUserByEmail(email);
-		if (u != null) {
-			sendMail(email);
-			result.status = true;
-			result.data = "success";
-			response = new ResponseEntity<>(result, HttpStatus.OK);
+		Optional<User> findUser = userRepo.findUserByEmail(email);
+		if (findUser.isPresent()) {
+			// 임시비밀번호 발송
+			String tempPassword = sendTempPasswordMail(email);
+
+			// password 초기화
+			User user = findUser.get();
+//			user.setPassword(EncryptUtil.encrypt(
+//					tempPassword.getBytes(),
+//					EncryptUtil.KEY));
+//			user.setTemp(true);
+			userRepo.save(user);
+
 		} else {
-			response = new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			log.error("해당 이메일의 회원은 존재하지 않습니다");
 		}
-		return response;
+		return FindPasswordDto.builder().email(email).build();
 	}
 
 	@Override
-	public void sendMail(String email) throws MessagingException {
-		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+	public String sendTempPasswordMail(String email) {
 
-		String tempPW = createpw();
+		// 임시 비밀번호
+		String tempPassword = RandomNumberUtil.createRandomNumber();
 
-		String htmlMsg = "망두 password : <h3>" + tempPW + "</h3>";
-		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
-		helper.setText(htmlMsg, true); // Use this or above line.
-//		mimeMessage.setContent(htmlMsg, "text/html"); /** Use this or below line **/
-		helper.setTo(email);
-		mimeMessage.setFrom("wjdgusgml997@gmail.com");
-		mimeMessage.setSubject("망두네 임시 비밀번호");
+		// 메일 내용 생성
+		StringBuilder contents = new StringBuilder();
+		contents.append("<h3>비밀번호 찾기를 요청하셨습니다.</h3>");
+		contents.append("<p> [임시 비밀번호] : ");
+		contents.append("<h3>" + tempPassword + "</h3>");
+		contents.append("를 입력해주세요.</p>");
+
 		try {
+			MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+			mimeMessage.setSubject("[튜게더] 임시 비밀번호 발급 ");
+			mimeMessage.setContent(contents.toString(), "text/html;charset=euc-kr");
+			mimeMessage.setFrom(fromEmail);
+			mimeMessage.setRecipients(Message.RecipientType.TO, email);
+
+			// 메일 전송
 			javaMailSender.send(mimeMessage);
-			User u = userRepo.findUserByEmail(email);
-			u.setPassword(tempPW);
-			u.setTemp(true);
-			userRepo.save(u);
-		} catch (MailSendException e) {
 
+		} catch (MessagingException e) {
+			/**
+			 * MessagingException은 RuntimeException을 상속받지 않는 CheckedException 이다. 따라서 반드시
+			 * try catch로 처리를 해주어야 한다.
+			 */
+			throw new MailSendException(ResponseCode.MAIL_SEND_FAIL);
 		}
-		// update
-	}
 
-	private String createpw() {
-		StringBuilder key = null;
-		Random rd = new Random();
-		while (true) {
-			key = new StringBuilder();
-			for (int i = 0; i < 8; i++) {
-				char temp = (char) (rd.nextInt(90) + 33);
-				key.append(temp);
-			}
-			System.out.println(key.toString());
-			StringTokenizer st = new StringTokenizer(key.toString(), "1234567890");
-			if (st.countTokens() > 1) {
-				System.out.println(st.toString() + ", " + st.countTokens());
-				break;
-			}
-		}
-		return key.toString(); // 8자리 랜덤한 숫자 생성
+		return tempPassword;
 	}
 
 	@Override
@@ -156,14 +151,15 @@ public class FindServiceImpl implements FindService {
 
 	@Override
 	public User changePasswordByEmail(String email) {
-		return userRepo.findUserByEmail(email);
+		return userRepo.findUserByEmail(email).get();
 	}
 
 	@Override
 	public boolean checkPW(String email, String password) {
-		User u = userRepo.findUserByEmail(email);
+		User u = userRepo.findUserByEmail(email).get();
 
-		return u.getPassword().equals(password);
+//		return u.getPassword().equals(password);
+		return true;
 	}
 
 }

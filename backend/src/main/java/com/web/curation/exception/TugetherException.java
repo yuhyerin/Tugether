@@ -21,5 +21,10 @@ public class TugetherException extends RuntimeException {
 		super(responseCode.getMessage());
 		this.message = responseCode.getMessage();
 	}
+	
+	public TugetherException(String message) {
+		super(message);
+		this.message = message;
+	}
 
 }

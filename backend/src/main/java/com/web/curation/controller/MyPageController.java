@@ -1,4 +1,4 @@
-﻿package com.web.curation.controller;
+package com.web.curation.controller;
 
 import java.util.HashMap;
 import java.util.List;
@@ -42,114 +42,114 @@ import io.swagger.annotations.ApiResponses;
 @RestController
 @RequestMapping("/tugether")
 public class MyPageController {
-   
-   @Autowired
-   private JwtService jwtService;
-   @Autowired
-   private MyPageService myPageService;
-   @Autowired
-   private FindService findService;
-   @Autowired
-   private ProfileService profileService;
-   
-   @GetMapping("/profile/articles")
-   @ApiOperation(value = "프로필 게시글")
-   public ResponseEntity<Map<String,Object>> getProfile(HttpServletRequest request) {
-   
-         String token = request.getHeader("jwt-auth-token");
-         Map<String, Object> resultMap = new HashMap<String, Object>();
-         Jws<Claims> claims = jwtService.getDecodeToken(token);
-         Map<String, Object> Userinfo = new HashMap<String, Object>();
-         Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
-         String email = Userinfo.get("email").toString();
-         //1. 내 게시글 가져오기
-         List<FrontArticle> articles = myPageService.findArticles(email); 
+
+    @Autowired
+    private JwtService jwtService;
+    @Autowired
+    private MyPageService myPageService;
+    @Autowired
+    private FindService findService;
+    @Autowired
+    private ProfileService profileService;
+
+    @GetMapping("/profile/articles")
+    @ApiOperation(value = "프로필 게시글")
+    public ResponseEntity<Map<String,Object>> getProfile(HttpServletRequest request) {
+
+        String token = request.getHeader("jwt-auth-token");
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        Jws<Claims> claims = jwtService.getDecodeToken(token);
+        Map<String, Object> Userinfo = new HashMap<String, Object>();
+        Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
+        String email = Userinfo.get("email").toString();
+        //1. 내 게시글 가져오기
+        List<FrontArticle> articles = myPageService.findArticles(email);
 //         System.out.println("articles : "+articles.toString());
-         //2. 스크랩한 게시글 가져오기
-         List<FrontArticle> scraps = myPageService.findScraps(email);
-         System.out.println("scraps : "+scraps.toString());
-         
-         resultMap.put("articles", articles);
-         resultMap.put("scraps", scraps);
-         
-         return new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.OK);
-   
-   }
-   //clicked
-   @GetMapping("/mypage/articles")
-   public ResponseEntity<Map<String,Object>> getAfterMainFeed(HttpServletRequest request){
-      Map<String, Object> resultMap = new HashMap<String, Object>();
-      String email = 
-            ((Map<String, Object>)jwtService.getDecodeToken(request.getHeader("jwt-auth-token"))
-            .getBody().get("AuthenticationResponse")).get("email").toString();
-      List<FrontArticle> articles = myPageService.findArticles(email);
-      resultMap.put("articles",articles);
-      System.out.println("articles: "+articles.toString());
-      List<FrontArticle> scraps = myPageService.findScraps(email);
-      resultMap.put("scraps",scraps);
-      System.out.println("scraps: "+scraps.toString());
-      return new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.OK);
-   }
-   
-   @GetMapping("/changepw")
-   @ApiOperation(value="비밀번호확인")
-   public ResponseEntity<Map<String, Object>> checkPW(HttpServletRequest request) {
+        //2. 스크랩한 게시글 가져오기
+        List<FrontArticle> scraps = myPageService.findScraps(email);
+        System.out.println("scraps : "+scraps.toString());
 
-      String token = request.getHeader("jwt-auth-token");
-      Map<String, Object> resultMap = new HashMap<String, Object>();
-      Jws<Claims> claims = jwtService.getDecodeToken(token);
-      Map<String, Object> Userinfo = new HashMap<String, Object>();
-      Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
-      String email = Userinfo.get("email").toString();
-      String password = request.getHeader("password");
-      boolean flag = findService.checkPW(email, password);
-      resultMap.put("status", true);
-      resultMap.put("data", flag ? "success" : "fail");
-      return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+        resultMap.put("articles", articles);
+        resultMap.put("scraps", scraps);
 
-   }
-   
-   @PostMapping("/changepw")
-    @ApiOperation(value = "비밀번호 변경")
-    public ResponseEntity<Map<String,Object>> changePW(@RequestBody Map<String, Object> map, HttpServletRequest request) throws MessagingException {
-      String token = request.getHeader("jwt-auth-token");   //토큰 가져와서
-      Jws<Claims> claims = jwtService.getDecodeToken(token);   //복호화해서
-      Map<String, Object> Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
-      String email = Userinfo.get("email").toString();   //email 가져올거임
-      String password = (String)map.get("password");
-       User u = findService.changePasswordByEmail(email);
-       u.setPassword(password);
-       u.setTemp(false);
-       return findService.changePW(u);
+        return new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.OK);
+
+    }
+    //clicked
+    @GetMapping("/mypage/articles")
+    public ResponseEntity<Map<String,Object>> getAfterMainFeed(HttpServletRequest request){
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        String email =
+                ((Map<String, Object>)jwtService.getDecodeToken(request.getHeader("jwt-auth-token"))
+                        .getBody().get("AuthenticationResponse")).get("email").toString();
+        List<FrontArticle> articles = myPageService.findArticles(email);
+        resultMap.put("articles",articles);
+        System.out.println("articles: "+articles.toString());
+        List<FrontArticle> scraps = myPageService.findScraps(email);
+        resultMap.put("scraps",scraps);
+        System.out.println("scraps: "+scraps.toString());
+        return new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.OK);
     }
 
-   @GetMapping("/userpage")
-   @ApiOperation(value="타유저페이지")
-   public ResponseEntity<Map<String,Object>> UserPage(@RequestParam String userEmail, HttpServletRequest request){
-      System.out.println("UserPage Controller 입장");
-      Map<String, Object> resultMap = new HashMap<String, Object>();
-      String token = request.getHeader("jwt-auth-token");   //토큰 가져와서
-      Jws<Claims> claims = jwtService.getDecodeToken(token);   //복호화해서
-      Map<String, Object> Userinfo = 
-            (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
-      String email = Userinfo.get("email").toString();
-      // 1. 게시글 가져오기
-      List<FrontArticle> articles=myPageService.findArticles(userEmail, email); 
-      resultMap.put("articles", articles);
-      //2. 스크랩한 게시글 가져오기
-      List<FrontArticle> scraps = myPageService.findScraps(userEmail, email);
-      resultMap.put("scraps", scraps);
-      //3. 프로필 가져오기
-      Profile profile = profileService.getProfile(userEmail);
-      resultMap.put("profile", profile);
-      boolean follow = myPageService.findFollow(userEmail, email);
-      resultMap.put("follow", follow);
-      
-      System.out.println("articles : "+ articles.toString());
-      System.out.println("scraps : "+ scraps.toString());
-      List<String> favtags = myPageService.findFavTags(userEmail);
-      resultMap.put("favtags", favtags);
-      return new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.OK);
-   }
-   
+    @GetMapping("/changepw")
+    @ApiOperation(value="비밀번호확인")
+    public ResponseEntity<Map<String, Object>> checkPW(HttpServletRequest request) {
+
+        String token = request.getHeader("jwt-auth-token");
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        Jws<Claims> claims = jwtService.getDecodeToken(token);
+        Map<String, Object> Userinfo = new HashMap<String, Object>();
+        Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
+        String email = Userinfo.get("email").toString();
+        String password = request.getHeader("password");
+        boolean flag = findService.checkPW(email, password);
+        resultMap.put("status", true);
+        resultMap.put("data", flag ? "success" : "fail");
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+
+    }
+
+    @PostMapping("/changepw")
+    @ApiOperation(value = "비밀번호 변경")
+    public ResponseEntity<Map<String,Object>> changePW(@RequestBody Map<String, Object> map, HttpServletRequest request) throws MessagingException {
+        String token = request.getHeader("jwt-auth-token");   //토큰 가져와서
+        Jws<Claims> claims = jwtService.getDecodeToken(token);   //복호화해서
+        Map<String, Object> Userinfo = (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
+        String email = Userinfo.get("email").toString();   //email 가져올거임
+        String password = (String)map.get("password");
+        User u = findService.changePasswordByEmail(email);
+//       u.setEncryptedPassword(password);
+        u.setInitPwdStatusNo();
+        return findService.changePW(u);
+    }
+
+    @GetMapping("/userpage")
+    @ApiOperation(value="타유저페이지")
+    public ResponseEntity<Map<String,Object>> UserPage(@RequestParam String userEmail, HttpServletRequest request){
+        System.out.println("UserPage Controller 입장");
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        String token = request.getHeader("jwt-auth-token");   //토큰 가져와서
+        Jws<Claims> claims = jwtService.getDecodeToken(token);   //복호화해서
+        Map<String, Object> Userinfo =
+                (Map<String, Object>) claims.getBody().get("AuthenticationResponse");
+        String email = Userinfo.get("email").toString();
+        // 1. 게시글 가져오기
+        List<FrontArticle> articles=myPageService.findArticles(userEmail, email);
+        resultMap.put("articles", articles);
+        //2. 스크랩한 게시글 가져오기
+        List<FrontArticle> scraps = myPageService.findScraps(userEmail, email);
+        resultMap.put("scraps", scraps);
+        //3. 프로필 가져오기
+        Profile profile = profileService.getProfile(userEmail);
+        resultMap.put("profile", profile);
+        boolean follow = myPageService.findFollow(userEmail, email);
+        resultMap.put("follow", follow);
+
+        System.out.println("articles : "+ articles.toString());
+        System.out.println("scraps : "+ scraps.toString());
+        List<String> favtags = myPageService.findFavTags(userEmail);
+        resultMap.put("favtags", favtags);
+        return new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.OK);
+    }
+
 }
